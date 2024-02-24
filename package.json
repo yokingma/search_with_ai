@@ -13,6 +13,7 @@
   "dependencies": {
     "@koa/router": "^12.0.1",
     "cache-manager": "^5.4.0",
+    "cheerio": "^1.0.0-rc.12",
     "dotenv": "^16.4.5",
     "koa": "^2.15.0"
   },

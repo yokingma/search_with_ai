@@ -31,5 +31,3 @@ export const httpRequest = async (config: RequestConfig) => {
   clearTimeout(id);
   return res;
 };
-
-
