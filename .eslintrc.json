@@ -10,12 +10,9 @@
   "parserOptions": {
       "sourceType": "module"
   },
-  "ignorePatterns": [
-    "web/"
-  ],
   "overrides": [
     {
-      "files": ["./src/**/*.js", "./src/**/*.ts"],
+      "files": ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx"],
       "extends": [
         "plugin:@typescript-eslint/recommended"
       ],
