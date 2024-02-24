@@ -1,0 +1,34 @@
+{
+  "name": "ai_search",
+  "version": "1.0.0",
+  "description": "ai search with node.js",
+  "main": "./src/app.ts",
+  "author": "zac_ma",
+  "license": "MIT",
+  "scripts": {
+    "start": "NODE_ENV=production node ./dist/app.js",
+    "dev": "cross-env NODE_ENV=local nodemon ./src/app.ts",
+    "build": "yarn build"
+  },
+  "dependencies": {
+    "@koa/router": "^12.0.1",
+    "cache-manager": "^5.4.0",
+    "dotenv": "^16.4.5",
+    "koa": "^2.15.0"
+  },
+  "devDependencies": {
+    "@types/koa": "^2.15.0",
+    "@types/koa__router": "^12.0.4",
+    "cross-env": "^7.0.3",
+    "eslint": "^8.57.0",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-n": "^16.6.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^6.1.1",
+    "nodemon": "^3.1.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3",
+    "typescript-eslint": "^7.0.2"
+  }
+}
