@@ -1,11 +1,12 @@
 import { Context } from 'koa';
 import { DefaultQuery } from './constant';
-import { searchWithBing, searchWithSogou } from './service';
+import { searchWithSogou } from './service';
+import { Rag } from './rag';
 
-export const bingSearchController = async (ctx: Context) => {
-  const key = ctx.state.BingSearchKey;
+export const searchController = async (ctx: Context) => {
+  const rag = new Rag();
   const q = ctx.request.query.q || DefaultQuery;
-  const res = await searchWithBing(q as string, key);
+  const res = await rag.query(q as string);
   ctx.body = res;
 };
 

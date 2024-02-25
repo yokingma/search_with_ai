@@ -7,6 +7,7 @@ interface RequestConfig {
   query?: Record<string, any>;
   data?: BodyInit | null;
   headers?: Record<string, any>;
+  method?: RequestInit['method']
 }
 
 // cache
@@ -16,14 +17,14 @@ export const memoryCache = createCache(memoryStore(), {
 });
 
 export const httpRequest = async (config: RequestConfig) => {
-  const { endpoint, timeout = 5000, query, headers, data } = config;
+  const { endpoint, timeout = 60000, query, headers, data, method = 'GET' } = config;
   const controller = new AbortController();
   const id = setTimeout(() => controller.abort(), timeout);
   const params = url.format({
     query: query
   });
   const res = await fetch(endpoint + params, {
-    method: 'GET',
+    method,
     headers,
     body: data,
     signal: controller.signal
