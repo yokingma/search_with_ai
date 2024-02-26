@@ -8,7 +8,7 @@
       </div>
       <div class="rounded-3xl bg-gray-100 p-2 transition-all">
         <div class="w-full overflow-hidden rounded-3xl border border-gray-100">
-          <t-input v-model="query" clearable :autofocus="true" :maxlength="100" size="large" placeholder="请输入想要问AI的问题" @keyup.enter="search" >
+          <t-input v-model="query" clearable :autofocus="true" :maxlength="100" size="large" placeholder="请输入想要问AI的问题" @enter="search">
             <template #suffix>
               <t-button shape="round" variant="base" @click="search">
                 <template #icon><RiArrowRightLine /></template>
@@ -38,8 +38,8 @@ import logoUrl from '../assets/logo.png'
 const query = ref('')
 
 const quickly = [
-  '什么是AI大语言模型？',
-  '如何使用prompt有效的和AI大模型对话？'
+  '如何安装stable diffusion webui？',
+  '如何撰写优质的prompt提示词和AI大模型对话？'
 ]
 
 const search = () => {

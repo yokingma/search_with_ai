@@ -38,7 +38,7 @@
 
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
-import { Toast } from 'tdesign-mobile-vue'
+import { MessagePlugin } from 'tdesign-vue-next'
 import { RiQuestionAnswerLine, RiBook2Line, RiChatQuoteLine } from '@remixicon/vue'
 import router from '../router'
 import { search } from '../api'
@@ -64,7 +64,7 @@ async function querySearch() {
     result.value = res
   } catch(err) {
     console.log(err)
-    Toast('搜索查询失败了')
+    MessagePlugin.error('搜索查询失败了')
   }
 }
 </script>
