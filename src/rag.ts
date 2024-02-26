@@ -62,7 +62,7 @@ export class Rag {
   }
 
   private async getAiAnswer(query: string, contexts: any[]) {
-    const context = contexts.map((item, index) => `[[citation:{${index}+1}]] ${item.snippet}` ).join('\n\n');
+    const context = contexts.map((item, index) => `[[citation:${index + 1}]] ${item.snippet}` ).join('\n\n');
     const system = util.format(RagQueryPrompt, context);
     const messages: IChatInputMessage[] = [
       {
@@ -79,5 +79,5 @@ export class Rag {
     return res.text;
   }
 
-  // public saveToCache(contexts: any[], llmResponse: string, relatedQuestionsFuture: any[], searchUUID: string) {}
+  // private saveResult(contexts: any[], llmResponse: string, relatedQuestionsFuture: any[], searchUUID: string) {}
 }

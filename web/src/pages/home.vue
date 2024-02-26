@@ -8,9 +8,9 @@
       </div>
       <div class="rounded-3xl bg-gray-100 p-2 transition-all">
         <div class="w-full overflow-hidden rounded-3xl border border-gray-100">
-          <t-input v-model="query" clearable :autofocus="true" placeholder="请输入想要问AI的问题" @keyup.enter="search" >
+          <t-input v-model="query" clearable :autofocus="true" :maxlength="100" size="large" placeholder="请输入想要问AI的问题" @keyup.enter="search" >
             <template #suffix>
-              <t-button :maxlength="100" shape="round" theme="primary" size="extra-small" @click="search">
+              <t-button shape="round" variant="base" @click="search">
                 <template #icon><RiArrowRightLine /></template>
               </t-button>
             </template>
@@ -29,7 +29,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup lang="tsx">
 import { ref } from 'vue'
 import router from '../router'
 import { RiArrowRightLine } from '@remixicon/vue'
@@ -60,11 +60,14 @@ const onQuickSearch = (keywords: string) => {
 }
 </script>
 
-<script lang="ts">
+<script lang="tsx">
 export default {
   name: 'HomePage'
 }
 </script>
 
 <style scoped>
+#home {
+  --td-radius-default: 24px;
+}
 </style>
