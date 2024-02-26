@@ -5,33 +5,26 @@ export default {
 </script>
 
 <script setup lang="ts">
-import { computed } from 'vue';
-
 type Emits = {
   (e: 'select', query: string): void
 }
-const props = defineProps<{ related?: string }>()
+defineProps<{ related?: string[] }>()
 const emits = defineEmits<Emits>()
 const onSelect = (query: string) => {
-  emits('select', query.replace(/^[0-9]\./, '').trim())
+  emits('select', query)
 }
-const relatedArr = computed(() => {
-  return props.related?.split('\n')
-})
 </script>
 
 <template>
-  <div class="flex w-full flex-col gap-4">
-    <t-skeleton theme="paragraph" animation="flashed" :loading="!relatedArr?.length"></t-skeleton>
-    <template v-if="relatedArr?.length">
-      <div
-        v-for="(item, index) in relatedArr"
-        :key="index"
-        class="cursor-pointer rounded-md bg-gray-100 p-2 text-sm transition-all hover:bg-gray-200"
-        @click="onSelect(item)"
-      >
-        {{ item }}
-      </div>
-    </template>
+  <div class="w-full flex flex-col gap-4">
+    <t-skeleton theme="paragraph" animation="flashed" :loading="!related"></t-skeleton>
+    <div
+      v-for="(item, index) in related"
+      :key="index"
+      class="rounded-md bg-gray-100 p-2 text-sm cursor-pointer hover:bg-gray-200 transition-all"
+      @click="onSelect(item)"
+    >
+      {{ item }}
+    </div>
   </div>
 </template>

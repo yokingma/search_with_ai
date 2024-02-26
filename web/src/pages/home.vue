@@ -6,7 +6,17 @@
         <span class="text-3xl font-bold">AI Search</span>
         <t-tag variant="light" class="text-xs text-gray-500">beta</t-tag>
       </div>
-      <SearchInputBar :loading="false" @search="search" />
+      <div class="rounded-3xl bg-gray-100 p-2 transition-all">
+        <div class="w-full overflow-hidden rounded-3xl border border-gray-100">
+          <t-input v-model="query" clearable :autofocus="true" :maxlength="100" size="large" placeholder="请输入想要问AI的问题" @keyup.enter="search" >
+            <template #suffix>
+              <t-button shape="round" variant="base" @click="search">
+                <template #icon><RiArrowRightLine /></template>
+              </t-button>
+            </template>
+          </t-input>
+        </div>
+      </div>
       <div class="flex justify-center gap-2">
         <t-tag v-for="(item, index) in quickly" :key="index" variant="light" class="cursor-pointer hover:opacity-80" @click="onQuickSearch(item)">
           {{ item }}
@@ -20,6 +30,7 @@
 </template>
 
 <script setup lang="tsx">
+import { ref } from 'vue'
 import router from '../router'
 import { PageFooter, SearchInputBar } from '../components'
 import logoUrl from '../assets/logo.png'
@@ -51,3 +62,9 @@ export default {
   name: 'HomePage'
 }
 </script>
+
+<style scoped>
+#home {
+  --td-radius-default: 24px;
+}
+</style>

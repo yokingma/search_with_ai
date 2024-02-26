@@ -25,7 +25,7 @@ const answerRef = ref<HTMLDivElement | null>(null)
 
 watch(() => props.answer, () => {
   const parent = processAnswer(props.answer)
-  answerRef.value!.innerHTML = ''
+  console.log('watch', parent)
   answerRef.value?.append(parent)
 })
 
@@ -40,13 +40,11 @@ function processAnswer (answer?: string) {
   const citationTags = parent.querySelectorAll('a')
   citationTags.forEach(tag => {
     const citationNumber = tag.getAttribute('href')
-    const text = tag.innerText
-    if (text !== 'citation') return
     // popover
     const popover = (
       <span class="inline-block w-4">
-        <Popup trigger="click" content={getCitationContent(citationNumber)}>
-          <span class="inline-block size-4 cursor-pointer rounded-full bg-gray-300 text-center align-top text-xs text-blue-600 hover:bg-gray-400">
+        <Popup placement="left-bottom" trigger="click" content={getCitationContent}>
+          <span class="inline-block text-xs text-center text-blue-600 bg-gray-300 hover:bg-gray-400 size-4 rounded-full cursor-pointer align-top">
             {citationNumber || ''}
           </span>
         </Popup>
@@ -60,32 +58,18 @@ function processAnswer (answer?: string) {
   return parent
 }
 
-function getCitationContent (num?: string | null) {
-  if (!num) return () => <></>
-  const context = props.contexts?.[+num - 1]
-  if (!context) return () => <></>
-  return () => (
-    <div class="flex h-auto w-80 flex-col p-2">
-      <div class="flex flex-nowrap items-center gap-1 font-bold leading-8">
-        <t-tag size="small" theme="primary">{num}</t-tag>
-        <span class="w-72 truncate">{context.name}</span>
-      </div>
-      <div class="mt-1 text-xs leading-6 text-gray-500">
-        {context.snippet}
-      </div>
-      <div class="mt-2 border-0 border-t border-solid border-gray-100 pt-2 leading-6">
-        <a href={context.url} target="_blank" class="inline-block max-w-full truncate text-blue-600">
-          {context.url}
-        </a>
-      </div>
+function getCitationContent () {
+  return (
+    <div>
+      123
     </div>
   )
 }
 </script>
 
 <template>
-  <div class="h-auto w-full text-base leading-6 text-gray-600">
+  <div class="w-full h-auto text-base leading-8 text-gray-600">
     <t-skeleton theme="paragraph" animation="flashed" :loading="!answer"></t-skeleton>
-    <div ref="answerRef" class="markdown-body h-auto w-full" />
+    <div class="w-full h-auto" ref="answerRef" />
   </div>
 </template>

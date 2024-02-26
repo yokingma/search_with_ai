@@ -27,14 +27,28 @@ export class Rag {
   }
 
   // Gets related questions based on the query and context.
-  public getRelatedQuestions(query: string, contexts: any[]) {
-    const context = contexts.map(item => item.snippet).join('\n\n');
-    const system = util.format(MoreQuestionsPrompt, context);
-    const messages = [
-      {
-        role: 'system',
-        content: system
-      },
+  private async getRelatedQuestions(query: string, contexts: any[]) {
+    try {
+      const context = contexts.map(item => item.snippet).join('\n\n');
+      const system = util.format(MoreQuestionsPrompt, context);
+      const messages: IChatInputMessage[] = [
+        {
+          role: 'user',
+          content: query
+        }
+      ];
+      const res = await this.chat(messages, system);
+      return res.split('\n');
+    } catch(err) {
+      console.error('encountered error while generating related questions:', err);
+      return [];
+    }
+  }
+
+  private async getAiAnswer(query: string, contexts: any[]) {
+    const context = contexts.map((item, index) => `[[citation:${index + 1}]] ${item.snippet}` ).join('\n\n');
+    const system = util.format(RagQueryPrompt, context);
+    const messages: IChatInputMessage[] = [
       {
         role: 'user',
         content: query
@@ -44,5 +58,5 @@ export class Rag {
 
   public query(query: string, searchUUID: string) {}
 
-  public saveToCache(contexts: any[], llmResponse: string, relatedQuestionsFuture: any[], searchUUID: string) {}
+  // private saveResult(contexts: any[], llmResponse: string, relatedQuestionsFuture: any[], searchUUID: string) {}
 }
