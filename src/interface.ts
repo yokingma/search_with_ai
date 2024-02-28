@@ -18,5 +18,4 @@ export interface IChatResponse {
     outputTokens: number;
     inputTokens: number;
   };
-  requestId?: string | number;
 }

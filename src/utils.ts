@@ -13,11 +13,11 @@ interface RequestConfig {
 // cache
 export const memoryCache = createCache(memoryStore(), {
   max: 100,
-  ttl: 60 *60 * 1000
+  ttl: 60 * 60 * 1000
 });
 
 export const httpRequest = async (config: RequestConfig) => {
-  const { endpoint, timeout = 60000, query, headers, data, method = 'GET' } = config;
+  const { endpoint, timeout = 10 * 60 * 1000, query, headers, data, method = 'GET' } = config;
   const controller = new AbortController();
   const id = setTimeout(() => controller.abort(), timeout);
   const params = url.format({

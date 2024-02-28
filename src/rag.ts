@@ -1,20 +1,23 @@
 import { EBackend, IChatInputMessage, SearchFunc } from './interface';
 import { searchWithBing, searchWithGoogle, searchWithSogou } from './service';
 import { MoreQuestionsPrompt, RagQueryPrompt } from './prompt';
-import { chat } from './platform/aliyun';
+import { chat, chatStream } from './platform/aliyun';
 // import { memoryCache } from './utils';
 import util from 'util';
 
 interface RagOptions {
-  backend?: EBackend
+  backend?: EBackend,
+  stream?: boolean;
 }
 
 // const CACHE_NAME = 'search_with_ai';
 
 export class Rag {
   private search: SearchFunc;
+  private stream: boolean;
   constructor(params?: RagOptions) {
-    const { backend = EBackend.BING } = params || {};
+    const { backend = EBackend.BING, stream = true } = params || {};
+    this.stream = stream;
     switch (backend) {
       case EBackend.GOOGLE:
         this.search = searchWithGoogle;
@@ -42,17 +45,14 @@ export class Rag {
     };
   }
 
+  public async queryStream(query: string) {
+    //
+  }
+
   // Gets related questions based on the query and context.
   private async getRelatedQuestions(query: string, contexts: any[]) {
     try {
-      const context = contexts.map(item => item.snippet).join('\n\n');
-      const system = util.format(MoreQuestionsPrompt, context);
-      const messages: IChatInputMessage[] = [
-        {
-          role: 'user',
-          content: query
-        }
-      ];
+      const { messages, system } = this.paramsFormatter(query, contexts, 'related');
       const res = await this.chat(messages, system);
       return res.split('\n');
     } catch(err) {
@@ -62,21 +62,34 @@ export class Rag {
   }
 
   private async getAiAnswer(query: string, contexts: any[]) {
+    try {
+      const { messages, system } = this.paramsFormatter(query, contexts, 'answer');
+      const res = await this.chat(messages, system);
+      return res;
+    } catch (err) {
+      return '';
+    }
+  }
+
+  private async chat(messages: IChatInputMessage[], system: string) {
+    const res = await chat(messages, system);
+    return res.text;
+  }
+
+  private paramsFormatter(query: string, contexts: any[], type: 'answer' | 'related') {
     const context = contexts.map((item, index) => `[[citation:${index + 1}]] ${item.snippet}` ).join('\n\n');
-    const system = util.format(RagQueryPrompt, context);
+    const prompt = type === 'answer' ? RagQueryPrompt : MoreQuestionsPrompt;
+    const system = util.format(prompt, context);
     const messages: IChatInputMessage[] = [
       {
         role: 'user',
         content: query
       }
     ];
-    const res = await this.chat(messages, system);
-    return res;
-  }
-
-  private async chat(messages: IChatInputMessage[], system: string) {
-    const res = await chat(messages, system);
-    return res.text;
+    return {
+      messages,
+      system
+    };
   }
 
   // private saveResult(contexts: any[], llmResponse: string, relatedQuestionsFuture: any[], searchUUID: string) {}

@@ -4,7 +4,8 @@ import cors from '@koa/cors';
 import dotenv from 'dotenv';
 const app = new Koa();
 const router = new Router();
-import { searchController, sogouSearchController } from './controllers';
+import { koaBody } from 'koa-body';
+import { chatController, searchController, sogouSearchController } from './controllers';
 
 //env
 dotenv.config();
@@ -13,13 +14,17 @@ app.use(cors({
   origin: '*'
 }));
 
+app.use(koaBody());
+
 app.use(async (ctx, next) => {
   ctx.state.BingSearchKey = process.env.BING_SEARCH_KEY;
   await next();
 });
 
-router.get('/search', searchController);
-router.get('/sogou/search', sogouSearchController);
+router.post('/search', searchController);
+router.post('/sogou/search', sogouSearchController);
+
+router.post('/chat', chatController);
 
 app.use(router.routes()).use(router.allowedMethods());
 
