@@ -141,4 +141,8 @@ node_modules/
 dist/
 log/
 logs/
+<<<<<<< HEAD
 >>>>>>> 2e41b18 (init)
+=======
+.env.local
+>>>>>>> 6b738f5 (add: openai)

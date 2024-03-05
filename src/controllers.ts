@@ -1,8 +1,8 @@
 import { Context } from 'koa';
-import { AliyunModels, BaiduModels, DefaultQuery, OpenAIModels } from './constant';
+import { AliyunModels, DefaultQuery, OpenAIModels } from './constant';
 import { searchWithSogou } from './service';
-import { AliyunChat, OpenAIChat, BaiduChat } from './platform';
-import { IChatInputMessage, TypeModelKeys } from './interface';
+import { AliyunChat, OpenAIChat } from './platform';
+import { IChatInputMessage, TModelKeys } from './interface';
 import { Rag } from './rag';
 
 export const searchController = async (ctx: Context) => {
@@ -36,42 +36,27 @@ export const sogouSearchController = async (ctx: Context) => {
 };
 
 export const chatStreamController = async (ctx: Context) => {
-  const messages: IChatInputMessage[] = ctx.request.body.messages || [];
+  const messages: IChatInputMessage[] = ctx.request.body.messages;
   const system: string = ctx.request.body.system;
-  const model: TypeModelKeys = ctx.request.body.model;
+  const model: TModelKeys = ctx.request.body.model;
   ctx.res.setHeader('Content-Type', 'text/event-stream');
-  ctx.res.setHeader('Cache-Control', 'no-cache');
-  ctx.res.setHeader('Connection', 'keep-alive');
   const handler = processModel(model);
-  ctx.res.statusCode = 200;
-  await handler?.(messages, (data) => {
-    const eventData = `data:${JSON.stringify({ text: data || '' })}\n\n`;
-    ctx.res.write(eventData);
-  }, model, system);
+  await handler?.(messages, (message) => {
+    if (message ) {
+      ctx.res.write(message);
+    }
+  }, system, model);
   ctx.res.end();
 };
 
-export const modelsController = async (ctx: Context) => {
-  const models = {
-    aliyun: Object.values(AliyunModels),
-    openai: Object.values(OpenAIModels),
-    baidu: Object.values(BaiduModels)
-  };
-  ctx.body = models;
-};
-
-function processModel(model = AliyunModels.QWEN_MAX) {
+function processModel(model = AliyunModels.QWENMAX) {
   const aliyun = new AliyunChat();
   const openai = new OpenAIChat();
-  const baidu = new BaiduChat();
-  if (Object.values(AliyunModels).includes(model)) {
+  if (model in AliyunModels) {
     return aliyun.chatStream.bind(aliyun);
   }
-  if (Object.values(OpenAIModels).includes(model)) {
+  if (model in OpenAIModels) {
     return openai.chatStream.bind(openai);
-  }
-  if (Object.values(BaiduModels).includes(model)) {
-    return baidu.chatStream.bind(baidu);
   }
   return aliyun.chatStream.bind(aliyun);
 }

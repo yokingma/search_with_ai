@@ -1,7 +1,8 @@
-import { EBackend, SearchFunc } from './interface';
-import { searchWithBing, searchWithGoogle } from './service';
-import { MoreQuestionsPrompt } from './prompt';
-import { memoryCache } from './utils';
+import { EBackend, IChatInputMessage, SearchFunc } from './interface';
+import { searchWithBing, searchWithGoogle, searchWithSogou } from './service';
+import { MoreQuestionsPrompt, RagQueryPrompt } from './prompt';
+import { AliyunChat } from './platform';
+// import { memoryCache } from './utils';
 import util from 'util';
 
 interface RagOptions {
@@ -26,6 +27,22 @@ export class Rag {
     }
   }
 
+  public async query(query: string) {
+    const contexts = await this.search(query);
+    const relatedPromise = this.getRelatedQuestions(query, contexts);
+    const answerPromise = this.getAiAnswer(query, contexts);
+    const [related, answer] = await Promise.all([relatedPromise, answerPromise]);
+    return {
+      related,
+      answer,
+      contexts
+    };
+  }
+
+  public async queryStream(query: string) {
+    console.log(query, this.stream);
+  }
+
   // Gets related questions based on the query and context.
   private async getRelatedQuestions(query: string, contexts: any[]) {
     try {
@@ -46,6 +63,22 @@ export class Rag {
   }
 
   private async getAiAnswer(query: string, contexts: any[]) {
+    try {
+      const { messages, system } = this.paramsFormatter(query, contexts, 'answer');
+      const res = await this.chat(messages, system);
+      return res;
+    } catch (err) {
+      return '';
+    }
+  }
+
+  private async chat(messages: IChatInputMessage[], system: string) {
+    const aliyun = new AliyunChat();
+    const res = await aliyun.chat(messages, system);
+    return res.text;
+  }
+
+  private paramsFormatter(query: string, contexts: any[], type: 'answer' | 'related') {
     const context = contexts.map((item, index) => `[[citation:${index + 1}]] ${item.snippet}` ).join('\n\n');
     const system = util.format(RagQueryPrompt, context);
     const messages: IChatInputMessage[] = [

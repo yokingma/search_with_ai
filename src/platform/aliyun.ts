@@ -1,8 +1,7 @@
 import { DefaultSystem, AllModels } from '../constant';
-import { IChatInputMessage, IStreamHandler } from '../interface';
+import { IChatInputMessage, TStreamHandler } from '../interface';
 import { httpRequest } from '../utils';
 import { BaseChat } from './base';
-import { fetchEventData } from 'fetch-sse';
 
 const BaseURL = 'https://dashscope.aliyuncs.com/api/v1/';
 const APIS = {
@@ -20,7 +19,7 @@ export class AliyunChat implements BaseChat {
 
   public async chat(
     messages: IChatInputMessage[],
-    model = AllModels.QWEN_MAX,
+    model = AllModels.QWENMAX,
     system = DefaultSystem
   ) {
     if (system) {
@@ -61,9 +60,9 @@ export class AliyunChat implements BaseChat {
 
   public async chatStream(
     messages: IChatInputMessage[],
-    onMessage: IStreamHandler,
-    model = AllModels.QWEN_MAX,
-    system = DefaultSystem,
+    onMessage: TStreamHandler,
+    system?: string | undefined,
+    model?: string | undefined
   ): Promise<void> {
     if (system) {
       messages = [
@@ -77,36 +76,44 @@ export class AliyunChat implements BaseChat {
     const options = {
       input: {
         messages,
-      }
+      },
     };
     const url = `${BaseURL}${APIS.qwen}`;
-    const payload = {
+    const payload = JSON.stringify({
       model,
-      input: options.input,
-      parameters: {
-        incremental_output: true
-      }
-    };
+      input: options.input
+    });
     const abort = new AbortController();
     const key = this.key;
     try {
-      await fetchEventData(url, {
+      const res = await fetch(url, {
         method: 'POST',
         headers: {
+          Accept: 'text/event-stream',
+          'Content-type': 'application/json',
           'Authorization': `Bearer ${key}`
         },
-        data: payload,
-        signal: abort.signal,
-        onMessage: (eventData) => {
-          const data = eventData?.data;
-          const result = JSON.parse(data || '{}');
-          const msg = result.output?.text ?? '';
-          onMessage(msg, false);
-        },
-        onClose: () => {
-          onMessage(null, false);
-        }
+        body: payload,
+        signal: abort.signal
       });
+      const reader = res.body?.getReader();
+      try {
+        while(true) {
+          if (!reader) break;
+          const { value, done } = await reader.read();
+          let data: Record<string, any> | null = null;
+          if (value) {
+            const buf = Buffer.from(value);
+            console.log();
+            data = JSON.parse(buf.toString('utf-8'));
+          }
+          onMessage?.(data?.output?.text, done);
+          if (done) break;
+        }
+      } catch (err) {
+        console.log('Aliyun:', err);
+        onMessage?.(null, true);
+      }
     } catch (err) {
       console.error(err);
       abort.abort();
