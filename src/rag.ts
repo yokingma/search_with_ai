@@ -1,7 +1,7 @@
 import { EBackend, IChatInputMessage, SearchFunc } from './interface';
 import { searchWithBing, searchWithGoogle, searchWithSogou } from './service';
 import { MoreQuestionsPrompt, RagQueryPrompt } from './prompt';
-import { chat, chatStream } from './platform/aliyun';
+import { AliyunChat } from './platform';
 // import { memoryCache } from './utils';
 import util from 'util';
 
@@ -46,7 +46,7 @@ export class Rag {
   }
 
   public async queryStream(query: string) {
-    //
+    console.log(query, this.stream);
   }
 
   // Gets related questions based on the query and context.
@@ -72,7 +72,8 @@ export class Rag {
   }
 
   private async chat(messages: IChatInputMessage[], system: string) {
-    const res = await chat(messages, system);
+    const aliyun = new AliyunChat();
+    const res = await aliyun.chat(messages, system);
     return res.text;
   }
 

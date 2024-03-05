@@ -5,7 +5,7 @@ import dotenv from 'dotenv';
 const app = new Koa();
 const router = new Router();
 import { koaBody } from 'koa-body';
-import { chatController, searchController, sogouSearchController } from './controllers';
+import { chatStreamController, searchController, sogouSearchController } from './controllers';
 
 //env
 dotenv.config();
@@ -24,7 +24,7 @@ app.use(async (ctx, next) => {
 router.post('/search', searchController);
 router.post('/sogou/search', sogouSearchController);
 
-router.post('/chat', chatController);
+router.post('/chat', chatStreamController);
 
 app.use(router.routes()).use(router.allowedMethods());
 

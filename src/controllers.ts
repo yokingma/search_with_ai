@@ -1,8 +1,8 @@
 import { Context } from 'koa';
-import { DefaultQuery } from './constant';
+import { AliyunModels, DefaultQuery, OpenAIModels } from './constant';
 import { searchWithSogou } from './service';
-import { chat, chatStream } from './platform/aliyun';
-import { IChatInputMessage } from './interface';
+import { AliyunChat, OpenAIChat } from './platform';
+import { IChatInputMessage, TModelKeys } from './interface';
 import { Rag } from './rag';
 
 export const searchController = async (ctx: Context) => {
@@ -26,20 +26,28 @@ export const sogouSearchController = async (ctx: Context) => {
   ctx.body = res;
 };
 
-export const chatController = async (ctx: Context) => {
-  const accept = ctx.request.headers.accept;
-  const system: string = ctx.request.body.system;
+export const chatStreamController = async (ctx: Context) => {
   const messages: IChatInputMessage[] = ctx.request.body.messages;
-  if (accept !== 'text/event-stream') {
-    return ctx.body = await chat(messages);
-  }
+  const system: string = ctx.request.body.system;
+  const model: TModelKeys = ctx.request.body.model;
   ctx.res.setHeader('Content-Type', 'text/event-stream');
-  await chatStream(messages, (data) => {
-    if (data) {
-      // const buf = Buffer.from(data);
-      // console.log(buf.toString('utf-8'));
-      ctx.res.write(data);
+  const handler = processModel(model);
+  await handler?.(messages, (message) => {
+    if (message ) {
+      ctx.res.write(message);
     }
-  }, system);
+  }, system, model);
   ctx.res.end();
 };
+
+function processModel(model = AliyunModels.QWENMAX) {
+  const aliyun = new AliyunChat();
+  const openai = new OpenAIChat();
+  if (model in AliyunModels) {
+    return aliyun.chatStream.bind(aliyun);
+  }
+  if (model in OpenAIModels) {
+    return openai.chatStream.bind(openai);
+  }
+  return aliyun.chatStream.bind(aliyun);
+}
