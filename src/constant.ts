@@ -27,12 +27,13 @@ export const StopWords = [
 ];
 
 export const AliyunModels = {
-  QWENMAX: 'qwen-max'
+  QWEN_MAX: 'qwen-max'
 };
 
 export const OpenAIModels = {
   GPT35TURBO: 'gpt-3.5-turbo',
   GPT4: 'gpt-4',
+  GPT4TURBO_PREVIEW: 'gpt-4-turbo-preview'
 };
 
 export const AllModels = Object.assign({}, AliyunModels, OpenAIModels);

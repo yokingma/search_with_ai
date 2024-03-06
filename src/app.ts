@@ -2,10 +2,11 @@ import Koa from 'koa';
 import Router from '@koa/router';
 import cors from '@koa/cors';
 import dotenv from 'dotenv';
-const app = new Koa();
-const router = new Router();
 import { koaBody } from 'koa-body';
 import { chatStreamController, searchController, sogouSearchController } from './controllers';
+
+const app = new Koa();
+const router = new Router();
 
 //env
 dotenv.config();

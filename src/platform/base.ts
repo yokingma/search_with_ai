@@ -1,4 +1,4 @@
-import { IChatInputMessage, TStreamHandler } from '../interface';
+import { IChatInputMessage, IStreamHandler } from '../interface';
 
 export abstract class BaseChat {
   abstract chat(
@@ -9,8 +9,8 @@ export abstract class BaseChat {
 
   abstract chatStream(
     messages: IChatInputMessage[],
-    onMessage: TStreamHandler,
-    system?: string,
-    model?: string
+    onMessage: IStreamHandler,
+    model?: string,
+    system?: string
   ): Promise<void>;
 }

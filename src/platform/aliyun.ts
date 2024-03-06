@@ -1,6 +1,7 @@
 import { DefaultSystem, AllModels } from '../constant';
-import { IChatInputMessage, TStreamHandler } from '../interface';
+import { IChatInputMessage, IStreamHandler } from '../interface';
 import { httpRequest } from '../utils';
+import { SSEDecoder } from '../utils/sse';
 import { BaseChat } from './base';
 
 const BaseURL = 'https://dashscope.aliyuncs.com/api/v1/';
@@ -13,13 +14,15 @@ const APIS = {
 
 export class AliyunChat implements BaseChat {
   private key?: string;
+  private sse: SSEDecoder;
   constructor() {
     this.key = process.env.ALIYUN_KEY;
+    this.sse = new SSEDecoder();
   }
 
   public async chat(
     messages: IChatInputMessage[],
-    model = AllModels.QWENMAX,
+    model = AllModels.QWEN_MAX,
     system = DefaultSystem
   ) {
     if (system) {
@@ -60,9 +63,9 @@ export class AliyunChat implements BaseChat {
 
   public async chatStream(
     messages: IChatInputMessage[],
-    onMessage: TStreamHandler,
-    system?: string | undefined,
-    model?: string | undefined
+    onMessage: IStreamHandler,
+    model = AllModels.QWEN_MAX,
+    system = DefaultSystem,
   ): Promise<void> {
     if (system) {
       messages = [
@@ -101,13 +104,14 @@ export class AliyunChat implements BaseChat {
         while(true) {
           if (!reader) break;
           const { value, done } = await reader.read();
-          let data: Record<string, any> | null = null;
+          let msg = '';
           if (value) {
-            const buf = Buffer.from(value);
-            console.log();
-            data = JSON.parse(buf.toString('utf-8'));
+            const decoded = this.sse.decode(value);
+            const data = decoded?.data;
+            const result = JSON.parse(data || '{}');
+            msg = result.output?.text ?? '';
           }
-          onMessage?.(data?.output?.text, done);
+          onMessage?.(msg, done);
           if (done) break;
         }
       } catch (err) {

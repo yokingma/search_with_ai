@@ -1,22 +1,30 @@
-import { EBackend, IChatInputMessage, SearchFunc } from './interface';
+import { EBackend, IChatInputMessage, IStreamHandler, SearchFunc, TypeModelKeys } from './interface';
 import { searchWithBing, searchWithGoogle, searchWithSogou } from './service';
 import { MoreQuestionsPrompt, RagQueryPrompt } from './prompt';
-import { AliyunChat } from './platform';
+import { AliyunChat, OpenAIChat } from './platform';
 // import { memoryCache } from './utils';
 import util from 'util';
+import { AliyunModels, AllModels, OpenAIModels } from './constant';
 
 interface RagOptions {
-  backend?: EBackend,
-  stream?: boolean;
+  backend?: EBackend
+  stream?: boolean
+  model?: TypeModelKeys
 }
 
 // const CACHE_NAME = 'search_with_ai';
 
 export class Rag {
   private search: SearchFunc;
+  private chat: (...args: any[]) => Promise<any>;
+  private model: string;
+  // enable stream?
   private stream: boolean;
+
   constructor(params?: RagOptions) {
-    const { backend = EBackend.BING, stream = true } = params || {};
+    const { backend = EBackend.BING, stream = true, model = 'QWEN_MAX' } = params || {};
+    this.chat = processModel(model, stream);
+    this.model = AllModels[model];
     this.stream = stream;
     switch (backend) {
       case EBackend.GOOGLE:
@@ -33,48 +41,58 @@ export class Rag {
     }
   }
 
-  public async query(query: string) {
+  public async query(query: string, onMessage?: (...args: any[]) => void) {
     const contexts = await this.search(query);
-    const relatedPromise = this.getRelatedQuestions(query, contexts);
-    const answerPromise = this.getAiAnswer(query, contexts);
-    const [related, answer] = await Promise.all([relatedPromise, answerPromise]);
-    return {
-      related,
-      answer,
-      contexts
-    };
-  }
-
-  public async queryStream(query: string) {
-    console.log(query, this.stream);
+    if (!this.stream) {
+      const relatedPromise = this.getRelatedQuestions(query, contexts);
+      const answerPromise = this.getAiAnswer(query, contexts);
+      const [related, answer] = await Promise.all([relatedPromise, answerPromise]);
+      return {
+        related,
+        answer,
+        contexts
+      };
+    }
+    onMessage?.(JSON.stringify({ contexts }));
+    await this.getAiAnswer(query, contexts, (msg) => {
+      onMessage?.(JSON.stringify({ answer: msg }));
+    });
+    await this.getRelatedQuestions(query, contexts, (msg) => {
+      onMessage?.(JSON.stringify({ related: msg }));
+    });
+    onMessage?.(null, true);
   }
 
   // Gets related questions based on the query and context.
-  private async getRelatedQuestions(query: string, contexts: any[]) {
+  private async getRelatedQuestions(query: string, contexts: any[], onMessage?: IStreamHandler) {
     try {
       const { messages, system } = this.paramsFormatter(query, contexts, 'related');
-      const res = await this.chat(messages, system);
-      return res.split('\n');
+      const { model, stream, chat } = this;
+      if (!stream) {
+        const res = await this.chat(messages, this.model, system);
+        return res.split('\n');
+      }
+      await chat(messages, onMessage, model, system);
     } catch(err) {
       console.error('encountered error while generating related questions:', err);
       return [];
     }
   }
 
-  private async getAiAnswer(query: string, contexts: any[]) {
+  private async getAiAnswer(query: string, contexts: any[], onMessage?: IStreamHandler) {
     try {
       const { messages, system } = this.paramsFormatter(query, contexts, 'answer');
-      const res = await this.chat(messages, system);
-      return res;
+      const { model, stream, chat } = this;
+      if (!stream) {
+        const res = await this.chat(messages, this.model, system);
+        return res;
+      }
+      await chat(messages, (msg: string, done: boolean) => {
+        onMessage?.(msg, done);
+      }, model, system);
     } catch (err) {
       return '';
     }
-  }
-
-  private async chat(messages: IChatInputMessage[], system: string) {
-    const aliyun = new AliyunChat();
-    const res = await aliyun.chat(messages, system);
-    return res.text;
   }
 
   private paramsFormatter(query: string, contexts: any[], type: 'answer' | 'related') {
@@ -94,4 +112,16 @@ export class Rag {
   }
 
   // private saveResult(contexts: any[], llmResponse: string, relatedQuestionsFuture: any[], searchUUID: string) {}
+}
+
+function processModel(model = AliyunModels.QWEN_MAX, stream = true) {
+  const aliyun = new AliyunChat();
+  const openai = new OpenAIChat();
+  if (Object.values(AliyunModels).includes(model)) {
+    return stream ? aliyun.chatStream.bind(aliyun) : aliyun.chat.bind(aliyun);
+  }
+  if (Object.values(OpenAIModels).includes(model)) {
+    return stream ? openai.chatStream.bind(openai) : openai.chat.bind(openai);
+  }
+  return stream ? aliyun.chatStream.bind(aliyun) : aliyun.chat.bind(aliyun);
 }

@@ -22,7 +22,9 @@ export interface IChatResponse {
   };
 }
 
-export type TModelKeys = keyof typeof AllModels
+export type TypeModelKeys = keyof typeof AllModels
 
 
-export type TStreamHandler = (message: string | null, done: boolean) => void;
+export interface IStreamHandler {
+  (message: string | null, done: boolean): void
+}
