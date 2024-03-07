@@ -79,12 +79,15 @@ export class AliyunChat implements BaseChat {
     const options = {
       input: {
         messages,
-      },
+      }
     };
     const url = `${BaseURL}${APIS.qwen}`;
     const payload = JSON.stringify({
       model,
-      input: options.input
+      input: options.input,
+      parameters: {
+        incremental_output: true
+      }
     });
     const abort = new AbortController();
     const key = this.key;

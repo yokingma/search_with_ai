@@ -8,7 +8,7 @@ import { Rag } from './rag';
 export const searchController = async (ctx: Context) => {
   const stream = ctx.request.body.stream ?? true;
   const q = ctx.request.query.q || DefaultQuery;
-  const model: TypeModelKeys = ctx.request.body.model;
+  const model: string = ctx.request.body.model;
   const rag = new Rag({
     stream,
     model

@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@microsoft/fetch-event-source": "^2.0.1",
     "@remixicon/vue": "^4.1.0",
     "@vitejs/plugin-vue-jsx": "^3.1.0",
     "marked": "^12.0.0",

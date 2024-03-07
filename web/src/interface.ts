@@ -1,5 +1,5 @@
 export interface IQueryResult {
-  related: string[];
+  related: string;
   answer: string;
   contexts: Record<string, any>[]
 }

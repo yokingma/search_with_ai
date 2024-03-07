@@ -1,6 +1,6 @@
 <template>
   <div id="home" class="flex size-full items-center justify-center">
-    <div class="flex flex-col gap-4 p-4 lg:w-1/2">
+    <div class="flex flex-col gap-4 p-4">
       <div class="flex items-center justify-center gap-2">
         <img :src="logoUrl" class="w-10" />
         <span class="text-3xl font-bold">AI Search</span>
@@ -38,7 +38,7 @@ import logoUrl from '../assets/logo.png'
 const query = ref('')
 
 const quickly = [
-  '如何安装stable diffusion webui？',
+  '如何安装ComfyUI？',
   '如何撰写优质的prompt提示词和AI大模型对话？'
 ]
 

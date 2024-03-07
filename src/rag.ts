@@ -1,4 +1,4 @@
-import { EBackend, IChatInputMessage, IStreamHandler, SearchFunc, TypeModelKeys } from './interface';
+import { EBackend, IChatInputMessage, IStreamHandler, SearchFunc } from './interface';
 import { searchWithBing, searchWithGoogle, searchWithSogou } from './service';
 import { MoreQuestionsPrompt, RagQueryPrompt } from './prompt';
 import { AliyunChat, OpenAIChat } from './platform';
@@ -9,7 +9,7 @@ import { AliyunModels, AllModels, OpenAIModels } from './constant';
 interface RagOptions {
   backend?: EBackend
   stream?: boolean
-  model?: TypeModelKeys
+  model?: string
 }
 
 // const CACHE_NAME = 'search_with_ai';
@@ -22,9 +22,9 @@ export class Rag {
   private stream: boolean;
 
   constructor(params?: RagOptions) {
-    const { backend = EBackend.BING, stream = true, model = 'QWEN_MAX' } = params || {};
+    const { backend = EBackend.BING, stream = true, model = AllModels.QWEN_MAX } = params || {};
     this.chat = processModel(model, stream);
-    this.model = AllModels[model];
+    this.model = model;
     this.stream = stream;
     switch (backend) {
       case EBackend.GOOGLE:

@@ -25,6 +25,7 @@ const answerRef = ref<HTMLDivElement | null>(null)
 
 watch(() => props.answer, () => {
   const parent = processAnswer(props.answer)
+  answerRef.value!.innerHTML = ''
   answerRef.value?.append(parent)
 })
 

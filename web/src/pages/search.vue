@@ -47,7 +47,11 @@ import { IQueryResult } from 'src/interface'
 
 const keyword = computed(() => router.currentRoute.value.query.q)
 
-const result = ref<IQueryResult>()
+const result = ref<IQueryResult>({
+  related: '',
+  answer: '',
+  contexts: []
+})
 
 const onSelectQuery = (query: string) => {
   console.log(query)
@@ -60,11 +64,37 @@ onMounted(() => {
 async function querySearch() {
   if (!keyword.value) return
   try {
-    const res = await search(keyword.value as string)
-    result.value = res
+    await search(keyword.value as string, {
+      onMessage: (data) => {
+        if (data.contexts) {
+          result.value.contexts = data.contexts
+        }
+        if (data.answer) {
+          result.value.answer += data.answer
+        }
+        if (data.related) {
+          result.value.related += data.related
+        }
+      },
+      onClose: () => {
+        console.log('closed')
+      },
+      onError: (err) => {
+        console.log('error')
+      }
+    })
+    // result.value = res
   } catch(err) {
     console.log(err)
     MessagePlugin.error('搜索查询失败了')
+  }
+}
+
+function clear () {
+  result.value = {
+    related: '',
+    answer: '',
+    contexts: []
   }
 }
 </script>
