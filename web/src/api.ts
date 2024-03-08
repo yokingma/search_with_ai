@@ -1,5 +1,5 @@
 const URL = 'http://127.0.0.1:3000/search'
-import { EventStreamContentType, fetchEventSource } from "@microsoft/fetch-event-source"
+import { fetchEventData } from 'fetch-sse'
 
 export interface IQueryOptions {
   ctrl?: AbortController,
@@ -11,40 +11,33 @@ export interface IQueryOptions {
   onError?: (e: any) => void
 }
 export async function search(q: string, options: IQueryOptions) {
-  const { ctrl, stream = true, model = 'gpt-4', onMessage, onOpen, onClose, onError } = options
+  const { ctrl, stream = true, model, onMessage, onOpen, onClose, onError } = options
   const query = new URLSearchParams({
     q
   })
-  await fetchEventSource(`${URL}?${query.toString()}`, {
+  await fetchEventData(`${URL}?${query.toString()}`, {
     method: 'POST',
     signal: ctrl?.signal,
-    body: JSON.stringify({
+    data: {
       stream,
       model
-    }),
+    },
     headers: {
       'Content-Type': 'application/json'
     },
-    onopen: async (res) => {
-      if (res.ok && res.headers.get('content-type') === EventStreamContentType) {
-        onOpen?.()
-        return
-      }
+    onOpen: async () => {
       // error
+      onOpen?.()
     },
-    onmessage: (e) => {
+    onMessage: (e) => {
       try {
-        const data = JSON.parse(e.data)
-        onMessage(JSON.parse(data.data))
+        const data = JSON.parse(e?.data || '{}')
+        onMessage(JSON.parse(data.data || '{}'))
       } catch (err) {
         onError?.(err)
       }
     },
-    onclose: () => {
-      onClose?.()
-    },
-    onerror: (e) => {
-      onError?.(e)
-    }
+    onClose,
+    onError
   })
 }

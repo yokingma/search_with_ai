@@ -1,8 +1,8 @@
 import { DefaultSystem, AllModels } from '../constant';
 import { IChatInputMessage, IStreamHandler } from '../interface';
 import { httpRequest } from '../utils';
-import { SSEDecoder } from '../utils/sse';
 import { BaseChat } from './base';
+import { fetchEventData } from 'fetch-sse';
 
 const BaseURL = 'https://dashscope.aliyuncs.com/api/v1/';
 const APIS = {
@@ -14,10 +14,8 @@ const APIS = {
 
 export class AliyunChat implements BaseChat {
   private key?: string;
-  private sse: SSEDecoder;
   constructor() {
     this.key = process.env.ALIYUN_KEY;
-    this.sse = new SSEDecoder();
   }
 
   public async chat(
@@ -82,45 +80,33 @@ export class AliyunChat implements BaseChat {
       }
     };
     const url = `${BaseURL}${APIS.qwen}`;
-    const payload = JSON.stringify({
+    const payload = {
       model,
       input: options.input,
       parameters: {
         incremental_output: true
       }
-    });
+    };
     const abort = new AbortController();
     const key = this.key;
     try {
-      const res = await fetch(url, {
+      await fetchEventData(url, {
         method: 'POST',
         headers: {
-          Accept: 'text/event-stream',
-          'Content-type': 'application/json',
           'Authorization': `Bearer ${key}`
         },
-        body: payload,
-        signal: abort.signal
-      });
-      const reader = res.body?.getReader();
-      try {
-        while(true) {
-          if (!reader) break;
-          const { value, done } = await reader.read();
-          let msg = '';
-          if (value) {
-            const decoded = this.sse.decode(value);
-            const data = decoded?.data;
-            const result = JSON.parse(data || '{}');
-            msg = result.output?.text ?? '';
-          }
-          onMessage?.(msg, done);
-          if (done) break;
+        data: payload,
+        signal: abort.signal,
+        onMessage: (eventData) => {
+          const data = eventData?.data;
+          const result = JSON.parse(data || '{}');
+          const msg = result.output?.text ?? '';
+          onMessage(msg, false);
+        },
+        onClose: () => {
+          onMessage(null, false);
         }
-      } catch (err) {
-        console.log('Aliyun:', err);
-        onMessage?.(null, true);
-      }
+      });
     } catch (err) {
       console.error(err);
       abort.abort();

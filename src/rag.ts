@@ -22,7 +22,7 @@ export class Rag {
   private stream: boolean;
 
   constructor(params?: RagOptions) {
-    const { backend = EBackend.BING, stream = true, model = AllModels.QWEN_MAX } = params || {};
+    const { backend = EBackend.SOGOU, stream = true, model = AllModels.QWEN_MAX } = params || {};
     this.chat = processModel(model, stream);
     this.model = model;
     this.stream = stream;
@@ -54,6 +54,7 @@ export class Rag {
       };
     }
     onMessage?.(JSON.stringify({ contexts }));
+    console.log(contexts);
     await this.getAiAnswer(query, contexts, (msg) => {
       onMessage?.(JSON.stringify({ answer: msg }));
     });

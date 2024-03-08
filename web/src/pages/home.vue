@@ -6,17 +6,7 @@
         <span class="text-3xl font-bold">AI Search</span>
         <t-tag variant="light" class="text-xs text-gray-500">beta</t-tag>
       </div>
-      <div class="rounded-3xl bg-gray-100 p-2 transition-all">
-        <div class="w-full overflow-hidden rounded-3xl border border-gray-100">
-          <t-input v-model="query" clearable :autofocus="true" :maxlength="100" size="large" placeholder="请输入想要问AI的问题" @enter="search">
-            <template #suffix>
-              <t-button shape="round" variant="base" @click="search">
-                <template #icon><RiArrowRightLine /></template>
-              </t-button>
-            </template>
-          </t-input>
-        </div>
-      </div>
+      <SearchInputBar :loading="false" @search="search" />
       <div class="flex justify-center gap-2">
         <t-tag v-for="(item, index) in quickly" :key="index" variant="light" class="cursor-pointer hover:opacity-80" @click="onQuickSearch(item)">
           {{ item }}
@@ -30,33 +20,29 @@
 </template>
 
 <script setup lang="tsx">
-import { ref } from 'vue'
 import router from '../router'
-import { RiArrowRightLine } from '@remixicon/vue'
-import PageFooter from '../components/footer.vue'
+import { PageFooter, SearchInputBar } from '../components'
 import logoUrl from '../assets/logo.png'
-const query = ref('')
 
 const quickly = [
   '如何安装ComfyUI？',
   '如何撰写优质的prompt提示词和AI大模型对话？'
 ]
 
-const search = () => {
-  if (!query.value) {
+const search = (val: string) => {
+  if (!val) {
     return
   }
   router.push({
     name: 'SearchPage',
     query: {
-      q: query.value
+      q: val
     }
   })
 }
 
-const onQuickSearch = (keywords: string) => {
-  query.value = keywords
-  search()
+const onQuickSearch = (val: string) => {
+  search(val)
 }
 </script>
 
@@ -65,9 +51,3 @@ export default {
   name: 'HomePage'
 }
 </script>
-
-<style scoped>
-#home {
-  --td-radius-default: 24px;
-}
-</style>

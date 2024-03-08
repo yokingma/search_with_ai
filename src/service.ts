@@ -43,5 +43,5 @@ export const searchWithSogou = async (query: string) => {
   await sogou.init();
   // const relatedQueries = sogou.getRelatedQueries();
   const results = await sogou.getResults();
-  return results;
+  return results.slice(0, REFERENCE_COUNT);
 };

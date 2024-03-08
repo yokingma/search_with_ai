@@ -46,7 +46,7 @@ function processAnswer (answer?: string) {
     const popover = (
       <span class="inline-block w-4">
         <Popup trigger="click" content={getCitationContent(citationNumber)}>
-          <span class="inline-block text-xs text-center text-blue-600 bg-gray-300 hover:bg-gray-400 size-4 rounded-full cursor-pointer align-top">
+          <span class="inline-block size-4 cursor-pointer rounded-full bg-gray-300 text-center align-top text-xs text-blue-600 hover:bg-gray-400">
             {citationNumber || ''}
           </span>
         </Popup>
@@ -65,16 +65,16 @@ function getCitationContent (num?: string | null) {
   const context = props.contexts?.[+num - 1]
   if (!context) return () => <></>
   return () => (
-    <div class="w-80 p-2 h-auto flex flex-col">
-      <div class="flex flex-nowrap gap-1 items-center font-bold leading-8">
+    <div class="flex h-auto w-80 flex-col p-2">
+      <div class="flex flex-nowrap items-center gap-1 font-bold leading-8">
         <t-tag size="small" theme="primary">{num}</t-tag>
-        <span class="truncate w-72">{context.name}</span>
+        <span class="w-72 truncate">{context.name}</span>
       </div>
-      <div class="text-gray-500 leading-6 text-xs mt-1">
+      <div class="mt-1 text-xs leading-6 text-gray-500">
         {context.snippet}
       </div>
-      <div class="leading-6 border-0 border-solid border-t border-gray-100 leading-6 mt-2 pt-2">
-        <a href={context.url} target="_blank" class="inline-block max-w-full text-blue-600 truncate">
+      <div class="mt-2 border-0 border-t border-solid border-gray-100 pt-2 leading-6">
+        <a href={context.url} target="_blank" class="inline-block max-w-full truncate text-blue-600">
           {context.url}
         </a>
       </div>
@@ -84,8 +84,8 @@ function getCitationContent (num?: string | null) {
 </script>
 
 <template>
-  <div class="w-full h-auto text-base leading-6 text-gray-600">
+  <div class="h-auto w-full text-base leading-6 text-gray-600">
     <t-skeleton theme="paragraph" animation="flashed" :loading="!answer"></t-skeleton>
-    <div class="w-full h-auto" ref="answerRef" />
+    <div ref="answerRef" class="h-auto w-full" />
   </div>
 </template>

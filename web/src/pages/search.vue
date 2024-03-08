@@ -1,7 +1,7 @@
 <template>
-  <div id="search" class="relative size-full overflow-hidden">
-    <div class="absolute inset-x-0 inset-y-4 rounded-2xl bg-gray-100 p-2">
-      <div class="h-full rounded-2xl bg-white overflow-y-auto">
+  <div id="search" class="relative size-full">
+    <div class="absolute inset-x-0 inset-y-4 overflow-hidden rounded-2xl bg-gray-100 p-2">
+      <div ref="wrapperRef" class="h-full overflow-y-auto rounded-2xl bg-white">
         <div class="p-4">
           <div class="border-0 border-b border-solid border-gray-100 pb-4 text-xl font-bold leading-8 text-blue-800">
             {{ keyword }}
@@ -27,9 +27,14 @@
             </div>
             <RelatedQuery :related="result?.related" @select="onSelectQuery" />
           </div>
-          <div class="mt-4">
+          <div class="mt-4 pb-20">
             <PageFooter />
           </div>
+        </div>
+      </div>
+      <div class="absolute inset-x-6 bottom-6 flex items-center justify-center">
+        <div class="w-full  rounded-3xl shadow-xl">
+          <SearchInputBar :loading="loading" @search="onSearch" />
         </div>
       </div>
     </div>
@@ -37,15 +42,19 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue';
 import { MessagePlugin } from 'tdesign-vue-next'
 import { RiQuestionAnswerLine, RiBook2Line, RiChatQuoteLine } from '@remixicon/vue'
 import router from '../router'
 import { search } from '../api'
-import { PageFooter, ChatAnswer, RelatedQuery, ChatSources } from '../components'
+import { PageFooter, ChatAnswer, RelatedQuery, ChatSources, SearchInputBar } from '../components'
 import { IQueryResult } from 'src/interface'
 
-const keyword = computed(() => router.currentRoute.value.query.q)
+const wrapperRef = ref<HTMLDivElement | null>(null)
+
+const keyword = computed(() => router.currentRoute.value.query.q ?? '')
+const query = ref<string>('')
+const loading = ref(false)
 
 const result = ref<IQueryResult>({
   related: '',
@@ -53,19 +62,30 @@ const result = ref<IQueryResult>({
   contexts: []
 })
 
-const onSelectQuery = (query: string) => {
-  console.log(query)
+const onSelectQuery = (val: string) => {
+  const q = val.split('.')[1]
+  query.value = q
+  querySearch(q)
 }
 
+const onSearch = (val: string) => {
+  query.value = val
+  querySearch(val)
+} 
+
 onMounted(() => {
-  querySearch()
+  querySearch(keyword.value as string)
 })
 
-async function querySearch() {
-  if (!keyword.value) return
+async function querySearch(val: string | null) {
+  if (!val) return
+  clear()
+  replaceQueryParam('q', val)
   try {
-    await search(keyword.value as string, {
+    loading.value = true
+    await search(val, {
       onMessage: (data) => {
+        if (wrapperRef.value) wrapperRef.value.scrollTop = wrapperRef.value.scrollHeight
         if (data.contexts) {
           result.value.contexts = data.contexts
         }
@@ -78,24 +98,33 @@ async function querySearch() {
       },
       onClose: () => {
         console.log('closed')
+        loading.value = false
       },
       onError: (err) => {
-        console.log('error')
+        console.log('error', err)
+        loading.value = false
       }
     })
-    // result.value = res
   } catch(err) {
     console.log(err)
+    loading.value = false
     MessagePlugin.error('搜索查询失败了')
   }
 }
 
 function clear () {
+  query.value = ''
   result.value = {
     related: '',
     answer: '',
     contexts: []
   }
+}
+
+function replaceQueryParam(name: string, val: string) {
+  const url = new URL(location.href);
+  url.searchParams.set(name, val);
+  history.replaceState({}, '', url.toString());
 }
 </script>
 

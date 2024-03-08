@@ -1490,6 +1490,11 @@ fastq@^1.6.0:
   dependencies:
     reusify "^1.0.4"
 
+fetch-sse@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.npmmirror.com/fetch-sse/-/fetch-sse-1.0.4.tgz#d5c3da69b3d57db4b26bd0339e3d6781b0d89a29"
+  integrity sha512-UKULdX1N2rk+9yjPMvXu5fwRpJ10W3cVAFXB12kMXIMCSVKmuOAfInS4ge/aWEfANSkp46QZ1Gz0HbJ340LM8A==
+
 file-entry-cache@^6.0.1:
   version "6.0.1"
   resolved "https://registry.npmmirror.com/file-entry-cache/-/file-entry-cache-6.0.1.tgz#211b2dd9659cb0394b073e7323ac3c933d522027"

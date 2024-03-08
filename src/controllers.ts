@@ -19,6 +19,8 @@ export const searchController = async (ctx: Context) => {
     return;
   }
   ctx.res.setHeader('Content-Type', 'text/event-stream');
+  ctx.res.setHeader('Cache-Control', 'no-cache');
+  ctx.res.setHeader('Connection', 'keep-alive');
   ctx.res.statusCode = 200;
   await rag.query(q as string, (json: string) => {
     const eventData = `data:${JSON.stringify({ data: json })}\n\n`;
@@ -38,6 +40,8 @@ export const chatStreamController = async (ctx: Context) => {
   const system: string = ctx.request.body.system;
   const model: TypeModelKeys = ctx.request.body.model;
   ctx.res.setHeader('Content-Type', 'text/event-stream');
+  ctx.res.setHeader('Cache-Control', 'no-cache');
+  ctx.res.setHeader('Connection', 'keep-alive');
   const handler = processModel(model);
   ctx.res.statusCode = 200;
   await handler?.(messages, (data) => {

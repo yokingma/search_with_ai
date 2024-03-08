@@ -21,13 +21,13 @@ const relatedArr = computed(() => {
 </script>
 
 <template>
-  <div class="w-full flex flex-col gap-4">
+  <div class="flex w-full flex-col gap-4">
     <t-skeleton theme="paragraph" animation="flashed" :loading="!relatedArr?.length"></t-skeleton>
     <template v-if="relatedArr">
       <div
         v-for="(item, index) in relatedArr"
         :key="index"
-        class="rounded-md bg-gray-100 p-2 text-sm cursor-pointer hover:bg-gray-200 transition-all"
+        class="cursor-pointer rounded-md bg-gray-100 p-2 text-sm transition-all hover:bg-gray-200"
         @click="onSelect(item)"
       >
         {{ item }}

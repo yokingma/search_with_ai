@@ -9,17 +9,13 @@ declare module 'vue' {
   export interface GlobalComponents {
     Answer: typeof import('./src/components/answer.vue')['default']
     Footer: typeof import('./src/components/footer.vue')['default']
-    HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     Related: typeof import('./src/components/related.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    Search: typeof import('./src/components/search.vue')['default']
-    SearchBar: typeof import('./src/components/searchBar.vue')['default']
+    SearchInputBar: typeof import('./src/components/searchInputBar.vue')['default']
     Sources: typeof import('./src/components/sources.vue')['default']
     TButton: typeof import('tdesign-vue-next')['Button']
     TInput: typeof import('tdesign-vue-next')['Input']
-    TMessage: typeof import('tdesign-mobile-vue')['Message']
-    TPopover: typeof import('tdesign-mobile-vue')['Popover']
     TSkeleton: typeof import('tdesign-vue-next')['Skeleton']
     TTag: typeof import('tdesign-vue-next')['Tag']
   }

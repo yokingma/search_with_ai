@@ -59,7 +59,7 @@ export class Sogou {
       return this.resultFilter(el);
     });
     const list = await Promise.all(nodes);
-    return list.filter(item => item.link && item.snippet && item.title);
+    return list.filter(item => item.url && item.snippet && item.name);
   }
 
   private async resultFilter(el: cheerio.Element) {
@@ -75,8 +75,8 @@ export class Sogou {
     let url = link;
     if (!link?.includes('http')) url = await this.getRealTargetUrl(link);
     return {
-      title,
-      link: url,
+      name: title,
+      url,
       snippet: snippets.join(''),
     };
   }

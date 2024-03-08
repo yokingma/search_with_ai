@@ -15,8 +15,11 @@
   ],
   "overrides": [
     {
+      "files": ["*.ts", "*.tsx", "*.vue"],
       "rules": {
-        "@typescript-eslint/no-explicit-any": "off"
+        "@typescript-eslint/no-explicit-any": "off",
+        "semi": "off",
+        "no-unused-vars": "off"
       }
     }
   ],
