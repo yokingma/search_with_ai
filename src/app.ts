@@ -1,7 +1,7 @@
 import Koa from 'koa';
 import Router from '@koa/router';
 import cors from '@koa/cors';
-import dotenv from 'dotenv';
+import dotenvx from '@dotenvx/dotenvx';
 import { bodyParser } from '@koa/bodyparser';
 import { chatStreamController, searchController, sogouSearchController } from './controllers';
 
@@ -9,7 +9,7 @@ const app = new Koa();
 const router = new Router();
 
 //env
-dotenv.config();
+dotenvx.config();
 
 app.use(cors({
   origin: '*'
