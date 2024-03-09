@@ -11,7 +11,7 @@
   "dependencies": {
     "@remixicon/vue": "^4.1.0",
     "@vitejs/plugin-vue-jsx": "^3.1.0",
-    "fetch-sse": "^1.0.4",
+    "fetch-sse": "^1.0.6",
     "marked": "^12.0.0",
     "tdesign-vue-next": "^1.8.1",
     "vue": "^3.4.19",

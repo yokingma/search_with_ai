@@ -54,7 +54,6 @@ export class Rag {
       };
     }
     onMessage?.(JSON.stringify({ contexts }));
-    console.log(contexts);
     await this.getAiAnswer(query, contexts, (msg) => {
       onMessage?.(JSON.stringify({ answer: msg }));
     });

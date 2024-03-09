@@ -4,7 +4,7 @@
       <div ref="wrapperRef" class="h-full overflow-y-auto rounded-2xl bg-white">
         <div class="p-4">
           <div class="border-0 border-b border-solid border-gray-100 pb-4 text-xl font-bold leading-8 text-blue-800">
-            {{ keyword }}
+            {{ query }}
           </div>
           <div class="mt-4">
             <div class="flex flex-nowrap items-center gap-2 py-4 text-black">
@@ -63,18 +63,19 @@ const result = ref<IQueryResult>({
 })
 
 const onSelectQuery = (val: string) => {
-  const q = val.split('.')[1]
-  query.value = q
-  querySearch(q)
+  query.value = val
+  querySearch(val)
 }
 
 const onSearch = (val: string) => {
   query.value = val
+  router.currentRoute.value.query.q ??= val
   querySearch(val)
 } 
 
 onMounted(() => {
-  querySearch(keyword.value as string)
+  query.value = keyword.value as string
+  querySearch(query.value)
 })
 
 async function querySearch(val: string | null) {
@@ -84,8 +85,8 @@ async function querySearch(val: string | null) {
   try {
     loading.value = true
     await search(val, {
-      onMessage: (data) => {
-        if (wrapperRef.value) wrapperRef.value.scrollTop = wrapperRef.value.scrollHeight
+      onMessage: (data: IQueryResult) => {
+        // if (wrapperRef.value) wrapperRef.value.scrollTop = wrapperRef.value.scrollHeight
         if (data.contexts) {
           result.value.contexts = data.contexts
         }
@@ -113,7 +114,6 @@ async function querySearch(val: string | null) {
 }
 
 function clear () {
-  query.value = ''
   result.value = {
     related: '',
     answer: '',

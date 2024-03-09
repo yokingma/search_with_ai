@@ -13,7 +13,7 @@ type Emits = {
 const props = defineProps<{ related?: string }>()
 const emits = defineEmits<Emits>()
 const onSelect = (query: string) => {
-  emits('select', query)
+  emits('select', query.replace(/^[0-9]\./, ''))
 }
 const relatedArr = computed(() => {
   return props.related?.split('\n')
