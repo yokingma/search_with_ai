@@ -3,8 +3,11 @@
     <div class="absolute inset-x-0 inset-y-4 overflow-hidden rounded-2xl bg-gray-100 p-2">
       <div ref="wrapperRef" class="h-full overflow-y-auto rounded-2xl bg-white">
         <div class="p-4">
-          <div class="border-0 border-b border-solid border-gray-100 pb-4 text-xl font-bold leading-8 text-blue-800">
-            {{ query }}
+          <div class="flex flex-nowrap items-center justify-between border-0 border-b border-solid border-gray-100 pb-4">
+            <div class="inline-flex text-xl font-bold leading-8 text-blue-800">{{ query }}</div>
+            <t-button :disabled="loading" theme="default" shape="circle" @click="onReload">
+              <template #icon><RiRestartLine /></template>
+            </t-button>
           </div>
           <div class="mt-4">
             <div class="flex flex-nowrap items-center gap-2 py-4 text-black">
@@ -44,7 +47,7 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
 import { MessagePlugin } from 'tdesign-vue-next'
-import { RiQuestionAnswerLine, RiBook2Line, RiChatQuoteLine } from '@remixicon/vue'
+import { RiQuestionAnswerLine, RiBook2Line, RiChatQuoteLine, RiRestartLine } from '@remixicon/vue'
 import router from '../router'
 import { search } from '../api'
 import { PageFooter, ChatAnswer, RelatedQuery, ChatSources, SearchInputBar } from '../components'
@@ -73,6 +76,10 @@ const onSearch = (val: string) => {
   querySearch(val)
 } 
 
+const onReload = () => {
+  querySearch(query.value)
+}
+
 onMounted(() => {
   query.value = keyword.value as string
   querySearch(query.value)
@@ -84,7 +91,9 @@ async function querySearch(val: string | null) {
   replaceQueryParam('q', val)
   try {
     loading.value = true
+    const cachedModel = localStorage?.getItem('model')
     await search(val, {
+      model: cachedModel?.split(':')[1],
       onMessage: (data: IQueryResult) => {
         // if (wrapperRef.value) wrapperRef.value.scrollTop = wrapperRef.value.scrollHeight
         if (data.contexts) {

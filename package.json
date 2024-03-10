@@ -2,7 +2,7 @@
   "name": "ai_search",
   "version": "1.0.0",
   "description": "ai search with node.js",
-  "main": "./src/app.ts",
+  "main": "./dist/app.js",
   "author": "zac_ma",
   "license": "MIT",
   "engines": {
@@ -22,10 +22,12 @@
     "cheerio": "^1.0.0-rc.12",
     "fetch-sse": "^1.0.7",
     "koa": "^2.15.0",
+    "koa-static": "^5.0.0",
     "openai": "^4.28.4"
   },
   "devDependencies": {
     "@types/koa": "^2.15.0",
+    "@types/koa-static": "^4.0.4",
     "@types/koa__cors": "^5.0.0",
     "@types/koa__router": "^12.0.4",
     "cross-env": "^7.0.3",

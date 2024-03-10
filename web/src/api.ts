@@ -1,10 +1,11 @@
 const URL = 'http://127.0.0.1:3000/search'
+const MODEL = 'http://127.0.0.1:3000/models'
 import { fetchEventData } from 'fetch-sse'
 
 export interface IQueryOptions {
   ctrl?: AbortController,
   stream?: boolean,
-  model?: string,
+  model?: string | null,
   onMessage: (data: Record<string, any>) => void,
   onOpen?: () => void,
   onClose?: () => void,
@@ -40,4 +41,9 @@ export async function search(q: string, options: IQueryOptions) {
     onClose,
     onError
   })
+}
+
+export async function getModels() {
+  const res = await fetch(MODEL)
+  return res.json()
 }

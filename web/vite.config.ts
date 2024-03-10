@@ -7,6 +7,9 @@ import { TDesignResolver } from 'unplugin-vue-components/resolvers';
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  build: {
+    outDir: 'build'
+  },
   plugins: [
     vue(),
     vueJsx({

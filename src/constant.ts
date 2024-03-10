@@ -27,7 +27,10 @@ export const StopWords = [
 ];
 
 export const AliyunModels = {
-  QWEN_MAX: 'qwen-max'
+  QWEN_MAX: 'qwen-max',
+  QWEN_MAX1201: 'qwen-max-1201',
+  QWEN_TURBO: 'qwen-turbo',
+  QWEN_PLUS: 'qwen-plus'
 };
 
 export const OpenAIModels = {
@@ -36,4 +39,20 @@ export const OpenAIModels = {
   GPT4TURBO_PREVIEW: 'gpt-4-turbo-preview'
 };
 
-export const AllModels = Object.assign({}, AliyunModels, OpenAIModels);
+export const BaiduModels = {
+  'ERNIE-Bot-turbo': 'eb-instant',
+  'ERNIE-Bot-4': 'completions_pro',
+  'ERNIE-Bot-8K': 'ernie_bot_8k',
+};
+
+export const AllModels = Object.assign({}, AliyunModels, OpenAIModels, BaiduModels);
+
+export const UserAgents = [
+  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.5359.95 Safari/537.36',
+  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36',
+  'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:106.0) Gecko/20100101 Firefox/106.0',
+  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.5359.95 Safari/537.36 Edg/108.0.1462.54',
+  'Mozilla/5.0 (Macintosh; Intel Mac OS X 12.3; en-US) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.4 Safari/605.1.15',
+  'Mozilla/5.0 (Linux; Android 12; SM-G988U Build/SP1A.210812.016; wv) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.5359.128 Mobile Safari/537.36',
+  'Mozilla/5.0 (iPhone; CPU iPhone OS 15_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.4 Mobile/15E148 Safari/604.1'
+];

@@ -13,7 +13,7 @@ type Emits = {
 const props = defineProps<{ related?: string }>()
 const emits = defineEmits<Emits>()
 const onSelect = (query: string) => {
-  emits('select', query.replace(/^[0-9]\./, ''))
+  emits('select', query.replace(/^[0-9]\./, '').trim())
 }
 const relatedArr = computed(() => {
   return props.related?.split('\n')
@@ -23,7 +23,7 @@ const relatedArr = computed(() => {
 <template>
   <div class="flex w-full flex-col gap-4">
     <t-skeleton theme="paragraph" animation="flashed" :loading="!relatedArr?.length"></t-skeleton>
-    <template v-if="relatedArr">
+    <template v-if="relatedArr?.length">
       <div
         v-for="(item, index) in relatedArr"
         :key="index"
