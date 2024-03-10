@@ -480,6 +480,9 @@
     "@types/koa" "*"
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> b4f350e (update)
 "@types/koa-send@*":
   version "4.1.6"
   resolved "https://registry.npmmirror.com/@types/koa-send/-/koa-send-4.1.6.tgz#15d90e95e3ccce669a15b6a3c56c3a650a167cea"
@@ -495,8 +498,11 @@
     "@types/koa" "*"
     "@types/koa-send" "*"
 
+<<<<<<< HEAD
 =======
 >>>>>>> 2e41b18 (init)
+=======
+>>>>>>> b4f350e (update)
 "@types/koa@*", "@types/koa@^2.15.0":
   version "2.15.0"
   resolved "https://registry.npmmirror.com/@types/koa/-/koa-2.15.0.tgz"
@@ -1570,12 +1576,16 @@ debounce-fn@^4.0.0:
     mimic-fn "^3.0.0"
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 debug@^3.1.0, debug@^3.2.7:
 =======
 =======
 >>>>>>> 6fa2116 (update)
 debug@^3.2.7:
 >>>>>>> 2e41b18 (init)
+=======
+debug@^3.1.0, debug@^3.2.7:
+>>>>>>> b4f350e (update)
   version "3.2.7"
   resolved "https://registry.npmmirror.com/debug/-/debug-3.2.7.tgz"
   integrity sha512-CFjzYYAi4ThfiQvizrFQevTTXHtnCqWfe7x1AhgEscTz6ZbLbfoLRLPugTQyBth6f8ZERVUSyWHFD/7Wu4t1XQ==
@@ -1583,10 +1593,14 @@ debug@^3.2.7:
     ms "^2.1.1"
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 debug@^4, debug@^4.1.1, debug@^4.3.1, debug@^4.3.2, debug@^4.3.4:
 =======
 debug@^4, debug@^4.3.1, debug@^4.3.2, debug@^4.3.4:
 >>>>>>> 2e41b18 (init)
+=======
+debug@^4, debug@^4.1.1, debug@^4.3.1, debug@^4.3.2, debug@^4.3.4:
+>>>>>>> b4f350e (update)
   version "4.3.4"
   resolved "https://registry.npmmirror.com/debug/-/debug-4.3.4.tgz"
   integrity sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ==
@@ -2773,9 +2787,12 @@ http-errors@2.0.0, http-errors@^2.0.0:
     toidentifier "1.0.1"
 
 http-errors@^1.6.3, http-errors@^1.7.3, http-errors@~1.8.0:
+<<<<<<< HEAD
 =======
 http-errors@^1.6.3, http-errors@~1.8.0:
 >>>>>>> 2e41b18 (init)
+=======
+>>>>>>> b4f350e (update)
   version "1.8.1"
   resolved "https://registry.npmmirror.com/http-errors/-/http-errors-1.8.1.tgz"
   integrity sha512-Kpk9Sm7NmI+RHhnj6OIWDI1d6fIoFAtFt9RLaTMRlg/8w49juAStsrBgp0Dp4OdxdVbRIeKhtCUvoi/RuAhO4g==
@@ -2788,6 +2805,9 @@ http-errors@^1.6.3, http-errors@~1.8.0:
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> b4f350e (update)
 http-errors@~1.6.2:
   version "1.6.3"
   resolved "https://registry.npmmirror.com/http-errors/-/http-errors-1.6.3.tgz#8b55680bb4be283a0b5bf4ea2e38580be1d9320d"
@@ -2798,8 +2818,11 @@ http-errors@~1.6.2:
     setprototypeof "1.1.0"
     statuses ">= 1.4.0 < 2"
 
+<<<<<<< HEAD
 =======
 >>>>>>> 6fa2116 (update)
+=======
+>>>>>>> b4f350e (update)
 human-signals@^2.1.0:
   version "2.1.0"
   resolved "https://registry.npmmirror.com/human-signals/-/human-signals-2.1.0.tgz#dc91fcba42e4d06e4abaed33b3e7a3c02f514ea0"
@@ -2915,13 +2938,19 @@ inherits@2, inherits@2.0.4, inherits@^2.0.3, inherits@^2.0.4:
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> b4f350e (update)
 inherits@2.0.3:
   version "2.0.3"
   resolved "https://registry.npmmirror.com/inherits/-/inherits-2.0.3.tgz#633c2c83e3da42a502f52466022480f4208261de"
   integrity sha512-x00IRNXNy63jwGkJmzPigoySHbaqpNuzKbBOmzK+g2OdZpQ9w+sxCN+VSB3ja7IAge2OP2qpfxTjeNcyjmW1uw==
 
+<<<<<<< HEAD
 =======
 >>>>>>> 6fa2116 (update)
+=======
+>>>>>>> b4f350e (update)
 ini@2.0.0:
   version "2.0.0"
   resolved "https://registry.npmmirror.com/ini/-/ini-2.0.0.tgz#e5fd556ecdd5726be978fa1001862eacb0a94bc5"
@@ -3401,6 +3430,9 @@ koa-convert@^2.0.0:
     koa-compose "^4.1.0"
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> b4f350e (update)
 koa-send@^5.0.0:
   version "5.0.1"
   resolved "https://registry.npmmirror.com/koa-send/-/koa-send-5.0.1.tgz#39dceebfafb395d0d60beaffba3a70b4f543fe79"
@@ -3418,8 +3450,11 @@ koa-static@^5.0.0:
     debug "^3.1.0"
     koa-send "^5.0.0"
 
+<<<<<<< HEAD
 =======
 >>>>>>> 2e41b18 (init)
+=======
+>>>>>>> b4f350e (update)
 koa@^2.15.0:
   version "2.15.0"
   resolved "https://registry.npmmirror.com/koa/-/koa-2.15.0.tgz"
@@ -4127,10 +4162,14 @@ path-exists@^4.0.0:
   integrity sha512-ak9Qy5Q7jYb2Wwcey5Fpvg2KoAc/ZIhLSLOSBmRmygPsGwkVVt0fZa0qrtMz+m6tJTAHfZQ8FnmB4MG4LWy7/w==
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 path-is-absolute@1.0.1, path-is-absolute@^1.0.0:
 =======
 path-is-absolute@^1.0.0:
 >>>>>>> 2e41b18 (init)
+=======
+path-is-absolute@1.0.1, path-is-absolute@^1.0.0:
+>>>>>>> b4f350e (update)
   version "1.0.1"
   resolved "https://registry.npmmirror.com/path-is-absolute/-/path-is-absolute-1.0.1.tgz"
   integrity sha512-AVbw3UJ2e9bq64vSaS9Am0fje1Pa8pbGqTTsmXfaIiMpnr5DlDhfJOuLj9Sf95ZPVDAUerDfEk88MPmPe7UCQg==
@@ -4380,6 +4419,9 @@ resolve-from@^4.0.0:
   integrity sha512-pb/MYmXstAkysRFx8piNI1tGFNQIFA3vkE3Gq4EuA1dF6gHp/+vgZqsCGJapvy8N3Q+4o7FwvquPJcnZ7RYy4g==
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> b4f350e (update)
 resolve-path@^1.4.0:
   version "1.4.0"
   resolved "https://registry.npmmirror.com/resolve-path/-/resolve-path-1.4.0.tgz#c4bda9f5efb2fce65247873ab36bb4d834fe16f7"
@@ -4388,8 +4430,11 @@ resolve-path@^1.4.0:
     http-errors "~1.6.2"
     path-is-absolute "1.0.1"
 
+<<<<<<< HEAD
 =======
 >>>>>>> 2e41b18 (init)
+=======
+>>>>>>> b4f350e (update)
 resolve-pkg-maps@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npmmirror.com/resolve-pkg-maps/-/resolve-pkg-maps-1.0.0.tgz"
@@ -4568,13 +4613,19 @@ set-function-name@^2.0.1:
     has-property-descriptors "^1.0.2"
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> b4f350e (update)
 setprototypeof@1.1.0:
   version "1.1.0"
   resolved "https://registry.npmmirror.com/setprototypeof/-/setprototypeof-1.1.0.tgz#d0bd85536887b6fe7c0d818cb962d9d91c54e656"
   integrity sha512-BvE/TwpZX4FXExxOxZyRGQQv651MSwmWKZGqvmPcRIjDqWub67kTKuIMx43cZZrS/cBBzwBcNDWoFxt2XEFIpQ==
 
+<<<<<<< HEAD
 =======
 >>>>>>> 2e41b18 (init)
+=======
+>>>>>>> b4f350e (update)
 setprototypeof@1.2.0:
   version "1.2.0"
   resolved "https://registry.npmmirror.com/setprototypeof/-/setprototypeof-1.2.0.tgz"
@@ -4690,10 +4741,14 @@ statuses@2.0.1:
   integrity sha512-RwNA9Z/7PrK06rYLIzFMlaF+l73iwpzsqRIFgbMLbTcLD6cOao82TaWefPXQvB2fOC4AjuYSEndS7N/mTCbkdQ==
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 "statuses@>= 1.4.0 < 2", "statuses@>= 1.5.0 < 2", statuses@^1.5.0:
 =======
 "statuses@>= 1.5.0 < 2", statuses@^1.5.0:
 >>>>>>> 2e41b18 (init)
+=======
+"statuses@>= 1.4.0 < 2", "statuses@>= 1.5.0 < 2", statuses@^1.5.0:
+>>>>>>> b4f350e (update)
   version "1.5.0"
   resolved "https://registry.npmmirror.com/statuses/-/statuses-1.5.0.tgz"
   integrity sha512-OpZ3zP+jT1PI7I8nemJX4AKmAX070ZkYPVWV/AaKTJl+tXCTGyVdC1a4SL8RUQYEwk/f34ZX8UTykN68FwrqAA==

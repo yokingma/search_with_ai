@@ -70,6 +70,6 @@ function getCitationContent () {
 <template>
   <div class="w-full h-auto text-base leading-8 text-gray-600">
     <t-skeleton theme="paragraph" animation="flashed" :loading="!answer"></t-skeleton>
-    <div class="w-full h-auto" ref="answerRef" />
+    <div ref="answerRef" class="markdown-body h-auto w-full" />
   </div>
 </template>
