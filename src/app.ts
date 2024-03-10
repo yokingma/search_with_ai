@@ -8,7 +8,7 @@ import { chatStreamController, searchController, sogouSearchController } from '.
 const app = new Koa();
 const router = new Router();
 
-//env
+//env init
 dotenvx.config();
 
 app.use(cors({
