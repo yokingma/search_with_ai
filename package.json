@@ -11,7 +11,7 @@
   "scripts": {
     "start": "cross-env NODE_ENV=production node ./dist/app.js",
     "dev": "dotenvx run --env-file=.env.local --env-file=.env -- cross-env NODE_ENV=development nodemon ./src/app.ts",
-    "build": "tsc --noEmit"
+    "build": "tsc"
   },
   "dependencies": {
     "@dotenvx/dotenvx": "^0.24.0",
