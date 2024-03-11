@@ -5,7 +5,7 @@ import { useAppStore } from '../store';
 const appStore = useAppStore();
 
 const engines = ref<ISelectOptions[]>([]);
-const engine = ref('SOGOU');
+const engine = ref(appStore.engine);
 
 const onSelect = (val: any) => {
   appStore.updateEngine(val);

@@ -25,8 +25,9 @@ import { PageFooter, SearchInputBar } from '../components';
 import logoUrl from '../assets/logo.png';
 
 const quickly = [
-  '如何安装ComfyUI？',
-  '如何撰写优质的prompt提示词和AI大模型对话？'
+  '什么是大语言模型LLM?',
+  '什么是RAG?',
+  'LLM如何在企业落地应用?'
 ];
 
 const search = (val: string) => {

@@ -13,7 +13,6 @@ dotenvx.config();
 
 const app = new Koa();
 const router = new Router();
-
 // static path
 const staticPath = path.join(__dirname, '../web/build');
 app.use(serve(staticPath, {
@@ -24,27 +23,26 @@ app.use(serve(staticPath, {
 app.use(cors({
   origin: '*'
 }));
-
 app.use(bodyParser());
-
 // Error handler
 app.use(async (ctx, next) => {
   try {
     await next();
   } catch(err) {
+    console.error(err);
     ctx.res.statusCode = 422;
     ctx.body = err;
   }
 });
+
+// router
+app.use(router.routes()).use(router.allowedMethods());
 
 // controller
 router.post('/search', searchController);
 router.post('/sogou/search', sogouSearchController);
 router.post('/chat', chatStreamController);
 router.get('/models', modelsController);
-
-// router
-app.use(router.routes()).use(router.allowedMethods());
 
 app.use(async ctx => {
   ctx.body = 'hello';

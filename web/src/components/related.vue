@@ -22,7 +22,7 @@ const relatedArr = computed(() => {
 
 <template>
   <div class="flex w-full flex-col gap-4">
-    <t-skeleton theme="paragraph" animation="flashed" :loading="!relatedArr?.length"></t-skeleton>
+    <t-skeleton theme="paragraph" animation="flashed" :loading="!props.related"></t-skeleton>
     <template v-if="relatedArr?.length">
       <div
         v-for="(item, index) in relatedArr"

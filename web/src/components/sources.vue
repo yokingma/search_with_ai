@@ -11,24 +11,27 @@ interface IProps {
 defineProps<IProps>();
 const rowCol = [
   [
-    { width: '24%', height: '42px', borderRadius: '6px' },
-    { width: '24%', height: '42px', borderRadius: '6px' },
-    { width: '24%', height: '42px', borderRadius: '6px' },
-    { width: '24%', height: '42px', borderRadius: '6px' }
+    { width: '32%', height: '42px', borderRadius: '6px' },
+    { width: '32%', height: '42px', borderRadius: '6px' },
+    { width: '32%', height: '42px', borderRadius: '6px' },
   ],
   [
-    { width: '24%', height: '42px', borderRadius: '6px' },
-    { width: '24%', height: '42px', borderRadius: '6px' },
-    { width: '24%', height: '42px', borderRadius: '6px' },
-    { width: '24%', height: '42px', borderRadius: '6px' }
+    { width: '32%', height: '42px', borderRadius: '6px' },
+    { width: '32%', height: '42px', borderRadius: '6px' },
+    { width: '32%', height: '42px', borderRadius: '6px' },
+  ],
+  [
+    { width: '32%', height: '42px', borderRadius: '6px' },
+    { width: '32%', height: '42px', borderRadius: '6px' },
+    { width: '32%', height: '42px', borderRadius: '6px' },
   ]
 ];
 </script>
 
 <template>
   <div class="w-full">
-    <t-skeleton :row-col="rowCol" animation="flashed" :loading="!sources"></t-skeleton>
-    <div class="mt-4 grid grid-cols-1 gap-2 text-xs text-gray-500 md:grid-cols-2 lg:grid-cols-4">
+    <t-skeleton :row-col="rowCol" animation="flashed" :loading="!sources?.length"></t-skeleton>
+    <div class="mt-4 grid grid-cols-1 gap-2 text-xs text-gray-500 md:grid-cols-3 lg:grid-cols-3">
       <div 
         v-for="(item, index) in sources" 
         :key="index" 

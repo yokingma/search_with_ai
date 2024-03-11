@@ -4,7 +4,7 @@ import { getModels } from '../api';
 import { useAppStore } from '../store';
 
 const appStore = useAppStore();
-const model = ref('aliyun:qwen-max');
+const model = ref(appStore.model);
 const models = ref<string[]>([]);
 const loading = ref(false);
 

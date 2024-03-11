@@ -99,6 +99,7 @@ async function querySearch(val: string | null) {
       engine,
       onMessage: (data: IQueryResult) => {
         // if (wrapperRef.value) wrapperRef.value.scrollTop = wrapperRef.value.scrollHeight
+        console.log(data);
         if (data.contexts) {
           result.value.contexts = data.contexts;
         }
