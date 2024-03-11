@@ -46,79 +46,82 @@
 
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
-import { MessagePlugin } from 'tdesign-vue-next'
-import { RiQuestionAnswerLine, RiBook2Line, RiChatQuoteLine, RiRestartLine } from '@remixicon/vue'
-import router from '../router'
-import { search } from '../api'
-import { PageFooter, ChatAnswer, RelatedQuery, ChatSources, SearchInputBar } from '../components'
-import { IQueryResult } from 'src/interface'
+import { MessagePlugin } from 'tdesign-vue-next';
+import { useAppStore } from '../store';
+import { RiQuestionAnswerLine, RiBook2Line, RiChatQuoteLine, RiRestartLine } from '@remixicon/vue';
+import router from '../router';
+import { search } from '../api';
+import { PageFooter, ChatAnswer, RelatedQuery, ChatSources, SearchInputBar } from '../components';
+import { IQueryResult } from 'src/interface';
 
-const wrapperRef = ref<HTMLDivElement | null>(null)
+const wrapperRef = ref<HTMLDivElement | null>(null);
+const appStore = useAppStore();
 
-const keyword = computed(() => router.currentRoute.value.query.q ?? '')
-const query = ref<string>('')
-const loading = ref(false)
+const keyword = computed(() => router.currentRoute.value.query.q ?? '');
+const query = ref<string>('');
+const loading = ref(false);
 
 const result = ref<IQueryResult>({
   related: '',
   answer: '',
   contexts: []
-})
+});
 
 const onSelectQuery = (val: string) => {
-  query.value = val
-  querySearch(val)
-}
+  query.value = val;
+  querySearch(val);
+};
 
 const onSearch = (val: string) => {
-  query.value = val
-  router.currentRoute.value.query.q ??= val
-  querySearch(val)
-} 
+  query.value = val;
+  router.currentRoute.value.query.q ??= val;
+  querySearch(val);
+}; 
 
 const onReload = () => {
-  querySearch(query.value)
-}
+  querySearch(query.value);
+};
 
 onMounted(() => {
-  query.value = keyword.value as string
-  querySearch(query.value)
-})
+  query.value = keyword.value as string;
+  querySearch(query.value);
+});
 
 async function querySearch(val: string | null) {
-  if (!val) return
-  clear()
-  replaceQueryParam('q', val)
+  if (!val) return;
+  clear();
+  replaceQueryParam('q', val);
   try {
-    loading.value = true
-    const cachedModel = localStorage?.getItem('model')
+    loading.value = true;
+    const { model, engine } = appStore;
     await search(val, {
-      model: cachedModel?.split(':')[1],
+      model: model?.split(':')[1],
+      engine,
       onMessage: (data: IQueryResult) => {
         // if (wrapperRef.value) wrapperRef.value.scrollTop = wrapperRef.value.scrollHeight
         if (data.contexts) {
-          result.value.contexts = data.contexts
+          result.value.contexts = data.contexts;
         }
         if (data.answer) {
-          result.value.answer += data.answer
+          result.value.answer += data.answer;
         }
         if (data.related) {
-          result.value.related += data.related
+          result.value.related += data.related;
         }
       },
       onClose: () => {
-        console.log('closed')
-        loading.value = false
+        console.log('closed');
+        loading.value = false;
       },
       onError: (err) => {
-        console.log('error', err)
-        loading.value = false
+        console.log('error', err);
+        loading.value = false;
       }
-    })
+    });
   } catch(err) {
-    console.log(err)
-    loading.value = false
-    MessagePlugin.error('搜索查询失败了')
+    console.log(err);
+    loading.value = false;
+    MessagePlugin.error('搜索查询失败了');
   }
 }
 
@@ -127,7 +130,7 @@ function clear () {
     related: '',
     answer: '',
     contexts: []
-  }
+  };
 }
 
 function replaceQueryParam(name: string, val: string) {
@@ -140,5 +143,5 @@ function replaceQueryParam(name: string, val: string) {
 <script lang="ts">
 export default {
   name: 'SearchPage'
-}
+};
 </script>

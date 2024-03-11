@@ -1,6 +1,6 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import HomePage from "./pages/home.vue"
-import SearchPage from './pages/search.vue'
+import { createRouter, createWebHistory } from 'vue-router';
+import HomePage from "./pages/home.vue";
+import SearchPage from './pages/search.vue';
 
 
 const routes = [
@@ -14,11 +14,11 @@ const routes = [
     name: 'SearchPage',
     component: SearchPage
   }
-]
+];
 
 const router = createRouter({
   history: createWebHistory(),
   routes
-})
+});
 
-export default router
+export default router;

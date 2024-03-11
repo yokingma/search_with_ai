@@ -1,21 +1,21 @@
 <script lang="tsx">
 export default {
   name: 'ChatAnswer'
-}
+};
 </script>
 
 <script setup lang="tsx">
-import { watch, ref, render } from 'vue'
-import { Popup } from 'tdesign-vue-next'
-import { citationMarkdownParse } from '../utils'
-import { marked } from 'marked'
+import { watch, ref, render } from 'vue';
+import { Popup } from 'tdesign-vue-next';
+import { citationMarkdownParse } from '../utils';
+import { marked } from 'marked';
 
 interface Iprops {
   answer?: string
   contexts?: Record<string, any>[]
 }
-const props = defineProps<Iprops>()
-const answerRef = ref<HTMLDivElement | null>(null)
+const props = defineProps<Iprops>();
+const answerRef = ref<HTMLDivElement | null>(null);
 
 // html string
 // const answerParse = computed(() => {
@@ -24,24 +24,24 @@ const answerRef = ref<HTMLDivElement | null>(null)
 // })
 
 watch(() => props.answer, () => {
-  const parent = processAnswer(props.answer)
-  answerRef.value!.innerHTML = ''
-  answerRef.value?.append(parent)
-})
+  const parent = processAnswer(props.answer);
+  answerRef.value!.innerHTML = '';
+  answerRef.value?.append(parent);
+});
 
 function processAnswer (answer?: string) {
-  if (!answer) return ''
-  const citation = citationMarkdownParse(props?.answer || '')
+  if (!answer) return '';
+  const citation = citationMarkdownParse(props?.answer || '');
   const html = marked.parse(citation, {
     async: false
-  })
-  const parent = document.createElement('div')
-  parent.innerHTML = html as string
-  const citationTags = parent.querySelectorAll('a')
+  });
+  const parent = document.createElement('div');
+  parent.innerHTML = html as string;
+  const citationTags = parent.querySelectorAll('a');
   citationTags.forEach(tag => {
-    const citationNumber = tag.getAttribute('href')
-    const text = tag.innerText
-    if (text !== 'citation') return
+    const citationNumber = tag.getAttribute('href');
+    const text = tag.innerText;
+    if (text !== 'citation') return;
     // popover
     const popover = (
       <span class="inline-block w-4">
@@ -51,19 +51,19 @@ function processAnswer (answer?: string) {
           </span>
         </Popup>
       </span>
-    )
+    );
     // wrapper
-    const w = document.createElement('span')
-    render(popover, w)
-    tag.parentNode?.replaceChild(w, tag)
-  })
-  return parent
+    const w = document.createElement('span');
+    render(popover, w);
+    tag.parentNode?.replaceChild(w, tag);
+  });
+  return parent;
 }
 
 function getCitationContent (num?: string | null) {
-  if (!num) return () => <></>
-  const context = props.contexts?.[+num - 1]
-  if (!context) return () => <></>
+  if (!num) return () => <></>;
+  const context = props.contexts?.[+num - 1];
+  if (!context) return () => <></>;
   return () => (
     <div class="flex h-auto w-80 flex-col p-2">
       <div class="flex flex-nowrap items-center gap-1 font-bold leading-8">
@@ -79,7 +79,7 @@ function getCitationContent (num?: string | null) {
         </a>
       </div>
     </div>
-  )
+  );
 }
 </script>
 

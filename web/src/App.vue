@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
-import { RiSettingsLine } from '@remixicon/vue'
-import { ModelSelect } from './components/index'
-const showSettings = ref(false)
+import { ref } from 'vue';
+import { RiSettingsLine } from '@remixicon/vue';
+import { ModelSelect, SearchEngineSelect } from './components/index';
+const showSettings = ref(false);
 </script>
 
 <template>
@@ -13,10 +13,16 @@ const showSettings = ref(false)
       </t-button>
     </div>
     <!-- eslint-disable-next-line vue/no-v-model-argument -->
-    <t-drawer v-model:visible="showSettings" header="设置" :close-btn="true" @confirm="showSettings = false">
-      <div class="flex w-full flex-col gap-2">
-        <div class="">选择大模型</div>
-        <ModelSelect />
+    <t-drawer v-model:visible="showSettings" :footer="false" header="设置">
+      <div class="flex flex-col gap-4">
+        <div class="flex w-full flex-col gap-2">
+          <div class="">选择大模型</div>
+          <ModelSelect />
+        </div>
+        <div class="flex w-full flex-col gap-2">
+          <div class="">选择搜索引擎</div>
+          <SearchEngineSelect />
+        </div>
       </div>
     </t-drawer>
     <router-view />

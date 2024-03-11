@@ -20,34 +20,34 @@
 </template>
 
 <script setup lang="tsx">
-import router from '../router'
-import { PageFooter, SearchInputBar } from '../components'
-import logoUrl from '../assets/logo.png'
+import router from '../router';
+import { PageFooter, SearchInputBar } from '../components';
+import logoUrl from '../assets/logo.png';
 
 const quickly = [
   '如何安装ComfyUI？',
   '如何撰写优质的prompt提示词和AI大模型对话？'
-]
+];
 
 const search = (val: string) => {
   if (!val) {
-    return
+    return;
   }
   router.push({
     name: 'SearchPage',
     query: {
       q: val
     }
-  })
-}
+  });
+};
 
 const onQuickSearch = (val: string) => {
-  search(val)
-}
+  search(val);
+};
 </script>
 
 <script lang="tsx">
 export default {
   name: 'HomePage'
-}
+};
 </script>

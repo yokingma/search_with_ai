@@ -1,7 +1,7 @@
 <script lang="ts">
 export default {
   name: 'RelatedQuery'
-}
+};
 </script>
 
 <script setup lang="ts">
@@ -10,14 +10,14 @@ import { computed } from 'vue';
 type Emits = {
   (e: 'select', query: string): void
 }
-const props = defineProps<{ related?: string }>()
-const emits = defineEmits<Emits>()
+const props = defineProps<{ related?: string }>();
+const emits = defineEmits<Emits>();
 const onSelect = (query: string) => {
-  emits('select', query.replace(/^[0-9]\./, '').trim())
-}
+  emits('select', query.replace(/^[0-9]\./, '').trim());
+};
 const relatedArr = computed(() => {
-  return props.related?.split('\n')
-})
+  return props.related?.split('\n');
+});
 </script>
 
 <template>

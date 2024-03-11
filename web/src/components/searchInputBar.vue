@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { RiArrowRightLine } from '@remixicon/vue'
+import { ref } from 'vue';
+import { RiArrowRightLine } from '@remixicon/vue';
 
 type Emits = {
   (e: 'search', val: string): void,
@@ -10,20 +10,20 @@ type Props = {
   loading: boolean,
 }
 
-const props = defineProps<Props>()
+const props = defineProps<Props>();
 
-const emits = defineEmits<Emits>()
+const emits = defineEmits<Emits>();
 
-const query = ref('')
+const query = ref('');
 
 const onSearch = () => {
-  emits('search', query.value)
-}
+  emits('search', query.value);
+};
 </script>
 <script lang="ts">
 export default {
   name: 'SearchInputBar'
-}
+};
 </script>
 
 <template>

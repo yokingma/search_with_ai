@@ -1,43 +1,43 @@
 <script lang="ts" setup>
-import { ref, onMounted } from 'vue'
-import { getModels } from '../api'
+import { ref, onMounted } from 'vue';
+import { getModels } from '../api';
+import { useAppStore } from '../store';
 
-
-const model = ref('aliyun:qwen-max')
-const models = ref<string[]>([])
-const loading = ref(false)
+const appStore = useAppStore();
+const model = ref('aliyun:qwen-max');
+const models = ref<string[]>([]);
+const loading = ref(false);
 
 const onModelSelect = (val: any) => {
-  localStorage?.setItem('model', val)
-}
+  appStore.updateModel(val);
+};
 
 onMounted(async () => {
-  await listModels()
-  const cachedVal = localStorage?.getItem('model')
-  if (cachedVal) {
-    model.value = cachedVal
+  await listModels();
+  if (appStore.model) {
+    model.value = appStore.model;
   }
-})
+});
 
 async function listModels () {
-  loading.value = true
-  const res = await getModels()
-  const keys = Object.keys(res)
-  const values: string[] = []
+  loading.value = true;
+  const res = await getModels();
+  const keys = Object.keys(res);
+  const values: string[] = [];
   keys.forEach((key) => {
-    const vals = res[key] as string[]
-    values.push(...vals.map(i => `${key}:${i}`))
-  })
+    const vals = res[key] as string[];
+    values.push(...vals.map(i => `${key}:${i}`));
+  });
 
-  models.value = values
-  loading.value = false
+  models.value = values;
+  loading.value = false;
 }
 </script>
 
 <script lang="ts">
 export default {
   name: 'ModelSelect'
-}
+};
 </script>
 
 <template>
