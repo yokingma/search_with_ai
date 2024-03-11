@@ -7,7 +7,7 @@ import { AllModels, DefaultSystem } from '../constant';
 import { type MemoryCache } from 'cache-manager';
 
 const BASE_URL =
-  'https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/chat/';
+  'https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/chat';
 
 const TokenUrl = 'https://aip.baidubce.com/oauth/2.0/token';
 

@@ -25,6 +25,9 @@ export async function search(q: string, options: IQueryOptions) {
       model,
       engine
     },
+    headers: {
+      'Content-Type': 'application/json'
+    },
     onOpen: async () => {
       // error
       onOpen?.();

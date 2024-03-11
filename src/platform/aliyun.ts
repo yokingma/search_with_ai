@@ -93,7 +93,8 @@ export class AliyunChat implements BaseChat {
       await fetchEventData(url, {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${key}`
+          'Authorization': `Bearer ${key}`,
+          'Content-Type': 'application/json'
         },
         data: payload,
         signal: abort.signal,
