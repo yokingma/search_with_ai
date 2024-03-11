@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Logs
 logs
 *.log
@@ -136,9 +135,3 @@ log/
 logs/
 .env.local
 >>>>>>> 6b738f5 (add: openai)
-=======
-node_modules/
-dist/
-log/
-logs/
->>>>>>> 2e41b18 (init)
