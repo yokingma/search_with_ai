@@ -1,17 +1,13 @@
 import Koa from 'koa';
 import Router from '@koa/router';
-import cors from '@koa/cors';
-import dotenvx from '@dotenvx/dotenvx';
-import { bodyParser } from '@koa/bodyparser';
-import { chatStreamController, searchController, sogouSearchController } from './controllers';
-
+import dotenv from 'dotenv';
 const app = new Koa();
 const router = new Router();
 import { koaBody } from 'koa-body';
 import { chatStreamController, searchController, sogouSearchController } from './controllers';
 
 //env
-dotenvx.config();
+dotenv.config();
 
 app.use(async (ctx, next) => {
   ctx.state.BingSearchKey = process.env.BING_SEARCH_KEY;
