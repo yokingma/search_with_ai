@@ -1,5 +1,5 @@
 import OpenAI from 'openai';
-import { IChatInputMessage, TStreamHandler } from '../interface';
+import { IChatInputMessage, IStreamHandler } from '../interface';
 import { AllModels, DefaultSystem } from '../constant';
 import { BaseChat } from './base';
 
@@ -39,9 +39,9 @@ export class OpenAIChat implements BaseChat {
 
   public async chatStream(
     messages: IChatInputMessage[],
-    onMessage: TStreamHandler,
-    system = DefaultSystem,
-    model = AllModels.GPT35TURBO
+    onMessage: IStreamHandler,
+    model = AllModels.GPT35TURBO,
+    system = DefaultSystem
   ) {
     if (system) {
       messages = [

@@ -3,8 +3,7 @@ import Router from '@koa/router';
 import dotenv from 'dotenv';
 const app = new Koa();
 const router = new Router();
-import { koaBody } from 'koa-body';
-import { chatStreamController, searchController, sogouSearchController } from './controllers';
+import { bingSearchController } from './controller';
 
 //env
 dotenv.config();
@@ -14,10 +13,7 @@ app.use(async (ctx, next) => {
   await next();
 });
 
-router.post('/search', searchController);
-router.post('/sogou/search', sogouSearchController);
-
-router.post('/chat', chatStreamController);
+router.get('/search', bingSearchController);
 
 app.use(router.routes()).use(router.allowedMethods());
 

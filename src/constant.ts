@@ -13,7 +13,6 @@ export const REFERENCE_COUNT = 8;
 
 // default search keywords
 export const DefaultQuery = 'Who said \'live long and prosper';
-export const DefaultSystem = 'You are a helpful assistant.';
 
 // A set of stop words to use - this is not a complete set, and you may want to
 // add more given your observation.
@@ -25,14 +24,3 @@ export const StopWords = [
   '\nSources:\n',
   'End.',
 ];
-
-export const AliyunModels = {
-  QWENMAX: 'qwen-max'
-};
-
-export const OpenAIModels = {
-  GPT35TURBO: 'gpt-3.5-turbo',
-  GPT4: 'gpt-4',
-};
-
-export const AllModels = Object.assign({}, AliyunModels, OpenAIModels);
