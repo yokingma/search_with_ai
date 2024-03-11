@@ -1,13 +1,8 @@
 # Search with AI
 基于AI大语言模型的对话式搜索引擎的一个简单实现，基于Node.js&Vue3。
-<div class="center">
+<div align="center">
  <img src="./screenshot.jpg" alt="Search with AI" />
 </div>
-<style>
-  div.center {
-    text-align: center;
-  }
-</style>
 
 ## 功能说明
 * 1、内置主流的LLM接口支持，如OpenAI、Google Gemini、阿里云通译千问、百度文心一言等。
