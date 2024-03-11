@@ -1,7 +1,7 @@
 # Search with AI
 基于AI大语言模型的对话式搜索引擎的一个简单实现，基于Node.js&Vue3。
 <center>
- <img src="./screen-shot.png" alt="Search with AI" />
+ <img src="./screen-shot.jpg" alt="Search with AI" />
 </center>
 
 ## 功能说明
