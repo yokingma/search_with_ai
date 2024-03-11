@@ -2,16 +2,18 @@ import { Context } from 'koa';
 import { AliyunModels, BaiduModels, DefaultQuery, OpenAIModels } from './constant';
 import { searchWithSogou } from './service';
 import { AliyunChat, OpenAIChat, BaiduChat } from './platform';
-import { IChatInputMessage, TypeModelKeys } from './interface';
+import { EBackend, IChatInputMessage, TypeModelKeys } from './interface';
 import { Rag } from './rag';
 
 export const searchController = async (ctx: Context) => {
   const stream = ctx.request.body.stream ?? true;
   const q = ctx.request.query.q || DefaultQuery;
   const model: string = ctx.request.body.model;
+  const engine: EBackend = ctx.request.body.engine;
   const rag = new Rag({
     stream,
-    model
+    model,
+    backend: engine
   });
   if (!stream) {
     const res = await rag.query(q as string);

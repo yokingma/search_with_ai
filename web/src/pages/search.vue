@@ -36,7 +36,7 @@
         </div>
       </div>
       <div class="absolute inset-x-6 bottom-6 flex items-center justify-center">
-        <div class="w-full  rounded-3xl shadow-xl">
+        <div class="w-full  rounded-3xl drop-shadow-2xl">
           <SearchInputBar :loading="loading" @search="onSearch" />
         </div>
       </div>
