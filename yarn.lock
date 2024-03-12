@@ -89,6 +89,11 @@
   resolved "https://registry.npmmirror.com/@fastify/busboy/-/busboy-2.1.1.tgz#b9da6a878a371829a0502c9b6c1c143ef6663f4d"
   integrity sha512-vBZP4NlzfOlerQTnba4aqZoMhE/a9HY7HRqoOPaETQcSQuWEIyZMHGfVu6w9wGtGK5fED5qRs2DteVCjOH60sA==
 
+"@google/generative-ai@^0.2.1":
+  version "0.2.1"
+  resolved "https://registry.npmmirror.com/@google/generative-ai/-/generative-ai-0.2.1.tgz#29e5e7fb9379413fdac6da42d22f86c2f9ecc078"
+  integrity sha512-gNmMFadfwi7qf/6M9gImgyGJXY1jKQ/de8vGOqgJ0PPYgQ7WwzZDavbKrIuXS2zdqZZaYtxW3EFN6aG9x5wtFw==
+
 "@humanwhocodes/config-array@^0.11.14":
   version "0.11.14"
   resolved "https://registry.npmmirror.com/@humanwhocodes/config-array/-/config-array-0.11.14.tgz"

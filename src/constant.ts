@@ -45,6 +45,11 @@ export const BaiduModels = {
   'ERNIE-Bot-8K': 'ernie_bot_8k',
 };
 
+export const GoogleModels = {
+  GEMINI_PRO: 'gemini-pro',
+  GEMINI: 'gemini'
+};
+
 export const AllModels = Object.assign({}, AliyunModels, OpenAIModels, BaiduModels);
 
 export const UserAgents = [
