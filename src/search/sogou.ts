@@ -32,6 +32,7 @@ export class Sogou {
   private async search(query: string) {
     try {
       const index = Math.floor(Math.random() * UserAgents.length);
+      // 注意配置的UA, 移动端和PC端返回html格式不同
       const res = await httpRequest({
         endpoint: EndPoints.WEB,
         headers: {
@@ -41,7 +42,8 @@ export class Sogou {
           query,
         }
       });
-      return res.text();
+      const result = await res.text();
+      return result;
     } catch(err) {
       return '';
     }
