@@ -24,7 +24,8 @@
     "fetch-sse": "^1.0.8",
     "koa": "^2.15.0",
     "koa-static": "^5.0.0",
-    "openai": "^4.28.4"
+    "openai": "^4.28.4",
+    "tencentcloud-sdk-nodejs": "^4.0.810"
   },
   "devDependencies": {
     "@types/koa": "^2.15.0",

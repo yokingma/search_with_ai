@@ -5,6 +5,10 @@ import { AliyunChat, OpenAIChat, BaiduChat } from './platform';
 import { EBackend, IChatInputMessage } from './interface';
 import { Rag } from './rag';
 
+const aliyun = new AliyunChat();
+const openai = new OpenAIChat();
+const baidu = new BaiduChat();
+
 export const searchController = async (ctx: Context) => {
   const stream = ctx.request.body.stream ?? true;
   const q = ctx.request.query.q || DefaultQuery;
@@ -58,15 +62,13 @@ export const modelsController = async (ctx: Context) => {
     aliyun: Object.values(AliyunModels),
     openai: Object.values(OpenAIModels),
     baidu: Object.values(BaiduModels),
-    google: Object.values(GoogleModels)
+    google: Object.values(GoogleModels),
+    // tencent: Object.values(TencentModels)
   };
   ctx.body = models;
 };
 
 function processModel(model = AliyunModels.QWEN_MAX) {
-  const aliyun = new AliyunChat();
-  const openai = new OpenAIChat();
-  const baidu = new BaiduChat();
   if (Object.values(AliyunModels).includes(model)) {
     return aliyun.chatStream.bind(aliyun);
   }

@@ -1,7 +1,7 @@
 import { IChatInputMessage, IStreamHandler } from '../interface';
 
 export abstract class BaseChat {
-  abstract chat(
+  abstract chat?(
     messages: IChatInputMessage[],
     system?: string,
     model?: string

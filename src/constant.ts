@@ -49,6 +49,11 @@ export const GoogleModels = {
   GEMINI_PRO: 'gemini-pro'
 };
 
+export const TencentModels = {
+  STD: 'standard',
+  PRO: 'pro'
+};
+
 export const AllModels = Object.assign({}, AliyunModels, OpenAIModels, BaiduModels, GoogleModels);
 
 export const UserAgents = [

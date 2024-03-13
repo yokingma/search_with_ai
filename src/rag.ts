@@ -1,10 +1,10 @@
 import { EBackend, IChatInputMessage, IStreamHandler, SearchFunc } from './interface';
 import { searchWithBing, searchWithGoogle, searchWithSogou } from './service';
 import { MoreQuestionsPrompt, RagQueryPrompt } from './prompt';
-import { AliyunChat, BaiduChat, OpenAIChat, GoogleChat } from './platform';
+import { AliyunChat, BaiduChat, OpenAIChat, GoogleChat, TencentChat } from './platform';
 // import { memoryCache } from './utils';
 import util from 'util';
-import { AliyunModels, AllModels, BaiduModels, OpenAIModels, GoogleModels } from './constant';
+import { AliyunModels, AllModels, BaiduModels, OpenAIModels, GoogleModels, TencentModels } from './constant';
 
 interface RagOptions {
   backend?: EBackend
@@ -16,6 +16,7 @@ const aliyun = new AliyunChat();
 const openai = new OpenAIChat();
 const baidu = new BaiduChat();
 const google = new GoogleChat();
+const tencent = new TencentChat();
 
 // const CACHE_NAME = 'search_with_ai';
 
@@ -108,7 +109,7 @@ export class Rag {
     const messages: IChatInputMessage[] = [
       {
         role: 'user',
-        content: `${system}${query}`
+        content: `${system} ${query}`
       }
     ];
     return {
@@ -131,6 +132,9 @@ function processModel(model = AliyunModels.QWEN_MAX, stream = true) {
   }
   if (Object.values(GoogleModels).includes(model)) {
     return stream ? google.chatStream.bind(google) : google.chat.bind(google);
+  }
+  if (Object.values(TencentModels).includes(model)) {
+    return tencent.chatStream.bind(tencent);
   }
   return stream ? aliyun.chatStream.bind(aliyun) : aliyun.chat.bind(aliyun);
 }

@@ -17,7 +17,8 @@ export async function search(q: string, options: IQueryOptions) {
   const query = new URLSearchParams({
     q
   });
-  await fetchEventData(`${URL}?${query.toString()}`, {
+  const url = `${URL}?${query.toString()}`;
+  await fetchEventData(url, {
     method: 'POST',
     signal: ctrl?.signal,
     data: {
