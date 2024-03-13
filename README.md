@@ -52,6 +52,9 @@ ALIYUN_KEY=your-key
 // baidu 文心一言配置 
 BAIDU_KEY=your-key
 BAIDU_SECRET=your-secret
+// google gemini key & base url
+GOOGLE_KEY=
+GOOGLE_PROXY_URL=
 // openai ChatGPT key
 OPENAI_KEY=your-key
 // openai代理服务地址，便于无法直接使用openai服务的用户，不用可留空
