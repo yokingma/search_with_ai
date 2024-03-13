@@ -1,4 +1,4 @@
-import { DefaultSystem, AllModels } from '../constant';
+import { AllModels } from '../constant';
 import { IChatInputMessage, IStreamHandler } from '../interface';
 import { httpRequest } from '../utils';
 import { BaseChat } from './base';
@@ -21,7 +21,7 @@ export class AliyunChat implements BaseChat {
   public async chat(
     messages: IChatInputMessage[],
     model = AllModels.QWEN_MAX,
-    system = DefaultSystem
+    system?: string
   ) {
     if (system) {
       messages = [
@@ -63,7 +63,7 @@ export class AliyunChat implements BaseChat {
     messages: IChatInputMessage[],
     onMessage: IStreamHandler,
     model = AllModels.QWEN_MAX,
-    system = DefaultSystem,
+    system?: string
   ): Promise<void> {
     if (system) {
       messages = [

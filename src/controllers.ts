@@ -1,8 +1,8 @@
 import { Context } from 'koa';
-import { AliyunModels, BaiduModels, DefaultQuery, OpenAIModels } from './constant';
+import { AliyunModels, BaiduModels, DefaultQuery, GoogleModels, OpenAIModels } from './constant';
 import { searchWithSogou } from './service';
 import { AliyunChat, OpenAIChat, BaiduChat } from './platform';
-import { EBackend, IChatInputMessage, TypeModelKeys } from './interface';
+import { EBackend, IChatInputMessage } from './interface';
 import { Rag } from './rag';
 
 export const searchController = async (ctx: Context) => {
@@ -39,8 +39,8 @@ export const sogouSearchController = async (ctx: Context) => {
 
 export const chatStreamController = async (ctx: Context) => {
   const messages: IChatInputMessage[] = ctx.request.body.messages || [];
-  const system: string = ctx.request.body.system;
-  const model: TypeModelKeys = ctx.request.body.model;
+  const system: string | undefined = ctx.request.body.system;
+  const model: string | undefined = ctx.request.body.model;
   ctx.res.setHeader('Content-Type', 'text/event-stream');
   ctx.res.setHeader('Cache-Control', 'no-cache');
   ctx.res.setHeader('Connection', 'keep-alive');
@@ -57,7 +57,8 @@ export const modelsController = async (ctx: Context) => {
   const models = {
     aliyun: Object.values(AliyunModels),
     openai: Object.values(OpenAIModels),
-    baidu: Object.values(BaiduModels)
+    baidu: Object.values(BaiduModels),
+    google: Object.values(GoogleModels)
   };
   ctx.body = models;
 };

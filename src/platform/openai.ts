@@ -1,6 +1,6 @@
 import OpenAI from 'openai';
 import { IChatInputMessage, IStreamHandler } from '../interface';
-import { AllModels, DefaultSystem } from '../constant';
+import { AllModels } from '../constant';
 import { BaseChat } from './base';
 
 export class OpenAIChat implements BaseChat {
@@ -14,12 +14,13 @@ export class OpenAIChat implements BaseChat {
       baseURL: this.baseUrl,
       apiKey: this.key
     });
+    console.log('OpenAI BaseURL:', this.baseUrl);
   }
 
   public async chat(
     messages: IChatInputMessage[],
     model = AllModels.GPT35TURBO,
-    system = DefaultSystem
+    system?: string
   ) {
     if (system) {
       messages = [
@@ -41,7 +42,7 @@ export class OpenAIChat implements BaseChat {
     messages: IChatInputMessage[],
     onMessage: IStreamHandler,
     model = AllModels.GPT35TURBO,
-    system = DefaultSystem
+    system?: string
   ) {
     if (system) {
       messages = [

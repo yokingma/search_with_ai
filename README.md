@@ -32,8 +32,6 @@
 
 国内用户推荐使用阿里云通译千问大模型，在阿里云[模型服务灵积](https://dashscope.aliyun.com/)注册可以获取密钥(key)，通译千问部分API使用是免费的(qwen-max、qwen-max-1201、qwen-max-longcontext)，除了longcontext模型其他限制是60次请求/分钟。
 
-> Tips: 通译千问在提示词约束上面似乎不是太好，偶尔不按照Prompt约束返回结果，百度文心则是完全不按照约束，导致引用格式出错。（因为对英文支持不好？）
-
 * **服务端**
 ```shell
 yarn install && yarn run build

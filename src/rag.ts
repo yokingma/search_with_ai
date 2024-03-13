@@ -1,16 +1,21 @@
 import { EBackend, IChatInputMessage, IStreamHandler, SearchFunc } from './interface';
 import { searchWithBing, searchWithGoogle, searchWithSogou } from './service';
 import { MoreQuestionsPrompt, RagQueryPrompt } from './prompt';
-import { AliyunChat, BaiduChat, OpenAIChat } from './platform';
+import { AliyunChat, BaiduChat, OpenAIChat, GoogleChat } from './platform';
 // import { memoryCache } from './utils';
 import util from 'util';
-import { AliyunModels, AllModels, BaiduModels, OpenAIModels } from './constant';
+import { AliyunModels, AllModels, BaiduModels, OpenAIModels, GoogleModels } from './constant';
 
 interface RagOptions {
   backend?: EBackend
   stream?: boolean
   model?: string
 }
+
+const aliyun = new AliyunChat();
+const openai = new OpenAIChat();
+const baidu = new BaiduChat();
+const google = new GoogleChat();
 
 // const CACHE_NAME = 'search_with_ai';
 
@@ -67,13 +72,13 @@ export class Rag {
   // Gets related questions based on the query and context.
   private async getRelatedQuestions(query: string, contexts: any[], onMessage?: IStreamHandler) {
     try {
-      const { messages, system } = this.paramsFormatter(query, contexts, 'related');
+      const { messages } = this.paramsFormatter(query, contexts, 'related');
       const { model, stream, chat } = this;
       if (!stream) {
-        const res = await this.chat(messages, this.model, system);
+        const res = await this.chat(messages, this.model);
         return res.split('\n');
       }
-      await chat(messages, onMessage, model, system);
+      await chat(messages, onMessage, model);
     } catch(err) {
       console.error('encountered error while generating related questions:', err);
       return [];
@@ -82,15 +87,15 @@ export class Rag {
 
   private async getAiAnswer(query: string, contexts: any[], onMessage?: IStreamHandler) {
     try {
-      const { messages, system } = this.paramsFormatter(query, contexts, 'answer');
+      const { messages } = this.paramsFormatter(query, contexts, 'answer');
       const { model, stream, chat } = this;
       if (!stream) {
-        const res = await this.chat(messages, this.model, system);
+        const res = await this.chat(messages, this.model);
         return res;
       }
       await chat(messages, (msg: string, done: boolean) => {
         onMessage?.(msg, done);
-      }, model, system);
+      }, model);
     } catch (err) {
       return '';
     }
@@ -103,12 +108,11 @@ export class Rag {
     const messages: IChatInputMessage[] = [
       {
         role: 'user',
-        content: query
+        content: `${system}${query}`
       }
     ];
     return {
-      messages,
-      system
+      messages
     };
   }
 
@@ -116,9 +120,6 @@ export class Rag {
 }
 
 function processModel(model = AliyunModels.QWEN_MAX, stream = true) {
-  const aliyun = new AliyunChat();
-  const openai = new OpenAIChat();
-  const baidu = new BaiduChat();
   if (Object.values(AliyunModels).includes(model)) {
     return stream ? aliyun.chatStream.bind(aliyun) : aliyun.chat.bind(aliyun);
   }
@@ -126,7 +127,10 @@ function processModel(model = AliyunModels.QWEN_MAX, stream = true) {
     return stream ? openai.chatStream.bind(openai) : openai.chat.bind(openai);
   }
   if (Object.values(BaiduModels).includes(model)) {
-    return baidu.chatStream.bind(baidu);
+    return stream ? baidu.chatStream.bind(baidu) : baidu.chat.bind(baidu);
+  }
+  if (Object.values(GoogleModels).includes(model)) {
+    return stream ? google.chatStream.bind(google) : google.chat.bind(google);
   }
   return stream ? aliyun.chatStream.bind(aliyun) : aliyun.chat.bind(aliyun);
 }

@@ -3,7 +3,7 @@ import { httpRequest }  from '../utils';
 import { memoryCache } from '../cache';
 import { BaseChat } from './base';
 import { IChatInputMessage, IStreamHandler } from '../interface';
-import { AllModels, DefaultSystem } from '../constant';
+import { AllModels } from '../constant';
 import { type MemoryCache } from 'cache-manager';
 
 const BASE_URL =
@@ -25,7 +25,7 @@ export class BaiduChat implements BaseChat {
   public async chat(
     messages: IChatInputMessage[],
     model = AllModels['ERNIE-Bot-turbo'],
-    system = DefaultSystem
+    system?: string
   ) {
     const token = await this.getAccessToken();
     const res = await httpRequest({
@@ -52,7 +52,7 @@ export class BaiduChat implements BaseChat {
     messages: IChatInputMessage[],
     onMessage: IStreamHandler,
     model = AllModels['ERNIE-Bot-turbo'],
-    system?: string | undefined,
+    system?: string
   ): Promise<void> {
     const token = await this.getAccessToken();
     const url = `${BASE_URL}/${model}?access_token=${token}`;

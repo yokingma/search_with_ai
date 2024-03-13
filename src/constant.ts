@@ -42,15 +42,14 @@ export const OpenAIModels = {
 export const BaiduModels = {
   'ERNIE-Bot-turbo': 'eb-instant',
   'ERNIE-Bot-4': 'completions_pro',
-  'ERNIE-Bot-8K': 'ernie_bot_8k',
+  'ERNIE-Bot-8K': 'ernie_bot_8k'
 };
 
 export const GoogleModels = {
-  GEMINI_PRO: 'gemini-pro',
-  GEMINI: 'gemini'
+  GEMINI_PRO: 'gemini-pro'
 };
 
-export const AllModels = Object.assign({}, AliyunModels, OpenAIModels, BaiduModels);
+export const AllModels = Object.assign({}, AliyunModels, OpenAIModels, BaiduModels, GoogleModels);
 
 export const UserAgents = [
   'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.5359.95 Safari/537.36',

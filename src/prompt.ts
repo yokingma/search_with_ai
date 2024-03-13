@@ -25,5 +25,7 @@ Here are the contexts of the question:
 
 %s
 
-Remember, based on the original question and related contexts, suggest three such further questions. Do NOT repeat the original question. Each related question should be no longer than 20 words. Here is the original question:
+Remember, based on the original question and related contexts, suggest three such further questions. Do NOT repeat the original question. Each related question should be no longer than 20 words. your answer must be written in the same language as the question.
+
+Here is the original question:
 `;
