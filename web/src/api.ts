@@ -30,13 +30,15 @@ export async function search(q: string, options: IQueryOptions) {
       'Content-Type': 'application/json'
     },
     onOpen: async () => {
-      // error
       onOpen?.();
     },
     onMessage: (e) => {
       try {
-        const data = JSON.parse(e?.data || '{}');
-        onMessage(JSON.parse(data.data || '{}'));
+        if (e) {
+          console.log(e);
+          const data = JSON.parse(e.data);
+          onMessage(JSON.parse(data.data || '{}'));
+        }
       } catch (err) {
         onError?.(err);
       }

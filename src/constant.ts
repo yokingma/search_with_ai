@@ -49,12 +49,17 @@ export const GoogleModels = {
   GEMINI_PRO: 'gemini-pro'
 };
 
+export const YiModels = {
+  Yi34B0205: 'yi-34b-chat-0205',
+  Yi34B200K: 'yi-34b-chat-200k'
+};
+
 export const TencentModels = {
   STD: 'standard',
   PRO: 'pro'
 };
 
-export const AllModels = Object.assign({}, AliyunModels, OpenAIModels, BaiduModels, GoogleModels);
+export const AllModels = Object.assign({}, AliyunModels, OpenAIModels, BaiduModels, GoogleModels, YiModels);
 
 export const UserAgents = [
   'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.5359.95 Safari/537.36',

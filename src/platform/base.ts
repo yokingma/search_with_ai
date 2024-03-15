@@ -3,8 +3,8 @@ import { IChatInputMessage, IStreamHandler } from '../interface';
 export abstract class BaseChat {
   abstract chat?(
     messages: IChatInputMessage[],
-    system?: string,
-    model?: string
+    model?: string,
+    system?: string
   ): Promise<string | null>;
 
   abstract chatStream(
