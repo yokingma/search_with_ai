@@ -35,7 +35,6 @@ export async function search(q: string, options: IQueryOptions) {
     onMessage: (e) => {
       try {
         if (e) {
-          console.log(e);
           const data = JSON.parse(e.data);
           onMessage(JSON.parse(data.data || '{}'));
         }
