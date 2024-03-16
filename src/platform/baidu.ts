@@ -104,3 +104,5 @@ export class BaiduChat implements BaseChat {
     return access_token;
   }
 }
+
+export const baidu = new BaiduChat();

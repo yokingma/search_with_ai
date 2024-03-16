@@ -1,7 +1,7 @@
 import { EBackend, IChatInputMessage, IStreamHandler, SearchFunc } from './interface';
 import { searchWithBing, searchWithGoogle, searchWithSogou } from './service';
 import { MoreQuestionsPrompt, RagQueryPrompt } from './prompt';
-import { AliyunChat, BaiduChat, OpenAIChat, GoogleChat, TencentChat, YiChat } from './platform';
+import { aliyun, baidu, openai, google, tencent, yi } from './platform';
 // import { memoryCache } from './utils';
 import util from 'util';
 import { AliyunModels, AllModels, BaiduModels, OpenAIModels, GoogleModels, TencentModels, YiModels } from './constant';
@@ -11,13 +11,6 @@ interface RagOptions {
   stream?: boolean
   model?: string
 }
-
-const aliyun = new AliyunChat();
-const openai = new OpenAIChat();
-const baidu = new BaiduChat();
-const google = new GoogleChat();
-const tencent = new TencentChat();
-const yi = new YiChat();
 
 // const CACHE_NAME = 'search_with_ai';
 
@@ -33,7 +26,7 @@ export class Rag {
     this.chat = processModel(model, stream);
     this.model = model;
     this.stream = stream;
-    console.log('query with', backend, model);
+    console.info('[query with]:', backend, model);
     switch (backend) {
       case EBackend.GOOGLE:
         this.search = searchWithGoogle;

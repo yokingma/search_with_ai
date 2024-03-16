@@ -114,3 +114,5 @@ export class AliyunChat implements BaseChat {
     }
   }
 }
+
+export const aliyun = new AliyunChat();

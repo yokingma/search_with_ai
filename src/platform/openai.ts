@@ -64,3 +64,5 @@ export class OpenAIChat implements BaseChat {
     onMessage?.(null, true);
   }
 }
+
+export const openai = new OpenAIChat();

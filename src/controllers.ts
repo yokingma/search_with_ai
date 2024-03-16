@@ -1,14 +1,9 @@
 import { Context } from 'koa';
-import { AliyunModels, BaiduModels, DefaultQuery, GoogleModels, OpenAIModels, YiModels } from './constant';
+import { AliyunModels, BaiduModels, DefaultQuery, GoogleModels, OpenAIModels, TencentModels, YiModels } from './constant';
 import { searchWithSogou } from './service';
-import { AliyunChat, OpenAIChat, BaiduChat, YiChat } from './platform';
+import { aliyun, openai, baidu, yi, tencent } from './platform';
 import { EBackend, IChatInputMessage } from './interface';
 import { Rag } from './rag';
-
-const aliyun = new AliyunChat();
-const openai = new OpenAIChat();
-const baidu = new BaiduChat();
-const yi = new YiChat();
 
 export const searchController = async (ctx: Context) => {
   const stream = ctx.request.body.stream ?? true;
@@ -64,8 +59,8 @@ export const modelsController = async (ctx: Context) => {
     openai: Object.values(OpenAIModels),
     baidu: Object.values(BaiduModels),
     google: Object.values(GoogleModels),
+    tencent: Object.values(TencentModels),
     yi: Object.values(YiModels)
-    // tencent: Object.values(TencentModels)
   };
   ctx.body = models;
 };
@@ -82,6 +77,9 @@ function processModel(model = AliyunModels.QWEN_MAX) {
   }
   if (Object.values(YiModels).includes(model)) {
     return yi.chatStream.bind(yi);
+  }
+  if (Object.values(TencentModels).includes(model)) {
+    return tencent.chatStream.bind(tencent);
   }
   return aliyun.chatStream.bind(aliyun);
 }

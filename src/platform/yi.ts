@@ -17,6 +17,7 @@ export class YiChat implements BaseChat {
       baseURL,
       apiKey: this.key
     });
+    console.log('Yi BaseURL:', baseURL);
   }
 
   async chat(
@@ -79,3 +80,5 @@ export class YiChat implements BaseChat {
     onMessage?.(null, true);
   }
 }
+
+export const yi = new YiChat();

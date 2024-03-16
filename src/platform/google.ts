@@ -22,9 +22,9 @@ export class GoogleChat implements BaseChat {
 
   public async chat(
     messages: IChatInputMessage[],
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     model = GoogleModels.GEMINI_PRO
   ) {
-    console.log('Chat with GoogleAI: ', model);
     const msgs = this.transformMessage(messages);
     const url = `${this.baseUrl}/${URLS.geminiProStream}`;
     const res = await httpRequest({
@@ -48,11 +48,11 @@ export class GoogleChat implements BaseChat {
   public async chatStream(
     messages: IChatInputMessage[],
     onMessage: IStreamHandler,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     model = GoogleModels.GEMINI_PRO
   ) {
-    console.log('Chat with GoogleAI: ', model);
     const msgs = this.transformMessage(messages);
-    const url = `${this.baseUrl}${URLS.geminiProStream}&key=${this.key}`;
+    const url = `${this.baseUrl}${URLS.geminiProStream}`;
     const data = {
       contents: msgs
     };
@@ -62,7 +62,11 @@ export class GoogleChat implements BaseChat {
       data,
       signal: abort.signal,
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'x-goog-api-key': this.key
+      },
+      onOpen: async () => {
+        //
       },
       onMessage: (eventData) => {
         const data = eventData?.data;
@@ -72,7 +76,11 @@ export class GoogleChat implements BaseChat {
       },
       onClose: () => {
         onMessage(null, true);
-      }
+      },
+      onError: (error) => {
+        abort.abort();
+        console.log(error);
+      },
     });
   }
 
@@ -90,3 +98,5 @@ export class GoogleChat implements BaseChat {
     });
   }
 }
+
+export const google = new GoogleChat();

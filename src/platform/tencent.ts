@@ -53,3 +53,5 @@ export class TencentChat implements BaseChat {
     });
   }
 }
+
+export const tencent = new TencentChat();
