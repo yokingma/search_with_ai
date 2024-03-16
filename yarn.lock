@@ -1979,10 +1979,10 @@ fecha@^4.2.0:
   resolved "https://registry.npmmirror.com/fecha/-/fecha-4.2.3.tgz#4d9ccdbc61e8629b259fdca67e65891448d569fd"
   integrity sha512-OP2IUU6HeYKJi3i0z4A19kHMQoLVs4Hc+DPqqxI2h/DPZHTm/vjsfC6P0b4jCMy14XizLBqvndQ+UilD7707Jw==
 
-fetch-sse@^1.0.10:
-  version "1.0.10"
-  resolved "https://registry.npmmirror.com/fetch-sse/-/fetch-sse-1.0.10.tgz#7012a2a7c3e7b8e50d7e38e7b9237ad6b33f8170"
-  integrity sha512-TWTqaHey5+Gc/vLhba8dQ463ZlM1AEyy8zK9JNZum8V0IBdNKoTiJuYlYZoxzdt/9DTbdZjY7wHhScg6bBG44Q==
+fetch-sse@^1.0.13:
+  version "1.0.13"
+  resolved "https://registry.npmmirror.com/fetch-sse/-/fetch-sse-1.0.13.tgz#6421f7d46e09c8c61564ad6cf33e85dc1820da33"
+  integrity sha512-PcKGQdIsFei5Jyb8W/A3/WJZgwcfdAhBUhl9B9QJbAJH+xxNg2vK8KSTcHTnu52AWgwGweKcbg/R8X0RidSs3A==
 
 figures@^3.2.0:
   version "3.2.0"

@@ -11,7 +11,7 @@
   "dependencies": {
     "@remixicon/vue": "^4.1.0",
     "@vitejs/plugin-vue-jsx": "^3.1.0",
-    "fetch-sse": "^1.0.12",
+    "fetch-sse": "^1.0.13",
     "github-markdown-css": "^5.5.1",
     "marked": "^12.0.0",
     "pinia": "^2.1.7",

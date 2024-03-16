@@ -1485,10 +1485,10 @@ fastq@^1.6.0:
   dependencies:
     reusify "^1.0.4"
 
-fetch-sse@^1.0.12:
-  version "1.0.12"
-  resolved "https://registry.npmmirror.com/fetch-sse/-/fetch-sse-1.0.12.tgz#e45494f65fc58b90f962a4afd7a5f0a3396dcb86"
-  integrity sha512-46jzm+AiLABeeIgM3i0zZ+NpcQQUCLcgbL2dNCG/LV/mi49/FEKu+W3a7wwzdlbPq878G+YjJbzloPk+EjlafA==
+fetch-sse@^1.0.13:
+  version "1.0.13"
+  resolved "https://registry.npmmirror.com/fetch-sse/-/fetch-sse-1.0.13.tgz#6421f7d46e09c8c61564ad6cf33e85dc1820da33"
+  integrity sha512-PcKGQdIsFei5Jyb8W/A3/WJZgwcfdAhBUhl9B9QJbAJH+xxNg2vK8KSTcHTnu52AWgwGweKcbg/R8X0RidSs3A==
 
 file-entry-cache@^6.0.1:
   version "6.0.1"
