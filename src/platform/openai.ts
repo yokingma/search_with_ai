@@ -6,14 +6,18 @@ import { BaseChat } from './base';
 export class OpenAIChat implements BaseChat {
   private key?: string;
   private baseUrl?: string;
-  private openai: OpenAI;
+  private openai: OpenAI | null;
   constructor() {
     this.key = process.env.OPENAI_KEY;
     this.baseUrl = process.env.OPENAI_PROXY_URL;
-    this.openai = new OpenAI({
-      baseURL: this.baseUrl,
-      apiKey: this.key
-    });
+    if (this.key) {
+      this.openai = new OpenAI({
+        baseURL: this.baseUrl,
+        apiKey: this.key
+      });
+    } else {
+      this.openai = null;
+    }
     console.log('OpenAI BaseURL:', this.baseUrl);
   }
 
@@ -22,6 +26,9 @@ export class OpenAIChat implements BaseChat {
     model = AllModels.GPT35TURBO,
     system?: string
   ) {
+    if (!this.openai) {
+      throw new Error('OpenAI key is not set');
+    }
     if (system) {
       messages = [
         {
@@ -44,6 +51,9 @@ export class OpenAIChat implements BaseChat {
     model = AllModels.GPT35TURBO,
     system?: string
   ) {
+    if (!this.openai) {
+      throw new Error('OpenAI key is not set');
+    }
     if (system) {
       messages = [
         {

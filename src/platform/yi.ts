@@ -9,14 +9,18 @@ const URL = '/chat/completions';
 
 export class YiChat implements BaseChat {
   private key?: string;
-  private openai: OpenAI;
+  private openai: OpenAI | null;
 
   constructor() {
     this.key = process.env.YI_KEY;
-    this.openai = new OpenAI({
-      baseURL,
-      apiKey: this.key
-    });
+    if (this.key) {
+      this.openai = new OpenAI({
+        baseURL,
+        apiKey: this.key
+      });
+    } else {
+      this.openai = null;
+    }
     console.log('Yi BaseURL:', baseURL);
   }
 
@@ -25,7 +29,7 @@ export class YiChat implements BaseChat {
     model = YiModels.Yi34B0205,
     system?: string | undefined,
   ): Promise<string | null> {
-    if (!this.key) throw new Error('Yi: Key is Required.');
+    if (!this.openai) throw new Error('Yi: Key is Required.');
     if (system) {
       messages = [
         {
@@ -60,6 +64,7 @@ export class YiChat implements BaseChat {
     model = YiModels.Yi34B0205,
     system?: string
   ) {
+    if (!this.openai) throw new Error('Yi: Key is Required.');
     if (system) {
       messages = [
         {

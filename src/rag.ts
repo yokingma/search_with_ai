@@ -38,7 +38,7 @@ export class Rag {
         this.search = searchWithSogou;
         break;
       default:
-        throw new Error('Invalid params: backend');
+        this.search = searchWithBing;
     }
   }
 

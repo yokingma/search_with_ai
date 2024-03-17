@@ -25,8 +25,8 @@ export const searchController = async (ctx: Context) => {
   ctx.res.setHeader('Connection', 'keep-alive');
   ctx.res.statusCode = 200;
   await rag.query(q as string, (json: string) => {
-    const eventData = `data: ${JSON.stringify({ data: json })}\n\n`;
-    ctx.res.write(eventData);
+    const eventData = `data:${JSON.stringify({ data: json })}\n\n`;
+    ctx.res.write(eventData, 'utf-8');
   });
   ctx.res.end();
 };
