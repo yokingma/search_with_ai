@@ -30,6 +30,9 @@
 
 ## 安装使用
 
+需要：
+> Node.js >= 18
+
 国内用户推荐使用阿里云通译千问大模型，在阿里云[模型服务灵积](https://dashscope.aliyun.com/)注册可以获取密钥(key)，通译千问部分API使用是免费的(qwen-max、qwen-max-1201、qwen-max-longcontext)，除了longcontext模型其他限制是60次请求/分钟。
 
 * **服务端**
