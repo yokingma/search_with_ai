@@ -52,7 +52,7 @@ import { RiQuestionAnswerLine, RiBook2Line, RiChatQuoteLine, RiRestartLine } fro
 import router from '../router';
 import { search } from '../api';
 import { PageFooter, ChatAnswer, RelatedQuery, ChatSources, SearchInputBar } from '../components';
-import { IQueryResult } from 'src/interface';
+import { IQueryResult } from '../interface';
 
 const wrapperRef = ref<HTMLDivElement | null>(null);
 const appStore = useAppStore();
