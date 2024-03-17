@@ -8,6 +8,9 @@ import { Sogou } from './search/sogou';
 export const searchWithBing = async (query: string) => {
   try {
     const subscriptionKey = process.env.BING_SEARCH_KEY;
+    if (!subscriptionKey) {
+      throw new Error('Bing search key is not provided.');
+    }
     const res = await httpRequest({
       endpoint: EndPoint.BING_SEARCH_V7_ENDPOINT,
       timeout: DEFAULT_SEARCH_ENGINE_TIMEOUT,

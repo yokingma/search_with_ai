@@ -1487,7 +1487,7 @@ fastq@^1.6.0:
 
 fetch-sse@^1.0.13:
   version "1.0.13"
-  resolved "https://registry.npmmirror.com/fetch-sse/-/fetch-sse-1.0.13.tgz"
+  resolved "https://registry.npmmirror.com/fetch-sse/-/fetch-sse-1.0.13.tgz#6421f7d46e09c8c61564ad6cf33e85dc1820da33"
   integrity sha512-PcKGQdIsFei5Jyb8W/A3/WJZgwcfdAhBUhl9B9QJbAJH+xxNg2vK8KSTcHTnu52AWgwGweKcbg/R8X0RidSs3A==
 
 file-entry-cache@^6.0.1:
@@ -2316,6 +2316,7 @@ source-map-js@^1.0.2:
   integrity sha512-R0XvVJ9WusLiqTCEiGCmICCMplcCkIwwR11mOSD9CR5u+IXYdiseeEuXCVAjS54zqwkLcPNnmU4OeJ6tUrWhDw==
 
 "string-width-cjs@npm:string-width@^4.2.0", string-width@^4.1.0:
+  name string-width-cjs
   version "4.2.3"
   resolved "https://registry.npmmirror.com/string-width/-/string-width-4.2.3.tgz"
   integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
