@@ -20,7 +20,10 @@ app.use(serve(staticPath, {
   gzip: true,
   index: 'index.html'
 }));
-app.use(history());
+app.use(history({
+  index: '/index.html',
+  whiteList: ['/api']
+}));
 
 app.use(cors({
   origin: '*'
@@ -41,13 +44,9 @@ app.use(async (ctx, next) => {
 app.use(router.routes()).use(router.allowedMethods());
 
 // controller
-router.post('/search', searchController);
-router.post('/sogou/search', sogouSearchController);
-router.post('/chat', chatStreamController);
-router.get('/models', modelsController);
-
-app.use(async ctx => {
-  ctx.body = 'hello';
-});
+router.post('/api/search', searchController);
+router.post('/api/sogou/search', sogouSearchController);
+router.post('/api/chat', chatStreamController);
+router.get('/api/models', modelsController);
 
 app.listen(3000);
