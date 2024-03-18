@@ -5,9 +5,11 @@
         <div class="p-4">
           <div class="flex flex-nowrap items-center justify-between border-0 border-b border-solid border-gray-100 pb-4">
             <div class="inline-flex text-xl font-bold leading-8 text-blue-800">{{ query }}</div>
-            <t-button :disabled="loading" theme="default" shape="circle" @click="onReload">
-              <template #icon><RiRestartLine /></template>
-            </t-button>
+            <div class="flex w-14 grow-0 justify-end">
+              <t-button :disabled="loading" theme="default" shape="circle" @click="onReload">
+                <template #icon><RiRestartLine /></template>
+              </t-button>
+            </div>
           </div>
           <div class="mt-4">
             <div class="flex flex-nowrap items-center gap-2 py-4 text-black">
@@ -91,12 +93,14 @@ async function querySearch(val: string | null) {
   if (!val) return;
   clear();
   replaceQueryParam('q', val);
+  const ctrl = new AbortController();
   try {
     loading.value = true;
     const { model, engine } = appStore;
     await search(val, {
       model: model?.split(':')[1],
       engine,
+      ctrl,
       onMessage: (data: IQueryResult) => {
         // if (wrapperRef.value) wrapperRef.value.scrollTop = wrapperRef.value.scrollHeight
         if (data.contexts) {
@@ -115,13 +119,15 @@ async function querySearch(val: string | null) {
       },
       onError: (err) => {
         console.log('error', err);
+        MessagePlugin.error(`查询出现错误: ${err.message}`);
         loading.value = false;
       }
     });
   } catch(err) {
+    ctrl.abort();
     console.log(err);
     loading.value = false;
-    MessagePlugin.error('搜索查询失败了');
+    MessagePlugin.error('查询失败了');
   }
 }
 
