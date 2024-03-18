@@ -4,6 +4,7 @@ import cors from '@koa/cors';
 import { bodyParser } from '@koa/bodyparser';
 import serve from 'koa-static';
 import path from 'path';
+import history from 'koa2-connect-history-api-fallback';
 import { chatStreamController, modelsController, searchController, sogouSearchController } from './controllers';
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -19,6 +20,7 @@ app.use(serve(staticPath, {
   gzip: true,
   index: 'index.html'
 }));
+app.use(history());
 
 app.use(cors({
   origin: '*'
