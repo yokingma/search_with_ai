@@ -7,7 +7,7 @@ const showSettings = ref(false);
 
 <template>
   <div class="size-full sm:w-full md:w-full lg:max-w-4xl">
-    <div class="fixed right-6 top-16 z-50 flex flex-col items-center justify-center md:top-6">
+    <div class="fixed bottom-24 right-6 z-50 flex flex-col items-center justify-center">
       <t-button shape="circle" theme="default" @click="showSettings = true">
         <template #icon> <RiSettingsLine /></template>
       </t-button>
