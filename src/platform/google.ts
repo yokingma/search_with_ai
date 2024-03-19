@@ -71,7 +71,7 @@ export class GoogleChat implements BaseChat {
       onMessage: (eventData) => {
         const data = eventData?.data;
         const result = JSON.parse(data || '{}');
-        const msg = result.candidates[0]?.content?.parts[0]?.text ?? '';
+        const msg = result.candidates?.[0]?.content?.parts[0]?.text ?? '';
         onMessage(msg, false);
       },
       onClose: () => {
