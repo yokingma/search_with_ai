@@ -1,6 +1,6 @@
 <template>
   <div id="search" class="relative size-full">
-    <div class="absolute inset-x-0 inset-y-4 overflow-hidden rounded-2xl bg-gray-100 p-2">
+    <div class="absolute inset-0 overflow-hidden rounded-2xl bg-gray-100 p-2">
       <div ref="wrapperRef" class="h-full overflow-y-auto rounded-2xl bg-white">
         <div class="p-4">
           <div class="flex flex-nowrap items-center justify-between border-0 border-b border-solid border-gray-100 pb-4">
