@@ -362,14 +362,6 @@
     "@types/connect" "*"
     "@types/node" "*"
 
-"@types/connect-history-api-fallback@^1.5.4":
-  version "1.5.4"
-  resolved "https://registry.npmmirror.com/@types/connect-history-api-fallback/-/connect-history-api-fallback-1.5.4.tgz#7de71645a103056b48ac3ce07b3520b819c1d5b3"
-  integrity sha512-n6Cr2xS1h4uAulPRdlw6Jl6s1oG8KrVilPN2yUITEs+K48EzMJJ3W1xy8K5eWuFvjp3R74AOIGSmp2UfBJ8HFw==
-  dependencies:
-    "@types/express-serve-static-core" "*"
-    "@types/node" "*"
-
 "@types/connect@*":
   version "3.4.38"
   resolved "https://registry.npmmirror.com/@types/connect/-/connect-3.4.38.tgz"
@@ -392,7 +384,7 @@
     "@types/keygrip" "*"
     "@types/node" "*"
 
-"@types/express-serve-static-core@*", "@types/express-serve-static-core@^4.17.33":
+"@types/express-serve-static-core@^4.17.33":
   version "4.17.43"
   resolved "https://registry.npmmirror.com/@types/express-serve-static-core/-/express-serve-static-core-4.17.43.tgz"
   integrity sha512-oaYtiBirUOPQGSWNGPWnzyAFJ0BP3cwvN4oWZQY+zUBwpVIGsKUkpBpSztp74drYcjavs7SKFZ4DX1V2QeN8rg==
@@ -1268,11 +1260,6 @@ configstore@^5.0.1:
     write-file-atomic "^3.0.0"
     xdg-basedir "^4.0.0"
 
-connect-history-api-fallback@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.npmmirror.com/connect-history-api-fallback/-/connect-history-api-fallback-2.0.0.tgz#647264845251a0daf25b97ce87834cace0f5f1c8"
-  integrity sha512-U73+6lQFmfiNPrYbXqr6kZ1i1wiRqXnp2nhMsINseWXO8lDau0LGEffJ8kQi4EjLZympVgRdvqjAgiZ1tgzDDA==
-
 content-disposition@~0.5.2:
   version "0.5.4"
   resolved "https://registry.npmmirror.com/content-disposition/-/content-disposition-0.5.4.tgz"
@@ -1992,10 +1979,10 @@ fecha@^4.2.0:
   resolved "https://registry.npmmirror.com/fecha/-/fecha-4.2.3.tgz#4d9ccdbc61e8629b259fdca67e65891448d569fd"
   integrity sha512-OP2IUU6HeYKJi3i0z4A19kHMQoLVs4Hc+DPqqxI2h/DPZHTm/vjsfC6P0b4jCMy14XizLBqvndQ+UilD7707Jw==
 
-fetch-sse@^1.0.13:
-  version "1.0.13"
-  resolved "https://registry.npmmirror.com/fetch-sse/-/fetch-sse-1.0.13.tgz#6421f7d46e09c8c61564ad6cf33e85dc1820da33"
-  integrity sha512-PcKGQdIsFei5Jyb8W/A3/WJZgwcfdAhBUhl9B9QJbAJH+xxNg2vK8KSTcHTnu52AWgwGweKcbg/R8X0RidSs3A==
+fetch-sse@^1.0.14:
+  version "1.0.14"
+  resolved "https://registry.npmmirror.com/fetch-sse/-/fetch-sse-1.0.14.tgz#b911b4464b7ce95bab4385f0d228fd92f0ec82f6"
+  integrity sha512-C0OKD3v6GGXywnQOVICoHLIQVElFTeGzmvNxtJZlxBZeDcio4/G4JCAJwiWoSTpQHI8X6UNvXc7XuggzbeXyhw==
 
 figures@^3.2.0:
   version "3.2.0"

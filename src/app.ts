@@ -14,17 +14,17 @@ dotenvx.config();
 
 const app = new Koa();
 const router = new Router();
+
+app.use(history({
+  index: '/index.html',
+  whiteList: ['/api']
+}));
 // static path
 const staticPath = path.join(__dirname, '../web/build');
 app.use(serve(staticPath, {
   gzip: true,
   index: 'index.html'
 }));
-app.use(history({
-  index: '/index.html',
-  whiteList: ['/api']
-}));
-
 app.use(cors({
   origin: '*'
 }));
