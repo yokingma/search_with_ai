@@ -12,6 +12,12 @@
   -moz-osx-font-smoothing: grayscale;
 
   --td-brand-color: #000000;
+  --main-bg-color: #ffffff;
+}
+
+:root[theme-mode="dark"] {
+  --td-brand-color: #000000;
+  --main-bg-color: #000000;
 }
 
 html, body {
@@ -19,6 +25,7 @@ html, body {
   height: 100%;
   padding: 0;
   margin: 0;
+  background-color: var(--main-bg-color);
 }
 
 #app {

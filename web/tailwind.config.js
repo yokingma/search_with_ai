@@ -8,6 +8,7 @@ export default {
     extend: {},
   },
   plugins: [],
+  darkMode: ['selector', '[theme-mode="dark"]'],
   corePlugins: {
     preflight: false
   }

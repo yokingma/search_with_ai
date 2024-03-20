@@ -21,7 +21,7 @@
     "@koa/router": "^12.0.1",
     "cache-manager": "^5.4.0",
     "cheerio": "^1.0.0-rc.12",
-    "fetch-sse": "^1.0.16",
+    "fetch-sse": "^1.0.18",
     "koa": "^2.15.0",
     "koa-static": "^5.0.0",
     "koa2-connect-history-api-fallback": "^0.1.3",

@@ -1,9 +1,9 @@
 <template>
-  <div id="home" class="flex size-full items-center justify-center">
+  <div id="home" class="flex size-full items-center justify-center dark:bg-black">
     <div class="mt-36 flex flex-col gap-4 p-4 sm:-mt-28">
       <div class="flex items-center justify-center gap-2">
         <img :src="logoUrl" class="w-10" />
-        <span class="text-3xl font-bold">AI Search</span>
+        <span class="text-3xl font-bold dark:text-gray-100">AI Search</span>
         <t-tag variant="light" class="text-xs text-gray-500">beta</t-tag>
       </div>
       <SearchInputBar :loading="false" @search="search" />

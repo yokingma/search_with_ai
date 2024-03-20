@@ -6,7 +6,7 @@ const showSettings = ref(false);
 </script>
 
 <template>
-  <div class="size-full bg-white sm:w-full md:w-full lg:max-w-4xl">
+  <div class="size-full bg-white sm:w-full md:w-full lg:max-w-4xl dark:bg-black">
     <div class="fixed bottom-1/2 right-4 z-50 flex flex-col items-center justify-center">
       <div class="flex w-9 justify-center gap-2 rounded-xl bg-gray-200 p-1 shadow-lg">
         <t-button shape="circle" theme="default" @click="showSettings = true">

@@ -84,8 +84,8 @@ function getCitationContent (num?: string | null) {
 </script>
 
 <template>
-  <div class="h-auto w-full text-base leading-6 text-gray-600">
+  <div class="h-auto w-full text-base leading-6 text-gray-600 dark:text-gray-200">
     <t-skeleton theme="paragraph" animation="flashed" :loading="!answer"></t-skeleton>
-    <div ref="answerRef" class="markdown-body h-auto w-full" />
+    <div ref="answerRef" class="markdown-body h-auto w-full dark:bg-slate-800" />
   </div>
 </template>

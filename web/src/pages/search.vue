@@ -1,10 +1,10 @@
 <template>
   <div id="search" class="relative size-full">
-    <div class="absolute inset-0 overflow-hidden rounded-2xl bg-gray-100 p-2">
-      <div ref="wrapperRef" class="h-full overflow-y-auto rounded-2xl bg-white">
+    <div class="absolute inset-0 overflow-hidden rounded-2xl bg-gray-100 p-2 dark:bg-gray-900">
+      <div ref="wrapperRef" class="h-full overflow-y-auto rounded-2xl bg-white dark:bg-gray-800">
         <div class="p-4">
-          <div class="flex flex-nowrap items-center justify-between border-0 border-b border-solid border-gray-100 pb-4">
-            <div class="inline-flex text-xl font-bold leading-8 text-blue-800">{{ query }}</div>
+          <div class="flex flex-nowrap items-center justify-between border-0 border-b border-solid border-gray-100 pb-4 dark:border-black">
+            <div class="inline-flex text-xl font-bold leading-8 text-blue-800 dark:text-blue-200">{{ query }}</div>
             <div class="flex w-14 grow-0 justify-end">
               <t-button :disabled="loading" theme="default" shape="circle" @click="onReload">
                 <template #icon><RiRestartLine /></template>
@@ -12,21 +12,21 @@
             </div>
           </div>
           <div class="mt-4">
-            <div class="flex flex-nowrap items-center gap-2 py-4 text-black">
+            <div class="flex flex-nowrap items-center gap-2 py-4 text-black dark:text-gray-200">
               <RiQuestionAnswerLine />
               <span class="text-lg font-bold ">AI回答</span>
             </div>
             <ChatAnswer :answer="result?.answer" :contexts="result?.contexts" />
           </div>
           <div class="mt-4">
-            <div class="flex flex-nowrap items-center gap-2 py-4 text-black">
+            <div class="flex flex-nowrap items-center gap-2 py-4 text-black dark:text-gray-200">
               <RiBook2Line />
               <span class="text-lg font-bold ">参考资料</span>
             </div>
             <ChatSources :loading="loading" :sources="result?.contexts" />
           </div>
           <div class="mt-4">
-            <div class="flex flex-nowrap items-center gap-2 py-4 text-black">
+            <div class="flex flex-nowrap items-center gap-2 py-4 text-black dark:text-gray-200">
               <RiChatQuoteLine />
               <span class="text-lg font-bold ">相关问题</span>
             </div>
