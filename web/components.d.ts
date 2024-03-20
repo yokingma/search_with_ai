@@ -16,6 +16,7 @@ declare module 'vue' {
     RouterView: typeof import('vue-router')['RouterView']
     SearchInputBar: typeof import('./src/components/searchInputBar.vue')['default']
     Sources: typeof import('./src/components/sources.vue')['default']
+    TAlert: typeof import('tdesign-vue-next')['Alert']
     TButton: typeof import('tdesign-vue-next')['Button']
     TDrawer: typeof import('tdesign-vue-next')['Drawer']
     TInput: typeof import('tdesign-vue-next')['Input']

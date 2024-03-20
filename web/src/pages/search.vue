@@ -23,7 +23,7 @@
               <RiBook2Line />
               <span class="text-lg font-bold ">参考资料</span>
             </div>
-            <ChatSources :sources="result?.contexts" />
+            <ChatSources :loading="loading" :sources="result?.contexts" />
           </div>
           <div class="mt-4">
             <div class="flex flex-nowrap items-center gap-2 py-4 text-black">
