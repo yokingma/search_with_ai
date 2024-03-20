@@ -7,10 +7,12 @@ const showSettings = ref(false);
 
 <template>
   <div class="size-full sm:w-full md:w-full lg:max-w-4xl">
-    <div class="fixed bottom-24 right-6 z-50 flex flex-col items-center justify-center">
-      <t-button shape="circle" theme="default" @click="showSettings = true">
-        <template #icon> <RiSettingsLine /></template>
-      </t-button>
+    <div class="fixed bottom-1/2 right-4 z-50 flex flex-col items-center justify-center">
+      <div class="flex w-9 justify-center gap-2 rounded-xl bg-gray-200 p-1 shadow-lg">
+        <t-button shape="circle" theme="default" @click="showSettings = true">
+          <template #icon> <RiSettingsLine /></template>
+        </t-button>
+      </div>
     </div>
     <!-- eslint-disable-next-line vue/no-v-model-argument -->
     <t-drawer v-model:visible="showSettings" :footer="false" header="设置">
