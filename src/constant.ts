@@ -7,7 +7,7 @@ export const EndPoint = {
 export const BING_MKT = 'en-US';
 
 // default timeout ms
-export const DEFAULT_SEARCH_ENGINE_TIMEOUT = 10000;
+export const DEFAULT_SEARCH_ENGINE_TIMEOUT = 20000;
 
 export const REFERENCE_COUNT = 9;
 

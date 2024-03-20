@@ -7,7 +7,7 @@ export default {
 <script setup lang="ts">
 interface IProps {
   sources?: Record<string, any>[]
-  loading?: boolean
+  loading: boolean
 }
 defineProps<IProps>();
 const rowCol = [
@@ -32,7 +32,7 @@ const rowCol = [
 <template>
   <div class="w-full">
     <t-skeleton :row-col="rowCol" animation="flashed" :loading="!sources"></t-skeleton>
-    <div v-if="sources?.length === 0" class="">
+    <div v-if="sources?.length === 0 && !loading" class="">
       <t-alert theme="info" message="获取参考资料失败了" close>
       <template #operation>
       </template>

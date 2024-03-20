@@ -55,6 +55,7 @@ export class Rag {
       };
     }
     onMessage?.(JSON.stringify({ contexts }));
+    console.info('[search response length]:', contexts.length);
     await this.getAiAnswer(query, contexts, (msg) => {
       onMessage?.(JSON.stringify({ answer: msg }));
     });
