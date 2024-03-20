@@ -31,12 +31,12 @@ const rowCol = [
 
 <template>
   <div class="w-full">
-    <t-skeleton :row-col="rowCol" animation="flashed" :loading="!sources"></t-skeleton>
+    <t-skeleton :row-col="rowCol" animation="flashed" :loading="!sources?.length && loading"></t-skeleton>
     <div v-if="sources?.length === 0 && !loading" class="">
       <t-alert theme="info" message="获取参考资料失败了" close>
-      <template #operation>
-      </template>
-    </t-alert>
+        <template #operation>
+        </template>
+      </t-alert>
     </div>
     <div class="mt-4 grid grid-cols-1 gap-2 text-xs text-gray-500 md:grid-cols-3 lg:grid-cols-3">
       <div 
