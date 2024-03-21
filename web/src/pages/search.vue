@@ -1,7 +1,7 @@
 <template>
   <div id="search" class="relative size-full">
-    <div class="absolute inset-0 overflow-hidden rounded-2xl bg-gray-100 p-2 dark:bg-gray-900">
-      <div ref="wrapperRef" class="h-full overflow-y-auto rounded-2xl bg-white dark:bg-gray-800">
+    <div class="absolute inset-0 overflow-hidden rounded-2xl bg-gray-100 p-2 dark:bg-zinc-900">
+      <div ref="wrapperRef" class="h-full overflow-y-auto rounded-2xl bg-white dark:bg-zinc-800">
         <div class="p-4">
           <div class="flex flex-nowrap items-center justify-between border-0 border-b border-solid border-gray-100 pb-4 dark:border-black">
             <div class="inline-flex text-xl font-bold leading-8 text-blue-800 dark:text-blue-200">{{ query }}</div>
@@ -62,6 +62,7 @@ const appStore = useAppStore();
 const keyword = computed(() => router.currentRoute.value.query.q ?? '');
 const query = ref<string>('');
 const loading = ref(false);
+let abortCtrl: AbortController | null = null;
 
 const result = ref<IQueryResult>({
   related: '',
@@ -93,7 +94,12 @@ async function querySearch(val: string | null) {
   if (!val) return;
   clear();
   replaceQueryParam('q', val);
+  if (abortCtrl) {
+    abortCtrl.abort();
+    abortCtrl = null;
+  }
   const ctrl = new AbortController();
+  abortCtrl = ctrl;
   try {
     loading.value = true;
     const { model, engine } = appStore;
@@ -101,20 +107,21 @@ async function querySearch(val: string | null) {
       model: model?.split(':')[1],
       engine,
       ctrl,
-      onMessage: (data: IQueryResult) => {
+      onMessage: (data: any) => {
         // if (wrapperRef.value) wrapperRef.value.scrollTop = wrapperRef.value.scrollHeight
-        if (data.contexts) {
-          result.value.contexts = data.contexts;
+        if (data?.context) {
+          result.value.contexts?.push(data.context);
         }
-        if (data.answer) {
+        if (data?.answer) {
           result.value.answer += data.answer;
         }
-        if (data.related) {
+        if (data?.related) {
           result.value.related += data.related;
         }
       },
       onClose: () => {
         console.log('closed');
+        abortCtrl = null;
         loading.value = false;
       },
       onError: (err) => {
@@ -125,6 +132,7 @@ async function querySearch(val: string | null) {
     });
   } catch(err) {
     ctrl.abort();
+    abortCtrl = null;
     console.log(err);
     loading.value = false;
     MessagePlugin.error('查询失败了');

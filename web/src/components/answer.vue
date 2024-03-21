@@ -46,7 +46,7 @@ function processAnswer (answer?: string) {
     const popover = (
       <span class="inline-block w-4">
         <Popup trigger="click" content={getCitationContent(citationNumber)}>
-          <span class="inline-block size-4 cursor-pointer rounded-full bg-gray-300 text-center align-top text-xs text-blue-600 hover:bg-gray-400">
+          <span class="inline-block size-4 cursor-pointer rounded-full bg-gray-300 text-center align-top text-xs text-green-600 hover:opacity-80 dark:bg-black">
             {citationNumber || ''}
           </span>
         </Popup>
@@ -70,7 +70,7 @@ function getCitationContent (num?: string | null) {
         <t-tag size="small" theme="primary">{num}</t-tag>
         <span class="w-72 truncate">{context.name}</span>
       </div>
-      <div class="mt-1 text-xs leading-6 text-gray-500">
+      <div class="mt-1 text-xs leading-6 text-gray-400">
         {context.snippet}
       </div>
       <div class="mt-2 border-0 border-t border-solid border-gray-100 pt-2 leading-6">
@@ -84,8 +84,8 @@ function getCitationContent (num?: string | null) {
 </script>
 
 <template>
-  <div class="h-auto w-full text-base leading-6 text-gray-600 dark:text-gray-200">
+  <div class="h-auto w-full text-base leading-6 text-zinc-600 dark:text-gray-200">
     <t-skeleton theme="paragraph" animation="flashed" :loading="!answer"></t-skeleton>
-    <div ref="answerRef" class="markdown-body h-auto w-full dark:bg-slate-800" />
+    <div ref="answerRef" class="markdown-body h-auto w-full dark:bg-zinc-800" />
   </div>
 </template>

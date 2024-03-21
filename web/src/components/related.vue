@@ -27,7 +27,7 @@ const relatedArr = computed(() => {
       <div
         v-for="(item, index) in relatedArr"
         :key="index"
-        class="cursor-pointer rounded-md bg-gray-100 p-2 text-sm transition-all hover:opacity-80 dark:bg-gray-900 dark:text-gray-400"
+        class="cursor-pointer rounded-md bg-gray-100 p-2 text-sm transition-all hover:opacity-80 dark:bg-zinc-900 dark:text-zinc-400"
         @click="onSelect(item)"
       >
         {{ item }}

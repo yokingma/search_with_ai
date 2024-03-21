@@ -33,6 +33,7 @@ export async function search(q: string, options: IQueryOptions) {
       onOpen?.();
     },
     onMessage: (e) => {
+      console.log('[sse]', e);
       try {
         if (e?.data) {
           const data = JSON.parse(e.data);

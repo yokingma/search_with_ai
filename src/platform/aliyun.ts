@@ -100,9 +100,13 @@ export class AliyunChat implements BaseChat {
         signal: abort.signal,
         onMessage: (eventData) => {
           const data = eventData?.data;
-          const result = JSON.parse(data || '{}');
-          const msg = result.output?.text ?? '';
-          onMessage(msg, false);
+          try {
+            const result = JSON.parse(data || '{}');
+            const msg = result.output?.text ?? '';
+            onMessage(msg, false);
+          } catch(error) {
+            console.error('Aliyun onMessage Error: ', error);
+          }
         },
         onClose: () => {
           onMessage(null, false);

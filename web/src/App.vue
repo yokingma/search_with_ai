@@ -1,13 +1,20 @@
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { RiSettingsLine } from '@remixicon/vue';
 import { ModelSelect, SearchEngineSelect } from './components/index';
 const showSettings = ref(false);
+onMounted(() => {
+  if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    document.documentElement.setAttribute('theme-mode', 'dark');
+  } else {
+    document.documentElement.removeAttribute('theme-mode');
+  }
+});
 </script>
 
 <template>
   <div class="size-full bg-white sm:w-full md:w-full lg:max-w-4xl dark:bg-black">
-    <div class="fixed bottom-1/2 right-4 z-50 flex flex-col items-center justify-center">
+    <div class="fixed bottom-1/3 right-4 z-50 flex flex-col items-center justify-center">
       <div class="flex w-9 justify-center gap-2 rounded-xl bg-gray-200 p-1 shadow-lg">
         <t-button shape="circle" theme="default" @click="showSettings = true">
           <template #icon> <RiSettingsLine /></template>

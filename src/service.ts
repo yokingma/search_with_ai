@@ -23,7 +23,15 @@ export const searchWithBing = async (query: string) => {
       }
     });
     const result = await res.json();
-    return result?.webPages?.value.slice(0, REFERENCE_COUNT) || [];
+    const list = result?.webPages?.value.slice(0, REFERENCE_COUNT) || [];
+    return list.map((item: any, index: number) => {
+      return {
+        id: index + 1,
+        name: item.name,
+        url: item.url,
+        snippet: item.snippet
+      };
+    });
   } catch(err) {
     console.log('Error encountered:', err);
     return [];
@@ -39,12 +47,16 @@ export const searchWithGoogle = async () => {
 
 /**
  * search with sogou and return the contexts.
- * 搜狗搜索没有API, 网页搜索返回html, 从html中过滤内容
  */
 export const searchWithSogou = async (query: string) => {
   const sogou = new Sogou(query);
   await sogou.init();
   // const relatedQueries = sogou.getRelatedQueries();
   const results = await sogou.getResults();
-  return results.slice(0, REFERENCE_COUNT);
+  return results.slice(0, REFERENCE_COUNT).map((item, index) => {
+    return {
+      id: index + 1,
+      ...item
+    };
+  });
 };

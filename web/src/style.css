@@ -13,11 +13,13 @@
 
   --td-brand-color: #000000;
   --main-bg-color: #ffffff;
+  --main-font-color: #333333;
 }
 
 :root[theme-mode="dark"] {
   --td-brand-color: #000000;
   --main-bg-color: #000000;
+  --main-font-color: #cccccc;
 }
 
 html, body {
@@ -26,6 +28,16 @@ html, body {
   padding: 0;
   margin: 0;
   background-color: var(--main-bg-color);
+  scrollbar-color: #8e9099 transparent;
+}
+
+html[theme-mode="dark"] {
+  scrollbar-color: #8e9099 transparent;
+}
+
+html[theme-mode="dark"] .markdown-body {
+  color: var(--main-font-color);
+  background-color: transparent;
 }
 
 #app {
