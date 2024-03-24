@@ -62,7 +62,7 @@ function processAnswer (answer?: string) {
 
 function getCitationContent (num?: string | null) {
   if (!num) return () => <></>;
-  const context = props.contexts?.[+num - 1];
+  const context = props.contexts?.find((item) => item.id === +num);
   if (!context) return () => <></>;
   return () => (
     <div class="flex h-auto w-80 flex-col p-2">

@@ -55,13 +55,14 @@ export const chatStreamController = async (ctx: Context) => {
 };
 
 export const modelsController = async (ctx: Context) => {
+  const { GOOGLE_KEY, ALIYUN_KEY, OPENAI_KEY, BAIDU_KEY, TENCENT_KEY, YI_KEY } = process.env;
   const models = {
-    aliyun: Object.values(AliyunModels),
-    openai: Object.values(OpenAIModels),
-    baidu: Object.values(BaiduModels),
-    google: Object.values(GoogleModels),
-    tencent: Object.values(TencentModels),
-    yi: Object.values(YiModels)
+    aliyun: ALIYUN_KEY ? Object.values(AliyunModels) : [],
+    openai: OPENAI_KEY ? Object.values(OpenAIModels) : [],
+    baidu: BAIDU_KEY ? Object.values(BaiduModels) : [],
+    google: GOOGLE_KEY ? Object.values(GoogleModels) : [],
+    tencent: TENCENT_KEY ? Object.values(TencentModels) : [],
+    yi: YI_KEY ? Object.values(YiModels) : []
   };
   ctx.body = models;
 };
