@@ -125,8 +125,8 @@ async function querySearch(val: string | null) {
         loading.value = false;
       },
       onError: (err) => {
-        console.log('error', err);
-        MessagePlugin.error(`查询出现错误: ${err.message}`);
+        console.error('error', err);
+         MessagePlugin.error(`查询出现错误: ${err.message}`);
         loading.value = false;
       }
     });
