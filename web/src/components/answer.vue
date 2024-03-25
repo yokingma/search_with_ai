@@ -70,10 +70,10 @@ function getCitationContent (num?: string | null) {
         <t-tag size="small" theme="primary">{num}</t-tag>
         <span class="w-72 truncate">{context.name}</span>
       </div>
-      <div class="mt-1 text-xs leading-6 text-gray-400">
+      <div class="mt-1 text-xs leading-6 text-gray-600 dark:text-gray-400">
         {context.snippet}
       </div>
-      <div class="mt-2 border-0 border-t border-solid border-gray-100 pt-2 leading-6">
+      <div class="mt-2 border-0 border-t border-solid border-gray-100 pt-2 leading-6 dark:border-gray-700">
         <a href={context.url} target="_blank" class="inline-block max-w-full truncate text-blue-600">
           {context.url}
         </a>

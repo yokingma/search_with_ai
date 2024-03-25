@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { ref, onMounted } from 'vue';
-import { RiSettingsLine, RiSunLine, RiMoonLine } from '@remixicon/vue';
+import { RiSettingsLine, RiSunLine, RiMoonLine, RiGithubLine } from '@remixicon/vue';
 import { ModelSelect, SearchEngineSelect } from './components/index';
 import { useAppStore } from './store';
 import { type SwitchValue } from 'tdesign-vue-next';
@@ -30,8 +30,13 @@ onMounted(() => {
 
 <template>
   <div class="size-full sm:w-full md:w-full lg:max-w-4xl dark:bg-black">
-    <div class="fixed bottom-1/3 right-4 z-50 flex flex-col items-center justify-center">
-      <div class="flex w-9 justify-center gap-2 rounded-xl bg-gray-200 p-1 shadow-lg">
+    <div class="fixed bottom-1/3 right-4 z-50 flex flex-col items-center justify-center gap-4">
+      <div class="flex w-9 justify-center gap-2 rounded-xl bg-gray-200 p-1 shadow-lg dark:bg-gray-600">
+        <t-button href="https://github.com/yokingma/search_with_ai" target="_blank" shape="circle" theme="default">
+          <template #icon> <RiGithubLine /></template>
+        </t-button>
+      </div>
+      <div class="flex w-9 justify-center gap-2 rounded-xl bg-gray-200 p-1 shadow-lg dark:bg-gray-600">
         <t-button shape="circle" theme="default" @click="showSettings = true">
           <template #icon> <RiSettingsLine /></template>
         </t-button>
