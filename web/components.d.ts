@@ -23,6 +23,7 @@ declare module 'vue' {
     TOption: typeof import('tdesign-vue-next')['Option']
     TSelect: typeof import('tdesign-vue-next')['Select']
     TSkeleton: typeof import('tdesign-vue-next')['Skeleton']
+    TSwitch: typeof import('tdesign-vue-next')['Switch']
     TTag: typeof import('tdesign-vue-next')['Tag']
   }
 }
