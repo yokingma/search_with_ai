@@ -9,12 +9,14 @@
 ## 功能说明
 * 1、内置主流的LLM接口支持，如OpenAI、Google Gemini、阿里云通译千问、百度文心一言等。
 * 2、内置搜索引擎支持，如Bing、Sogou。
-* 3、简洁的搜索对话界面。
-* 4、支持搜索引擎切换、AI模型切换。
-* 4、搜索历史记录(TODO)。
-* 5、基于结果的多轮对话(TODO)。
-* 6、抓取参考网页的全部内容作为上下文(TODO)。
-* 7、其他功能(TODO)。
+* 3、简洁的搜索对话Web界面。
+* 4、Web界面支持暗色模式。
+* 5、Web界面支持移动端。
+* 6、支持搜索引擎切换、AI模型切换。
+* 7、搜索历史记录(TODO)。
+* 8、基于结果的多轮对话(TODO)。
+* 9、抓取参考网页的全部内容作为上下文(TODO)。
+* 10、其他功能(TODO)。
 
 ## 搜索引擎配置
 内置了搜索引擎服务：Bing、Sogou、Google(TODO)。
@@ -22,7 +24,7 @@
 #### Bing搜索
 如果要使用必应搜索，需要注册并订阅[Bing搜索服务](https://www.microsoft.com/en-us/bing/apis/bing-web-search-api)，获取必应订阅密钥(key)。
 
-> Bing搜索接口是收费的，但是每人每月有1000次免费调用额度。
+> Bing搜索接口是收费的，但是每月有1000次免费调用额度。
 
 #### Sogou搜索
 内置的Sogou搜索并非直接调用API实现（似乎没有开放的API），只是通过类似爬虫的方式分析获取搜索结果。
@@ -60,6 +62,11 @@ GOOGLE_KEY=
 GOOGLE_PROXY_URL=
 // openai ChatGPT key
 OPENAI_KEY=your-key
+# tencent KEY:ID, SECRET:KEY
+TENCENT_KEY=
+TENCENT_SECRET=
+# Yi Key
+YI_KEY=
 // openai代理服务地址，便于无法直接使用openai服务的用户，不用可留空
 OPENAI_PROXY_URL=https://api.openai.com/v1
 ```
