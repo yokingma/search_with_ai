@@ -262,10 +262,10 @@
     "@jridgewell/resolve-uri" "^3.0.3"
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
-"@koa/bodyparser@^5.0.0":
-  version "5.0.0"
-  resolved "https://registry.npmmirror.com/@koa/bodyparser/-/bodyparser-5.0.0.tgz#dd24c9a0c94ac0def0ac79cd37cc18ab1a8ad58f"
-  integrity sha512-JEiZVe2e85qPOqA+Nw/SJC5fkFw3XSekh0RSoqz5F6lFYuhEspgqAb972rQRCJesv27QUsz96vU/Vb92wF1GUg==
+"@koa/bodyparser@^5.1.0":
+  version "5.1.0"
+  resolved "https://registry.npmmirror.com/@koa/bodyparser/-/bodyparser-5.1.0.tgz#0f9e53e37c2844e8026db4618005eac61f3b2559"
+  integrity sha512-i/BidRTrX2Yl5JYU6yuEG/KMvqNs5ZRTXELAypSKBKsTwQeAYi9OmX5AyAgr0TyOMeS0aQX1I329gO2VCim7Qg==
   dependencies:
     co-body "^6.1.0"
     lodash.merge "^4.6.2"
