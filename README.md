@@ -1,5 +1,5 @@
 # Search with AI
-基于AI大语言模型的对话式搜索引擎的一个简单实现，基于Node.js&Vue3。
+基于AI大语言模型的对话式搜索引擎的一个简单实现，基于Node.js&Vue3。 [Demo](https://isou.chat/)
 <div align="center">
  <img src="./screenshot.jpg" alt="Search with AI" />
 </div>
@@ -16,7 +16,6 @@
 * 7、搜索历史记录(TODO)。
 * 8、基于结果的多轮对话(TODO)。
 * 9、抓取参考网页的全部内容作为上下文(TODO)。
-* 10、其他功能(TODO)。
 
 ## 搜索引擎配置
 内置了搜索引擎服务：Bing、Sogou、Google(TODO)。

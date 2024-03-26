@@ -5,7 +5,8 @@ export default {
     "./src/**/*.{vue,js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+    },
   },
   plugins: [],
   darkMode: ['selector', '[theme-mode="dark"]'],

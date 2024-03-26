@@ -1,10 +1,10 @@
 import { EBackend, IChatInputMessage, IStreamHandler, SearchFunc } from './interface';
 import { searchWithBing, searchWithGoogle, searchWithSogou } from './service';
 import { MoreQuestionsPrompt, RagQueryPrompt } from './prompt';
-import { aliyun, baidu, openai, google, tencent, yi } from './platform';
+import { aliyun, baidu, openai, google, tencent, yi, moonshot } from './platform';
 // import { memoryCache } from './utils';
 import util from 'util';
-import { AliyunModels, AllModels, BaiduModels, OpenAIModels, GoogleModels, TencentModels, YiModels } from './constant';
+import { AliyunModels, AllModels, BaiduModels, OpenAIModels, GoogleModels, TencentModels, YiModels, MoonshotModels } from './constant';
 
 interface RagOptions {
   backend?: EBackend
@@ -134,6 +134,9 @@ function processModel(model = AliyunModels.QWEN_MAX, stream = true) {
   }
   if (Object.values(YiModels).includes(model)) {
     return yi.chatStream.bind(yi);
+  }
+  if (Object.values(MoonshotModels).includes(model)) {
+    return moonshot.chatStream.bind(moonshot);
   }
   return stream ? aliyun.chatStream.bind(aliyun) : aliyun.chat.bind(aliyun);
 }

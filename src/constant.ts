@@ -54,6 +54,12 @@ export const YiModels = {
   Yi34B200K: 'yi-34b-chat-200k'
 };
 
+export const MoonshotModels = {
+  MOONSHOT8K: 'moonshot-v1-8k',
+  MOONSHOT32K: 'moonshot-v1-32k',
+  MOONSHOT128K: 'moonshot-v1-128k',
+};
+
 export const TencentModels = {
   STD: 'standard',
   PRO: 'pro'
