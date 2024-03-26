@@ -27,7 +27,7 @@ export default {
 </script>
 
 <template>
-  <div id="searchbar" class="w-full rounded-3xl bg-gray-100 p-2 transition-all dark:bg-zinc-800">
+  <div id="searchbar" class="rounded-3xl bg-gray-100 p-2 transition-all dark:bg-zinc-800">
     <div class="w-full overflow-hidden rounded-3xl border border-gray-100 dark:border-gray-300">
       <t-input v-model="query" :disabled="props.loading" clearable :autofocus="true" :maxlength="100" size="large" placeholder="请输入想要问AI的问题" @enter="onSearch">
         <template #suffix>
