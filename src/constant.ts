@@ -46,7 +46,8 @@ export const BaiduModels = {
 };
 
 export const GoogleModels = {
-  GEMINI_PRO: 'gemini-pro'
+  GEMINI_PRO: 'gemini-pro',
+  GEMINI_PRO15: 'gemini-1.5-pro-latest'
 };
 
 export const YiModels = {
