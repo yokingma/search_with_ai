@@ -6,15 +6,23 @@ export default {
 
 <script setup lang="tsx">
 import { watch, ref, render } from 'vue';
-import { Popup } from 'tdesign-vue-next';
+import { MessagePlugin, Popup } from 'tdesign-vue-next';
 import { citationMarkdownParse } from '../utils';
 import { marked } from 'marked';
+import { RiRestartLine, RiClipboardLine } from '@remixicon/vue';
 
 interface Iprops {
   answer?: string
   contexts?: Record<string, any>[]
+  loading?: boolean
 }
+
+interface IEmits {
+  (e: 'reload'): void
+}
+
 const props = defineProps<Iprops>();
+const emits = defineEmits<IEmits>();
 const answerRef = ref<HTMLDivElement | null>(null);
 
 // html string
@@ -22,6 +30,19 @@ const answerRef = ref<HTMLDivElement | null>(null);
 //   processAnswer(props.answer)
 //   return
 // })
+
+const onReload = () => {
+  emits('reload');
+};
+
+const onCopy = async () => {
+  try {
+    const text = answerRef.value?.innerText;
+    if (text) await navigator.clipboard.writeText(text);
+  } catch (err) {
+    MessagePlugin.error('复制失败了');
+  }
+};
 
 watch(() => props.answer, () => {
   const parent = processAnswer(props.answer);
@@ -84,8 +105,22 @@ function getCitationContent (num?: string | null) {
 </script>
 
 <template>
-  <div class="h-auto w-full text-base leading-6 text-zinc-600 dark:text-gray-200">
+  <div class="h-auto w-full text-base leading-7 text-zinc-600 dark:text-gray-200">
     <t-skeleton theme="paragraph" animation="flashed" :loading="!answer"></t-skeleton>
     <div ref="answerRef" class="markdown-body h-auto w-full dark:bg-zinc-800" />
+    <div v-if="!loading" class="flex w-full flex-row justify-end border-0 border-b border-solid border-zinc-200 py-2 dark:border-zinc-600">
+      <div class="flex flex-row gap-2">
+        <t-tooltip content="复制答案">
+          <t-button :disabled="loading" theme="default" shape="circle" @click="onCopy">
+            <template #icon><RiClipboardLine size="16"/></template>
+          </t-button>
+        </t-tooltip>
+        <t-tooltip content="重新回答">
+          <t-button :disabled="loading" theme="default" shape="circle" @click="onReload">
+            <template #icon><RiRestartLine size="16"/></template>
+          </t-button>
+        </t-tooltip>
+      </div>
+    </div>
   </div>
 </template>

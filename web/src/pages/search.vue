@@ -3,20 +3,18 @@
     <div class="absolute inset-0 overflow-hidden rounded-2xl bg-gray-100 p-2 dark:bg-zinc-900">
       <div ref="wrapperRef" class="h-full overflow-y-auto rounded-2xl bg-white dark:bg-zinc-800">
         <div class="p-4">
-          <div class="flex flex-nowrap items-center justify-between border-0 border-b border-solid border-gray-100 pb-4 dark:border-black">
+          <div class="flex flex-nowrap items-center justify-between border-0 border-b border-solid border-gray-100 pb-4 dark:border-zinc-700">
             <div class="inline-flex text-xl font-bold leading-8 text-blue-800 dark:text-blue-200">{{ query }}</div>
-            <div class="flex w-14 grow-0 justify-end">
-              <t-button :disabled="loading" theme="default" shape="circle" @click="onReload">
-                <template #icon><RiRestartLine /></template>
-              </t-button>
-            </div>
           </div>
           <div class="mt-4">
             <div class="flex flex-nowrap items-center gap-2 py-4 text-black dark:text-gray-200">
-              <RiQuestionAnswerLine />
+              <RiChat3Line />
               <span class="text-lg font-bold ">AI回答</span>
             </div>
-            <ChatAnswer :answer="result?.answer" :contexts="result?.contexts" />
+            <ChatAnswer :answer="result?.answer" :contexts="result?.contexts" :loading="loading" @reload="onReload" />
+            <div class="mt-4 flex">
+              <RelatedQuery :related="result?.related" @select="onSelectQuery" />
+            </div>
           </div>
           <div class="mt-4">
             <div class="flex flex-nowrap items-center gap-2 py-4 text-black dark:text-gray-200">
@@ -24,13 +22,6 @@
               <span class="text-lg font-bold ">参考资料</span>
             </div>
             <ChatSources :loading="loading" :sources="result?.contexts" />
-          </div>
-          <div class="mt-4">
-            <div class="flex flex-nowrap items-center gap-2 py-4 text-black dark:text-gray-200">
-              <RiChatQuoteLine />
-              <span class="text-lg font-bold ">相关问题</span>
-            </div>
-            <RelatedQuery :related="result?.related" @select="onSelectQuery" />
           </div>
           <div class="mt-4 pb-20">
             <PageFooter />
@@ -50,7 +41,7 @@
 import { computed, onMounted, ref } from 'vue';
 import { MessagePlugin } from 'tdesign-vue-next';
 import { useAppStore } from '../store';
-import { RiQuestionAnswerLine, RiBook2Line, RiChatQuoteLine, RiRestartLine } from '@remixicon/vue';
+import { RiChat3Line, RiBook2Line } from '@remixicon/vue';
 import router from '../router';
 import { search } from '../api';
 import { PageFooter, ChatAnswer, RelatedQuery, ChatSources, SearchInputBar } from '../components';

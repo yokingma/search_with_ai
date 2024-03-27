@@ -16,6 +16,12 @@
   --main-font-color: #333333;
 }
 
+:root[theme-mode="light"] {
+  --td-brand-color: #000000;
+  --main-bg-color: #ffffff;
+  --main-font-color: #333333;
+}
+
 :root[theme-mode="dark"] {
   --td-brand-color: #000000;
   --main-bg-color: #000000;
