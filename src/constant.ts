@@ -66,7 +66,14 @@ export const TencentModels = {
   PRO: 'pro'
 };
 
-export const AllModels = Object.assign({}, AliyunModels, OpenAIModels, BaiduModels, GoogleModels, YiModels);
+export const LeptonModels = {
+  LLAMA2_7B: 'llama2-7b',
+  LLAMA2_13B: 'llama2-13b',
+  LLAMA2_70B: 'llama2-70b',
+  MIXTRAL8x7B: 'mixtral-8*7b'
+};
+
+export const AllModels = Object.assign({}, AliyunModels, OpenAIModels, BaiduModels, GoogleModels, YiModels, LeptonModels);
 
 export const UserAgents = [
   'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.5359.95 Safari/537.36',

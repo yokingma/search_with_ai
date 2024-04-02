@@ -1,5 +1,5 @@
 import { Context } from 'koa';
-import { AliyunModels, BaiduModels, DefaultQuery, GoogleModels, MoonshotModels, OpenAIModels, TencentModels, YiModels } from './constant';
+import { AliyunModels, BaiduModels, DefaultQuery, GoogleModels, LeptonModels, MoonshotModels, OpenAIModels, TencentModels, YiModels } from './constant';
 import { searchWithSogou } from './service';
 import { aliyun, openai, baidu, yi, tencent, } from './platform';
 import { EBackend, IChatInputMessage } from './interface';
@@ -26,7 +26,6 @@ export const searchController = async (ctx: Context) => {
   ctx.res.statusCode = 200;
   await rag.query(q as string, (json: string) => {
     const eventData = `data:${JSON.stringify({ data: json })}\n\n`;
-    console.log(json);
     ctx.res.write(eventData, 'utf-8');
   });
   ctx.res.end();
@@ -55,7 +54,7 @@ export const chatStreamController = async (ctx: Context) => {
 };
 
 export const modelsController = async (ctx: Context) => {
-  const { GOOGLE_KEY, ALIYUN_KEY, OPENAI_KEY, BAIDU_KEY, TENCENT_KEY, YI_KEY, MOONSHOT_KEY } = process.env;
+  const { GOOGLE_KEY, ALIYUN_KEY, OPENAI_KEY, BAIDU_KEY, TENCENT_KEY, YI_KEY, MOONSHOT_KEY, LEPTON_KEY } = process.env;
   const models = {
     aliyun: ALIYUN_KEY ? Object.values(AliyunModels) : [],
     openai: OPENAI_KEY ? Object.values(OpenAIModels) : [],
@@ -63,7 +62,8 @@ export const modelsController = async (ctx: Context) => {
     google: GOOGLE_KEY ? Object.values(GoogleModels) : [],
     tencent: TENCENT_KEY ? Object.values(TencentModels) : [],
     yi: YI_KEY ? Object.values(YiModels) : [],
-    moonshot: MOONSHOT_KEY ? Object.values(MoonshotModels) : []
+    moonshot: MOONSHOT_KEY ? Object.values(MoonshotModels) : [],
+    lepton: LEPTON_KEY ? Object.values(LeptonModels) : []
   };
   ctx.body = models;
 };

@@ -9,13 +9,15 @@ You are a large language AI assistant built by LLM AI. You are given a user ques
 
 Your answer must be correct, accurate and written by an expert using an unbiased and professional tone. Please limit to 1024 tokens. Do not give any information that is not related to the question, and do not repeat. Say "information is missing on" followed by the related topic, if the given context do not provide sufficient information.
 
-Please cite the contexts with the reference numbers, in the format [citation:x]. If a sentence comes from multiple contexts, please list all applicable citations, like [citation:3][citation:5]. Other than code and specific names and citations, your answer must be written in the same language as the question.
+Please cite the contexts with the reference numbers, in the format [citation:x]. If a sentence comes from multiple contexts, please list all applicable citations, like [citation:3][citation:5]. Other than code and specific names and citations.
 
 Here are the set of contexts:
 
 %s
 
-Remember, don't blindly repeat the contexts verbatim. And here is the user question:
+Remember, don't blindly repeat the contexts verbatim. Your answer must be written in the same language as the user question, For example, if the user question is written in chinese, your answer should be written in chinese too.
+
+And here is the user question:
 `;
 
 export const MoreQuestionsPrompt = `
@@ -25,7 +27,7 @@ Here are the contexts of the question:
 
 %s
 
-Remember, based on the original question and related contexts, suggest three such further questions. Do NOT repeat the original question. Each related question should be no longer than 20 words. Your answer must be written in the same language as the original question.
+Remember, based on the original question and related contexts, suggest three such further questions. Do NOT repeat the original question. DO NOT cite the original question. Each related question should be no longer than 20 words. Your answer must be written in the same language as the original question.
 
 Here is the original question:
 `;

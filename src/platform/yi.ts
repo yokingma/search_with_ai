@@ -77,7 +77,8 @@ export class YiChat implements BaseChat {
     const stream = await this.openai.chat.completions.create({
       messages,
       model,
-      stream: true
+      stream: true,
+      max_tokens: 2048
     });
     for await (const chunk of stream) {
       onMessage?.(chunk.choices[0].delta.content || null, false);
