@@ -35,7 +35,7 @@ export const AliyunModels = {
 
 export const OpenAIModels = {
   GPT35TURBO: 'gpt-3.5-turbo',
-  GPT4: 'gpt-4',
+  GPT4_PREVIEW: 'gpt-4-0125-preview',
   GPT4TURBO_PREVIEW: 'gpt-4-turbo-preview'
 };
 

@@ -7,7 +7,7 @@
 仓库地址：[GitHub仓库](https://github.com/yokingma/search_with_ai)、 [Gitee仓库](https://gitee.com/zac_ma/search_with_ai)
 
 ## 功能说明
-* 1、内置主流的LLM接口支持，如OpenAI、Google Gemini、阿里云通译千问、百度文心一言等。
+* 1、内置主流的LLM接口支持，如OpenAI ChatGPT、Google Gemini、阿里云通译千问、百度文心一言、Lepton（LLama2、Mixtral8*7B）等。
 * 2、内置搜索引擎支持，如Bing、Sogou。
 * 3、简洁的搜索对话Web界面。
 * 4、Web界面支持暗色模式。
