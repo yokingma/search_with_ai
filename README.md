@@ -1,5 +1,5 @@
 # Search with AI
-基于AI大语言模型的对话式搜索引擎的一个简单实现，基于Node.js&Vue3。 [Demo](https://isou.chat/)
+基于AI大语言模型的对话式搜索引擎的一个简单实现，基于Node.js&Vue3。 [Live Demo](https://isou.chat/)
 <div align="center">
  <img src="./screenshot.jpg" alt="Search with AI" />
 </div>
@@ -7,7 +7,7 @@
 仓库地址：[GitHub仓库](https://github.com/yokingma/search_with_ai)、 [Gitee仓库](https://gitee.com/zac_ma/search_with_ai)
 
 ## 功能说明
-* 1、内置主流的LLM接口支持，如OpenAI ChatGPT、Google Gemini、阿里云通译千问、百度文心一言、Lepton（LLama2、Mixtral8*7B）等。
+* 1、内置主流的LLM接口支持，如OpenAI、Google、通译千问、百度文心一言、Lepton等。
 * 2、内置搜索引擎支持，如Bing、Sogou。
 * 3、简洁的搜索对话Web界面。
 * 4、Web界面支持暗色模式。
@@ -16,6 +16,16 @@
 * 7、搜索历史记录(TODO)。
 * 8、基于结果的多轮对话(TODO)。
 * 9、抓取参考网页的全部内容作为上下文(TODO)。
+
+## 大模型支持
+* OpenAI ChatGPT
+* Google Gemini
+* Lepton LLama2、Mixtral8*7B
+* 阿里云通译千问
+* 百度文心一言
+* 零一万物
+* 月之暗面（Kimi）
+* 腾讯混元
 
 ## 搜索引擎配置
 内置了搜索引擎服务：Bing、Sogou、Google(TODO)。
@@ -48,25 +58,26 @@ cd web && yarn install && yarn run build
 
 * **配置**
 ```ts
-// 根目录下的.env文件为环境配置文件，此处配置各种key等
-// Bing 搜索服务 key
+// .env
+// Bing key
 BING_SEARCH_KEY=your-key
-// aliyun 通译千问 key
+// aliyun key
 ALIYUN_KEY=your-key
-// baidu 文心一言配置 
+// baidu key
 BAIDU_KEY=your-key
 BAIDU_SECRET=your-secret
 // google gemini key & base url
 GOOGLE_KEY=
+// Google api base url
 GOOGLE_PROXY_URL=
-// openai ChatGPT key
-OPENAI_KEY=your-key
-# tencent KEY:ID, SECRET:KEY
+// tencent KEY:ID, SECRET:KEY
 TENCENT_KEY=
 TENCENT_SECRET=
-# Yi Key
+// Yi Key
 YI_KEY=
-// openai代理服务地址，便于无法直接使用openai服务的用户，不用可留空
+// openai ChatGPT key
+OPENAI_KEY=your-key
+// openai base url
 OPENAI_PROXY_URL=https://api.openai.com/v1
 ```
 

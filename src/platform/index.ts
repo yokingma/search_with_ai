@@ -6,3 +6,4 @@ export * from './tencent';
 export * from './yi';
 export * from './moonshot';
 export * from './lepton';
+export * from './ollama';

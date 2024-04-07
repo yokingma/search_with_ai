@@ -5,7 +5,7 @@ import { bodyParser } from '@koa/bodyparser';
 import serve from 'koa-static';
 import path from 'path';
 import history from 'koa2-connect-history-api-fallback';
-import { chatStreamController, modelsController, searchController, sogouSearchController } from './controllers';
+import { chatStreamController, localChatStreamController, localModelsController, modelsController, searchController, sogouSearchController } from './controllers';
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -48,5 +48,9 @@ router.post('/api/search', searchController);
 router.post('/api/sogou/search', sogouSearchController);
 router.post('/api/chat', chatStreamController);
 router.get('/api/models', modelsController);
+
+// local llm
+router.get('/api/local/models', localModelsController);
+router.post('/api/local/chat', localChatStreamController);
 
 app.listen(3000);

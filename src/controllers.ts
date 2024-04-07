@@ -1,7 +1,7 @@
 import { Context } from 'koa';
 import { AliyunModels, BaiduModels, DefaultQuery, GoogleModels, LeptonModels, MoonshotModels, OpenAIModels, TencentModels, YiModels } from './constant';
 import { searchWithSogou } from './service';
-import { aliyun, openai, baidu, yi, tencent, } from './platform';
+import { aliyun, openai, baidu, yi, tencent, local } from './platform';
 import { EBackend, IChatInputMessage } from './interface';
 import { Rag } from './rag';
 
@@ -10,10 +10,12 @@ export const searchController = async (ctx: Context) => {
   const q = ctx.request.query.q || DefaultQuery;
   const model: string = ctx.request.body.model;
   const engine: EBackend = ctx.request.body.engine;
+  const locally: boolean = ctx.request.body.locally ?? false;
   const rag = new Rag({
     stream,
     model,
-    backend: engine
+    backend: engine,
+    locally
   });
   if (!stream) {
     const res = await rag.query(q as string);
@@ -66,6 +68,28 @@ export const modelsController = async (ctx: Context) => {
     lepton: LEPTON_KEY ? Object.values(LeptonModels) : []
   };
   ctx.body = models;
+};
+
+// locally llm models
+export const localModelsController = async (ctx: Context) => {
+  const list = await local.list();
+  ctx.body = list;
+};
+
+
+// chat with locally models
+export const localChatStreamController = async (ctx: Context) => {
+  const messages: IChatInputMessage[] = ctx.request.body.messages || [];
+  const model: string | undefined = ctx.request.body.model;
+  ctx.res.setHeader('Content-Type', 'text/event-stream');
+  ctx.res.setHeader('Cache-Control', 'no-cache');
+  ctx.res.setHeader('Connection', 'keep-alive');
+  ctx.res.statusCode = 200;
+  await local.chatStream(messages, (data) => {
+    const eventData = `data: ${JSON.stringify({ text: data || '' })}\n\n`;
+    ctx.res.write(eventData);
+  }, model);
+  ctx.res.end();
 };
 
 function processModel(model = AliyunModels.QWEN_MAX) {

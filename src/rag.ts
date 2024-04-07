@@ -1,7 +1,7 @@
 import { EBackend, IChatInputMessage, IStreamHandler, SearchFunc } from './interface';
 import { searchWithBing, searchWithGoogle, searchWithSogou } from './service';
 import { MoreQuestionsPrompt, RagQueryPrompt } from './prompt';
-import { aliyun, baidu, openai, google, tencent, yi, moonshot, lepton } from './platform';
+import { aliyun, baidu, openai, google, tencent, yi, moonshot, lepton, local } from './platform';
 // import { memoryCache } from './utils';
 import util from 'util';
 import { AliyunModels, AllModels, BaiduModels, OpenAIModels, GoogleModels, TencentModels, YiModels, MoonshotModels, LeptonModels } from './constant';
@@ -10,6 +10,8 @@ interface RagOptions {
   backend?: EBackend
   stream?: boolean
   model?: string
+  // use local llm?
+  locally?: boolean
 }
 
 // const CACHE_NAME = 'search_with_ai';
@@ -22,7 +24,10 @@ export class Rag {
   private stream: boolean;
 
   constructor(params?: RagOptions) {
-    const { backend = EBackend.SOGOU, stream = true, model = AllModels.QWEN_MAX } = params || {};
+    const { backend = EBackend.SOGOU, stream = true, model = AllModels.QWEN_MAX, locally } = params || {};
+    if (locally) {
+      this.chat = local.chatStream.bind(local);
+    }
     this.chat = processModel(model, stream);
     this.model = model;
     this.stream = stream;
