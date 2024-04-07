@@ -6,10 +6,14 @@ export default {
 
 <script setup lang="ts">
 import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 type Emits = {
   (e: 'select', query: string): void
 }
+
+const { t } = useI18n();
+
 const props = defineProps<{ related?: string }>();
 const emits = defineEmits<Emits>();
 const onSelect = (query: string) => {
@@ -25,7 +29,7 @@ const relatedArr = computed(() => {
 <template>
   <div class="flex w-full flex-col gap-4">
     <template v-if="relatedArr?.length">
-      <div class="text-lg font-bold text-black dark:text-gray-300">追问:</div>
+      <div class="text-lg font-bold text-black dark:text-gray-300">{{ t('related') }}:</div>
       <div class="grid grid-cols-1 gap-2 md:grid-cols-3">
         <div
           v-for="(item, index) in relatedArr"

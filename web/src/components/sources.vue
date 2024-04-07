@@ -5,6 +5,8 @@ export default {
 </script>
 
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
+
 interface IProps {
   sources?: Record<string, any>[]
   loading: boolean
@@ -27,13 +29,14 @@ const rowCol = [
     { width: '32%', height: '42px', borderRadius: '6px' },
   ]
 ];
+const { t } = useI18n();
 </script>
 
 <template>
   <div class="w-full">
     <t-skeleton :row-col="rowCol" animation="flashed" :loading="!sources?.length && loading"></t-skeleton>
     <div v-if="sources?.length === 0 && !loading" class="">
-      <t-alert theme="info" message="获取参考资料失败了" close>
+      <t-alert theme="info" :message="t('message.sourceError')" close>
         <template #operation>
         </template>
       </t-alert>

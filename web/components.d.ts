@@ -11,6 +11,8 @@ declare module 'vue' {
     copy: typeof import('./src/components/models copy.vue')['default']
     Engine: typeof import('./src/components/engine.vue')['default']
     Footer: typeof import('./src/components/footer.vue')['default']
+    Language: typeof import('./src/components/Language.vue')['default']
+    Locale: typeof import('./src/components/locale.vue')['default']
     LocalModels: typeof import('./src/components/localModels.vue')['default']
     Models: typeof import('./src/components/models.vue')['default']
     Related: typeof import('./src/components/related.vue')['default']

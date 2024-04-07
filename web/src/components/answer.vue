@@ -9,6 +9,7 @@ import { watch, ref, render } from 'vue';
 import { MessagePlugin, Popup } from 'tdesign-vue-next';
 import { citationMarkdownParse } from '../utils';
 import { marked } from 'marked';
+import { useI18n } from 'vue-i18n';
 import { RiRestartLine, RiClipboardLine } from '@remixicon/vue';
 
 interface Iprops {
@@ -20,6 +21,8 @@ interface Iprops {
 interface IEmits {
   (e: 'reload'): void
 }
+
+const { t } = useI18n();
 
 const props = defineProps<Iprops>();
 const emits = defineEmits<IEmits>();
@@ -40,7 +43,7 @@ const onCopy = async () => {
     const text = answerRef.value?.innerText;
     if (text) await navigator.clipboard.writeText(text);
   } catch (err) {
-    MessagePlugin.error('复制失败了');
+    MessagePlugin.error(t('message.copyError'));
   }
 };
 
@@ -110,12 +113,12 @@ function getCitationContent (num?: string | null) {
     <div ref="answerRef" class="markdown-body h-auto w-full dark:bg-zinc-800" />
     <div v-if="!loading" class="flex w-full flex-row justify-end border-0 border-b border-solid border-zinc-200 py-2 dark:border-zinc-600">
       <div class="flex flex-row gap-2">
-        <t-tooltip content="复制答案">
+        <t-tooltip :content="t('copy')">
           <t-button :disabled="loading" theme="default" shape="circle" @click="onCopy">
             <template #icon><RiClipboardLine size="16"/></template>
           </t-button>
         </t-tooltip>
-        <t-tooltip content="重新回答">
+        <t-tooltip :content="t('reload')">
           <t-button :disabled="loading" theme="default" shape="circle" @click="onReload">
             <template #icon><RiRestartLine size="16"/></template>
           </t-button>

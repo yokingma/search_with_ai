@@ -9,7 +9,7 @@
           <div class="mt-4">
             <div class="flex flex-nowrap items-center gap-2 py-4 text-black dark:text-gray-200">
               <RiChat3Line />
-              <span class="text-lg font-bold ">AI回答</span>
+              <span class="text-lg font-bold ">{{ t('answer') }}</span>
             </div>
             <ChatAnswer :answer="result?.answer" :contexts="result?.contexts" :loading="loading" @reload="onReload" />
             <div class="mt-4 flex">
@@ -19,7 +19,7 @@
           <div class="mt-4">
             <div class="flex flex-nowrap items-center gap-2 py-4 text-black dark:text-gray-200">
               <RiBook2Line />
-              <span class="text-lg font-bold ">参考资料</span>
+              <span class="text-lg font-bold ">{{ t('sources') }}</span>
             </div>
             <ChatSources :loading="loading" :sources="result?.contexts" />
           </div>
@@ -40,6 +40,7 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
 import { MessagePlugin } from 'tdesign-vue-next';
+import { useI18n } from 'vue-i18n';
 import { useAppStore } from '../store';
 import { RiChat3Line, RiBook2Line } from '@remixicon/vue';
 import router from '../router';
@@ -49,6 +50,8 @@ import { IQueryResult } from '../interface';
 
 const wrapperRef = ref<HTMLDivElement | null>(null);
 const appStore = useAppStore();
+
+const { t } = useI18n();
 
 const keyword = computed(() => router.currentRoute.value.query.q ?? '');
 const query = ref<string>('');
@@ -119,7 +122,7 @@ async function querySearch(val: string | null) {
       },
       onError: (err) => {
         console.error('error', err);
-         MessagePlugin.error(`查询出现错误: ${err.message}`);
+         MessagePlugin.error(`${t('message.queryError')}: ${err.message}`);
         loading.value = false;
       }
     });
@@ -128,7 +131,7 @@ async function querySearch(val: string | null) {
     abortCtrl = null;
     console.log(err);
     loading.value = false;
-    MessagePlugin.error('查询失败了');
+    MessagePlugin.error(t('message.queryError'));
   }
 }
 

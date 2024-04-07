@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { RiArrowRightLine } from '@remixicon/vue';
-
+import { useI18n } from 'vue-i18n';
 type Emits = {
   (e: 'search', val: string): void,
 }
@@ -9,7 +9,7 @@ type Emits = {
 type Props = {
   loading: boolean,
 }
-
+const { t } = useI18n();
 const props = defineProps<Props>();
 
 const emits = defineEmits<Emits>();
@@ -29,7 +29,7 @@ export default {
 <template>
   <div id="searchbar" class="rounded-3xl bg-gray-100 p-2 transition-all dark:bg-zinc-800">
     <div class="w-full overflow-hidden rounded-3xl border border-gray-100 dark:border-gray-300">
-      <t-input v-model="query" :disabled="props.loading" clearable :autofocus="true" :maxlength="100" size="large" placeholder="请输入想要问AI的问题" @enter="onSearch">
+      <t-input v-model="query" :disabled="props.loading" clearable :autofocus="true" :maxlength="100" size="large" :placeholder="t('tips.search')" @enter="onSearch">
         <template #suffix>
           <t-button :disabled="loading" shape="round" variant="base" @click="onSearch">
             <template #icon><RiArrowRightLine /></template>

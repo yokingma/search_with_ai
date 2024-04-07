@@ -8,7 +8,7 @@
       </div>
       <SearchInputBar :loading="false" @search="search" />
       <div class="grid grid-cols-1 justify-center gap-2 sm:grid-cols-2 md:grid-cols-3">
-        <t-tag v-for="(item, index) in quickly" :key="index" shape="round" variant="light" class="cursor-pointer hover:opacity-80" @click="onQuickSearch(item)">
+        <t-tag v-for="(item, index) in list" :key="index" shape="round" variant="light" class="cursor-pointer hover:opacity-80" @click="onQuickSearch(item)">
           {{ item }}
         </t-tag>
       </div>
@@ -23,12 +23,28 @@
 import router from '../router';
 import { PageFooter, SearchInputBar } from '../components';
 import logoUrl from '../assets/logo.png';
+import { useI18n } from 'vue-i18n';
+import { computed } from 'vue';
 
-const quickly = [
-  '什么是大语言模型LLM?',
-  '什么是RAG?',
-  'LLM如何在企业落地应用?'
-];
+const { locale } = useI18n();
+
+const quickly: Record<string, string[]> = {
+  zh: [
+    '什么是大语言模型LLM?',
+    '什么是RAG?',
+    'LLM如何在企业落地应用?'
+  ],
+  en: [
+    'What is LLM?',
+    'What is RAG?',
+    'How to use LLM in enterprise?'
+  ]
+};
+
+const list = computed(() => {
+  const key = locale.value;
+  return quickly[key];
+});
 
 const search = (val: string) => {
   if (!val) {

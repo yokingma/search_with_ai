@@ -1,10 +1,12 @@
 <script lang="ts" setup>
 import { ref, onMounted } from 'vue';
 import { RiSettingsLine, RiSunLine, RiMoonLine, RiGithubLine } from '@remixicon/vue';
-import { ModelSelect, SearchEngineSelect, LocalModelSelect } from './components/index';
+import { ModelSelect, SearchEngineSelect, LocalModelSelect, LanguageSelect } from './components/index';
 import { useAppStore } from './store';
+import { useI18n } from 'vue-i18n';
 import { type SwitchValue } from 'tdesign-vue-next';
 
+const { t, locale } = useI18n();
 const appStore = useAppStore();
 
 const showSettings = ref(false);
@@ -19,6 +21,8 @@ const onEnableLocalModel = (val: SwitchValue) => {
 };
 
 onMounted(() => {
+  locale.value = appStore.language;
+  document.title = t('title');
   if (appStore.theme) appStore.updateTheme(appStore.theme);
   else {
     if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
@@ -47,20 +51,20 @@ onMounted(() => {
       </div>
     </div>
     <!-- eslint-disable-next-line vue/no-v-model-argument -->
-    <t-drawer v-model:visible="showSettings" :footer="false" header="设置">
+    <t-drawer v-model:visible="showSettings" :footer="false" :header="t('settings')">
       <div class="flex h-full flex-col justify-between gap-4">
         <div class="w-full">
           <div class="flex w-full flex-col gap-2">
-            <div class="">选择大模型</div>
+            <div class="">{{ t('selectModel') }}</div>
             <ModelSelect />
           </div>
           <div class="mt-2 flex w-full flex-col gap-2">
-            <div class="">选择搜索引擎</div>
+            <div class="">{{ t('selectEngine') }}</div>
             <SearchEngineSelect />
           </div>
-          <t-divider>本地大模型</t-divider>
+          <t-divider>{{ t('localModel') }}</t-divider>
           <div class="mt-2 flex w-full flex-col gap-2">
-            <div class="">启用本地大模型</div>
+            <div class="">{{ t('enableLocalModel') }}</div>
             <t-switch class="w-12" size="large" :default-value="appStore.enableLocal" @change="onEnableLocalModel">
               <template #label="slotProps">
                 <template v-if="slotProps.value">
@@ -73,12 +77,16 @@ onMounted(() => {
             </t-switch>
           </div>
           <div class="mt-2 flex w-full flex-col gap-2">
-            <div class="">本地大模型</div>
+            <div class="">{{ t('localModel') }}</div>
             <LocalModelSelect />
+          </div>
+          <t-divider>{{ t('language') }}</t-divider>
+          <div class="mt-2 flex w-full flex-col gap-2">
+            <LanguageSelect />
           </div>
         </div>
         <div class="mb-4 flex flex-row gap-2">
-          <span>主题: </span>
+          <span>{{ t('theme') }}: </span>
           <t-switch class="w-12" size="large" :default-value="appStore.theme === 'dark'" @change="onChangeTheme">
             <template #label="slotProps">
               <template v-if="slotProps.value">
