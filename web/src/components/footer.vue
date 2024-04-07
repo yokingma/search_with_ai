@@ -23,7 +23,10 @@ export default {
       搜索生成的内容由AI大模型和搜索引擎生成，内容不代表我们的态度或观点，仅供研究学习用途。
     </div>
     <div class="mt-2 flex items-center gap-2 text-xs text-black dark:text-white">
-      <div>当前LLM: <t-tag shape="round" size="small">{{ appStore.model || '暂未选择' }}</t-tag></div>
+      <div>当前LLM: 
+        <t-tag v-if="!appStore.enableLocal" shape="round" size="small">{{ appStore.model || '暂未选择' }}</t-tag>
+        <t-tag v-else shape="round" size="small">本地模型: {{ appStore.localModel || '暂未选择' }}</t-tag>
+      </div>
       <div>当前搜索: <t-tag shape="round" size="small">{{ appStore.engine || '暂未选择' }}</t-tag></div>
     </div>
   </div>

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { ref, onMounted } from 'vue';
 import { RiSettingsLine, RiSunLine, RiMoonLine, RiGithubLine } from '@remixicon/vue';
-import { ModelSelect, SearchEngineSelect } from './components/index';
+import { ModelSelect, SearchEngineSelect, LocalModelSelect } from './components/index';
 import { useAppStore } from './store';
 import { type SwitchValue } from 'tdesign-vue-next';
 
@@ -12,6 +12,10 @@ const showSettings = ref(false);
 const onChangeTheme = (val: SwitchValue) => {
   if (val) appStore.updateTheme('dark');
   else appStore.updateTheme('light');
+};
+
+const onEnableLocalModel = (val: SwitchValue) => {
+  appStore.switchLocalModel(val as boolean);
 };
 
 onMounted(() => {
@@ -50,9 +54,27 @@ onMounted(() => {
             <div class="">选择大模型</div>
             <ModelSelect />
           </div>
-          <div class="flex w-full flex-col gap-2">
+          <div class="mt-2 flex w-full flex-col gap-2">
             <div class="">选择搜索引擎</div>
             <SearchEngineSelect />
+          </div>
+          <t-divider>本地大模型</t-divider>
+          <div class="mt-2 flex w-full flex-col gap-2">
+            <div class="">启用本地大模型</div>
+            <t-switch class="w-12" size="large" :default-value="appStore.enableLocal" @change="onEnableLocalModel">
+              <template #label="slotProps">
+                <template v-if="slotProps.value">
+                  on
+                </template>
+                <template v-else>
+                  off
+                </template>
+              </template>
+            </t-switch>
+          </div>
+          <div class="mt-2 flex w-full flex-col gap-2">
+            <div class="">本地大模型</div>
+            <LocalModelSelect />
           </div>
         </div>
         <div class="mb-4 flex flex-row gap-2">

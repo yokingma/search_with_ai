@@ -5,6 +5,7 @@ import RelatedQuery from './related.vue';
 import SearchInputBar from './searchInputBar.vue';
 import ModelSelect from './models.vue';
 import SearchEngineSelect from './engine.vue';
+import LocalModelSelect from './localModels.vue';
 
 export {
   ChatAnswer,
@@ -12,6 +13,7 @@ export {
   SearchInputBar,
   RelatedQuery,
   ModelSelect,
+  LocalModelSelect,
   SearchEngineSelect,
   PageFooter
 };

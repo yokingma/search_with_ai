@@ -27,11 +27,13 @@ export class Rag {
     const { backend = EBackend.SOGOU, stream = true, model = AllModels.QWEN_MAX, locally } = params || {};
     if (locally) {
       this.chat = local.chatStream.bind(local);
+    } else {
+      this.chat = processModel(model, stream);
     }
-    this.chat = processModel(model, stream);
     this.model = model;
     this.stream = stream;
     console.info('[query with]:', backend, model);
+    console.info('[query with local llm]:', locally);
     switch (backend) {
       case EBackend.GOOGLE:
         this.search = searchWithGoogle;

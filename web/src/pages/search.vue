@@ -93,10 +93,12 @@ async function querySearch(val: string | null) {
   abortCtrl = ctrl;
   try {
     loading.value = true;
-    const { model, engine } = appStore;
+    const { model, engine, enableLocal, localModel } = appStore;
+    const modelName = enableLocal ? localModel : model?.split(':')[1];
     await search(val, {
-      model: model?.split(':')[1],
+      model: modelName,
       engine,
+      locally: enableLocal,
       ctrl,
       onMessage: (data: any) => {
         // if (wrapperRef.value) wrapperRef.value.scrollTop = wrapperRef.value.scrollHeight
