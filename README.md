@@ -16,8 +16,11 @@
 * 7、搜索历史记录(TODO)。
 * 8、基于结果的多轮对话(TODO)。
 * 9、抓取参考网页的全部内容作为上下文(TODO)。
+* 10、支持本地大模型（基于Ollama）。
 
 ## 大模型支持
+
+#### 基于在线大模型的API（需要Key）
 * OpenAI ChatGPT
 * Google Gemini
 * Lepton LLama2、Mixtral8*7B
@@ -26,6 +29,9 @@
 * 零一万物
 * 月之暗面（Kimi）
 * 腾讯混元
+
+#### 本地大模型支持（无需Key）
+支持[Ollama](https://github.com/ollama/ollama)运行的本地大模型。运行的时候只需要启动ollama即可。
 
 ## 搜索引擎配置
 内置了搜索引擎服务：Bing、Sogou、Google(TODO)。
