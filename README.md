@@ -4,9 +4,7 @@
 Build your own conversation-based search with AI, a simple implementation with Node.js & Vue3. [Live Demo](https://isou.chat/)  
 
 <div align="center">
-  <video width="800" height="678" controls>
-    <source src="./screenshot.mp4" type="video/mp4">
-  </video>
+ <img src="./screenshot.png" alt="Search with AI" />
 </div>
 
 repo: [GitHub](https://github.com/yokingma/search_with_ai)、 [Gitee](https://gitee.com/zac_ma/search_with_ai)  
@@ -47,7 +45,7 @@ You have three options for Google Search: you can use the SearchApi Google Searc
 #### Sogou Search
 For users in China.
 
-## Setup LLM and KV
+## Setup
 
 Required:
 > Node.js >= 18
