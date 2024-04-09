@@ -31,7 +31,7 @@ export default {
 </script>
 
 <template>
-  <t-select v-model="language" :label="t('llm')" :placeholder="t('selectModel')" @change="onLanSelect">
+  <t-select v-model="language" :label="t('language')" :placeholder="t('selectModel')" @change="onLanSelect">
     <t-option v-for="(item) in languageList" :key="item.value" :value="item.value" :label="item.name"></t-option>
   </t-select>
 </template>
