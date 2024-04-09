@@ -1,5 +1,5 @@
 # Search with AI
-[English](./README.md) **中文**
+[English](./README.md) **中文**  
 基于AI大语言模型的对话式搜索引擎的一个简单实现，基于Node.js&Vue3。 [Live Demo](https://isou.chat/)
 <div align="center">
  <img src="./screenshot_cn.jpg" alt="Search with AI" />

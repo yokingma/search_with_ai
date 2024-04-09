@@ -1,5 +1,5 @@
 # Search with AI
-**English** [中文](./README_CN.md)
+**English** [中文](./README_CN.md)  
 Building a quick conversation-based search with AI, a simple implementation with Node.js & Vue3. [Live Demo](https://isou.chat/)
 <div align="center">
   <video width="800" height="678" controls>
