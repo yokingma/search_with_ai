@@ -16,6 +16,7 @@ repo: [GitHub](https://github.com/yokingma/search_with_ai)、 [Gitee](https://gi
 * Support dark mode
 * Support mobile display
 * Support local LLM with Ollama
+* Support i18n
 
 ## LLM
 
