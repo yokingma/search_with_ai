@@ -1,5 +1,5 @@
-const URL = 'https://isou.chat/api/search';
-const MODEL = 'https://isou.chat/api/models';
+const URL = 'http://127.0.0.1:3000/api/search';
+const MODEL = 'http://127.0.0.1:3000/api/models';
 const LOCAL_MODELS = 'http://127.0.0.1:3000/api/local/models';
 import { fetchEventData } from 'fetch-sse';
 
