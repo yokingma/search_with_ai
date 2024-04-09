@@ -1,13 +1,15 @@
 # Search with AI
 **English** [中文](./README_CN.md)  
-Building a quick conversation-based search with AI, a simple implementation with Node.js & Vue3. [Live Demo](https://isou.chat/)
+
+Build your own conversation-based search with AI, a simple implementation with Node.js & Vue3. [Live Demo](https://isou.chat/)  
+
 <div align="center">
   <video width="800" height="678" controls>
     <source src="./screenshot.mp4" type="video/mp4">
   </video>
 </div>
 
-repo: [GitHub](https://github.com/yokingma/search_with_ai)、 [Gitee](https://gitee.com/zac_ma/search_with_ai)
+repo: [GitHub](https://github.com/yokingma/search_with_ai)、 [Gitee](https://gitee.com/zac_ma/search_with_ai)  
 
 ## Features
 * Built-in support for LLM: OpenAI, Google, Lepton
