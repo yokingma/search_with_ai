@@ -1,7 +1,7 @@
 // Search engine related. You don't really need to change this.
 export const EndPoint = {
   BING_SEARCH_V7_ENDPOINT: 'https://api.bing.microsoft.com/v7.0/search',
-  GOOGLE_SEARCH_ENDPOINT: 'https://customsearch.googleapis.com/customsearch/v1'
+  GOOGLE_SEARCH_ENDPOINT: 'https://www.googleapis.com/customsearch/v1'
 };
 
 export const BING_MKT = 'en-US';

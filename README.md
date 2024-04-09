@@ -8,7 +8,7 @@
 
 ## 功能说明
 * 1、内置主流的LLM接口支持，如OpenAI、Google、通译千问、百度文心一言、Lepton等。
-* 2、内置搜索引擎支持，如Bing、Sogou。
+* 2、内置搜索引擎支持，如Bing、Sogou、Google。
 * 3、简洁的搜索对话Web界面。
 * 4、Web界面支持暗色模式。
 * 5、Web界面支持移动端。
@@ -41,8 +41,11 @@
 
 > Bing搜索接口是收费的，但是每月有1000次免费调用额度。
 
+#### Google搜索
+如果要使用谷歌搜索引擎， 需要[注册谷歌搜索API服务](https://developers.google.com/custom-search)，每天有100次免费搜索额度。
+
 #### Sogou搜索
-内置的Sogou搜索并非直接调用API实现（似乎没有开放的API），只是通过类似爬虫的方式分析获取搜索结果。
+内置的Sogou搜索并非直接调用API实现（似乎没有开放的API），只是通过网页搜索获取搜索结果。
 > 内置的Sogou搜索优点是免费的，**但是会触发人机验证**，遇到不返回参考资料的情况可以手动打开sogou.com随便搜索关键词，根据提示手动验证一下解除。
 
 ## 安装使用
@@ -67,6 +70,9 @@ cd web && yarn install && yarn run build
 // .env
 // Bing key
 BING_SEARCH_KEY=your-key
+// Google search key
+GOOGLE_SEARCH_KEY=
+GOOGLE_SEARCH_ID=
 // aliyun key
 ALIYUN_KEY=your-key
 // baidu key

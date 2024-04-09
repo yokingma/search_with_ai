@@ -19,6 +19,10 @@ onMounted(() => {
       value: 'SOGOU'
     },
     {
+      name: t('google'),
+      value: 'GOOGLE'
+    },
+    {
       name: t('bing'),
       value: 'BING'
     }

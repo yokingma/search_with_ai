@@ -9,6 +9,7 @@ export default {
   search: 'Engine',
   sogou: 'Sogou',
   bing: 'Bing',
+  google: 'Google',
   llm: 'LLM',
   language: 'Language',
   settings: 'Settings',
