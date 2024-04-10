@@ -46,6 +46,14 @@ You have three options for Google Search: you can use the SearchApi Google Searc
 #### Sogou Search
 For users in China.
 
+## Docker
+
+```
+git clone https://github.com/yokingma/search_with_ai.git
+cd search_with_ai
+docker-compose up -d
+```
+
 ## Setup
 
 Required:
