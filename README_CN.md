@@ -51,7 +51,24 @@
 内置的Sogou搜索并非直接调用API实现（似乎没有开放的API），只是通过网页搜索获取搜索结果。
 > 内置的Sogou搜索优点是免费的，**但是会触发人机验证**，遇到不返回参考资料的情况可以手动打开sogou.com随便搜索关键词，根据提示手动验证一下解除。
 
-## 安装使用
+## 使用 Docker 安装部署
+
+[安装Docker](https://docs.docker.com/install/).
+* 克隆仓库
+```shell
+git clone https://github.com/yokingma/search_with_ai.git
+cd search_with_ai
+```
+* 编辑 [.env](https://github.com/yokingma/search_with_ai/blob/main/.env) 设置 Key
+
+* Docker构建和运行
+```shell
+docker build -t my_image .
+docker run -d -p 3000:3000 --name my_app my_image
+```
+浏览器访问 http://localhost:3000
+
+## 普通安装部署
 
 需要：
 > Node.js >= 18
