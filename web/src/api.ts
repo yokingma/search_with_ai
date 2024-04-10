@@ -1,8 +1,9 @@
-const URL = 'http://127.0.0.1:3000/api/search';
-const MODEL = 'http://127.0.0.1:3000/api/models';
-const LOCAL_MODELS = 'http://127.0.0.1:3000/api/local/models';
 import { fetchEventData } from 'fetch-sse';
+const BASE_URL = import.meta.env.MODE === 'development' ? 'http://127.0.0.1:3000' : '';
 
+const SEARCH = '/api/search';
+const MODEL = '/api/models';
+const LOCAL_MODELS = '/api/local/models';
 export interface IQueryOptions {
   ctrl?: AbortController
   stream?: boolean
@@ -19,7 +20,7 @@ export async function search(q: string, options: IQueryOptions) {
   const query = new URLSearchParams({
     q
   });
-  const url = `${URL}?${query.toString()}`;
+  const url = `${BASE_URL}${SEARCH}?${query.toString()}`;
   await fetchEventData(url, {
     method: 'POST',
     signal: ctrl?.signal,
@@ -52,11 +53,11 @@ export async function search(q: string, options: IQueryOptions) {
 }
 
 export async function getModels() {
-  const res = await fetch(MODEL);
+  const res = await fetch(`${BASE_URL}${MODEL}`);
   return res.json();
 }
 
 export async function getLocalModels() {
-  const res = await fetch(LOCAL_MODELS);
+  const res = await fetch(`${BASE_URL}${LOCAL_MODELS}`);
   return res.json();
 }
