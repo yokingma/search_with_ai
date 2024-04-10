@@ -48,11 +48,21 @@ For users in China.
 
 ## Docker
 
-```
+Install Docker.
+
+```shell
 git clone https://github.com/yokingma/search_with_ai.git
 cd search_with_ai
-docker-compose up -d
+
+# DO NOT forget add your KEY to .env file.
+
+# docker build && run
+docker build -t my_image .
+docker run -d -p 3000:3000 --name my_app my_image
+
+# then visit http://localhost:3000
 ```
+
 
 ## Setup
 

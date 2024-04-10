@@ -9,7 +9,7 @@
     "node": ">=18"
   },
   "scripts": {
-    "start": "dotenvx run --env-file=.env -- cross-env NODE_ENV=production node ./dist/app.js",
+    "start": "dotenvx run --env-file=.env -- node ./dist/app.js",
     "dev": "dotenvx run --env-file=.env.local --env-file=.env -- cross-env NODE_ENV=development nodemon ./src/app.ts",
     "build": "tsc"
   },
