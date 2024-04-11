@@ -1,7 +1,11 @@
 import { IChatInputMessage, IStreamHandler } from '../interface';
 import { BaseChat } from './base';
-import ollama from 'ollama';
+import { Ollama } from 'ollama';
 
+const host = process.env.OLLAMA_HOST || 'http://localhost:11434';
+const ollama = new Ollama({
+  host
+});
 /**
  * run large language models locally with Ollama.
  */

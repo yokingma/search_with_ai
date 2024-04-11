@@ -61,6 +61,8 @@ cd search_with_ai
 ```shell
 docker build -t my_image .
 docker run -d -p 3000:3000 --name my_app my_image
+# linux run with host network
+# docker run -d --network host --name my_app my_image
 ```
 then visit http://localhost:3000
 
