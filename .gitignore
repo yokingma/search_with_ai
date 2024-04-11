@@ -43,7 +43,7 @@ node_modules/
 
 #build
 dist/
-web/build/
+build/
 
 #env
 .env.local
