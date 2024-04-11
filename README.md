@@ -55,6 +55,12 @@ git clone https://github.com/yokingma/search_with_ai.git
 cd search_with_ai
 ```
 * Edit the [.env](https://github.com/yokingma/search_with_ai/blob/main/.env) file to set the Keys.
+```shell
+...
+...
+# if you run ollama locally, you should set the OLLAMA_HOST.
+OLLAMA_HOST=http://localhost:11434
+```
 
 * build and run with docker.
 

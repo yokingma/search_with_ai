@@ -60,7 +60,12 @@ git clone https://github.com/yokingma/search_with_ai.git
 cd search_with_ai
 ```
 * 编辑 [.env](https://github.com/yokingma/search_with_ai/blob/main/.env) 设置 Key
-
+```shell
+...
+...
+# 如果需要在docker中使用本地部署的Ollama, 你可能要设置这个host字段.
+OLLAMA_HOST=http://localhost:11434
+```
 * Docker构建和运行
 ```shell
 docker build -t my_image .
