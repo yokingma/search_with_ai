@@ -34,8 +34,28 @@ repo: [GitHub](https://github.com/yokingma/search_with_ai)、 [Gitee](https://gi
 Support [Ollama](https://github.com/ollama/ollama), just need run ollama serve.
 
 ## Search Engine
-Built-in support for search engine: Bing, Sogou, Google(TODO).
+Built-in support for search engine: Bing, Sogou, Google, SearXNG
 
+#### SearXNG
+install [SearXNG](https://github.com/searxng/searxng) with [searxng-docker](https://github.com/searxng/searxng-docker)
+
+When you install SearxNG, the only active output format by default is the HTML format. You need to activate the json format to use the API. This can be done by adding the following line to the settings.yml file:
+```yaml
+search:
+    formats:
+        - html
+        - json
+```
+And set limiter to false:
+```yaml
+server:
+   limiter: false # default is true
+```
+
+You can also change the host settings in the .env file:
+```shell
+# SEARXNG_HOSTNAME=<host>
+```
 #### Bing Search
 To use the Bing Web Search API, please visit [this link](https://www.microsoft.com/en-us/bing/apis/bing-web-search-api) to obtain your Bing subscription key.
 > The Bing Search API is billed, but has a free tier of 1000 calls per month.
