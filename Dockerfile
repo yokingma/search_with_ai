@@ -5,7 +5,7 @@ COPY . /app
 
 RUN yarn install && yarn run build
 
-RUN cd /app/web
+WORKDIR /app/web
 RUN yarn install && yarn run build
 
 FROM node:18-alpine
