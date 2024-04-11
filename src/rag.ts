@@ -1,9 +1,10 @@
 import { EBackend, IChatInputMessage, IStreamHandler, SearchFunc } from './interface';
-import { searchWithBing, searchWithGoogle, searchWithSogou } from './service';
+import { searchWithBing, searchWithGoogle, searchWithSogou, searchWithSearXNG } from './service';
 import { MoreQuestionsPrompt, RagQueryPrompt } from './prompt';
 import { aliyun, baidu, openai, google, tencent, yi, moonshot, lepton, local } from './platform';
 // import { memoryCache } from './utils';
 import util from 'util';
+import { REFERENCE_COUNT } from './constant';
 import { AliyunModels, AllModels, BaiduModels, OpenAIModels, GoogleModels, TencentModels, YiModels, MoonshotModels, LeptonModels } from './constant';
 
 interface RagOptions {
@@ -44,6 +45,9 @@ export class Rag {
       case EBackend.SOGOU:
         this.search = searchWithSogou;
         break;
+      case EBackend.SEARXNG:
+        this.search = searchWithSearXNG;
+        break;
       default:
         this.search = searchWithBing;
     }
@@ -51,23 +55,24 @@ export class Rag {
 
   public async query(query: string, onMessage?: (...args: any[]) => void) {
     const contexts = await this.search(query);
+    const limitContexts = contexts.slice(0, REFERENCE_COUNT);
     if (!this.stream) {
-      const relatedPromise = this.getRelatedQuestions(query, contexts);
+      const relatedPromise = this.getRelatedQuestions(query, limitContexts);
       const answerPromise = this.getAiAnswer(query, contexts);
       const [related, answer] = await Promise.all([relatedPromise, answerPromise]);
       return {
         related,
         answer,
-        contexts
+        contexts: limitContexts
       };
     }
-    for (const context of contexts) {
+    for (const context of limitContexts) {
       onMessage?.(JSON.stringify({ context }));
     }
-    await this.getAiAnswer(query, contexts, (msg) => {
+    await this.getAiAnswer(query, limitContexts, (msg) => {
       onMessage?.(JSON.stringify({ answer: msg }));
     });
-    await this.getRelatedQuestions(query, contexts, (msg) => {
+    await this.getRelatedQuestions(query, limitContexts, (msg) => {
       onMessage?.(JSON.stringify({ related: msg }));
     });
     onMessage?.(null, true);

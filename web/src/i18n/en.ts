@@ -10,6 +10,7 @@ export default {
   sogou: 'Sogou',
   bing: 'Bing',
   google: 'Google',
+  searxng: 'SearXNG',
   llm: 'LLM',
   language: 'Language',
   settings: 'Settings',

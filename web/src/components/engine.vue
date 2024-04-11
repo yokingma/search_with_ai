@@ -25,6 +25,10 @@ onMounted(() => {
     {
       name: t('bing'),
       value: 'BING'
+    },
+    {
+      name: t('searxng'),
+      value: 'SEARXNG'
     }
   ];
 });

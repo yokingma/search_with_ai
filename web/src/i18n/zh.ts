@@ -10,6 +10,7 @@ export default {
   sogou: '搜狗',
   bing: '必应搜索',
   google: '谷歌搜索',
+  searxng: 'SearXNG',
   llm: '大模型',
   language: '语言',
   settings: '设置',

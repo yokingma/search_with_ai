@@ -1,6 +1,13 @@
-import { EndPoint, DEFAULT_SEARCH_ENGINE_TIMEOUT, BING_MKT, REFERENCE_COUNT } from './constant';
+import { EndPoint, DEFAULT_SEARCH_ENGINE_TIMEOUT, BING_MKT } from './constant';
 import { httpRequest } from './utils';
 import { Sogou } from './search/sogou';
+import searxng from './search/searxng';
+
+
+export const searchWithSearXNG = async (query: string) => {
+  const res = await searxng({ q: query });
+  return res;
+};
 
 /**
  * Search with bing and return the contexts.
@@ -23,7 +30,7 @@ export const searchWithBing = async (query: string) => {
       }
     });
     const result = await res.json();
-    const list = result?.webPages?.value.slice(0, REFERENCE_COUNT) || [];
+    const list = result?.webPages?.value || [];
     return list.map((item: any, index: number) => {
       return {
         id: index + 1,
@@ -83,7 +90,7 @@ export const searchWithSogou = async (query: string) => {
   await sogou.init();
   // const relatedQueries = sogou.getRelatedQueries();
   const results = await sogou.getResults();
-  return results.slice(0, REFERENCE_COUNT).map((item, index) => {
+  return results.map((item, index) => {
     return {
       id: index + 1,
       ...item
