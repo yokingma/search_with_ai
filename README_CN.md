@@ -10,16 +10,13 @@
 仓库地址：[GitHub仓库](https://github.com/yokingma/search_with_ai)、 [Gitee仓库](https://gitee.com/zac_ma/search_with_ai)  
 
 ## 功能说明
-* 1、内置主流的LLM接口支持，如OpenAI、Google、通译千问、百度文心一言、Lepton等。
-* 2、内置搜索引擎支持，如Bing、Sogou、Google。
-* 3、简洁的搜索对话Web界面。
-* 4、Web界面支持暗色模式。
-* 5、Web界面支持移动端。
-* 6、支持搜索引擎切换、AI模型切换。
-* 7、搜索历史记录(TODO)。
-* 8、基于结果的多轮对话(TODO)。
-* 9、抓取参考网页的全部内容作为上下文(TODO)。
-* 10、支持本地大模型（基于Ollama）。
+* 内置主流的LLM接口支持，如OpenAI、Google、通译千问、百度文心一言、Lepton。
+* 内置搜索引擎支持，如Bing、Sogou、Google、SearXNG（免费开源）。
+* 简洁的搜索对话Web界面。
+* Web界面支持暗色模式。
+* Web界面支持移动端。
+* 支持搜索引擎切换、AI模型切换。
+* 支持本地大模型（基于Ollama）。
 
 ## 大模型支持
 
@@ -37,7 +34,29 @@
 支持[Ollama](https://github.com/ollama/ollama)运行的本地大模型。运行的时候只需要启动ollama即可。
 
 ## 搜索引擎配置
-内置了搜索引擎服务：Bing、Sogou、Google(TODO)。
+内置了搜索引擎服务：Bing、Sogou、Google、SearXNG。
+
+#### SearXNG (免费开源，不需要KEY)
+安装 [SearXNG](https://github.com/searxng/searxng) ，推荐用Docker部署 [searxng-docker](https://github.com/searxng/searxng-docker)
+> SearXNG 是一款免费的互联网元搜索引擎，它集合了来自多个搜索服务和数据库的结果。该服务不会追踪或构建其用户档案，为寻求在线匿名性的用户提供保护。此外，SearXNG 还可通过 Tor 网络来实现在线匿名访问。
+
+安装 SearXNG 时，默认情况下唯一处于激活状态的输出格式是 HTML 格式。若要使用 API，您需要启用 json 格式。可以通过在 settings.yml 文件中添加以下行来实现：
+```yaml
+search:
+    formats:
+        - html
+        - json
+```
+并且需要设置limiter为false:
+```yaml
+server:
+   limiter: false # default is true
+```
+
+也可以设置SEARXNG_HOSTNAME (编辑.env文件):
+```shell
+# SEARXNG_HOSTNAME=<host>
+```
 
 #### Bing搜索
 如果要使用必应搜索，需要注册并订阅[Bing搜索服务](https://www.microsoft.com/en-us/bing/apis/bing-web-search-api)，获取必应订阅密钥(key)。

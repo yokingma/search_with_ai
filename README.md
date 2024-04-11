@@ -10,8 +10,8 @@ Build your own conversation-based search with AI, a simple implementation with N
 repo: [GitHub](https://github.com/yokingma/search_with_ai)、 [Gitee](https://gitee.com/zac_ma/search_with_ai)  
 
 ## Features
-* Built-in support for LLM: OpenAI, Google, Lepton
-* Built-in support for search engine: Bing, Sogou, Google
+* Built-in support for LLM: OpenAI, Google, Lepton, Ollama(Free)
+* Built-in support for search engine: Bing, Sogou, Google, SearXNG(Free)
 * Customizable pretty UI interface
 * Support dark mode
 * Support mobile display
@@ -36,8 +36,9 @@ Support [Ollama](https://github.com/ollama/ollama), just need run ollama serve.
 ## Search Engine
 Built-in support for search engine: Bing, Sogou, Google, SearXNG
 
-#### SearXNG
+#### SearXNG (Free, No Key required)
 install [SearXNG](https://github.com/searxng/searxng) with [searxng-docker](https://github.com/searxng/searxng-docker)
+> SearXNG is a free internet metasearch engine which aggregates results from various search services and databases. The service does not track or profile its users, providing online anonymity for those who seek it. Additionally, SearXNG can be used over Tor for online anonymity.
 
 When you install SearxNG, the only active output format by default is the HTML format. You need to activate the json format to use the API. This can be done by adding the following line to the settings.yml file:
 ```yaml
@@ -52,10 +53,11 @@ server:
    limiter: false # default is true
 ```
 
-You can also change the host settings in the .env file:
+You can also set the host in .env:
 ```shell
 # SEARXNG_HOSTNAME=<host>
 ```
+
 #### Bing Search
 To use the Bing Web Search API, please visit [this link](https://www.microsoft.com/en-us/bing/apis/bing-web-search-api) to obtain your Bing subscription key.
 > The Bing Search API is billed, but has a free tier of 1000 calls per month.
@@ -66,7 +68,7 @@ You have three options for Google Search: you can use the SearchApi Google Searc
 #### Sogou Search
 For users in China.
 
-## Docker
+## Docker (recommended)
 
 [Install Docker](https://docs.docker.com/install/).
 * Get the code.
@@ -92,7 +94,7 @@ docker run -d -p 3000:3000 --name my_app my_image
 ```
 then visit http://localhost:3000
 
-## Setup
+## Step by step setup
 
 Required:
 > Node.js >= 18
