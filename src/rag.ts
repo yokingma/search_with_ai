@@ -25,7 +25,7 @@ export class Rag {
   private stream: boolean;
 
   constructor(params?: RagOptions) {
-    const { backend = EBackend.SOGOU, stream = true, model = AllModels.QWEN_MAX, locally } = params || {};
+    const { backend = EBackend.BING, stream = true, model = AllModels.QWEN_MAX, locally } = params || {};
     if (locally) {
       this.chat = local.chatStream.bind(local);
     } else {
@@ -128,7 +128,7 @@ export class Rag {
   // private saveResult(contexts: any[], llmResponse: string, relatedQuestionsFuture: any[], searchUUID: string) {}
 }
 
-function processModel(model = AliyunModels.QWEN_MAX, stream = true) {
+function processModel(model = OpenAIModels.GPT35TURBO, stream = true) {
   if (Object.values(AliyunModels).includes(model)) {
     return stream ? aliyun.chatStream.bind(aliyun) : aliyun.chat.bind(aliyun);
   }
@@ -153,5 +153,5 @@ function processModel(model = AliyunModels.QWEN_MAX, stream = true) {
   if (Object.values(LeptonModels).includes(model)) {
     return lepton.chatStream.bind(lepton);
   }
-  return stream ? aliyun.chatStream.bind(aliyun) : aliyun.chat.bind(aliyun);
+  return stream ? openai.chatStream.bind(openai) : openai.chat.bind(openai);
 }
