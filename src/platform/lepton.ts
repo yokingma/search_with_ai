@@ -33,7 +33,6 @@ export class LeptonChat implements BaseChat {
     const stream = await this.openai.chat.completions.create({
       messages,
       model,
-      max_tokens: 2048,
       stream: true
     });
     for await (const chunk of stream) {
