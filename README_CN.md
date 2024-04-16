@@ -18,6 +18,46 @@
 * 支持搜索引擎切换、AI模型切换。
 * 支持本地大模型（基于Ollama）。
 
+## 使用 Docker 一键安装部署
+
+[安装Docker](https://docs.docker.com/install/).
+* 克隆仓库
+```shell
+git clone https://github.com/yokingma/search_with_ai.git
+cd search_with_ai
+```
+* 编辑 [.env](https://github.com/yokingma/search_with_ai/blob/main/.env)
+如果你想一键体验，这里不需要修改任何配置，直接运行下面的docker compose即可。
+
+```shell
+...
+# openai KEY, docker compose 默认带了FreeGPT35，如果你没有自己的Key, 这里保持默认
+OPENAI_KEY=freegpt35
+# openai proxy
+OPENAI_PROXY_URL=http://freegpt35:3040/v1
+...
+# 如果需要在docker中使用本地部署的Ollama, 你可能要设置这个host字段.
+OLLAMA_HOST=http://localhost:11434
+
+# docker compose 默认带了SearXNG免费聚合搜索, 默认不需要修改
+SEARXNG_HOSTNAME=http://searxng:8080
+```
+
+* 运行docker-compose. (不需要任何KYE)
+默认包含了 SearXNG 和 FreeGPT3.5，只需要运行：
+> 前提是确保你的网络环境能访问Google&OpenAI
+```shell
+docker compose up -d
+```
+
+
+* 或者你也可以手动Docker构建和运行（可选的）
+```shell
+docker build -t my_image .
+docker run -d -p 3000:3000 --name my_app my_image
+```
+浏览器访问 http://localhost:3000
+
 ## 大模型支持
 
 #### 基于在线大模型的API（需要Key）
@@ -32,6 +72,7 @@
 
 #### 本地大模型支持（无需Key）
 支持[Ollama](https://github.com/ollama/ollama)运行的本地大模型。运行的时候只需要启动ollama即可。
+
 
 ## 搜索引擎配置
 内置了搜索引擎服务：Bing、Sogou、Google、SearXNG。
@@ -69,28 +110,6 @@ server:
 #### Sogou搜索
 内置的Sogou搜索并非直接调用API实现（似乎没有开放的API），只是通过网页搜索获取搜索结果。
 > 内置的Sogou搜索优点是免费的，**但是会触发人机验证**，遇到不返回参考资料的情况可以手动打开sogou.com随便搜索关键词，根据提示手动验证一下解除。
-
-## 使用 Docker 安装部署
-
-[安装Docker](https://docs.docker.com/install/).
-* 克隆仓库
-```shell
-git clone https://github.com/yokingma/search_with_ai.git
-cd search_with_ai
-```
-* 编辑 [.env](https://github.com/yokingma/search_with_ai/blob/main/.env) 设置 Key
-```shell
-...
-...
-# 如果需要在docker中使用本地部署的Ollama, 你可能要设置这个host字段.
-OLLAMA_HOST=http://localhost:11434
-```
-* Docker构建和运行
-```shell
-docker build -t my_image .
-docker run -d -p 3000:3000 --name my_app my_image
-```
-浏览器访问 http://localhost:3000
 
 ## 普通安装部署
 

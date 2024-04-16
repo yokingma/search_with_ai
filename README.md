@@ -33,6 +33,47 @@ repo: [GitHub](https://github.com/yokingma/search_with_ai)、 [Gitee](https://gi
 #### Local LLM
 Support [Ollama](https://github.com/ollama/ollama), just need run ollama serve.
 
+## Docker (recommended)
+
+[Install Docker](https://docs.docker.com/install/).
+* Get the code.
+```shell
+git clone https://github.com/yokingma/search_with_ai.git
+cd search_with_ai
+```
+* Edit the [.env](https://github.com/yokingma/search_with_ai/blob/main/.env) file.
+
+If you want to experience it with quickly, you don’t need to modify any configuration here, just run the docker compose below.
+
+```shell
+...
+# openai key
+OPENAI_KEY=freegpt35
+# openai proxy, default is for docker, you can change it to your own proxy
+OPENAI_PROXY_URL=http://freegpt35:3040/v1
+
+# if you run ollama locally, you should set the OLLAMA_HOST.
+OLLAMA_HOST=http://localhost:11434
+
+# Searxng hostname.
+SEARXNG_HOSTNAME=http://searxng:8080
+```
+* run with docker-compose. (No Key required)
+this contains SearXNG and FreeGPT3.5 default, just run
+```shell
+docker compose up -d
+```
+
+* or build and run with docker manually. (optional)
+
+```shell
+docker build -t my_image .
+docker run -d -p 3000:3000 --name my_app my_image
+# linux run with host network
+# docker run -d --network host --name my_app my_image
+```
+then visit http://localhost:3000
+
 ## Search Engine
 Built-in support for search engine: Bing, Sogou, Google, SearXNG
 
@@ -68,31 +109,6 @@ You have three options for Google Search: you can use the SearchApi Google Searc
 #### Sogou Search
 For users in China.
 
-## Docker (recommended)
-
-[Install Docker](https://docs.docker.com/install/).
-* Get the code.
-```shell
-git clone https://github.com/yokingma/search_with_ai.git
-cd search_with_ai
-```
-* Edit the [.env](https://github.com/yokingma/search_with_ai/blob/main/.env) file to set the Keys.
-```shell
-...
-...
-# if you run ollama locally, you should set the OLLAMA_HOST.
-OLLAMA_HOST=http://localhost:11434
-```
-
-* build and run with docker.
-
-```shell
-docker build -t my_image .
-docker run -d -p 3000:3000 --name my_app my_image
-# linux run with host network
-# docker run -d --network host --name my_app my_image
-```
-then visit http://localhost:3000
 
 ## Step by step setup
 
