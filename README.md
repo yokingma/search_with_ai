@@ -67,6 +67,14 @@ docker run -d -p 3000:3000 --name my_app my_image
 
 then visit <http://localhost:3000>
 
+* **Update**
+
+Remember to save your **.env** settings if it has been changed before.
+
+1. run ```git pull```
+2. Delete all old containers and images using Docker Desktop or Docker CLI
+3. run ```docker compose up -d```
+
 ## LLM
 
 #### Support API (needs KEY)

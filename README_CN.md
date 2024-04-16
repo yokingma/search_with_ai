@@ -67,6 +67,13 @@ docker run -d -p 3000:3000 --name my_app my_image
 
 浏览器访问 <http://localhost:3000>
 
+* **更新**
+
+1. 运行 ```git pull``` （注意保存你的.env设置）
+
+2. 删除所有旧的容器和镜像
+3. 运行 ```docker compose up -d```
+
 ## 大模型支持
 
 #### 基于在线大模型的API（需要Key）
