@@ -10,7 +10,7 @@ import { MessagePlugin, Popup } from 'tdesign-vue-next';
 import { citationMarkdownParse } from '../utils';
 import { marked } from 'marked';
 import { useI18n } from 'vue-i18n';
-import { RiRestartLine, RiClipboardLine } from '@remixicon/vue';
+import { RiRestartLine, RiClipboardLine, RiChat1Fill } from '@remixicon/vue';
 
 interface Iprops {
   answer?: string
@@ -20,6 +20,7 @@ interface Iprops {
 
 interface IEmits {
   (e: 'reload'): void
+  (e: 'chat'): void
 }
 
 const { t } = useI18n();
@@ -45,6 +46,10 @@ const onCopy = async () => {
   } catch (err) {
     MessagePlugin.error(t('message.copyError'));
   }
+};
+
+const onChat = () => {
+  emits('chat');
 };
 
 watch(() => props.answer, () => {
@@ -111,7 +116,13 @@ function getCitationContent (num?: string | null) {
   <div class="h-auto w-full text-base leading-7 text-zinc-600 dark:text-gray-200">
     <t-skeleton theme="paragraph" animation="flashed" :loading="!answer"></t-skeleton>
     <div ref="answerRef" class="markdown-body h-auto w-full dark:bg-zinc-800" />
-    <div v-if="!loading" class="flex w-full flex-row justify-end border-0 border-b border-solid border-zinc-200 py-2 dark:border-zinc-600">
+    <div v-if="!loading" class="flex w-full flex-row justify-between border-0 border-b border-solid border-zinc-200 py-2 dark:border-zinc-600">
+      <t-tooltip :content="t('chat')">
+        <t-button :disabled="loading" theme="primary" shape="round" @click="onChat">
+          <template #icon><RiChat1Fill size="24"/></template>
+          <span class="ml-2 font-bold">{{ t('chat') }}</span>
+        </t-button>
+      </t-tooltip>
       <div class="flex flex-row gap-2">
         <t-tooltip :content="t('copy')">
           <t-button :disabled="loading" theme="default" shape="circle" @click="onCopy">

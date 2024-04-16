@@ -7,6 +7,7 @@ import ModelSelect from './models.vue';
 import SearchEngineSelect from './engine.vue';
 import LocalModelSelect from './localModels.vue';
 import LanguageSelect from './language.vue';
+import AppSettings from './settings.vue';
 
 export {
   ChatAnswer,
@@ -17,5 +18,6 @@ export {
   LocalModelSelect,
   LanguageSelect,
   SearchEngineSelect,
-  PageFooter
+  PageFooter,
+  AppSettings
 };

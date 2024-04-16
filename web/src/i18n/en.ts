@@ -12,6 +12,7 @@ export default {
   google: 'Google',
   searxng: 'SearXNG',
   llm: 'LLM',
+  chat: 'Continue Q&A',
   language: 'Language',
   settings: 'Settings',
   selectModel: 'Select LLM',

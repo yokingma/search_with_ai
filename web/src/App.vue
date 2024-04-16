@@ -1,24 +1,14 @@
 <script lang="ts" setup>
-import { ref, onMounted } from 'vue';
-import { RiSettingsLine, RiSunLine, RiMoonLine, RiGithubLine } from '@remixicon/vue';
-import { ModelSelect, SearchEngineSelect, LocalModelSelect, LanguageSelect } from './components/index';
+import { onMounted, ref } from 'vue';
+import { RiSettingsLine, RiGithubLine } from '@remixicon/vue';
 import { useAppStore } from './store';
 import { useI18n } from 'vue-i18n';
-import { type SwitchValue } from 'tdesign-vue-next';
+import { AppSettings } from './components';
 
 const { t, locale } = useI18n();
 const appStore = useAppStore();
 
 const showSettings = ref(false);
-
-const onChangeTheme = (val: SwitchValue) => {
-  if (val) appStore.updateTheme('dark');
-  else appStore.updateTheme('light');
-};
-
-const onEnableLocalModel = (val: SwitchValue) => {
-  appStore.switchLocalModel(val as boolean);
-};
 
 onMounted(() => {
   locale.value = appStore.language;
@@ -50,56 +40,7 @@ onMounted(() => {
         </t-button>
       </div>
     </div>
-    <!-- eslint-disable-next-line vue/no-v-model-argument -->
-    <t-drawer v-model:visible="showSettings" :footer="false" :header="t('settings')">
-      <div class="flex h-full flex-col justify-between gap-4">
-        <div class="w-full">
-          <div class="flex w-full flex-col gap-2">
-            <div class="">{{ t('selectModel') }}</div>
-            <ModelSelect />
-          </div>
-          <div class="mt-2 flex w-full flex-col gap-2">
-            <div class="">{{ t('selectEngine') }}</div>
-            <SearchEngineSelect />
-          </div>
-          <t-divider>{{ t('localModel') }}</t-divider>
-          <div class="mt-2 flex w-full flex-col gap-2">
-            <div class="">{{ t('enableLocalModel') }}</div>
-            <t-switch class="w-12" size="large" :default-value="appStore.enableLocal" @change="onEnableLocalModel">
-              <template #label="slotProps">
-                <template v-if="slotProps.value">
-                  on
-                </template>
-                <template v-else>
-                  off
-                </template>
-              </template>
-            </t-switch>
-          </div>
-          <div class="mt-2 flex w-full flex-col gap-2">
-            <div class="">{{ t('localModel') }}</div>
-            <LocalModelSelect />
-          </div>
-          <t-divider>{{ t('language') }}</t-divider>
-          <div class="mt-2 flex w-full flex-col gap-2">
-            <LanguageSelect />
-          </div>
-        </div>
-        <div class="mb-4 flex flex-row gap-2">
-          <span>{{ t('theme') }}: </span>
-          <t-switch class="w-12" size="large" :default-value="appStore.theme === 'dark'" @change="onChangeTheme">
-            <template #label="slotProps">
-              <template v-if="slotProps.value">
-                <RiMoonLine size="14" />
-              </template>
-              <template v-else>
-                <RiSunLine size="14" />
-              </template>
-            </template>
-          </t-switch>
-        </div>
-      </div>
-    </t-drawer>
+    <AppSettings v-model="showSettings" />
     <router-view />
   </div>
 </template>

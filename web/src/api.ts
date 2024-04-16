@@ -1,15 +1,18 @@
 import { fetchEventData } from 'fetch-sse';
+import { IMessage } from './interface';
 const BASE_URL = import.meta.env.MODE === 'development' ? 'http://127.0.0.1:3000' : '';
 
 const SEARCH = '/api/search';
 const MODEL = '/api/models';
 const LOCAL_MODELS = '/api/local/models';
+const CHAT = '/api/chat';
 export interface IQueryOptions {
   ctrl?: AbortController
   stream?: boolean
   model?: string | null
   engine?: string | null
   locally?: boolean
+  system?: string
   onMessage: (data: Record<string, any>) => void
   onOpen?: () => void
   onClose?: () => void
@@ -37,7 +40,7 @@ export async function search(q: string, options: IQueryOptions) {
       onOpen?.();
     },
     onMessage: (e) => {
-      console.log('[sse]', e);
+      console.log('[search]', e);
       try {
         if (e?.data) {
           const data = JSON.parse(e.data);
@@ -49,6 +52,35 @@ export async function search(q: string, options: IQueryOptions) {
     },
     onClose,
     onError
+  });
+}
+
+export async function chat(messages: IMessage[], options: IQueryOptions) {
+  const url = `${BASE_URL}${CHAT}`;
+  const { ctrl, model, locally, system, onMessage, onError } = options;
+  await fetchEventData(url, {
+    method: 'POST',
+    signal: ctrl?.signal,
+    data: {
+      model,
+      system,
+      locally,
+      messages
+    },
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    onMessage: (e) => {
+      console.log('[chat]', e);
+      try {
+        if (e?.data) {
+          const data = JSON.parse(e.data);
+          onMessage(JSON.parse(data.data || '{}'));
+        }
+      } catch (err) {
+        onError?.(err);
+      }
+    },
   });
 }
 

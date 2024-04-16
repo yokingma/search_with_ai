@@ -1,7 +1,7 @@
 import { Context } from 'koa';
 import { AliyunModels, BaiduModels, DefaultQuery, GoogleModels, LeptonModels, MoonshotModels, OpenAIModels, TencentModels, YiModels } from './constant';
 import { searchWithSogou } from './service';
-import { aliyun, openai, baidu, yi, tencent, local } from './platform';
+import { aliyun, openai, baidu, yi, tencent, local, moonshot, lepton, google } from './platform';
 import { EBackend, IChatInputMessage } from './interface';
 import { Rag } from './rag';
 
@@ -43,10 +43,11 @@ export const chatStreamController = async (ctx: Context) => {
   const messages: IChatInputMessage[] = ctx.request.body.messages || [];
   const system: string | undefined = ctx.request.body.system;
   const model: string | undefined = ctx.request.body.model;
+  const locally: boolean = ctx.request.body.locally ?? false;
   ctx.res.setHeader('Content-Type', 'text/event-stream');
   ctx.res.setHeader('Cache-Control', 'no-cache');
   ctx.res.setHeader('Connection', 'keep-alive');
-  const handler = processModel(model);
+  const handler = locally ? local.chatStream.bind(local) : processModel(model);
   ctx.res.statusCode = 200;
   await handler?.(messages, (data) => {
     const eventData = `data: ${JSON.stringify({ text: data || '' })}\n\n`;
@@ -92,7 +93,7 @@ export const localChatStreamController = async (ctx: Context) => {
   ctx.res.end();
 };
 
-function processModel(model = AliyunModels.QWEN_MAX) {
+function processModel(model = OpenAIModels.GPT35TURBO) {
   if (Object.values(AliyunModels).includes(model)) {
     return aliyun.chatStream.bind(aliyun);
   }
@@ -102,11 +103,20 @@ function processModel(model = AliyunModels.QWEN_MAX) {
   if (Object.values(BaiduModels).includes(model)) {
     return baidu.chatStream.bind(baidu);
   }
-  if (Object.values(YiModels).includes(model)) {
-    return yi.chatStream.bind(yi);
+  if (Object.values(GoogleModels).includes(model)) {
+    return google.chatStream.bind(google);
   }
   if (Object.values(TencentModels).includes(model)) {
     return tencent.chatStream.bind(tencent);
   }
-  return aliyun.chatStream.bind(aliyun);
+  if (Object.values(YiModels).includes(model)) {
+    return yi.chatStream.bind(yi);
+  }
+  if (Object.values(MoonshotModels).includes(model)) {
+    return moonshot.chatStream.bind(moonshot);
+  }
+  if (Object.values(LeptonModels).includes(model)) {
+    return lepton.chatStream.bind(lepton);
+  }
+  return openai.chatStream.bind(openai);
 }

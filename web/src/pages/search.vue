@@ -11,7 +11,13 @@
               <RiChat3Line />
               <span class="text-lg font-bold ">{{ t('answer') }}</span>
             </div>
-            <ChatAnswer :answer="result?.answer" :contexts="result?.contexts" :loading="loading" @reload="onReload" />
+            <ChatAnswer
+              :answer="result?.answer"
+              :contexts="result?.contexts"
+              :loading="loading"
+              @reload="onReload"
+              @chat="onKeepAsking"
+            />
             <div class="mt-4 flex">
               <RelatedQuery :related="result?.related" @select="onSelectQuery" />
             </div>
@@ -34,18 +40,21 @@
         </div>
       </div>
     </div>
+    <ContinueChat v-model="showChatBox" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
+import { PageFooter, ChatAnswer, RelatedQuery, ChatSources, SearchInputBar } from '../components';
 import { MessagePlugin } from 'tdesign-vue-next';
 import { useI18n } from 'vue-i18n';
 import { useAppStore } from '../store';
 import { RiChat3Line, RiBook2Line } from '@remixicon/vue';
 import router from '../router';
 import { search } from '../api';
-import { PageFooter, ChatAnswer, RelatedQuery, ChatSources, SearchInputBar } from '../components';
+import ContinueChat from './components/chat.vue';
+
 import { IQueryResult } from '../interface';
 
 const wrapperRef = ref<HTMLDivElement | null>(null);
@@ -56,6 +65,7 @@ const { t } = useI18n();
 const keyword = computed(() => router.currentRoute.value.query.q ?? '');
 const query = ref<string>('');
 const loading = ref(false);
+const showChatBox = ref(false);
 let abortCtrl: AbortController | null = null;
 
 const result = ref<IQueryResult>({
@@ -77,6 +87,10 @@ const onSearch = (val: string) => {
 
 const onReload = () => {
   querySearch(query.value);
+};
+
+const onKeepAsking = () => {
+  showChatBox.value = true;
 };
 
 onMounted(() => {
