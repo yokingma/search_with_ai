@@ -31,7 +31,7 @@ git clone https://github.com/yokingma/search_with_ai.git
 cd search_with_ai
 ```
 
-* Edit the [.env](https://github.com/yokingma/search_with_ai/blob/main/.env) file.
+* Edit the [.env](https://github.com/yokingma/search_with_ai/blob/main/.env) file.  
 
 If you want to experience it quickly, you don’t need to modify any configuration here, just run the docker compose below.
 
@@ -49,7 +49,8 @@ OLLAMA_HOST=http://localhost:11434
 SEARXNG_HOSTNAME=http://searxng:8080
 ```
 
-* run with docker-compose. (No Key required)
+* run with docker-compose. (No Key required)  
+
 this contains SearXNG and FreeGPT3.5 default, just run
 
 ```shell
