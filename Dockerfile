@@ -1,8 +1,10 @@
 FROM node:18 AS build
 
-WORKDIR /app
 COPY . /app
 
+# RUN yarn config set registry https://mirrors.cloud.tencent.com/npm/
+
+WORKDIR /app
 RUN yarn install && yarn run build
 
 WORKDIR /app/web
@@ -21,7 +23,7 @@ COPY --from=build /app/src ./src
 COPY --from=build /app/web/build ./web/build
 COPY --from=build /app/package.json ./
 
-RUN yarn install --production --registry=https://registry.npmmirror.com && yarn cache clean
+RUN yarn install --production --registry https://mirrors.cloud.tencent.com/npm/ && yarn cache clean
 
 EXPOSE 3000
 CMD yarn run start

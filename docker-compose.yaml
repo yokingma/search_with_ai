@@ -1,0 +1,36 @@
+version: "3.7"
+
+services:
+  search:
+    build: ./
+    container_name: search
+    ports:
+      - "3000:3000"
+    restart: always
+
+  freegpt35:
+    container_name: freegpt35
+    image: missuo/freegpt35:latest
+    restart: always
+
+  searxng:
+    container_name: searxng
+    image: docker.io/searxng/searxng:latest
+    restart: always
+    ports:
+      - "127.0.0.1:8080:8080"
+    volumes:
+      - ./searxng:/etc/searxng:rw
+    environment:
+      - SEARXNG_BASE_URL=https://${SEARXNG_HOSTNAME:-localhost}/
+    cap_drop:
+      - ALL
+    cap_add:
+      - CHOWN
+      - SETGID
+      - SETUID
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1m"
+        max-file: "1"
