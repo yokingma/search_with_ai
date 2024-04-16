@@ -4,7 +4,7 @@ import { ref } from 'vue';
 type Theme = 'dark' | 'light'
 type Lan = 'zh' | 'en'
 export const useAppStore = defineStore('app', () => {
-  const engine = ref('');
+  const engine = ref('SEARXNG');
   const model = ref('');
   const localModel = ref('');
   const enableLocal = ref(false);

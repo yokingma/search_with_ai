@@ -14,9 +14,9 @@ const onSelect = (val: any) => {
 
 onMounted(() => {
   engines.value = [
-    {
-      name: t('sogou'),
-      value: 'SOGOU'
+  {
+      name: t('searxng'),
+      value: 'SEARXNG'
     },
     {
       name: t('google'),
@@ -27,8 +27,8 @@ onMounted(() => {
       value: 'BING'
     },
     {
-      name: t('searxng'),
-      value: 'SEARXNG'
+      name: t('sogou'),
+      value: 'SOGOU'
     }
   ];
 });

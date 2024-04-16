@@ -1,8 +1,9 @@
 <script lang="ts" setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import { getLocalModels } from '../api';
 import { useAppStore } from '../store';
 import { useI18n } from 'vue-i18n';
+import { MessagePlugin } from 'tdesign-vue-next';
 
 const appStore = useAppStore();
 const model = ref(appStore.localModel);
@@ -15,8 +16,14 @@ const onModelSelect = (val: any) => {
   appStore.updateLocalModel(val);
 };
 
+watch(() => appStore.enableLocal, async (val) => {
+  if (val) {
+    await listModels();
+  }
+});
+
 onMounted(async () => {
-  await listModels();
+  if (appStore.enableLocal) await listModels();
   if (appStore.localModel) {
     model.value = appStore.localModel;
   } else {
@@ -25,15 +32,23 @@ onMounted(async () => {
 });
 
 async function listModels () {
-  loading.value = true;
-  const res = await getLocalModels();
-  const values: string[] = [];
-  res.models?.forEach((model: any) => {
-    // const key = model.details.family; 
-    values.push(`${model.name}`);
-  });
-
-  models.value = values;
+  try {
+    loading.value = true;
+    const res = await getLocalModels();
+    const values: string[] = [];
+    if (!res.models) {
+      MessagePlugin.error(JSON.stringify(res.cause));
+      return;
+    }
+    res.models?.forEach((model: any) => {
+      // const key = model.details.family; 
+      values.push(`${model.name}`);
+    });
+    models.value = values;
+  } catch (error: any) {
+    MessagePlugin.error('Failed to get local models');
+    console.error(error);
+  }  
   loading.value = false;
 }
 </script>
