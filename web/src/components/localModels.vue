@@ -19,6 +19,8 @@ onMounted(async () => {
   await listModels();
   if (appStore.localModel) {
     model.value = appStore.localModel;
+  } else {
+    model.value = models.value[0];
   }
 });
 

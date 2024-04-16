@@ -2,10 +2,8 @@ import { EBackend, IChatInputMessage, IStreamHandler, SearchFunc } from './inter
 import { searchWithBing, searchWithGoogle, searchWithSogou, searchWithSearXNG } from './service';
 import { MoreQuestionsPrompt, RagQueryPrompt } from './prompt';
 import { aliyun, baidu, openai, google, tencent, yi, moonshot, lepton, local } from './platform';
-// import { memoryCache } from './utils';
 import util from 'util';
-import { REFERENCE_COUNT } from './constant';
-import { AliyunModels, AllModels, BaiduModels, OpenAIModels, GoogleModels, TencentModels, YiModels, MoonshotModels, LeptonModels } from './constant';
+import { AliyunModels, BaiduModels, OpenAIModels, GoogleModels, TencentModels, YiModels, MoonshotModels, LeptonModels } from './constant';
 
 interface RagOptions {
   backend?: EBackend
@@ -25,11 +23,11 @@ export class Rag {
   private stream: boolean;
 
   constructor(params?: RagOptions) {
-    const { backend = EBackend.BING, stream = true, model = AllModels.QWEN_MAX, locally } = params || {};
+    const { backend = EBackend.SEARXNG, stream = true, model = OpenAIModels.GPT35TURBO, locally } = params || {};
     if (locally) {
       this.chat = local.chatStream.bind(local);
     } else {
-      this.chat = processModel(model, stream);
+      this.chat = processModel(model);
     }
     this.model = model;
     this.stream = stream;
@@ -49,13 +47,14 @@ export class Rag {
         this.search = searchWithSearXNG;
         break;
       default:
-        this.search = searchWithBing;
+        this.search = searchWithSearXNG;
     }
   }
 
   public async query(query: string, onMessage?: (...args: any[]) => void) {
     const contexts = await this.search(query);
-    const limitContexts = contexts.slice(0, REFERENCE_COUNT);
+    const REFERENCE_COUNT = process.env.REFERENCE_COUNT || 8;
+    const limitContexts = contexts.slice(0, +REFERENCE_COUNT);
     if (!this.stream) {
       const relatedPromise = this.getRelatedQuestions(query, limitContexts);
       const answerPromise = this.getAiAnswer(query, contexts);
@@ -128,18 +127,18 @@ export class Rag {
   // private saveResult(contexts: any[], llmResponse: string, relatedQuestionsFuture: any[], searchUUID: string) {}
 }
 
-function processModel(model = OpenAIModels.GPT35TURBO, stream = true) {
+function processModel(model = OpenAIModels.GPT35TURBO) {
   if (Object.values(AliyunModels).includes(model)) {
-    return stream ? aliyun.chatStream.bind(aliyun) : aliyun.chat.bind(aliyun);
+    return aliyun.chatStream.bind(aliyun);
   }
   if (Object.values(OpenAIModels).includes(model)) {
-    return stream ? openai.chatStream.bind(openai) : openai.chat.bind(openai);
+    return openai.chatStream.bind(openai);
   }
   if (Object.values(BaiduModels).includes(model)) {
-    return stream ? baidu.chatStream.bind(baidu) : baidu.chat.bind(baidu);
+    return baidu.chatStream.bind(baidu);
   }
   if (Object.values(GoogleModels).includes(model)) {
-    return stream ? google.chatStream.bind(google) : google.chat.bind(google);
+    return google.chatStream.bind(google);
   }
   if (Object.values(TencentModels).includes(model)) {
     return tencent.chatStream.bind(tencent);
@@ -153,5 +152,5 @@ function processModel(model = OpenAIModels.GPT35TURBO, stream = true) {
   if (Object.values(LeptonModels).includes(model)) {
     return lepton.chatStream.bind(lepton);
   }
-  return stream ? openai.chatStream.bind(openai) : openai.chat.bind(openai);
+  return openai.chatStream.bind(openai);
 }
