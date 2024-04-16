@@ -33,7 +33,7 @@ cd search_with_ai
 
 * Edit the [.env](https://github.com/yokingma/search_with_ai/blob/main/.env) file.
 
-If you want to experience it with quickly, you don’t need to modify any configuration here, just run the docker compose below.
+If you want to experience it quickly, you don’t need to modify any configuration here, just run the docker compose below.
 
 ```shell
 ...
