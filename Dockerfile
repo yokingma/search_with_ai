@@ -23,7 +23,7 @@ COPY --from=build /app/src ./src
 COPY --from=build /app/web/build ./web/build
 COPY --from=build /app/package.json ./
 
-RUN yarn install --production --registry https://mirrors.cloud.tencent.com/npm/ && yarn cache clean
+RUN yarn install --production && yarn cache clean
 
 EXPOSE 3000
 CMD yarn run start

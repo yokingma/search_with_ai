@@ -24,32 +24,31 @@ repo: [GitHub](https://github.com/yokingma/search_with_ai)、 [Gitee](https://gi
 
 [Install Docker](https://docs.docker.com/install/).
 
-* Get the code.
+* **Get the code.**
 
 ```shell
 git clone https://github.com/yokingma/search_with_ai.git
 cd search_with_ai
 ```
 
-* Edit the [.env](https://github.com/yokingma/search_with_ai/blob/main/.env) file.  
+* **Edit** [.env](https://github.com/yokingma/search_with_ai/blob/main/.env) **file.**
 
-If you want to experience it quickly, you don’t need to modify any configuration here, just run the docker compose below.
+For a quick start, no need to modify any configuration here, just run docker compose below.
 
 ```shell
 ...
-# openai key
+# default is for docker-compose, could modify if you need.
 OPENAI_KEY=freegpt35
-# openai proxy, default is for docker, you can change it to your own proxy
 OPENAI_PROXY_URL=http://freegpt35:3040/v1
 
-# if you run ollama locally, you should set the OLLAMA_HOST.
-OLLAMA_HOST=http://localhost:11434
+# Local llm: Ollama hostname, could modify if you need.
+OLLAMA_HOST=http://host.docker.internal:11434
 
-# Searxng hostname.
+# Searxng hostname, could modify if you need.
 SEARXNG_HOSTNAME=http://searxng:8080
 ```
 
-* run with docker-compose. (No Key required)  
+* **run with docker-compose. (No Key required)**
 
 this contains SearXNG and FreeGPT3.5 default, just run
 
@@ -57,7 +56,7 @@ this contains SearXNG and FreeGPT3.5 default, just run
 docker compose up -d
 ```
 
-* or build and run with docker manually. (optional)
+* or build and run with docker manually. (**optional**)
 
 ```shell
 docker build -t my_image .
