@@ -1,3 +1,4 @@
+import { DefaultSystem } from '../constant';
 import { IChatInputMessage, IStreamHandler } from '../interface';
 import { BaseChat } from './base';
 import { Ollama } from 'ollama';
@@ -12,8 +13,15 @@ const ollama = new Ollama({
 export class OllamaChat implements BaseChat {
   public async chat(
     messages: IChatInputMessage[],
-    model = 'llama2'
+    model = 'llama2',
+    system = DefaultSystem
   ): Promise<string | null> {
+    if (system) {
+      messages.unshift({
+        role: 'system',
+        content: system
+      });
+    }
     const response = await ollama.chat({
       model,
       messages
@@ -24,8 +32,15 @@ export class OllamaChat implements BaseChat {
   public async chatStream(
     messages: IChatInputMessage[],
     onMessage: IStreamHandler,
-    model = 'llama2'
+    model = 'llama2',
+    system = DefaultSystem
   ): Promise<void> {
+    if (system) {
+      messages.unshift({
+        role: 'system',
+        content: system
+      });
+    }
     const response = await ollama.chat({
       model,
       stream: true,
