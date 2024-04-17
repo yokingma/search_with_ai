@@ -19,5 +19,6 @@ Here are the set of contexts:
 
 %s
 
-Your answer must be written in the same language as the original question. And here is the question:
+Your answer must be written in the same language as the original question.
+And here is the question:
 `;
