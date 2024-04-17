@@ -3,7 +3,8 @@ import { ref } from 'vue';
 import { RiArrowRightLine } from '@remixicon/vue';
 import { useI18n } from 'vue-i18n';
 type Emits = {
-  (e: 'search', val: string): void,
+  (e: 'ask', val: string): void,
+  (e: 'new'): void
 }
 
 type Props = {
@@ -16,36 +17,43 @@ const emits = defineEmits<Emits>();
 
 const query = ref('');
 
-const onSearch = () => {
-  emits('search', query.value);
+const onNewChat = () => {
+  emits('new');
+};
+
+const onAsk = () => {
+  emits('ask', query.value);
+  query.value = '';
 };
 </script>
 <script lang="ts">
 export default {
-  name: 'SearchInputBar'
+  name: 'ChatInput'
 };
 </script>
 
 <template>
-  <div id="searchbar" class="flex flex-row rounded-3xl bg-gray-100 p-2 transition-all dark:bg-zinc-800">
+  <div id="ask" class="flex flex-row items-center gap-2 rounded-3xl bg-gray-100 p-2 transition-all dark:bg-zinc-800">
     <div class="grow overflow-hidden rounded-3xl border border-gray-100 dark:border-gray-300">
-      <t-input v-model="query" :disabled="props.loading" clearable :autofocus="true" :maxlength="100" size="large" :placeholder="t('tips.search')" @enter="onSearch">
+      <t-input v-model="query" :disabled="props.loading" clearable :autofocus="true" :maxlength="100" size="large" :placeholder="t('chat')" @enter="onAsk">
         <template #suffix>
-          <t-button :disabled="loading" shape="round" variant="base" @click="onSearch">
+          <t-button :disabled="loading" shape="round" variant="base" @click="onAsk">
             <template #icon><RiArrowRightLine /></template>
           </t-button>
         </template>
       </t-input>
     </div>
     <div class="grow-0">
-      <slot />
+      <t-button theme="primary" size="large" @click="onNewChat">
+        {{ t('newChat') }}
+      </t-button>
     </div>
   </div>
 </template>
 
 
 <style scoped>
-#searchbar {
+#ask {
   --td-radius-default: 24px;
 }
 </style>

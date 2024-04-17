@@ -16,7 +16,6 @@
               :contexts="result?.contexts"
               :loading="loading"
               @reload="onReload"
-              @chat="onKeepAsking"
             />
             <div class="mt-4 flex">
               <RelatedQuery :related="result?.related" @select="onSelectQuery" />
@@ -29,18 +28,27 @@
             </div>
             <ChatSources :loading="loading" :sources="result?.contexts" />
           </div>
-          <div class="mt-4 pb-20">
+          <div class="my-4">
+            <div class="flex flex-nowrap items-center gap-2 py-4 text-black dark:text-gray-200">
+              <RiChat1Fill />
+              <span class="text-lg font-bold ">{{ t('chat') }}</span>
+            </div>
+            <ContinueChat :contexts="result?.contexts" :clear="loading" :ask="ask" @message="onAnswering" />
+          </div>
+          <div class="pb-20 pt-10">
             <PageFooter />
           </div>
         </div>
       </div>
       <div class="absolute inset-x-6 bottom-6 flex items-center justify-center">
         <div class="w-full  rounded-3xl drop-shadow-2xl">
-          <SearchInputBar :loading="loading" @search="onSearch" />
+          <SearchInputBar v-if="showSearchInput" :loading="loading" @search="onSearch">
+            <t-button size="large" class="ml-2" @click="showSearchInput = false">{{ t('chat') }}</t-button>
+          </SearchInputBar>
+          <ChatInput v-else :loading="loading" @ask="onChat" @new="showSearchInput = true" />
         </div>
       </div>
     </div>
-    <ContinueChat v-model="showChatBox" />
   </div>
 </template>
 
@@ -50,11 +58,11 @@ import { PageFooter, ChatAnswer, RelatedQuery, ChatSources, SearchInputBar } fro
 import { MessagePlugin } from 'tdesign-vue-next';
 import { useI18n } from 'vue-i18n';
 import { useAppStore } from '../store';
-import { RiChat3Line, RiBook2Line } from '@remixicon/vue';
+import { RiChat3Line, RiBook2Line, RiChat1Fill } from '@remixicon/vue';
 import router from '../router';
 import { search } from '../api';
 import ContinueChat from './components/chat.vue';
-
+import ChatInput from './components/input.vue';
 import { IQueryResult } from '../interface';
 
 const wrapperRef = ref<HTMLDivElement | null>(null);
@@ -64,8 +72,10 @@ const { t } = useI18n();
 
 const keyword = computed(() => router.currentRoute.value.query.q ?? '');
 const query = ref<string>('');
+const ask = ref<string>('');
 const loading = ref(false);
-const showChatBox = ref(false);
+const showSearchInput = ref(false);
+
 let abortCtrl: AbortController | null = null;
 
 const result = ref<IQueryResult>({
@@ -85,12 +95,17 @@ const onSearch = (val: string) => {
   querySearch(val);
 }; 
 
-const onReload = () => {
-  querySearch(query.value);
+const onChat = (val: string) => {
+  ask.value = val.trim();
+  scrollToBottom();
 };
 
-const onKeepAsking = () => {
-  showChatBox.value = true;
+const onAnswering = () => {
+  scrollToBottom();
+};
+
+const onReload = () => {
+  querySearch(query.value);
 };
 
 onMounted(() => {
@@ -118,7 +133,6 @@ async function querySearch(val: string | null) {
       locally: enableLocal,
       ctrl,
       onMessage: (data: any) => {
-        // if (wrapperRef.value) wrapperRef.value.scrollTop = wrapperRef.value.scrollHeight
         if (data?.context) {
           result.value.contexts?.push(data.context);
         }
@@ -140,6 +154,7 @@ async function querySearch(val: string | null) {
         loading.value = false;
       }
     });
+    showSearchInput.value = false;
   } catch(err) {
     ctrl.abort();
     abortCtrl = null;
@@ -155,6 +170,13 @@ function clear () {
     answer: '',
     contexts: []
   };
+  ask.value = '';
+}
+
+function scrollToBottom() {
+  if (wrapperRef.value) {
+    wrapperRef.value.scrollTop = wrapperRef.value.scrollHeight;
+  }
 }
 
 function replaceQueryParam(name: string, val: string) {

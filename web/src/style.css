@@ -41,9 +41,24 @@ html[theme-mode="dark"] {
   scrollbar-color: #8e9099 transparent;
 }
 
+html .markdown-body {
+  color: var(--main-font-color);
+  background-color: transparent;
+}
+
+html .markdown-body pre {
+  color: #666666;
+  background-color: #ffffff;
+}
+
 html[theme-mode="dark"] .markdown-body {
   color: var(--main-font-color);
   background-color: transparent;
+}
+
+html[theme-mode="dark"] .markdown-body pre {
+  color: #999999;
+  background-color: #000000;
 }
 
 #app {

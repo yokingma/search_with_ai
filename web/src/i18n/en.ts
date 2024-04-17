@@ -1,12 +1,14 @@
 export default {
   title: 'Search with AI',
   theme: 'Theme',
+  ask: 'Me',
   answer: 'Answer',
   related: 'Related',
   sources: 'Sources',
   copy: 'Copy',
   reload: 'Reload',
   search: 'Engine',
+  newChat: 'New Q&A',
   sogou: 'Sogou',
   bing: 'Bing',
   google: 'Google',
@@ -27,6 +29,7 @@ export default {
     sourceError: 'Failed to obtain information'
   },
   tips: {
-    search: 'Ask a question.'
+    search: 'Ask a question.',
+    continue: 'Can you ask me relevant questions?'
   }
 };

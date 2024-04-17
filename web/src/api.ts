@@ -71,11 +71,11 @@ export async function chat(messages: IMessage[], options: IQueryOptions) {
       'Content-Type': 'application/json'
     },
     onMessage: (e) => {
-      console.log('[chat]', e);
       try {
         if (e?.data) {
           const data = JSON.parse(e.data);
-          onMessage(JSON.parse(data.data || '{}'));
+          console.log('[chat]', data);
+          onMessage(data);
         }
       } catch (err) {
         onError?.(err);
