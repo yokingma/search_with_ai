@@ -19,6 +19,7 @@ repo: [GitHub](https://github.com/yokingma/search_with_ai)、 [Gitee](https://gi
 * Support mobile display
 * Support local LLM with Ollama
 * Support i18n
+* Support Continue Q&A with contexts.
 
 ## Deploy with Docker (recommended)
 
