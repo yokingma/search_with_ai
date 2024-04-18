@@ -40,7 +40,7 @@ export const searchWithBing = async (query: string) => {
       };
     });
   } catch(err) {
-    console.error('Bing Search Error:', err);
+    console.error('[Bing Search Error]:', err);
     return [];
   }
 };

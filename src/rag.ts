@@ -88,15 +88,15 @@ export class Rag {
       }
       await chat(messages, onMessage, model);
     } catch(err) {
-      console.error('encountered error while generating related questions:', err);
+      console.error('[LLM Error]:', err);
       return [];
     }
   }
 
   private async getAiAnswer(query: string, contexts: any[], onMessage?: IStreamHandler) {
+    const { model, stream, chat } = this;
     try {
       const { messages } = this.paramsFormatter(query, contexts, 'answer');
-      const { model, stream, chat } = this;
       if (!stream) {
         const res = await this.chat(messages, this.model);
         return res;
@@ -104,8 +104,11 @@ export class Rag {
       await chat(messages, (msg: string, done: boolean) => {
         onMessage?.(msg, done);
       }, model);
-    } catch (err) {
-      return '';
+    } catch (err: any) {
+      console.error('[LLM Error]:', err);
+      const msg = `[Oops~ Some errors seem to have occurred]: ${err?.message || 'Please check the console'}`;
+      if (!stream) return msg;
+      else onMessage?.(msg, true);
     }
   }
 

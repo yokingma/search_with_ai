@@ -18,7 +18,7 @@ class MoonshotChat implements BaseChat {
     } else {
       this.openai = null;
     }
-    console.log('Moonshot BaseURL:', baseURL);
+    console.log('[Moonshot BaseURL]:', baseURL);
   }
 
   async chatStream(
