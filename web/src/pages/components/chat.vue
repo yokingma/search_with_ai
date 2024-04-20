@@ -87,6 +87,10 @@ const enableReload = computed(() => {
   return length > 1 && messages.value[length - 1].role === 'user';
 });
 
+const onClearMessage = () => {
+  messages.value = [];
+};
+
 async function startChat() {
   if (abortCtrl) {
     abortCtrl.abort();
@@ -143,6 +147,7 @@ export default {
         shape="round"
         :disabled="loading"
         :loading="loading"
+        @click="onClearMessage"
       >
         {{ t('btn.clear') }}
       </t-button>
