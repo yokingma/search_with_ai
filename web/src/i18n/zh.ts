@@ -2,7 +2,7 @@ export default {
   title: '基于AI的搜索引擎',
   theme: '主题',
   answer: 'AI回答',
-  ask: '我',
+  ask: '问',
   related: '相关问题',
   sources: '参考资料',
   copy: '复制',
@@ -29,7 +29,10 @@ export default {
     sourceError: '获取参考资料失败了'
   },
   tips: {
-    search: '请输入想要问AI的问题',
+    search: '您可以问我任何问题',
     continue: '您可以继续追问我任何问题'
+  },
+  btn: {
+    clear: '清空'
   }
 };

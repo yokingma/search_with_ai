@@ -33,7 +33,7 @@
               <RiChat1Fill />
               <span class="text-lg font-bold ">{{ t('chat') }}</span>
             </div>
-            <ContinueChat :contexts="result?.contexts" :clear="loading" :ask="ask" @message="onAnswering" />
+            <ContinueChat :contexts="result?.contexts" :clear="loading" :query="query" :answer="result?.answer ?? ''" :ask="ask" @message="onAnswering" />
           </div>
           <div class="pb-20 pt-10">
             <PageFooter />

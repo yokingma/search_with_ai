@@ -8,7 +8,7 @@ type Emits = {
 }
 
 type Props = {
-  loading: boolean,
+  loading: boolean
 }
 const { t } = useI18n();
 const props = defineProps<Props>();

@@ -31,5 +31,8 @@ export default {
   tips: {
     search: 'Ask a question.',
     continue: 'Can you ask me relevant questions?'
+  },
+  btn: {
+    clear: 'Clear'
   }
 };
