@@ -21,6 +21,7 @@ const { t, locale } = useI18n();
 const onLanSelect = (val: any) => {
   appStore.updateLanguage(val);
   locale.value = val;
+  document.title = t('title');
 };
 </script>
 
