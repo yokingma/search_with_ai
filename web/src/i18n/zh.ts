@@ -30,7 +30,7 @@ export default {
   },
   tips: {
     search: '您可以问我任何问题',
-    continue: '您可以继续追问我任何问题'
+    continue: '基于当前上下文继续追问'
   },
   btn: {
     clear: '清空记录'

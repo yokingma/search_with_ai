@@ -30,7 +30,7 @@ export default {
   },
   tips: {
     search: 'Ask a question.',
-    continue: 'Continue to ask me any questions.'
+    continue: 'Continue to ask based on the current context.'
   },
   btn: {
     clear: 'Clear history'
