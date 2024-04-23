@@ -48,7 +48,7 @@ html .markdown-body {
 
 html .markdown-body pre {
   color: #666666;
-  background-color: #ffffff;
+  background-color: #f5f5f5;
 }
 
 html[theme-mode="dark"] .markdown-body {

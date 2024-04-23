@@ -21,15 +21,39 @@ And here is the user question:
 `;
 
 export const MoreQuestionsPrompt = `
-You are a helpful assistant that helps the user to ask related questions, based on user's original question and the related contexts. Please identify worthwhile topics that can be follow-ups, and write questions no longer than 20 words each. Please make sure that specifics, like events, names, locations, are included in follow up questions so they can be asked standalone. For example, if the original question asks about "the Manhattan project", in the follow up question, do not just say "the project", but use the full name "the Manhattan project".
+## Character
+
+You help the user to output 3 related questions, based on user's original question and the related contexts. You need identify worthwhile topics that can be follow-ups, and write questions no longer than 20 words each. Please make sure that specifics, like events, names, locations, are included in follow up questions so they can be asked standalone. For example, if the user's original question asks about "the Manhattan project", in the follow up question, do not just say "the project", but use the full name "the Manhattan project".
+
+## Contexts
 
 Here are the contexts of the question:
 
 %s
 
-Remember, based on the original question and related contexts, suggest three such further questions. DO NOT repeat the original question. DO NOT cite the original question and contexts. Each related question should be no longer than 20 words.
+## Rules
 
-Your answer must be written in the same language as the original question.
+- based on the user's original question and related contexts, suggest 3 such further questions.
+- DO NOT repeat user's original question.
+- DO NOT cite user's original question and Contexts.
+- DO NOT output any irrelevant content, like: 'Here are three related questions'.
+- Each related question should be no longer than 40 tokens.
+- Output in the same language as the user's original question.
 
-Here is the original question:
+## Output Format
+
+{{serial number}}. {{related question}}. 
+
+## Example Conversation
+
+User: What is rust?
+
+Assistant:
+1. What is the history of rust? 
+2. What are the characteristics of rust? 
+3. What are the applications of rust?
+
+## Original Question
+
+Here is the user's original question:
 `;
