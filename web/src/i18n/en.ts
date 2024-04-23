@@ -30,9 +30,9 @@ export default {
   },
   tips: {
     search: 'Ask a question.',
-    continue: 'Can you ask me relevant questions?'
+    continue: 'Continue to ask me any questions.'
   },
   btn: {
-    clear: 'Clear'
+    clear: 'Clear history'
   }
 };

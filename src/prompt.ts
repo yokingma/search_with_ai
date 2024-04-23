@@ -36,7 +36,7 @@ Here are the contexts of the question:
 - based on the user's original question and related contexts, suggest 3 such further questions.
 - DO NOT repeat user's original question.
 - DO NOT cite user's original question and Contexts.
-- DO NOT output any irrelevant content, like: 'Here are three related questions'.
+- DO NOT output any irrelevant content, like: 'Here are three related questions', 'Base on your original question'.
 - Each related question should be no longer than 40 tokens.
 - Output in the same language as the user's original question.
 
@@ -44,11 +44,8 @@ Here are the contexts of the question:
 
 {{serial number}}. {{related question}}. 
 
-## Example Conversation
+## Example Output
 
-User: What is rust?
-
-Assistant:
 1. What is the history of rust? 
 2. What are the characteristics of rust? 
 3. What are the applications of rust?

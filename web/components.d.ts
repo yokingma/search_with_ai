@@ -19,6 +19,7 @@ declare module 'vue' {
     SearchInputBar: typeof import('./src/components/searchInputBar.vue')['default']
     Settings: typeof import('./src/components/settings.vue')['default']
     Sources: typeof import('./src/components/sources.vue')['default']
+    TAffix: typeof import('tdesign-vue-next')['Affix']
     TAlert: typeof import('tdesign-vue-next')['Alert']
     TButton: typeof import('tdesign-vue-next')['Button']
     TDivider: typeof import('tdesign-vue-next')['Divider']

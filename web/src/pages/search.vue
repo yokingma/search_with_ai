@@ -1,12 +1,10 @@
 <template>
   <div id="search" class="relative size-full">
     <div class="absolute inset-0 overflow-hidden rounded-2xl bg-gray-100 p-2 dark:bg-zinc-900">
-      <div ref="wrapperRef" class="h-full overflow-y-auto rounded-2xl bg-white dark:bg-zinc-800">
-        <div class="p-4">
-          <div class="flex flex-nowrap items-center justify-between border-0 border-b border-solid border-gray-100 pb-4 dark:border-zinc-700">
-            <div class="inline-flex text-xl font-bold leading-8 text-blue-800 dark:text-blue-200">{{ query }}</div>
-          </div>
-          <div class="mt-4">
+      <div class="mb-2"><SearchInputBar v-model="query" :loading="loading" @search="onSearch" /></div>
+      <div ref="wrapperRef" class="overflow-y-auto rounded-2xl bg-white dark:bg-zinc-800" style="height: calc(100% - 64px);">
+        <div class="p-4 pt-0">
+          <div class="mt-0">
             <div class="flex flex-nowrap items-center gap-2 py-4 text-black dark:text-gray-200">
               <RiChat3Line />
               <span class="text-lg font-bold ">{{ t('answer') }}</span>
@@ -41,11 +39,8 @@
         </div>
       </div>
       <div class="absolute inset-x-6 bottom-6 flex items-center justify-center">
-        <div class="w-full  rounded-3xl drop-shadow-2xl">
-          <SearchInputBar v-if="showSearchInput" :loading="loading" @search="onSearch">
-            <t-button size="large" class="ml-2" @click="showSearchInput = false">{{ t('chat') }}</t-button>
-          </SearchInputBar>
-          <ChatInput v-else :loading="loading" @ask="onChat" @new="showSearchInput = true" />
+        <div class="w-full rounded-3xl drop-shadow-2xl">
+          <ChatInput :loading="loading" @ask="onChat" />
         </div>
       </div>
     </div>
@@ -74,7 +69,6 @@ const keyword = computed(() => router.currentRoute.value.query.q ?? '');
 const query = ref<string>('');
 const ask = ref<string>('');
 const loading = ref(false);
-const showSearchInput = ref(false);
 
 let abortCtrl: AbortController | null = null;
 
@@ -154,7 +148,6 @@ async function querySearch(val: string | null) {
         loading.value = false;
       }
     });
-    showSearchInput.value = false;
   } catch(err) {
     ctrl.abort();
     abortCtrl = null;

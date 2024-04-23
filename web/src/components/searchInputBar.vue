@@ -1,29 +1,30 @@
 <script setup lang="ts">
-import { ref } from 'vue';
 import { RiArrowRightLine } from '@remixicon/vue';
+import { watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 type Emits = {
   (e: 'search', val: string): void,
 }
 
 type Props = {
-  loading: boolean,
+  loading: boolean
 }
 const { t } = useI18n();
+
 const props = defineProps<Props>();
 
 const emits = defineEmits<Emits>();
 
-const query = ref('');
+const query = defineModel<string>();
 
 const onSearch = () => {
+  if (!query.value?.trim()) return;  
   emits('search', query.value);
 };
-</script>
-<script lang="ts">
-export default {
-  name: 'SearchInputBar'
-};
+
+watch(() => query.value, (val) => {
+  console.log('query', val);
+});
 </script>
 
 <template>

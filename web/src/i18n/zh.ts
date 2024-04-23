@@ -33,6 +33,6 @@ export default {
     continue: '您可以继续追问我任何问题'
   },
   btn: {
-    clear: '清空'
+    clear: '清空记录'
   }
 };
