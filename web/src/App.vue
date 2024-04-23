@@ -10,8 +10,17 @@ const appStore = useAppStore();
 
 const showSettings = ref(false);
 
+function followSystemLanguage() {
+  const lan = window.navigator.language;
+  if (!appStore.language) {
+    if (lan.includes('zh')) appStore.updateLanguage('zh');
+    else appStore.updateLanguage('en');
+  }
+  locale.value = appStore.language ?? 'en';
+}
+
 onMounted(() => {
-  locale.value = appStore.language;
+  followSystemLanguage();
   document.title = t('title');
   if (appStore.theme) appStore.updateTheme(appStore.theme);
   else {

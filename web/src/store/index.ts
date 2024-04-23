@@ -9,7 +9,7 @@ export const useAppStore = defineStore('app', () => {
   const localModel = ref('');
   const enableLocal = ref(false);
   const theme = ref<Theme>();
-  const language = ref<Lan>('en');
+  const language = ref<Lan>();
 
   const updateModel = (val: string) => {
     model.value = val;
