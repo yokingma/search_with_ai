@@ -5,7 +5,7 @@
 Build your own conversation-based search with AI, a simple implementation with Node.js & Vue3. [Live Demo](https://isou.chat/)  
 
 <div align="center">
- <video src="https://github.com/yokingma/search_with_ai/raw/main/screenshot.mp4" width="640" height="480" controls></video>
+ <img src="./screenshot.png"></img>
 </div>
 
 repo: [GitHub](https://github.com/yokingma/search_with_ai)、 [Gitee](https://gitee.com/zac_ma/search_with_ai)  
