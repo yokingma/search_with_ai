@@ -5,8 +5,7 @@
 基于AI大语言模型的对话式搜索引擎的一个简单实现，基于Node.js&Vue3。 [Live Demo](https://isou.chat/)  
 
 <div align="center">
- <video src="https://github.com/yokingma/search_with_ai/raw/main/screenshot.mp4" width="640" height="480" controls></video>
-</div>
+ <video src="https://github.com/yokingma/search_with_ai/assets/8767820/28ac0522-5c7a-4e0c-a687-57e71cd4ec4d" width="640" height="480" controls></video>
 </div>
 
 仓库地址：[GitHub仓库](https://github.com/yokingma/search_with_ai)、 [Gitee仓库](https://gitee.com/zac_ma/search_with_ai)  
