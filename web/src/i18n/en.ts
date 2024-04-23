@@ -18,6 +18,7 @@ export default {
   language: 'Language',
   settings: 'Settings',
   selectModel: 'Select LLM',
+  selectLanguage: 'Select Language',
   selectEngine: 'Select Search Engine',
   localModel: 'Local LLM',
   enableLocalModel: 'Enable Local LLM',

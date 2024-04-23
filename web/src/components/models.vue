@@ -22,6 +22,7 @@ onMounted(async () => {
   } else {
     model.value = models.value[0];
   }
+  appStore.updateModel(model.value);
 });
 
 async function listModels () {
