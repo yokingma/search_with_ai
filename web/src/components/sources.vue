@@ -45,7 +45,7 @@ const { t } = useI18n();
       <div 
         v-for="item in sources"
         :key="item.id"
-        class="relative overflow-hidden rounded-md bg-gray-100 p-2 transition-all hover:opacity-80 xl:p-3 dark:bg-zinc-900"
+        class="relative overflow-hidden rounded-md bg-gray-100 p-2 transition-all hover:opacity-80 xl:p-3 dark:bg-zinc-800"
       >
         <t-popup>
           <template #content>

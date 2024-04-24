@@ -1,9 +1,11 @@
 <template>
-  <div id="search" class="relative size-full bg-gray-100 dark:bg-zinc-900">
-    <div class="absolute inset-0 overflow-hidden p-2">
-      <div class="mb-2"><SearchInputBar v-model="query" :loading="loading" @search="onSearch" /></div>
-      <div ref="wrapperRef" class="overflow-y-auto rounded-2xl bg-white dark:bg-zinc-800" style="height: calc(100% - 64px);">
-        <div class="p-4 pt-0">
+  <div id="search" class="relative size-full">
+    <div class="absolute inset-0 overflow-hidden">
+      <div class="mb-1 mt-4 px-4 lg:p-0">
+        <SearchInputBar v-model="query" :loading="loading" @search="onSearch" />
+      </div>
+      <div ref="wrapperRef" class="overflow-y-auto" style="height: calc(100% - 80px);">
+        <div class="p-4 lg:p-0">
           <div class="mt-0">
             <div class="flex flex-nowrap items-center gap-2 py-4 text-black dark:text-gray-200">
               <RiChat3Line />
