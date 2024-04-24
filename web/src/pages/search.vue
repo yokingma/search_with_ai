@@ -1,6 +1,6 @@
 <template>
-  <div id="search" class="relative size-full">
-    <div class="absolute inset-0 overflow-hidden rounded-2xl bg-gray-100 p-2 dark:bg-zinc-900">
+  <div id="search" class="relative size-full bg-gray-100 dark:bg-zinc-900">
+    <div class="absolute inset-0 overflow-hidden p-2">
       <div class="mb-2"><SearchInputBar v-model="query" :loading="loading" @search="onSearch" /></div>
       <div ref="wrapperRef" class="overflow-y-auto rounded-2xl bg-white dark:bg-zinc-800" style="height: calc(100% - 64px);">
         <div class="p-4 pt-0">
