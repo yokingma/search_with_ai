@@ -38,7 +38,7 @@ Here are the contexts of the question:
 - DO NOT cite user's original question and Contexts.
 - DO NOT output any irrelevant content, like: 'Here are three related questions', 'Base on your original question'.
 - Each related question should be no longer than 40 tokens.
-- Output in the same language as the user's original question.
+- Your output must be written in the same language as the user question,
 
 ## Output Format
 

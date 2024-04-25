@@ -8,6 +8,7 @@ import SearchEngineSelect from './engine.vue';
 import LocalModelSelect from './localModels.vue';
 import LanguageSelect from './language.vue';
 import AppSettings from './settings.vue';
+import ToolBar from './toolbar.vue';
 
 export {
   ChatAnswer,
@@ -18,6 +19,7 @@ export {
   LocalModelSelect,
   LanguageSelect,
   SearchEngineSelect,
+  ToolBar,
   PageFooter,
   AppSettings
 };

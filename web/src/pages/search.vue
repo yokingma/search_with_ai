@@ -1,48 +1,56 @@
 <template>
-  <div id="search" class="relative size-full">
-    <div class="absolute inset-0 overflow-hidden">
-      <div class="mb-1 mt-4 px-4 lg:p-0">
-        <SearchInputBar v-model="query" :loading="loading" @search="onSearch" />
-      </div>
-      <div ref="wrapperRef" class="overflow-y-auto" style="height: calc(100% - 80px);">
-        <div class="p-4 lg:p-0">
-          <div class="mt-0">
-            <div class="flex flex-nowrap items-center gap-2 py-4 text-black dark:text-gray-200">
-              <RiChat3Line />
-              <span class="text-lg font-bold ">{{ t('answer') }}</span>
-            </div>
-            <ChatAnswer
-              :answer="result?.answer"
-              :contexts="result?.contexts"
-              :loading="loading"
-              @reload="onReload"
-            />
-            <div class="mt-4 flex">
-              <RelatedQuery :related="result?.related" @select="onSelectQuery" />
-            </div>
-          </div>
-          <div class="mt-4">
-            <div class="flex flex-nowrap items-center gap-2 py-4 text-black dark:text-gray-200">
-              <RiBook2Line />
-              <span class="text-lg font-bold ">{{ t('sources') }}</span>
-            </div>
-            <ChatSources :loading="loading" :sources="result?.contexts" />
-          </div>
-          <div class="my-4">
-            <div class="flex flex-nowrap items-center gap-2 py-4 text-black dark:text-gray-200">
-              <RiChat1Fill />
-              <span class="text-lg font-bold ">{{ t('chat') }}</span>
-            </div>
-            <ContinueChat :contexts="result?.contexts" :clear="loading" :query="query" :answer="result?.answer ?? ''" :ask="ask" @message="onAnswering" />
-          </div>
-          <div class="pb-20 pt-10">
-            <PageFooter />
-          </div>
+  <div id="search" class="size-full">
+    <div class="fixed inset-x-0 top-0 z-50 w-full bg-gradient-to-b from-white to-transparent py-4 dark:from-black">
+      <div class="flex w-full items-center justify-center">
+        <div class="w-full px-4 lg:max-w-2xl lg:p-0 xl:max-w-4xl">
+          <SearchInputBar v-model="query" :loading="loading" @search="onSearch" />
         </div>
       </div>
-      <div class="absolute inset-x-6 bottom-6 flex items-center justify-center">
-        <div class="w-full rounded-3xl drop-shadow-2xl">
-          <ChatInput :loading="loading" @ask="onChat" />
+    </div>
+    <div class="inset-0 flex items-center justify-center">
+      <div class="size-full lg:max-w-2xl xl:max-w-4xl">
+        <div class="mt-20">
+          <div class="p-4 lg:p-0">
+            <div class="mt-0">
+              <div class="flex flex-nowrap items-center gap-2 py-4 text-black dark:text-gray-200">
+                <RiChat3Line />
+                <span class="text-lg font-bold ">{{ t('answer') }}</span>
+              </div>
+              <ChatAnswer
+                :answer="result?.answer"
+                :contexts="result?.contexts"
+                :loading="loading"
+                @reload="onReload"
+              />
+              <div class="mt-4 flex">
+                <RelatedQuery :related="result?.related" @select="onSelectQuery" />
+              </div>
+            </div>
+            <div class="mt-4">
+              <div class="flex flex-nowrap items-center gap-2 py-4 text-black dark:text-gray-200">
+                <RiBook2Line />
+                <span class="text-lg font-bold ">{{ t('sources') }}</span>
+              </div>
+              <ChatSources :loading="loading" :sources="result?.contexts" />
+            </div>
+            <div class="my-4">
+              <div class="flex flex-nowrap items-center gap-2 py-4 text-black dark:text-gray-200">
+                <RiChat1Fill />
+                <span class="text-lg font-bold ">{{ t('chat') }}</span>
+              </div>
+              <ContinueChat :contexts="result?.contexts" :clear="loading" :query="query" :answer="result?.answer ?? ''" :ask="ask" @message="onAnswering" />
+            </div>
+            <div class="pb-20 pt-10">
+              <PageFooter />
+            </div>
+          </div>
+        </div>
+        <div class="fixed inset-x-0 bottom-0 z-50 w-full bg-gradient-to-t from-white to-transparent py-4 dark:from-black">
+          <div class="flex w-full items-center justify-center">
+            <div class="w-full drop-shadow-2xl lg:max-w-2xl xl:max-w-4xl">
+              <ChatInput :loading="loading" @ask="onChat" />
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -62,7 +70,6 @@ import ContinueChat from './components/chat.vue';
 import ChatInput from './components/input.vue';
 import { IQueryResult } from '../interface';
 
-const wrapperRef = ref<HTMLDivElement | null>(null);
 const appStore = useAppStore();
 
 const { t } = useI18n();
@@ -169,9 +176,7 @@ function clear () {
 }
 
 function scrollToBottom() {
-  if (wrapperRef.value) {
-    wrapperRef.value.scrollTop = wrapperRef.value.scrollHeight;
-  }
+  window.scrollTo(0, document.body.scrollHeight);
 }
 
 function replaceQueryParam(name: string, val: string) {

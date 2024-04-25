@@ -1,6 +1,6 @@
 <template>
   <div id="home" class="flex size-full items-center justify-center dark:bg-black">
-    <div class="mt-36 flex w-full flex-col gap-4 p-4 sm:-mt-28">
+    <div class="mt-36 flex w-full flex-col gap-4 p-4 sm:-mt-28 lg:max-w-3xl xl:max-w-4xl">
       <div class="flex items-center justify-center gap-2">
         <img :src="logoUrl" class="w-10" />
         <span class="text-3xl font-bold dark:text-gray-100">AI Search</span>

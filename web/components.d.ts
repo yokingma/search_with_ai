@@ -26,6 +26,7 @@ declare module 'vue' {
     TDrawer: typeof import('tdesign-vue-next')['Drawer']
     TInput: typeof import('tdesign-vue-next')['Input']
     TLoading: typeof import('tdesign-vue-next')['Loading']
+    Toolbar: typeof import('./src/components/toolbar.vue')['default']
     TOption: typeof import('tdesign-vue-next')['Option']
     TPopup: typeof import('tdesign-vue-next')['Popup']
     TSelect: typeof import('tdesign-vue-next')['Select']
