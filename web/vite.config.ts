@@ -10,6 +10,9 @@ export default defineConfig({
   build: {
     outDir: 'build'
   },
+  server: {
+    host: '0.0.0.0'
+  },
   plugins: [
     vue(),
     vueJsx({

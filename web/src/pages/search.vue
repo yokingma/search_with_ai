@@ -3,7 +3,7 @@
     <div class="fixed inset-x-0 top-0 z-50 w-full bg-gradient-to-b from-white to-transparent py-4 dark:from-black">
       <div class="flex w-full items-center justify-center">
         <div class="w-full px-4 lg:max-w-2xl lg:p-0 xl:max-w-4xl">
-          <SearchInputBar v-model="query" :loading="loading" @search="onSearch" />
+          <SearchInputBar v-model="query" :autofocus="false" :loading="loading" @search="onSearch" />
         </div>
       </div>
     </div>

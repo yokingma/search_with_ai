@@ -6,7 +6,7 @@
         <span class="text-3xl font-bold dark:text-gray-100">AI Search</span>
         <t-tag variant="light" class="text-xs text-gray-500">beta</t-tag>
       </div>
-      <SearchInputBar :loading="false" @search="search" />
+      <SearchInputBar :autofocus="true" :loading="false" @search="search" />
       <div class="grid grid-cols-1 justify-center gap-2 sm:grid-cols-2 md:grid-cols-3">
         <t-tag v-for="(item, index) in list" :key="index" shape="round" variant="light" class="cursor-pointer hover:opacity-80" @click="onQuickSearch(item)">
           {{ item }}
