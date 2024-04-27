@@ -74,7 +74,8 @@ Remember to save your **.env** settings if it has been changed before.
 
 1. run ```git pull```
 2. Delete all old containers and images using Docker Desktop or Docker CLI
-3. run ```docker compose up -d```
+3. run ```docker compose down```
+4. run ```docker compose up -d```
 
 ## LLM
 

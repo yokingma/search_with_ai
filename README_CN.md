@@ -2,7 +2,7 @@
 
 [English](./README.md) **中文**  
 
-基于AI大语言模型的对话式搜索引擎的一个简单实现，基于Node.js&Vue3。 [Live Demo](https://isou.chat/)  
+基于AI大语言模型的对话式搜索引擎的一个基本实现，基于Node.js&Vue3。 [Live Demo](https://isou.chat/)  
 
 <div align="center">
  <img src="./screenshot_cn.jpg"></img>
@@ -74,7 +74,8 @@ docker run -d -p 3000:3000 --name my_app my_image
 1. 运行 ```git pull``` （注意保存你的.env设置）
 
 2. 删除所有旧的容器和镜像
-3. 运行 ```docker compose up -d```
+3. 执行 ```docker compose down```
+4. 执行 ```docker compose up -d```
 
 ## 大模型支持
 
