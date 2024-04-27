@@ -44,6 +44,9 @@ html, body {
   margin: 0;
   background-color: var(--main-bg-color);
   scrollbar-color: #8e9099 transparent;
+  
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 html[theme-mode="dark"] {
@@ -75,5 +78,4 @@ html[theme-mode="dark"] .markdown-body pre {
   justify-content: center;
   width: 100%;
   height: 100%;
-  overflow-x: hidden;
 }

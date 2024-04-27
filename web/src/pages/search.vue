@@ -1,5 +1,5 @@
 <template>
-  <div id="search" class="size-full overflow-x-hidden">
+  <div id="search" class="size-full">
     <div class="fixed inset-x-0 top-0 z-50 w-full bg-gradient-to-b from-white to-transparent py-4 dark:from-black">
       <div class="flex w-full items-center justify-center">
         <div class="w-full px-4 lg:max-w-2xl lg:p-0 xl:max-w-4xl">
@@ -180,7 +180,7 @@ function clear () {
 }
 
 function scrollToBottom() {
-  window.scrollTo(0, document.body.scrollHeight);
+  document.body.scrollTop = document.body.scrollHeight;
 }
 
 function replaceQueryParam(name: string, val: string) {
