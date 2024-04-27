@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { RiArrowRightLine } from '@remixicon/vue';
-import { watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 type Emits = {
   (e: 'search', val: string): void,
@@ -20,12 +19,8 @@ const query = defineModel<string>();
 
 const onSearch = () => {
   if (!query.value?.trim()) return;  
-  emits('search', query.value);
+  emits('search', query.value.trim());
 };
-
-watch(() => query.value, (val) => {
-  console.log('query', val);
-});
 </script>
 
 <template>
