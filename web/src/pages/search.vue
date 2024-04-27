@@ -112,6 +112,10 @@ const onReload = () => {
 };
 
 onMounted(() => {
+  if (!keyword.value) {
+    router.push({ name: 'Home' })
+    return;
+  }
   query.value = keyword.value as string;
   querySearch(query.value);
 });
