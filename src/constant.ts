@@ -68,7 +68,8 @@ export const LeptonModels = {
   LLAMA2_7B: 'llama2-7b',
   LLAMA2_13B: 'llama2-13b',
   LLAMA2_70B: 'llama2-70b',
-  MIXTRAL8x7B: 'mixtral-8*7b'
+  MIXTRAL8x7B: 'mixtral-8*7b',
+  MIXTRAL8x22B: 'mixtral-8*22b'
 };
 
 export const AllModels = Object.assign({}, AliyunModels, OpenAIModels, BaiduModels, GoogleModels, YiModels, LeptonModels);
