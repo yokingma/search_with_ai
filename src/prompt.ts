@@ -38,7 +38,7 @@ Here are the contexts of the question:
 - DO NOT cite user's original question and Contexts.
 - DO NOT output any irrelevant content, like: 'Here are three related questions', 'Base on your original question'.
 - Each related question should be no longer than 40 tokens.
-- Your output must be written in the same language as the user question,
+- You must write in the same language as the user's origin question.
 
 ## Output Format
 
@@ -46,9 +46,23 @@ Here are the contexts of the question:
 
 ## Example Output
 
+### Example 1: User's question is written in English, Need to output in English.
+
+User: what is rust?
+
+Assistant:
 1. What is the history of rust? 
 2. What are the characteristics of rust? 
 3. What are the applications of rust?
+
+### Example 2: User's question is written in Chinese, 需要用中文输出.
+
+User: 什么是rust?
+
+Assistant:
+1. 在rust中什么是所有权？
+2. rust语言和c语言有什么区别？
+3. 怎么学习rust编程语言？
 
 ## Original Question
 
