@@ -4,33 +4,56 @@ import { searchWithSogou } from './service';
 import { aliyun, openai, baidu, yi, tencent, local, moonshot, lepton, google } from './platform';
 import { EBackend, IChatInputMessage } from './interface';
 import { Rag } from './rag';
+import { getFromCache, setToCache } from './cache';
 
 export const searchController = async (ctx: Context) => {
   const stream = ctx.request.body.stream ?? true;
   const q = ctx.request.query.q || DefaultQuery;
   const model: string = ctx.request.body.model;
+  const reload: boolean = ctx.request.body.reload ?? false;
   const engine: EBackend = ctx.request.body.engine;
   const locally: boolean = ctx.request.body.locally ?? false;
+
+  ctx.res.setHeader('Content-Type', 'text/event-stream');
+  ctx.res.setHeader('Cache-Control', 'no-cache');
+  ctx.res.setHeader('Connection', 'keep-alive');
+  ctx.res.statusCode = 200;
+
+  // get from cache, skip if enable reload
+  if (!reload) {
+    const cached = await getFromCache(q as string);
+    if (cached) {
+      ctx.body = cached;
+      ctx.res.write(cached, 'utf-8');
+      ctx.res.end();
+      return;
+    }
+  }
+
   const rag = new Rag({
     stream,
     model,
     backend: engine,
     locally
   });
+
   if (!stream) {
     const res = await rag.query(q as string);
     ctx.body = res;
     return;
   }
-  ctx.res.setHeader('Content-Type', 'text/event-stream');
-  ctx.res.setHeader('Cache-Control', 'no-cache');
-  ctx.res.setHeader('Connection', 'keep-alive');
-  ctx.res.statusCode = 200;
+
+  let result = '';
+
   await rag.query(q as string, (json: string) => {
     const eventData = `data:${JSON.stringify({ data: json })}\n\n`;
+    result += eventData;
     ctx.res.write(eventData, 'utf-8');
   });
+
   ctx.res.end();
+  // caching
+  setToCache(q as string, result);
 };
 
 export const sogouSearchController = async (ctx: Context) => {

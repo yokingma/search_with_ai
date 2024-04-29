@@ -1,6 +1,6 @@
 import { fetchEventData } from 'fetch-sse';
 import { httpRequest }  from '../utils';
-import { memoryCache } from '../cache';
+import memoryCache from '../cache';
 import { BaseChat } from './base';
 import { IChatInputMessage, IStreamHandler } from '../interface';
 import { AllModels } from '../constant';
