@@ -108,7 +108,7 @@ const onAnswering = () => {
 };
 
 const onReload = () => {
-  querySearch(query.value);
+  querySearch(query.value, true);
 };
 
 onMounted(() => {
@@ -120,7 +120,7 @@ onMounted(() => {
   querySearch(query.value);
 });
 
-async function querySearch(val: string | null) {
+async function querySearch(val: string | null, reload?: boolean) {
   if (!val) return;
   clear();
   replaceQueryParam('q', val);
@@ -138,6 +138,7 @@ async function querySearch(val: string | null) {
       model: modelName,
       engine,
       locally: enableLocal,
+      reload,
       ctrl,
       onMessage: (data: any) => {
         if (data?.context) {

@@ -13,13 +13,14 @@ export interface IQueryOptions {
   engine?: string | null
   locally?: boolean
   system?: string
+  reload?: boolean
   onMessage: (data: Record<string, any>) => void
   onOpen?: () => void
   onClose?: () => void
   onError?: (e: any) => void
 }
 export async function search(q: string, options: IQueryOptions) {
-  const { ctrl, stream = true, model, engine, locally, onMessage, onOpen, onClose, onError } = options;
+  const { ctrl, stream = true, model, engine, reload = false, locally, onMessage, onOpen, onClose, onError } = options;
   const query = new URLSearchParams({
     q
   });
@@ -31,7 +32,8 @@ export async function search(q: string, options: IQueryOptions) {
       stream,
       model,
       engine,
-      locally
+      locally,
+      reload
     },
     headers: {
       'Content-Type': 'application/json'
