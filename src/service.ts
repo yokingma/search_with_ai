@@ -1,11 +1,11 @@
 import { EndPoint, DEFAULT_SEARCH_ENGINE_TIMEOUT, BING_MKT } from './constant';
 import { httpRequest } from './utils';
 import { Sogou } from './search/sogou';
-import searxng from './search/searxng';
+import searxng, { ESearXNGCategory } from './search/searxng';
 
 
-export const searchWithSearXNG = async (query: string) => {
-  const res = await searxng({ q: query });
+export const searchWithSearXNG = async (query: string, categories?: ESearXNGCategory[]) => {
+  const res = await searxng({ q: query, categories });
   return res;
 };
 

@@ -3,18 +3,30 @@ import { httpRequest } from '../utils';
 import { ISearchResponseResult } from '../interface';
 export interface ISearXNGOptions {
   q: string;
-  pageno?: number
+  pageno?: number;
+  categories?: ESearXNGCategory[];
 }
+
+export enum ESearXNGCategory {
+  SCIENCE = 'science',
+  IT = 'it',
+  GENERAL = 'general',
+  IMAGES = 'images',
+  VIDEOS = 'videos',
+  NEWS = 'news',
+  MUSIC = 'music'
+} 
 
 export default async function search(params: ISearXNGOptions): Promise<ISearchResponseResult[]> {
   try {
-    const { q, pageno = 1 } = params;
+    const { q, pageno = 1, categories = [ESearXNGCategory.GENERAL] } = params;
     const res = await httpRequest({
       endpoint: `${URL}/search`,
       method: 'POST',
       query: {
         q,
         pageno,
+        categories: categories.join(','),
         format: 'json'
       }
     });

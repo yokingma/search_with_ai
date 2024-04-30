@@ -4,6 +4,7 @@ import { MoreQuestionsPrompt, RagQueryPrompt } from './prompt';
 import { aliyun, baidu, openai, google, tencent, yi, moonshot, lepton, local } from './platform';
 import util from 'util';
 import { AliyunModels, BaiduModels, OpenAIModels, GoogleModels, TencentModels, YiModels, MoonshotModels, LeptonModels } from './constant';
+import { ESearXNGCategory } from './search/searxng';
 
 interface RagOptions {
   backend?: EBackend
@@ -51,8 +52,8 @@ export class Rag {
     }
   }
 
-  public async query(query: string, onMessage?: (...args: any[]) => void) {
-    const contexts = await this.search(query);
+  public async query(query: string, categories = [ESearXNGCategory.GENERAL], onMessage?: (...args: any[]) => void) {
+    const contexts = await this.search(query, categories);
     const REFERENCE_COUNT = process.env.REFERENCE_COUNT || 8;
     const limitContexts = contexts.slice(0, +REFERENCE_COUNT);
     if (!this.stream) {
