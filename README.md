@@ -20,6 +20,7 @@ repo: [GitHub](https://github.com/yokingma/search_with_ai)、 [Gitee](https://gi
 * Support local LLM with Ollama
 * Support i18n
 * Support Continue Q&A with contexts.
+* Support caching, when reload the search results page, returns cached results for the same query and also supports forcing the regeneration of answers.
 
 ## Deploy with Docker (recommended)
 
