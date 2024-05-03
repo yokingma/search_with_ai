@@ -29,6 +29,17 @@ export default {
     noSelect: 'Not selected yet',
     sourceError: 'Failed to obtain information'
   },
+  category: {
+    general: 'General',
+    science: 'Science',
+    images: 'Images',
+    videos: 'Videos'
+  },
+  mode: {
+    simple: 'Simple',
+    deep: 'Deep',
+    research: 'Research'
+  },
   tips: {
     search: 'Ask a question.',
     continue: 'Continue to ask based on the current context.'

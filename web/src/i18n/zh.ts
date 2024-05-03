@@ -29,6 +29,17 @@ export default {
     noSelect: '暂未选择',
     sourceError: '获取参考资料失败了'
   },
+  category: {
+    general: '全网',
+    science: '学术',
+    images: '图片',
+    videos: '视频'
+  },
+  mode: {
+    simple: '简洁',
+    deep: '深入',
+    research: '研究'
+  },
   tips: {
     search: '您可以问我任何问题',
     continue: '基于当前上下文继续追问'
