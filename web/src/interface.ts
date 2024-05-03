@@ -17,4 +17,4 @@ export interface IMessage {
 }
 
 export type TSearCategory = 'general' | 'science' | 'images' | 'videos' | 'news'
-export type TSearchMode = 'simply' | 'deep' | 'research'
+export type TSearchMode = 'simple' | 'deep' | 'research'

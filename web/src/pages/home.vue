@@ -12,7 +12,7 @@
         <SearchMode />
       </div>
       <div class="w-full flex justify-center">
-        <div class="flex flex-wrap gap-2">
+        <div class="flex flex-wrap justify-center gap-2">
           <t-tag
             v-for="(item, index) in list"
             :key="index" shape="round" 

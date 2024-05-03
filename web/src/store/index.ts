@@ -14,7 +14,7 @@ export const useAppStore = defineStore('app', () => {
   // searxng categories
   const category = ref<TSearCategory>('general');
   // search mode
-  const mode = ref<TSearchMode>('simply');
+  const mode = ref<TSearchMode>('simple');
 
   const updateModel = (val: string) => {
     model.value = val;
