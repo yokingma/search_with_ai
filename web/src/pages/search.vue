@@ -23,7 +23,7 @@
         <div class="mt-20">
           <div v-if="!loading" class="flex flex-nowrap justify-between px-4 py-2 lg:px-0">
             <SearchMode @change="onSearchModeChanged" />
-            <SearCategory />
+            <SearCategory @change="onSearchCategoryChanged" />
           </div>
           <div class="p-4 lg:p-0">
             <div class="mt-0">
@@ -84,7 +84,7 @@ import router from '../router';
 import { search } from '../api';
 import ContinueChat from './components/chat.vue';
 import ChatInput from './components/input.vue';
-import { IQueryResult, TSearchMode } from '../interface';
+import { IQueryResult, TSearCategory, TSearchMode } from '../interface';
 
 const appStore = useAppStore();
 
@@ -109,6 +109,11 @@ const onBackHome = () => {
 
 const onSearchModeChanged = (mode: TSearchMode) => {
   console.log('search mode', mode)
+  querySearch(query.value, false);
+}
+
+const onSearchCategoryChanged = (category: TSearCategory) => {
+  console.log('search category', category)
   querySearch(query.value, false);
 }
 

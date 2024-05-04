@@ -3,8 +3,15 @@ import { useAppStore } from '../store';
 import { SearXNGCategories } from '../contants';
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { TSearCategory } from 'src/interface';
 
 const { t } = useI18n();
+
+type Emits = {
+  (e: 'change', val: TSearCategory): void;
+}
+
+const emits = defineEmits<Emits>();
 
 const categories = SearXNGCategories.map(item => {
   return {
@@ -17,7 +24,8 @@ const appStore = useAppStore();
 const value = ref(appStore.category);
 
 const onCategoryChange = (val: any) => {
-  appStore.updateCategory(val)
+  appStore.updateCategory(val);
+  emits('change', val);
 }
 </script>
 
