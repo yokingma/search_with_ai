@@ -3,8 +3,14 @@ import { useAppStore } from '../store';
 import { SearchMode } from '../contants';
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { TSearchMode } from '../interface';
 
 const { t } = useI18n();
+
+type Emits = {
+  (e: 'change', val: TSearchMode): void
+}
+const emits = defineEmits<Emits>();
 
 const modes = SearchMode.map(item => {
   return {
@@ -19,6 +25,7 @@ const value = ref(appStore.mode);
 
 const onChange = (val: any) => {
   appStore.updateMode(val)
+  emits('change', val)
 }
 </script>
 

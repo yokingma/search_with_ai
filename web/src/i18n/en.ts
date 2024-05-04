@@ -7,6 +7,7 @@ export default {
   sources: 'Sources',
   copy: 'Copy',
   reload: 'Reload',
+  share: 'Share',
   search: 'Engine',
   newChat: 'New Q&A',
   sogou: 'Sogou',
@@ -15,6 +16,7 @@ export default {
   searxng: 'SearXNG',
   llm: 'LLM',
   chat: 'Continue Q&A',
+  back: 'Back Home',
   language: 'Language',
   settings: 'Settings',
   selectModel: 'Select LLM',
@@ -27,7 +29,9 @@ export default {
     queryError: 'Query error',
     copyError: 'Copy failed',
     noSelect: 'Not selected yet',
-    sourceError: 'Failed to obtain information'
+    sourceError: 'Failed to obtain information',
+    shareSuccess: 'Sharing link copied to clipboard.',
+    success: 'successful!'
   },
   category: {
     general: 'General',

@@ -1,6 +1,6 @@
 import { EBackend, IChatInputMessage, IStreamHandler, SearchFunc, TMode } from './interface';
 import { searchWithBing, searchWithGoogle, searchWithSogou, searchWithSearXNG } from './service';
-import { MoreQuestionsPrompt, RagQueryPrompt } from './prompt';
+import { DeepQueryPrompt, MoreQuestionsPrompt, RagQueryPrompt } from './prompt';
 import { aliyun, baidu, openai, google, tencent, yi, moonshot, lepton, local } from './platform';
 import util from 'util';
 import { AliyunModels, BaiduModels, OpenAIModels, GoogleModels, TencentModels, YiModels, MoonshotModels, LeptonModels } from './constant';
@@ -54,7 +54,8 @@ export class Rag {
 
   public async query(query: string, categories = [ESearXNGCategory.GENERAL], mode: TMode = 'simple', onMessage?: (...args: any[]) => void) {
     const contexts = await this.search(query, categories);
-    console.log(`search [${categories}] results`, contexts);
+    console.log(`[search [${categories}] results]`, contexts.length);
+    console.log(`[search mode]`, mode);
     const REFERENCE_COUNT = process.env.REFERENCE_COUNT || 8;
     const limitContexts = contexts.slice(0, +REFERENCE_COUNT);
     if (!this.stream) {
@@ -70,7 +71,7 @@ export class Rag {
     for (const context of limitContexts) {
       onMessage?.(JSON.stringify({ context }));
     }
-    await this.getAiAnswer(query, limitContexts, (msg) => {
+    await this.getAiAnswer(query, limitContexts, mode, (msg) => {
       onMessage?.(JSON.stringify({ answer: msg }));
     });
     await this.getRelatedQuestions(query, limitContexts, (msg) => {
@@ -82,7 +83,7 @@ export class Rag {
   // Gets related questions based on the query and context.
   private async getRelatedQuestions(query: string, contexts: any[], onMessage?: IStreamHandler) {
     try {
-      const { messages } = this.paramsFormatter(query, contexts, 'related');
+      const { messages } = this.paramsFormatter(query, undefined, contexts, 'related');
       const { model, stream, chat } = this;
       if (!stream) {
         const res = await this.chat(messages, this.model);
@@ -95,10 +96,10 @@ export class Rag {
     }
   }
 
-  private async getAiAnswer(query: string, contexts: any[], onMessage?: IStreamHandler) {
+  private async getAiAnswer(query: string, contexts: any[], mode: TMode = 'simple', onMessage?: IStreamHandler) {
     const { model, stream, chat } = this;
     try {
-      const { messages } = this.paramsFormatter(query, contexts, 'answer');
+      const { messages } = this.paramsFormatter(query, mode, contexts, 'answer');
       if (!stream) {
         const res = await this.chat(messages, this.model);
         return res;
@@ -114,9 +115,15 @@ export class Rag {
     }
   }
 
-  private paramsFormatter(query: string, contexts: any[], type: 'answer' | 'related') {
+  private paramsFormatter(query: string, mode: TMode = 'simple', contexts: any[], type: 'answer' | 'related') {
     const context = contexts.map((item, index) => `[[citation:${index + 1}]] ${item.snippet}` ).join('\n\n');
-    const prompt = type === 'answer' ? RagQueryPrompt : MoreQuestionsPrompt;
+    let prompt = type === 'answer' ? RagQueryPrompt : MoreQuestionsPrompt;
+
+    // deep answer
+    if (mode === 'deep' && type === 'answer') {
+      prompt = DeepQueryPrompt;
+    }
+
     const system = util.format(prompt, context);
     const messages: IChatInputMessage[] = [
       {

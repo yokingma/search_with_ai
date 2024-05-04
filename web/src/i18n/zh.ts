@@ -7,6 +7,7 @@ export default {
   sources: '参考资料',
   copy: '复制',
   reload: '重新回答',
+  share: '分享',
   search: '搜索引擎',
   newChat: '新会话',
   sogou: '搜狗',
@@ -15,6 +16,7 @@ export default {
   searxng: 'SearXNG',
   llm: '大模型',
   chat: '继续问答',
+  back: '返回首页',
   language: '语言',
   settings: '设置',
   selectModel: '选择模型',
@@ -27,7 +29,9 @@ export default {
     queryError: '查询出错了',
     copyError: '复制失败了',
     noSelect: '暂未选择',
-    sourceError: '获取参考资料失败了'
+    sourceError: '获取参考资料失败了',
+    shareSuccess: '分享链接已复制到剪贴板。',
+    success: '操作成功了！'
   },
   category: {
     general: '全网',

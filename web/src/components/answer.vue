@@ -10,9 +10,10 @@ import { MessagePlugin, Popup } from 'tdesign-vue-next';
 import { citationMarkdownParse } from '../utils';
 import { marked } from 'marked';
 import { useI18n } from 'vue-i18n';
-import { RiRestartLine, RiClipboardLine } from '@remixicon/vue';
+import { RiRestartLine, RiClipboardLine, RiShareForwardLine } from '@remixicon/vue';
 
 interface Iprops {
+  query?: string
   answer?: string
   contexts?: Record<string, any>[]
   loading?: boolean
@@ -41,11 +42,25 @@ const onReload = () => {
 const onCopy = async () => {
   try {
     const text = answerRef.value?.innerText;
-    if (text) await navigator.clipboard.writeText(text);
+    if (text) {
+      await navigator.clipboard.writeText(text);
+      MessagePlugin.success(t('message.success'))
+    }
   } catch (err) {
     MessagePlugin.error(t('message.copyError'));
   }
 };
+
+const onShare = async () => {
+  try {
+    const url = window.location.href
+    const copyMsg = `${props.query}\n${url}`
+    await navigator.clipboard.writeText(copyMsg);
+    MessagePlugin.success(t('message.shareSuccess'))
+  } catch (err) {
+    MessagePlugin.error(t('message.copyError'));
+  }
+}
 
 watch(() => props.answer, () => {
   const parent = processAnswer(props.answer);
@@ -111,18 +126,26 @@ function getCitationContent (num?: string | null) {
   <div class="h-auto w-full text-base leading-7 text-zinc-600 dark:text-gray-200">
     <t-skeleton theme="paragraph" animation="flashed" :loading="!answer"></t-skeleton>
     <div ref="answerRef" class="markdown-body h-auto w-full dark:bg-zinc-800" />
-    <div v-if="!loading" class="flex w-full flex-row justify-end border-0 border-b border-solid border-zinc-200 py-2 dark:border-zinc-600">
+    <div v-if="!loading" class="flex w-full flex-row justify-between border-0 border-b border-solid border-zinc-200 py-2 dark:border-zinc-600">
+      <div class="flex gap-2">
+        <t-tooltip :content="t('share')">
+          <t-button :disabled="loading" theme="default" shape="round" variant="dashed" @click="onShare">
+            <template #icon><RiShareForwardLine size="18"/></template>
+            <span class="ml-2">{{ t('share') }}</span>
+          </t-button>
+        </t-tooltip>
+      </div>
       <div class="flex flex-row gap-2">
         <t-tooltip :content="t('copy')">
-          <t-button :disabled="loading" theme="primary" shape="circle" @click="onCopy">
+          <t-button :disabled="loading" theme="default" shape="circle" variant="dashed" @click="onCopy">
             <template #icon><RiClipboardLine size="16"/></template>
           </t-button>
         </t-tooltip>
         <t-tooltip :content="t('reload')">
-          <t-button :disabled="loading" theme="primary" shape="circle" @click="onReload">
+          <t-button :disabled="loading" theme="default" shape="circle" variant="dashed" @click="onReload">
             <template #icon><RiRestartLine size="16"/></template>
           </t-button>
-        </t-tooltip>
+        </t-tooltip>        
       </div>
     </div>
   </div>

@@ -24,7 +24,7 @@ export const searchController = async (ctx: Context) => {
 
   // get from cache, skip if enable reload
   if (!reload) {
-    const cached = await getFromCache(q as string);
+    const cached = await getFromCache(q as string, mode, categories);
     if (cached) {
       ctx.body = cached;
       ctx.res.write(cached, 'utf-8');
@@ -56,7 +56,7 @@ export const searchController = async (ctx: Context) => {
 
   ctx.res.end();
   // caching
-  setToCache(q as string, result);
+  setToCache(q as string, result, mode, categories);
 };
 
 export const sogouSearchController = async (ctx: Context) => {

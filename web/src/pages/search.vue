@@ -1,15 +1,30 @@
 <template>
   <div id="search" class="size-full">
-    <div class="fixed inset-x-0 top-0 z-50 w-full bg-gradient-to-b from-white to-transparent py-4 dark:from-black">
+    <div class="fixed inset-x-0 top-0 z-50 w-full bg-white border-0 border-solid border-b border-zinc-100 py-2 dark:border-zinc-700 dark:bg-black">
       <div class="flex w-full items-center justify-center">
-        <div class="w-full px-4 lg:max-w-2xl lg:p-0 xl:max-w-4xl">
-          <SearchInputBar v-model="query" :autofocus="false" :loading="loading" @search="onSearch" />
+        <div class="flex flex-row flex-nowrap items-center gap-4 w-full lg:max-w-2xl lg:p-0 xl:max-w-4xl">
+          <div class="grow pl-2">
+            <SearchInputBar v-model="query" :autofocus="false" :loading="loading" @search="onSearch" />
+          </div>
+          <div class="grow-0 shrink-0 pr-2">
+            <t-tooltip :content="t('back')">
+              <t-button shape="circle" theme="default" @click="onBackHome">
+                <template #icon>
+                  <RiArrowGoBackLine size="14px" />
+                </template>
+              </t-button>
+            </t-tooltip>
+          </div>
         </div>
       </div>
     </div>
     <div class="inset-0 flex items-center justify-center">
       <div class="size-full lg:max-w-2xl xl:max-w-4xl">
         <div class="mt-20">
+          <div v-if="!loading" class="flex flex-nowrap justify-between px-4 py-2 lg:px-0">
+            <SearchMode @change="onSearchModeChanged" />
+            <SearCategory />
+          </div>
           <div class="p-4 lg:p-0">
             <div class="mt-0">
               <div class="flex flex-nowrap items-center gap-2 py-4 text-black dark:text-gray-200">
@@ -17,6 +32,7 @@
                 <span class="text-lg font-bold ">{{ t('answer') }}</span>
               </div>
               <ChatAnswer
+                :query="query"
                 :answer="result?.answer"
                 :contexts="result?.contexts"
                 :loading="loading"
@@ -59,16 +75,16 @@
 
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
-import { PageFooter, ChatAnswer, RelatedQuery, ChatSources, SearchInputBar } from '../components';
+import { PageFooter, ChatAnswer, RelatedQuery, ChatSources, SearchInputBar, SearchMode, SearCategory } from '../components';
 import { MessagePlugin } from 'tdesign-vue-next';
 import { useI18n } from 'vue-i18n';
 import { useAppStore } from '../store';
-import { RiChat3Line, RiBook2Line, RiChat1Fill } from '@remixicon/vue';
+import { RiChat3Line, RiBook2Line, RiChat1Fill, RiArrowGoBackLine } from '@remixicon/vue';
 import router from '../router';
 import { search } from '../api';
 import ContinueChat from './components/chat.vue';
 import ChatInput from './components/input.vue';
-import { IQueryResult } from '../interface';
+import { IQueryResult, TSearchMode } from '../interface';
 
 const appStore = useAppStore();
 
@@ -86,6 +102,15 @@ const result = ref<IQueryResult>({
   answer: '',
   contexts: []
 });
+
+const onBackHome = () => {
+  router.push({ name: 'Home' })
+}
+
+const onSearchModeChanged = (mode: TSearchMode) => {
+  console.log('search mode', mode)
+  querySearch(query.value, false);
+}
 
 const onSelectQuery = (val: string) => {
   query.value = val;
