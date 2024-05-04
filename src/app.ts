@@ -4,6 +4,7 @@ import cors from '@koa/cors';
 import { bodyParser } from '@koa/bodyparser';
 import serve from 'koa-static';
 import path from 'path';
+import { whiteListMiddleware } from './middlewares';
 import history from 'koa2-connect-history-api-fallback';
 import { chatStreamController, localChatStreamController, localModelsController, modelsController, searchController, sogouSearchController } from './controllers';
 
@@ -29,6 +30,7 @@ app.use(cors({
   origin: '*'
 }));
 app.use(bodyParser());
+
 // Error handler
 app.use(async (ctx, next) => {
   try {
@@ -39,6 +41,8 @@ app.use(async (ctx, next) => {
     ctx.body = err;
   }
 });
+
+app.use(whiteListMiddleware);
 
 // router
 app.use(router.routes()).use(router.allowedMethods());
