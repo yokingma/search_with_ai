@@ -8,7 +8,6 @@ const memoryCache = createCache(memoryStore(), {
 export async function setToCache(key: string, val: string) {
   const hash = createHash('sha256');
   const hashKey = hash.update(key, 'utf8').digest('hex');
-  console.log('hashKey', hashKey);
   await memoryCache.set(hashKey, val);
 }
 

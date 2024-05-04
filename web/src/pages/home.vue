@@ -7,10 +7,23 @@
         <t-tag variant="light" class="text-xs text-gray-500">beta</t-tag>
       </div>
       <SearchInputBar :autofocus="true" :loading="false" @search="search" />
-      <div class="grid grid-cols-1 justify-center gap-2 sm:grid-cols-2 md:grid-cols-3">
-        <t-tag v-for="(item, index) in list" :key="index" shape="round" variant="light" class="cursor-pointer hover:opacity-80" @click="onQuickSearch(item)">
-          {{ item }}
-        </t-tag>
+      <div class="flex justify-between items-center my-2">
+        <SearCategory />
+        <SearchMode />
+      </div>
+      <div class="w-full flex justify-center">
+        <div class="flex flex-wrap justify-center gap-2">
+          <t-tag
+            v-for="(item, index) in list"
+            :key="index" shape="round" 
+            variant="outline"
+            size="medium"
+            class="cursor-pointer hover:opacity-80"
+            @click="onQuickSearch(item)"
+          >
+            {{ item }} <RiSearch2Line class="ml-1" size="12"/>
+          </t-tag>
+        </div>
       </div>
       <div class="mt-4">
         <PageFooter />
@@ -21,7 +34,8 @@
 
 <script setup lang="tsx">
 import router from '../router';
-import { PageFooter, SearchInputBar } from '../components';
+import { RiSearch2Line } from '@remixicon/vue';
+import { PageFooter, SearchInputBar, SearCategory, SearchMode } from '../components';
 import logoUrl from '../assets/logo.png';
 import { useI18n } from 'vue-i18n';
 import { computed } from 'vue';
@@ -31,8 +45,10 @@ const { locale } = useI18n();
 const quickly: Record<string, string[]> = {
   zh: [
     '什么是大语言模型LLM?',
-    '什么是RAG?',
-    'LLM如何在企业落地应用?'
+    '怎么使用Ollama在本地部署大模型?',
+    'llama3-70b需要什么硬件配置？',
+    '小米su7体验怎么样？',
+    '《庆余年2》什么时候播放？'
   ],
   en: [
     'What is LLM?',

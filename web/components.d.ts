@@ -8,10 +8,13 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     Answer: typeof import('./src/components/answer.vue')['default']
+    Category: typeof import('./src/components/category.vue')['default']
+    copy: typeof import('./src/components/category copy.vue')['default']
     Engine: typeof import('./src/components/engine.vue')['default']
     Footer: typeof import('./src/components/footer.vue')['default']
     Language: typeof import('./src/components/language.vue')['default']
     LocalModels: typeof import('./src/components/localModels.vue')['default']
+    Mode: typeof import('./src/components/mode.vue')['default']
     Models: typeof import('./src/components/models.vue')['default']
     Related: typeof import('./src/components/related.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
@@ -30,6 +33,8 @@ declare module 'vue' {
     Toolbar: typeof import('./src/components/toolbar.vue')['default']
     TOption: typeof import('tdesign-vue-next')['Option']
     TPopup: typeof import('tdesign-vue-next')['Popup']
+    TRadioButton: typeof import('tdesign-vue-next')['RadioButton']
+    TRadioGroup: typeof import('tdesign-vue-next')['RadioGroup']
     TSelect: typeof import('tdesign-vue-next')['Select']
     TSkeleton: typeof import('tdesign-vue-next')['Skeleton']
     TSwitch: typeof import('tdesign-vue-next')['Switch']
