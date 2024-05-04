@@ -2,7 +2,7 @@ import { Context } from 'koa';
 import { AliyunModels, BaiduModels, DefaultQuery, GoogleModels, LeptonModels, MoonshotModels, OpenAIModels, TencentModels, YiModels } from './constant';
 import { searchWithSogou } from './service';
 import { aliyun, openai, baidu, yi, tencent, local, moonshot, lepton, google } from './platform';
-import { EBackend, IChatInputMessage } from './interface';
+import { EBackend, IChatInputMessage, TMode } from './interface';
 import { Rag } from './rag';
 import { getFromCache, setToCache } from './cache';
 import { ESearXNGCategory } from './search/searxng';
@@ -15,6 +15,7 @@ export const searchController = async (ctx: Context) => {
   const engine: EBackend = ctx.request.body.engine;
   const locally: boolean = ctx.request.body.locally ?? false;
   const categories: ESearXNGCategory[] = ctx.request.body.categories ?? [];
+  const mode: TMode = ctx.request.body.mode ?? 'simple';
 
   ctx.res.setHeader('Content-Type', 'text/event-stream');
   ctx.res.setHeader('Cache-Control', 'no-cache');
@@ -47,7 +48,7 @@ export const searchController = async (ctx: Context) => {
 
   let result = '';
 
-  await rag.query(q as string, categories, (json: string) => {
+  await rag.query(q as string, categories, mode, (json: string) => {
     const eventData = `data:${JSON.stringify({ data: json })}\n\n`;
     result += eventData;
     ctx.res.write(eventData, 'utf-8');

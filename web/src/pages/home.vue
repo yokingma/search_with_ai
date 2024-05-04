@@ -7,9 +7,9 @@
         <t-tag variant="light" class="text-xs text-gray-500">beta</t-tag>
       </div>
       <SearchInputBar :autofocus="true" :loading="false" @search="search" />
-      <div class="flex justify-between items-center my-2">
-        <SearCategory />
+      <div class="flex gap-4 justify-center items-center my-2">
         <SearchMode />
+        <SearCategory v-if="enableAdvanced" />
       </div>
       <div class="w-full flex justify-center">
         <div class="flex flex-wrap justify-center gap-2">
@@ -39,8 +39,12 @@ import { PageFooter, SearchInputBar, SearCategory, SearchMode } from '../compone
 import logoUrl from '../assets/logo.png';
 import { useI18n } from 'vue-i18n';
 import { computed } from 'vue';
+import { useAppStore } from '../store';
 
 const { locale } = useI18n();
+const appStore = useAppStore();
+
+const enableAdvanced = computed(() => appStore.engine === 'SEARXNG')
 
 const quickly: Record<string, string[]> = {
   zh: [
@@ -48,7 +52,7 @@ const quickly: Record<string, string[]> = {
     '怎么使用Ollama在本地部署大模型?',
     'llama3-70b需要什么硬件配置？',
     '小米su7体验怎么样？',
-    '《庆余年2》什么时候播放？'
+    '《庆余年2》什么时候播出？'
   ],
   en: [
     'What is LLM?',

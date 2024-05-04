@@ -20,6 +20,9 @@ Remember, don't blindly repeat the contexts verbatim. Your answer must be writte
 And here is the user question:
 `;
 
+export const DeepQueryPrompt = `
+`
+
 export const MoreQuestionsPrompt = `
 ## Character
 

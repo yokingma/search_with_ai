@@ -1,4 +1,4 @@
-import { EBackend, IChatInputMessage, IStreamHandler, SearchFunc } from './interface';
+import { EBackend, IChatInputMessage, IStreamHandler, SearchFunc, TMode } from './interface';
 import { searchWithBing, searchWithGoogle, searchWithSogou, searchWithSearXNG } from './service';
 import { MoreQuestionsPrompt, RagQueryPrompt } from './prompt';
 import { aliyun, baidu, openai, google, tencent, yi, moonshot, lepton, local } from './platform';
@@ -52,8 +52,9 @@ export class Rag {
     }
   }
 
-  public async query(query: string, categories = [ESearXNGCategory.GENERAL], onMessage?: (...args: any[]) => void) {
+  public async query(query: string, categories = [ESearXNGCategory.GENERAL], mode: TMode = 'simple', onMessage?: (...args: any[]) => void) {
     const contexts = await this.search(query, categories);
+    console.log(`search [${categories}] results`, contexts);
     const REFERENCE_COUNT = process.env.REFERENCE_COUNT || 8;
     const limitContexts = contexts.slice(0, +REFERENCE_COUNT);
     if (!this.stream) {

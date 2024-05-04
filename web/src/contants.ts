@@ -39,6 +39,7 @@ export const SearchMode = [
   },
   {
     name: 'research',
-    displayName: 'mode.research'
+    displayName: 'mode.research',
+    disabled: true
   }
 ]

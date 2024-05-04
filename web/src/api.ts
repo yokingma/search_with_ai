@@ -1,5 +1,5 @@
 import { fetchEventData } from 'fetch-sse';
-import { IMessage } from './interface';
+import { IMessage, TSearCategory, TSearchMode } from './interface';
 const BASE_URL = import.meta.env.MODE === 'development' ? 'http://127.0.0.1:3000' : '';
 
 const SEARCH = '/api/search';
@@ -13,6 +13,8 @@ export interface IQueryOptions {
   engine?: string | null
   locally?: boolean
   system?: string
+  mode?: TSearchMode
+  categories?: TSearCategory[]
   reload?: boolean
   onMessage: (data: Record<string, any>) => void
   onOpen?: () => void
@@ -20,7 +22,7 @@ export interface IQueryOptions {
   onError?: (e: any) => void
 }
 export async function search(q: string, options: IQueryOptions) {
-  const { ctrl, stream = true, model, engine, reload = false, locally, onMessage, onOpen, onClose, onError } = options;
+  const { ctrl, stream = true, model, engine, reload = false, mode, categories, locally, onMessage, onOpen, onClose, onError } = options;
   const query = new URLSearchParams({
     q
   });
@@ -31,6 +33,8 @@ export async function search(q: string, options: IQueryOptions) {
     data: {
       stream,
       model,
+      mode,
+      categories,
       engine,
       locally,
       reload

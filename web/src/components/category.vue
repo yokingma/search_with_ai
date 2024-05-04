@@ -8,7 +8,7 @@ const { t } = useI18n();
 
 const categories = SearXNGCategories.map(item => {
   return {
-    name: t(item.displayName),
+    name: item.displayName,
     value: item.name
   };
 });
@@ -29,9 +29,9 @@ export default {
 
 <template>
   <div class="sear-category">
-    <t-radio-group variant="primary-filled" @change="onCategoryChange" :default-value="value">
+    <t-radio-group variant="default-filled" @change="onCategoryChange" :default-value="value">
       <t-radio-button v-for="item in categories" :value="item.value">
-        {{ item.name }}
+        {{ t(item.name) }}
       </t-radio-button>
     </t-radio-group>
   </div>

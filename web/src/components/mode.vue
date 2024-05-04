@@ -8,8 +8,9 @@ const { t } = useI18n();
 
 const modes = SearchMode.map(item => {
   return {
-    name: t(item.displayName),
-    value: item.name
+    name: item.displayName,
+    value: item.name,
+    disabled: item.disabled
   };
 });
 const appStore = useAppStore();
@@ -30,8 +31,8 @@ export default {
 <template>
   <div class="search-mode">
     <t-radio-group variant="primary-filled" @change="onChange" :default-value="value">
-      <t-radio-button v-for="item in modes" :value="item.value">
-        {{ item.name }}
+      <t-radio-button v-for="item in modes" :disabled="item.disabled" :value="item.value">
+        {{ t(item.name) }}
       </t-radio-button>
     </t-radio-group>
   </div>

@@ -132,11 +132,13 @@ async function querySearch(val: string | null, reload?: boolean) {
   abortCtrl = ctrl;
   try {
     loading.value = true;
-    const { model, engine, enableLocal, localModel } = appStore;
+    const { model, engine, mode, category, enableLocal, localModel } = appStore;
     const modelName = enableLocal ? localModel : model?.split(':')[1];
     await search(val, {
       model: modelName,
       engine,
+      mode,
+      categories: [category],
       locally: enableLocal,
       reload,
       ctrl,
