@@ -22,6 +22,7 @@ app.use(history({
   index: '/index.html',
   whiteList: ['/api']
 }));
+
 // static path
 const staticPath = path.join(__dirname, '../web/build');
 app.use(serve(staticPath, {
@@ -46,13 +47,11 @@ app.use(async (ctx, next) => {
   }
 });
 
-app.use(whiteListMiddleware);
-
 // router
 app.use(router.routes()).use(router.allowedMethods());
 
 // controller
-router.post('/api/search', searchController);
+router.post('/api/search', whiteListMiddleware(), searchController);
 router.post('/api/sogou/search', sogouSearchController);
 router.post('/api/chat', chatStreamController);
 router.get('/api/models', modelsController);
