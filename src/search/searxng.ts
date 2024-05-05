@@ -5,6 +5,7 @@ export interface ISearXNGOptions {
   q: string;
   pageno?: number;
   categories?: ESearXNGCategory[];
+  language?: string;
 }
 
 export enum ESearXNGCategory {
@@ -19,7 +20,8 @@ export enum ESearXNGCategory {
 
 export default async function search(params: ISearXNGOptions): Promise<ISearchResponseResult[]> {
   try {
-    const { q, pageno = 1, categories = [ESearXNGCategory.GENERAL] } = params;
+    const { q, pageno = 1, categories = [ESearXNGCategory.GENERAL], language = 'all' } = params;
+    const safesearch = process.env.SEARXNG_SAFE ?? 0;
     const res = await httpRequest({
       endpoint: `${URL}/search`,
       method: 'POST',
@@ -27,7 +29,9 @@ export default async function search(params: ISearXNGOptions): Promise<ISearchRe
         q,
         pageno,
         categories: categories.join(','),
-        format: 'json'
+        format: 'json',
+        safesearch,
+        language
       }
     });
     const result = await res.json();
