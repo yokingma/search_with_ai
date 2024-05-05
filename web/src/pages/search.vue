@@ -21,7 +21,7 @@
     <div class="inset-0 flex items-center justify-center">
       <div class="size-full lg:max-w-2xl xl:max-w-4xl">
         <div class="mt-20">
-          <div v-if="!loading" class="flex flex-nowrap justify-between px-4 py-2 lg:px-0">
+          <div v-if="!loading" class="flex flex-wrap gap-2 justify-between px-4 py-2 lg:px-0">
             <SearchMode @change="onSearchModeChanged" />
             <SearCategory @change="onSearchCategoryChanged" />
           </div>

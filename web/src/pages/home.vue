@@ -7,7 +7,7 @@
         <t-tag variant="light" class="text-xs text-gray-500">beta</t-tag>
       </div>
       <SearchInputBar :autofocus="true" :loading="false" @search="search" />
-      <div class="flex gap-4 justify-center items-center my-2">
+      <div class="flex flex-wrap gap-4 justify-center items-center my-2">
         <SearchMode />
         <SearCategory v-if="enableAdvanced" />
       </div>
