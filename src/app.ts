@@ -16,6 +16,8 @@ dotenvx.config();
 const app = new Koa();
 const router = new Router();
 
+const port = process.env.PORT || 3000;
+
 app.use(history({
   index: '/index.html',
   whiteList: ['/api']
@@ -26,9 +28,11 @@ app.use(serve(staticPath, {
   gzip: true,
   index: 'index.html'
 }));
+
 app.use(cors({
   origin: '*'
 }));
+
 app.use(bodyParser());
 
 // Error handler
@@ -36,7 +40,7 @@ app.use(async (ctx, next) => {
   try {
     await next();
   } catch(err) {
-    console.error(err);
+    console.error('[server error]', err);
     ctx.res.statusCode = 422;
     ctx.body = err;
   }
@@ -57,4 +61,4 @@ router.get('/api/models', modelsController);
 router.get('/api/local/models', localModelsController);
 router.post('/api/local/chat', localChatStreamController);
 
-app.listen(3000);
+app.listen(port);
