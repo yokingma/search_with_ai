@@ -158,6 +158,8 @@ async function querySearch(val: string | null, reload?: boolean) {
     abortCtrl.abort();
     abortCtrl = null;
   }
+
+  const language = appStore.language === 'en' ? 'all' : 'zh';
   const ctrl = new AbortController();
   abortCtrl = ctrl;
   try {
@@ -168,6 +170,7 @@ async function querySearch(val: string | null, reload?: boolean) {
       model: modelName,
       engine,
       mode,
+      language,
       categories: [category],
       locally: enableLocal,
       reload,

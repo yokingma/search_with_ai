@@ -14,6 +14,7 @@ export interface IQueryOptions {
   locally?: boolean
   system?: string
   mode?: TSearchMode
+  language?: string
   categories?: TSearCategory[]
   reload?: boolean
   onMessage: (data: Record<string, any>) => void
@@ -22,7 +23,7 @@ export interface IQueryOptions {
   onError?: (e: any) => void
 }
 export async function search(q: string, options: IQueryOptions) {
-  const { ctrl, stream = true, model, engine, reload = false, mode, categories, locally, onMessage, onOpen, onClose, onError } = options;
+  const { ctrl, stream = true, model, engine, reload = false, mode, categories, locally, language, onMessage, onOpen, onClose, onError } = options;
   const query = new URLSearchParams({
     q
   });
@@ -34,6 +35,7 @@ export async function search(q: string, options: IQueryOptions) {
       stream,
       model,
       mode,
+      language,
       categories,
       engine,
       locally,

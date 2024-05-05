@@ -16,6 +16,7 @@ export const searchController = async (ctx: Context) => {
   const locally: boolean = ctx.request.body.locally ?? false;
   const categories: ESearXNGCategory[] = ctx.request.body.categories ?? [];
   const mode: TMode = ctx.request.body.mode ?? 'simple';
+  const language: string = ctx.request.body.language || 'all';
 
   ctx.res.setHeader('Content-Type', 'text/event-stream');
   ctx.res.setHeader('Cache-Control', 'no-cache');
@@ -48,7 +49,7 @@ export const searchController = async (ctx: Context) => {
 
   let result = '';
 
-  await rag.query(q as string, categories, mode, (json: string) => {
+  await rag.query(q as string, categories, mode, language, (json: string) => {
     const eventData = `data:${JSON.stringify({ data: json })}\n\n`;
     result += eventData;
     ctx.res.write(eventData, 'utf-8');

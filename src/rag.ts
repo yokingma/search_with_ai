@@ -52,8 +52,9 @@ export class Rag {
     }
   }
 
-  public async query(query: string, categories = [ESearXNGCategory.GENERAL], mode: TMode = 'simple', onMessage?: (...args: any[]) => void) {
-    const contexts = await this.search(query, categories);
+  public async query(query: string, categories = [ESearXNGCategory.GENERAL], mode: TMode = 'simple', language = 'all', onMessage?: (...args: any[]) => void) {
+    // Parameters supported by searxng: categories.
+    const contexts = await this.search(query, categories, language);
     console.log(`[search [${categories}] results]`, contexts.length);
     console.log(`[search mode]`, mode);
     const REFERENCE_COUNT = process.env.REFERENCE_COUNT || 8;

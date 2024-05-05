@@ -21,6 +21,7 @@ export enum ESearXNGCategory {
 export default async function search(params: ISearXNGOptions): Promise<ISearchResponseResult[]> {
   try {
     const { q, pageno = 1, categories = [ESearXNGCategory.GENERAL], language = 'all' } = params;
+    console.log('searxng language', language);
     const safesearch = process.env.SEARXNG_SAFE ?? 0;
     const res = await httpRequest({
       endpoint: `${URL}/search`,
