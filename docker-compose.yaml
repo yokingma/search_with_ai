@@ -4,14 +4,18 @@ services:
   search:
     build: ./
     container_name: search
+    volumes:
+      - ./.env.docker:/app/.env
     ports:
       - "3000:3000"
     restart: always
 
-  freegpt35:
-    container_name: freegpt35
-    image: missuo/freegpt35:latest
+  freeduckduckgo:
+    image: ghcr.io/missuo/freeduckduckgo:latest
+    container_name: freeduckduckgo
     restart: always
+    #ports:
+    #  - "3456:3456"
 
   searxng:
     container_name: searxng
