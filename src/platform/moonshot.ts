@@ -1,4 +1,4 @@
-import { BaseChat } from './base';
+import { BaseChat } from './base/base';
 import OpenAI from 'openai';
 import { IChatInputMessage, IStreamHandler } from '../interface';
 import { MoonshotModels } from '../constant';
@@ -7,6 +7,7 @@ const baseURL = 'https://api.moonshot.cn/v1';
 class MoonshotChat implements BaseChat {
   private key?: string;
   private openai: OpenAI | null;
+  public platform = 'moonshot';
 
   constructor() {
     this.key = process.env.MOONSHOT_KEY;

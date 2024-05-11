@@ -2,9 +2,9 @@ import { EBackend, IChatInputMessage, IStreamHandler, SearchFunc, TMode } from '
 import { searchWithBing, searchWithGoogle, searchWithSogou, searchWithSearXNG } from './service';
 import { DeepQueryPrompt, MoreQuestionsPrompt, RagQueryPrompt } from './prompt';
 import { aliyun, baidu, openai, google, tencent, yi, moonshot, lepton, local } from './platform';
-import util from 'util';
 import { AliyunModels, BaiduModels, OpenAIModels, GoogleModels, TencentModels, YiModels, MoonshotModels, LeptonModels } from './constant';
 import { ESearXNGCategory } from './search/searxng';
+import util from 'util';
 
 interface RagOptions {
   backend?: EBackend
@@ -56,7 +56,7 @@ export class Rag {
     // Parameters supported by searxng: categories.
     const contexts = await this.search(query, categories, language);
     console.log(`[search [${categories}] results]`, contexts.length);
-    console.log(`[search mode]`, mode);
+    console.log('[search mode]', mode);
     const REFERENCE_COUNT = process.env.REFERENCE_COUNT || 8;
     const limitContexts = contexts.slice(0, +REFERENCE_COUNT);
     if (!this.stream) {

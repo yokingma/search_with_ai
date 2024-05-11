@@ -13,17 +13,6 @@ export const DEFAULT_SEARCH_ENGINE_TIMEOUT = 20000;
 export const DefaultQuery = 'Who said \'live long and prosper';
 export const DefaultSystem = 'You are a helpful assistant.';
 
-// A set of stop words to use - this is not a complete set, and you may want to
-// add more given your observation.
-export const StopWords = [
-  '<|im_end|>',
-  '[End]',
-  '[end]',
-  '\nReferences:\n',
-  '\nSources:\n',
-  'End.',
-];
-
 export const AliyunModels = {
   QWEN_MAX: 'qwen-max',
   QWEN_MAX1201: 'qwen-max-1201',
@@ -59,6 +48,10 @@ export const MoonshotModels = {
   MOONSHOT128K: 'moonshot-v1-128k',
 };
 
+export const DeepSeekModels = {
+  DeepSeekChat: 'deepseek-chat'
+};
+
 export const TencentModels = {
   STD: 'standard',
   PRO: 'pro'
@@ -72,12 +65,13 @@ export const LeptonModels = {
   MIXTRAL8x22B: 'mixtral-8*22b'
 };
 
-export const AllModels = Object.assign({}, AliyunModels, OpenAIModels, BaiduModels, GoogleModels, YiModels, LeptonModels);
-
-export const UserAgents = [
-  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.5359.95 Safari/537.36',
-  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36',
-  'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:106.0) Gecko/20100101 Firefox/106.0',
-  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.5359.95 Safari/537.36 Edg/108.0.1462.54',
-  'Mozilla/5.0 (Macintosh; Intel Mac OS X 12.3; en-US) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.4 Safari/605.1.15'
-];
+export const AllModels = Object.assign(
+  {},
+  AliyunModels,
+  OpenAIModels,
+  BaiduModels,
+  GoogleModels,
+  YiModels,
+  LeptonModels,
+  DeepSeekModels
+);

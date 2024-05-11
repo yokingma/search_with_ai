@@ -1,7 +1,7 @@
 import { fetchEventData } from 'fetch-sse';
 import { httpRequest }  from '../utils';
 import memoryCache from '../cache';
-import { BaseChat } from './base';
+import { BaseChat } from './base/base';
 import { IChatInputMessage, IStreamHandler } from '../interface';
 import { AllModels } from '../constant';
 import { type MemoryCache } from 'cache-manager';
@@ -15,6 +15,7 @@ export class BaiduChat implements BaseChat {
   private key?: string;
   private secret?: string;
   private cache: MemoryCache;
+  public platform = 'baidu';
 
   constructor() {
     this.key = process.env.BAIDU_KEY;

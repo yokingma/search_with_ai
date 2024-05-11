@@ -1,4 +1,4 @@
-import { BaseChat } from './base';
+import { BaseChat } from './base/base';
 import OpenAI from 'openai';
 import util from 'util';
 import { IChatInputMessage, IStreamHandler } from '../interface';
@@ -9,6 +9,7 @@ const BASE_URLS = 'https://%s.lepton.run/api/v1';
 export class LeptonChat implements BaseChat {
   private key: string;
   private openai: OpenAI | null;
+  public platform = 'lepton';
 
   constructor() {
     this.key = process.env.LEPTON_KEY || '';

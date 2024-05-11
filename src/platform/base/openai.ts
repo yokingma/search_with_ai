@@ -1,14 +1,15 @@
 import OpenAI from 'openai';
-import { AllModels } from '../../constant';
 import { IChatInputMessage, IStreamHandler } from '../../interface';
-import { BaseChat } from '../base';
+import { BaseChat } from './base';
 
 class OpenAIError extends Error {}
 
 export class BaseOpenAIChat implements BaseChat {
   private openai: OpenAI | null;
+  public platform: string;
 
-  constructor(apiKey?: string, baseURL?: string) {
+  constructor(platform: string, apiKey?: string, baseURL?: string) {
+    this.platform = platform;
     if (!apiKey) throw new OpenAIError('apikey is required.');
     this.openai = new OpenAI({
       baseURL,
@@ -18,7 +19,7 @@ export class BaseOpenAIChat implements BaseChat {
 
   public async chat(
     messages: IChatInputMessage[],
-    model = AllModels.GPT35TURBO,
+    model: string,
     system?: string
   ) {
     if (!this.openai) {
@@ -43,7 +44,7 @@ export class BaseOpenAIChat implements BaseChat {
   public async chatStream(
     messages: IChatInputMessage[],
     onMessage: IStreamHandler,
-    model = AllModels.GPT35TURBO,
+    model: string,
     system?: string
   ) {
     if (!this.openai) {

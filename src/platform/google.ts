@@ -1,4 +1,4 @@
-import { BaseChat } from './base';
+import { BaseChat } from './base/base';
 import { IChatInputMessage, IStreamHandler } from '../interface';
 import { DefaultSystem, GoogleModels } from '../constant';
 import { httpRequest } from '../utils';
@@ -14,6 +14,8 @@ const URLS = {
 export class GoogleChat implements BaseChat {
   private key?: string;
   private baseUrl?: string;
+  public platform = 'google';
+
   constructor() {
     this.key = process.env.GOOGLE_KEY;
     this.baseUrl = process.env.GOOGLE_PROXY_URL || BASE_URL;

@@ -1,7 +1,7 @@
 import { AllModels } from '../constant';
 import { IChatInputMessage, IStreamHandler } from '../interface';
 import { httpRequest } from '../utils';
-import { BaseChat } from './base';
+import { BaseChat } from './base/base';
 import { fetchEventData } from 'fetch-sse';
 
 const BaseURL = 'https://dashscope.aliyuncs.com/api/v1/';
@@ -14,6 +14,8 @@ const APIS = {
 
 export class AliyunChat implements BaseChat {
   private key?: string;
+  platform = 'aliyun';
+
   constructor() {
     this.key = process.env.ALIYUN_KEY;
   }

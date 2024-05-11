@@ -1,6 +1,6 @@
 import { BaseOpenAIChat } from './base/openai';
 
 const ApiKey = process.env.DEEPSEEK_KEY;
-const BaseURL = process.env.DEEPSEEK_BASE_URL;
+const BaseURL = 'https://api.deepseek.com/v1';
 
-export const deepseek = new BaseOpenAIChat(ApiKey, BaseURL);
+export const deepseek = new BaseOpenAIChat('deepseek', ApiKey, BaseURL);
