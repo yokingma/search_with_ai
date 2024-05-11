@@ -15,3 +15,7 @@ export interface IMessage {
   role: Role;
   content: string;
 }
+
+export type TSearCategory = 'general' | 'science' | 'images' | 'videos' | 'news'
+export type TSearchMode = 'simple' | 'deep' | 'research'
+export type TSearchEngine = 'GOOGLE' | 'BING' | 'SOGOU' | 'SEARXNG'

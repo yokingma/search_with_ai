@@ -1,15 +1,20 @@
 import { defineStore } from 'pinia';
+import { TSearCategory, TSearchEngine, TSearchMode } from 'src/interface';
 import { ref } from 'vue';
 
 type Theme = 'dark' | 'light'
 type Lan = 'zh' | 'en'
 export const useAppStore = defineStore('app', () => {
-  const engine = ref('SEARXNG');
+  const engine = ref<TSearchEngine>('SEARXNG');
   const model = ref('');
   const localModel = ref('');
   const enableLocal = ref(false);
   const theme = ref<Theme>();
   const language = ref<Lan>();
+  // searxng categories
+  const category = ref<TSearCategory>('general');
+  // search mode
+  const mode = ref<TSearchMode>('simple');
 
   const updateModel = (val: string) => {
     model.value = val;
@@ -19,7 +24,7 @@ export const useAppStore = defineStore('app', () => {
     localModel.value = val;
   };
 
-  const updateEngine = (val: string) => {
+  const updateEngine = (val: TSearchEngine) => {
     engine.value = val;
   };
 
@@ -36,6 +41,14 @@ export const useAppStore = defineStore('app', () => {
     enableLocal.value = val;
   };
 
+  const updateCategory = (val: TSearCategory) => {
+    category.value = val;
+  }
+
+  const updateMode = (val: TSearchMode) => {
+    mode.value = val;
+  }
+
   return {
     engine,
     model,
@@ -43,12 +56,16 @@ export const useAppStore = defineStore('app', () => {
     enableLocal,
     theme,
     language,
+    category,
+    mode,
     updateModel,
     updateLocalModel,
     switchLocalModel,
     updateEngine,
     updateTheme,
-    updateLanguage
+    updateLanguage,
+    updateCategory,
+    updateMode
   };
 }, {
   persist: true

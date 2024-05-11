@@ -37,3 +37,5 @@ export interface ISearchResponseResult {
   snippet: string;
   [key: string]: string
 }
+
+export type TMode = 'simple' | 'deep' | 'research'

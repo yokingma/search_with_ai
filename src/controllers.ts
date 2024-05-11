@@ -2,9 +2,10 @@ import { Context } from 'koa';
 import { AliyunModels, BaiduModels, DefaultQuery, GoogleModels, LeptonModels, MoonshotModels, OpenAIModels, TencentModels, YiModels } from './constant';
 import { searchWithSogou } from './service';
 import { aliyun, openai, baidu, yi, tencent, local, moonshot, lepton, google } from './platform';
-import { EBackend, IChatInputMessage } from './interface';
+import { EBackend, IChatInputMessage, TMode } from './interface';
 import { Rag } from './rag';
 import { getFromCache, setToCache } from './cache';
+import { ESearXNGCategory } from './search/searxng';
 
 export const searchController = async (ctx: Context) => {
   const stream = ctx.request.body.stream ?? true;
@@ -13,6 +14,9 @@ export const searchController = async (ctx: Context) => {
   const reload: boolean = ctx.request.body.reload ?? false;
   const engine: EBackend = ctx.request.body.engine;
   const locally: boolean = ctx.request.body.locally ?? false;
+  const categories: ESearXNGCategory[] = ctx.request.body.categories ?? [];
+  const mode: TMode = ctx.request.body.mode ?? 'simple';
+  const language: string = ctx.request.body.language || 'all';
 
   ctx.res.setHeader('Content-Type', 'text/event-stream');
   ctx.res.setHeader('Cache-Control', 'no-cache');
@@ -21,7 +25,7 @@ export const searchController = async (ctx: Context) => {
 
   // get from cache, skip if enable reload
   if (!reload) {
-    const cached = await getFromCache(q as string);
+    const cached = await getFromCache(q as string, mode, categories);
     if (cached) {
       ctx.body = cached;
       ctx.res.write(cached, 'utf-8');
@@ -45,7 +49,7 @@ export const searchController = async (ctx: Context) => {
 
   let result = '';
 
-  await rag.query(q as string, (json: string) => {
+  await rag.query(q as string, categories, mode, language, (json: string) => {
     const eventData = `data:${JSON.stringify({ data: json })}\n\n`;
     result += eventData;
     ctx.res.write(eventData, 'utf-8');
@@ -53,7 +57,7 @@ export const searchController = async (ctx: Context) => {
 
   ctx.res.end();
   // caching
-  setToCache(q as string, result);
+  setToCache(q as string, result, mode, categories);
 };
 
 export const sogouSearchController = async (ctx: Context) => {

@@ -9,6 +9,8 @@ import LocalModelSelect from './localModels.vue';
 import LanguageSelect from './language.vue';
 import AppSettings from './settings.vue';
 import ToolBar from './toolbar.vue';
+import SearCategory from './category.vue';
+import SearchMode from './mode.vue';
 
 export {
   ChatAnswer,
@@ -20,6 +22,8 @@ export {
   LanguageSelect,
   SearchEngineSelect,
   ToolBar,
+  SearCategory,
+  SearchMode,
   PageFooter,
   AppSettings
 };

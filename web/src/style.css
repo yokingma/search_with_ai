@@ -56,6 +56,7 @@ html[theme-mode="dark"] {
 html .markdown-body {
   color: var(--main-font-color);
   background-color: transparent;
+  line-height: 26px;
 }
 
 html .markdown-body pre {
@@ -70,7 +71,7 @@ html[theme-mode="dark"] .markdown-body {
 
 html[theme-mode="dark"] .markdown-body pre {
   color: #999999;
-  background-color: #000000;
+  background-color: #222222;
 }
 
 #app {

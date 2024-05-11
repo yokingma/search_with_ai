@@ -16,3 +16,30 @@ Your answer must be written in the same language as the original question.
 
 And here is the first question:
 `;
+
+export const SearXNGCategories = [
+  {
+    name: 'general',
+    displayName: 'category.general'
+  },
+  {
+    name: 'science',
+    displayName: 'category.science'
+  }
+]
+
+export const SearchMode = [
+  {
+    name: 'simple',
+    displayName: 'mode.simple'
+  },
+  {
+    name: 'deep',
+    displayName: 'mode.deep'
+  },
+  {
+    name: 'research',
+    displayName: 'mode.research',
+    disabled: true
+  }
+]
