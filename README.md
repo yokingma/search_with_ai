@@ -2,6 +2,8 @@
 
 **English** [中文](./README_CN.md)  
 
+```Updated: 2024/05/11```
+
 Build your own conversation-based search with AI, a simple implementation with Node.js & Vue3. [Live Demo](https://isou.chat/)  
 
 <div align="center">
@@ -20,7 +22,7 @@ repo: [GitHub](https://github.com/yokingma/search_with_ai)、 [Gitee](https://gi
 * Support local LLM with Ollama
 * Support i18n
 * Support Continue Q&A with contexts.
-* Support caching, when reload the search results page, returns cached results for the same query and also supports forcing the regeneration of answers.
+* Support Cache results, Force regeneration.
 
 ## Deploy with Docker (recommended)
 
@@ -33,7 +35,7 @@ git clone https://github.com/yokingma/search_with_ai.git
 cd search_with_ai
 ```
 
-* **Edit** [.env](https://github.com/yokingma/search_with_ai/blob/main/.env) **file.**
+* **Edit** [.env.docker](https://github.com/yokingma/search_with_ai/blob/main/.env) **file.**
 
 For a quick start, no need to modify any configuration here, just run docker compose below.
 

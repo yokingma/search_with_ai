@@ -2,10 +2,12 @@
 
 [English](./README.md) **中文**  
 
-基于AI大语言模型的对话式搜索引擎的一个基本实现，基于Node.js&Vue3。 [Live Demo](https://isou.chat/)  
+```更新时间: 2024/05/11```
+
+基于AI大语言模型的对话式搜索引擎的一个基本实现，基于Node.js&Vue3。适合小白入门AI开发参考:)，文档后有交流群二维码。 [Live Demo](https://isou.chat/)  
 
 <div align="center">
- <img src="./screenshot_cn.jpg"></img>
+ <img src="./screenshot_cn.png"></img>
 </div>
 
 仓库地址：[GitHub仓库](https://github.com/yokingma/search_with_ai)、 [Gitee仓库](https://gitee.com/zac_ma/search_with_ai)  
@@ -21,9 +23,11 @@
 * 支持本地大模型（基于Ollama）。
 * 支持多语言(i18n)。
 * 支持根据结果上下文继续问答。
-* 缓存支持，刷新搜索结果页面的时候相同问题返回缓存结果，也支持强制重新生成答案。
+* 支持缓存结果、强制重新生成结果。
 
 ## 使用 Docker 一键安装部署
+
+> 文档后面有微信群二维码，有疑问也可以加入群交流。
 
 [安装Docker](https://docs.docker.com/install/).
 
@@ -34,7 +38,7 @@ git clone https://github.com/yokingma/search_with_ai.git
 cd search_with_ai
 ```
 
-* **编辑** [.env](https://github.com/yokingma/search_with_ai/blob/main/.env)
+* **编辑** [.env.docker](https://github.com/yokingma/search_with_ai/blob/main/.env)
 
 如果你想一键快速体验，这里不需要修改任何配置，直接运行下面的docker compose即可。
 
@@ -206,3 +210,7 @@ cd web && yarn install && yarn run build
 ```
 
 启动成功后可以在浏览器打开<http://localhost:3000> 即可使用。
+
+<div align="center">
+ <img src="./qrcode.jpg"></img>
+</div>
