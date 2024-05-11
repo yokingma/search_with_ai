@@ -16,7 +16,7 @@ export enum ESearXNGCategory {
   VIDEOS = 'videos',
   NEWS = 'news',
   MUSIC = 'music'
-} 
+}
 
 export default async function search(params: ISearXNGOptions): Promise<ISearchResponseResult[]> {
   try {
