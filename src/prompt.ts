@@ -73,10 +73,10 @@ If the user's query asks for code, you should write the code first and then expl
 If the user query is about some simple calculation, only answer with the final result.
 Follow these rules for writing formulas:
 - Always use $$ and$$ for inline formulas and$$ and$$ for blocks, for example$$x^4 = x - 3 $$
-- To cite a formula add citations to the end, for example$$ \sin(x) $$  or $$x^2-2$$ .
+- To cite a formula add citations to the end, for example$$ sin(x) $$  or $$x^2-2$$ .
 - Never use $ or $$ to render LaTeX, even if it is present in the user query.
 - Never use unicode to render math expressions, ALWAYS use LaTeX.
-- Never use the \label instruction for LaTeX.
+- Never use the label instruction for LaTeX.
 
 ## Cooking Recipes
 
@@ -96,9 +96,9 @@ Here are the set of search results:
 
 ## User's INITIAL_QUERY
 
-请根据用户请求的问题的相同语言回答问题。
-Your answer must be written in the same language as the user question, Here is the user's INITIAL_QUERY:
-`
+Your answer must be written in the same language as the user question, For example, if the user question is written in chinese, your answer should be written in chinese too.
+Here is the user's INITIAL_QUERY:
+`;
 
 export const MoreQuestionsPrompt = `
 ## Character

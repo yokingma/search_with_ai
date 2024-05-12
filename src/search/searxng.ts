@@ -1,6 +1,7 @@
-const URL = process.env.SEARXNG_HOSTNAME || 'http://localhost:8080';
 import { httpRequest } from '../utils';
 import { ISearchResponseResult } from '../interface';
+
+const URL = process.env.SEARXNG_HOSTNAME || 'http://localhost:8080';
 export interface ISearXNGOptions {
   q: string;
   pageno?: number;
@@ -16,7 +17,7 @@ export enum ESearXNGCategory {
   VIDEOS = 'videos',
   NEWS = 'news',
   MUSIC = 'music'
-} 
+}
 
 export default async function search(params: ISearXNGOptions): Promise<ISearchResponseResult[]> {
   try {
