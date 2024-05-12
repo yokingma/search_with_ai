@@ -136,8 +136,6 @@ export class Rag {
       messages
     };
   }
-
-  // private saveResult(contexts: any[], llmResponse: string, relatedQuestionsFuture: any[], searchUUID: string) {}
 }
 
 function processModel(model = OpenAIModels.GPT35TURBO) {
