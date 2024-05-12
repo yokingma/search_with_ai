@@ -1,6 +1,7 @@
-const URL = process.env.SEARXNG_HOSTNAME || 'http://localhost:8080';
 import { httpRequest } from '../utils';
 import { ISearchResponseResult } from '../interface';
+
+const URL = process.env.SEARXNG_HOSTNAME || 'http://localhost:8080';
 export interface ISearXNGOptions {
   q: string;
   pageno?: number;

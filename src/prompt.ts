@@ -96,8 +96,8 @@ Here are the set of search results:
 
 ## User's INITIAL_QUERY
 
-请根据用户请求的问题的相同语言回答问题。
-Your answer must be written in the same language as the user question, Here is the user's INITIAL_QUERY:
+Your answer must be written in the same language as the user question, For example, if the user question is written in chinese, your answer should be written in chinese too.
+Here is the user's INITIAL_QUERY:
 `;
 
 export const MoreQuestionsPrompt = `
