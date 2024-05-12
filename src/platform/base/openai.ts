@@ -23,7 +23,7 @@ export class BaseOpenAIChat implements BaseChat {
     system?: string
   ) {
     if (!this.openai) {
-      throw new Error('OpenAI key is not set');
+      throw new Error(`${this.platform} key is not set`);
     }
     if (system) {
       messages = [
@@ -48,7 +48,7 @@ export class BaseOpenAIChat implements BaseChat {
     system?: string
   ) {
     if (!this.openai) {
-      throw new Error('OpenAI key is not set');
+      throw new Error(`${this.platform} key is not set`);
     }
     if (system) {
       messages = [
@@ -68,5 +68,11 @@ export class BaseOpenAIChat implements BaseChat {
       onMessage?.(chunk.choices[0].delta.content || null, false);
     }
     onMessage?.(null, true);
+  }
+
+  async listModels() {
+    if (!this.openai) throw new Error(`${this.platform} Key is Required.`);
+    const models = await this.openai.models.list();
+    return models.data.map((model) => model.id);
   }
 }
