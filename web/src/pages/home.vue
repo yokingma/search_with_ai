@@ -7,11 +7,11 @@
         <t-tag variant="light" class="text-xs text-gray-500">beta</t-tag>
       </div>
       <SearchInputBar :autofocus="true" :loading="false" @search="search" />
-      <div class="flex flex-wrap gap-4 justify-center items-center my-2">
+      <div class="my-2 flex flex-wrap items-center justify-center gap-4">
         <SearchMode />
         <SearCategory v-if="enableAdvanced" />
       </div>
-      <div class="w-full flex justify-center">
+      <div class="flex w-full justify-center">
         <div class="flex flex-wrap justify-center gap-2">
           <t-tag
             v-for="(item, index) in list"
@@ -44,7 +44,7 @@ import { useAppStore } from '../store';
 const { locale } = useI18n();
 const appStore = useAppStore();
 
-const enableAdvanced = computed(() => appStore.engine === 'SEARXNG')
+const enableAdvanced = computed(() => appStore.engine === 'SEARXNG');
 
 const quickly: Record<string, string[]> = {
   zh: [
