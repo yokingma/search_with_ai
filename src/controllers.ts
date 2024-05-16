@@ -103,7 +103,7 @@ export const modelsController = async (ctx: Context) => {
   const models = Models.filter(item => keys[item.platform] !== undefined);
   const enabledModels: Record<string, string[]> = {};
   for (const model of models) {
-    enabledModels[model.platform] = model.models;
+    if (keys[model.platform]) enabledModels[model.platform] = model.models;
   }
   ctx.body = enabledModels;
 };

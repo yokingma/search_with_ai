@@ -2,15 +2,12 @@ import OpenAI from 'openai';
 import { IChatInputMessage, IStreamHandler } from '../../interface';
 import { BaseChat } from './base';
 
-class OpenAIError extends Error {}
-
 export class BaseOpenAIChat implements BaseChat {
   private openai: OpenAI | null;
   public platform: string;
 
   constructor(platform: string, apiKey?: string, baseURL?: string) {
     this.platform = platform;
-    if (!apiKey) throw new OpenAIError('apikey is required.');
     this.openai = new OpenAI({
       baseURL,
       apiKey,
