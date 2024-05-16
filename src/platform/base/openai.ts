@@ -8,10 +8,12 @@ export class BaseOpenAIChat implements BaseChat {
 
   constructor(platform: string, apiKey?: string, baseURL?: string) {
     this.platform = platform;
-    this.openai = new OpenAI({
-      baseURL,
-      apiKey,
-    });
+    if (apiKey) {
+      this.openai = new OpenAI({
+        baseURL,
+        apiKey,
+      });
+    }
   }
 
   public async chat(
