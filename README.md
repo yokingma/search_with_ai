@@ -2,7 +2,7 @@
 
 **English** [中文](./README_CN.md)  
 
-```Updated: 2024/05/11```
+```Updated: 2024/05/17```
 
 Build your own conversation-based search with AI, a simple implementation with Node.js & Vue3. [Live Demo](https://isou.chat/)  
 
@@ -14,7 +14,7 @@ repo: [GitHub](https://github.com/yokingma/search_with_ai)、 [Gitee](https://gi
 
 ## Features
 
-* Built-in support for LLM: OpenAI, Google, Lepton, Ollama(Free)
+* Built-in support for LLM: OpenAI, Google, Lepton, DeepSeek, Ollama(local)
 * Built-in support for search engine: Bing, Sogou, Google, SearXNG(Free)
 * Customizable pretty UI interface
 * Support dark mode

@@ -14,7 +14,7 @@
 
 ## 功能说明
 
-* 内置主流的LLM接口支持，如OpenAI、Google、通译千问、百度文心一言、Lepton。
+* 内置主流的LLM接口支持，如OpenAI、Google、通译千问、百度文心一言、Lepton、DeepSeek。
 * 内置搜索引擎支持，如Bing、Sogou、Google、SearXNG（免费开源）。
 * 简洁的搜索对话Web界面。
 * Web界面支持暗色模式。
