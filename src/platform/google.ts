@@ -1,6 +1,6 @@
 import { BaseChat } from './base/base';
 import { IChatInputMessage, IStreamHandler } from '../interface';
-import { DefaultSystem, GoogleModels } from '../constant';
+import { DefaultSystem } from '../constant';
 import { httpRequest } from '../utils';
 import { fetchEventData } from 'fetch-sse';
 
@@ -25,7 +25,7 @@ export class GoogleChat implements BaseChat {
   public async chat(
     messages: IChatInputMessage[],
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    model = GoogleModels.GEMINI_PRO
+    model: string
   ) {
     const msgs = this.transformMessage(messages);
     const url = `${this.baseUrl}/${URLS.geminiProStream}`;
@@ -51,7 +51,7 @@ export class GoogleChat implements BaseChat {
     messages: IChatInputMessage[],
     onMessage: IStreamHandler,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    model = GoogleModels.GEMINI_PRO,
+    model: string,
     system = DefaultSystem
   ) {
     const msgs = this.transformMessage(messages);

@@ -1,8 +1,8 @@
 import { EBackend, IChatInputMessage, IStreamHandler, SearchFunc, TMode } from './interface';
 import { searchWithBing, searchWithGoogle, searchWithSogou, searchWithSearXNG } from './service';
 import { DeepQueryPrompt, MoreQuestionsPrompt, RagQueryPrompt } from './prompt';
-import { aliyun, baidu, openai, google, tencent, yi, moonshot, lepton, local } from './platform';
-import { AliyunModels, BaiduModels, OpenAIModels, GoogleModels, TencentModels, YiModels, MoonshotModels, LeptonModels } from './constant';
+import platform from './platform';
+import { Models } from './constant';
 import { ESearXNGCategory } from './search/searxng';
 import util from 'util';
 
@@ -24,11 +24,14 @@ export class Rag {
   private stream: boolean;
 
   constructor(params?: RagOptions) {
-    const { backend = EBackend.SEARXNG, stream = true, model = OpenAIModels.GPT35TURBO, locally } = params || {};
+    const { backend = EBackend.SEARXNG, stream = true, model, locally } = params || {};
+    if (!model) throw new Error('model is required');
     if (locally) {
-      this.chat = local.chatStream.bind(local);
+      this.chat = platform.local.chatStream.bind(platform.local);
     } else {
-      this.chat = processModel(model);
+      const chat = processModel(model);
+      if (!chat) throw new Error('model is not supported');
+      this.chat = chat;
     }
     this.model = model;
     this.stream = stream;
@@ -138,30 +141,12 @@ export class Rag {
   }
 }
 
-function processModel(model = OpenAIModels.GPT35TURBO) {
-  if (Object.values(AliyunModels).includes(model)) {
-    return aliyun.chatStream.bind(aliyun);
+function processModel(model: string) {
+  const targetModel = Models.find(item => {
+    return item.models.includes(model);
+  });
+  if (targetModel?.platform) {
+    const target = platform[targetModel.platform];
+    return target.chatStream.bind(target);
   }
-  if (Object.values(OpenAIModels).includes(model)) {
-    return openai.chatStream.bind(openai);
-  }
-  if (Object.values(BaiduModels).includes(model)) {
-    return baidu.chatStream.bind(baidu);
-  }
-  if (Object.values(GoogleModels).includes(model)) {
-    return google.chatStream.bind(google);
-  }
-  if (Object.values(TencentModels).includes(model)) {
-    return tencent.chatStream.bind(tencent);
-  }
-  if (Object.values(YiModels).includes(model)) {
-    return yi.chatStream.bind(yi);
-  }
-  if (Object.values(MoonshotModels).includes(model)) {
-    return moonshot.chatStream.bind(moonshot);
-  }
-  if (Object.values(LeptonModels).includes(model)) {
-    return lepton.chatStream.bind(lepton);
-  }
-  return openai.chatStream.bind(openai);
 }

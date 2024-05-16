@@ -1,4 +1,4 @@
-import { type AllModels } from './constant';
+import platform from './platform';
 
 export type SearchFunc = (...args: any[]) => Promise<any[]>;
 
@@ -23,7 +23,11 @@ export interface IChatResponse {
   };
 }
 
-export type TypeModelKeys = keyof typeof AllModels
+export interface IModelInfo {
+  platform: keyof typeof platform;
+  type: string;
+  models: string[];
+}
 
 
 export interface IStreamHandler {
