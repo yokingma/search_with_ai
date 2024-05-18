@@ -59,7 +59,7 @@ export const searchController = async (ctx: Context) => {
 
   ctx.res.end();
   // caching
-  if (CACHE_ENABLED === 'true') {
+  if (CACHE_ENABLED === '1') {
     setToCache(q as string, result, mode, categories);
   }
 };
