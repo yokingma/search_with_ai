@@ -1,3 +1,5 @@
+import { IModelInfo } from './interface';
+
 // Search engine related. You don't really need to change this.
 export const EndPoint = {
   BING_SEARCH_V7_ENDPOINT: 'https://api.bing.microsoft.com/v7.0/search',
@@ -13,71 +15,50 @@ export const DEFAULT_SEARCH_ENGINE_TIMEOUT = 20000;
 export const DefaultQuery = 'Who said \'live long and prosper';
 export const DefaultSystem = 'You are a helpful assistant.';
 
-// A set of stop words to use - this is not a complete set, and you may want to
-// add more given your observation.
-export const StopWords = [
-  '<|im_end|>',
-  '[End]',
-  '[end]',
-  '\nReferences:\n',
-  '\nSources:\n',
-  'End.',
-];
-
-export const AliyunModels = {
-  QWEN_MAX: 'qwen-max',
-  QWEN_MAX1201: 'qwen-max-1201',
-  QWEN_TURBO: 'qwen-turbo',
-  QWEN_PLUS: 'qwen-plus'
-};
-
-export const OpenAIModels = {
-  GPT35TURBO: 'gpt-3.5-turbo',
-  GPT4_PREVIEW: 'gpt-4-0125-preview',
-  GPT4TURBO_PREVIEW: 'gpt-4-turbo-preview'
-};
-
-export const BaiduModels = {
-  'ERNIE-Bot-turbo': 'eb-instant',
-  'ERNIE-Bot-4': 'completions_pro',
-  'ERNIE-Bot-8K': 'ernie_bot_8k'
-};
-
-export const GoogleModels = {
-  GEMINI_PRO: 'gemini-pro',
-  GEMINI_PRO15: 'gemini-1.5-pro-latest'
-};
-
-export const YiModels = {
-  Yi34B0205: 'yi-34b-chat-0205',
-  Yi34B200K: 'yi-34b-chat-200k'
-};
-
-export const MoonshotModels = {
-  MOONSHOT8K: 'moonshot-v1-8k',
-  MOONSHOT32K: 'moonshot-v1-32k',
-  MOONSHOT128K: 'moonshot-v1-128k',
-};
-
-export const TencentModels = {
-  STD: 'standard',
-  PRO: 'pro'
-};
-
-export const LeptonModels = {
-  LLAMA2_7B: 'llama2-7b',
-  LLAMA2_13B: 'llama2-13b',
-  LLAMA2_70B: 'llama2-70b',
-  MIXTRAL8x7B: 'mixtral-8*7b',
-  MIXTRAL8x22B: 'mixtral-8*22b'
-};
-
-export const AllModels = Object.assign({}, AliyunModels, OpenAIModels, BaiduModels, GoogleModels, YiModels, LeptonModels);
-
-export const UserAgents = [
-  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.5359.95 Safari/537.36',
-  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36',
-  'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:106.0) Gecko/20100101 Firefox/106.0',
-  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.5359.95 Safari/537.36 Edg/108.0.1462.54',
-  'Mozilla/5.0 (Macintosh; Intel Mac OS X 12.3; en-US) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.4 Safari/605.1.15'
+export const Models: IModelInfo[] = [
+  {
+    platform: 'aliyun',
+    type: '',
+    models: ['qwen-max', 'qwen-max-1201', 'qwen-turbo', 'qwen-plus']
+  },
+  {
+    platform: 'openai',
+    type: 'openai',
+    models: ['gpt-3.5-turbo', 'gpt-4-0125-preview', 'gpt-4-turbo-preview', 'gpt-4o']
+  },
+  {
+    platform: 'baidu',
+    type: 'baidu',
+    models: ['eb-instant', 'completions_pro', 'ernie_bot_8k']
+  },
+  {
+    platform: 'google',
+    type: 'gemini',
+    models: ['gemini-pro', 'gemini-1.5-pro-latest']
+  },
+  {
+    platform: 'yi',
+    type: 'openai',
+    models: ['yi-34b-chat-0205', 'yi-34b-chat-200k']
+  },
+  {
+    platform: 'moonshot',
+    type: 'openai',
+    models: ['moonshot-v1-8k', 'moonshot-v1-32k', 'moonshot-v1-128k']
+  },
+  {
+    platform: 'lepton',
+    type: 'openai',
+    models: ['llama2-7b', 'llama2-13b', 'llama2-70b', 'mixtral-8*7b', 'mixtral-8*22b']
+  },
+  {
+    platform: 'deepseek',
+    type: 'openai',
+    models: ['deepseek-chat']
+  },
+  {
+    platform: 'tencent',
+    type: 'tencent',
+    models: ['std', 'pro']
+  }
 ];

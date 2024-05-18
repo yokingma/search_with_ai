@@ -1,14 +1,15 @@
-import { BaseChat } from './base';
+import { BaseChat } from './base/base';
 import OpenAI from 'openai';
 import util from 'util';
 import { IChatInputMessage, IStreamHandler } from '../interface';
-import { DefaultSystem, LeptonModels } from '../constant';
+import { DefaultSystem } from '../constant';
 
 const BASE_URLS = 'https://%s.lepton.run/api/v1';
 
 export class LeptonChat implements BaseChat {
   private key: string;
   private openai: OpenAI | null;
+  public platform = 'lepton';
 
   constructor() {
     this.key = process.env.LEPTON_KEY || '';
@@ -25,7 +26,7 @@ export class LeptonChat implements BaseChat {
   async chatStream(
     messages: IChatInputMessage[],
     onMessage: IStreamHandler,
-    model = LeptonModels.MIXTRAL8x7B,
+    model: string,
     system = DefaultSystem
   ): Promise<void> {
     if (!this.openai) throw new Error('Lepton AI: Key is Required.');
@@ -43,7 +44,7 @@ export class LeptonChat implements BaseChat {
     onMessage?.(null, true);
   }
 
-  private getBaseURL(model = LeptonModels.MIXTRAL8x7B) {
+  private getBaseURL(model: string) {
     // Mixtral-8*7b -> mixtral-8x7b
     return util.format(BASE_URLS, model).replace('*', 'x').toLowerCase();
   }

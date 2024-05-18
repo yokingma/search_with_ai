@@ -2,12 +2,13 @@ import * as tencentcloud from 'tencentcloud-sdk-nodejs';
 import { ClientConfig } from 'tencentcloud-sdk-nodejs/tencentcloud/common/interface';
 import { Client } from 'tencentcloud-sdk-nodejs/tencentcloud/services/hunyuan/v20230901/hunyuan_client';
 import { ChatStdResponse } from 'tencentcloud-sdk-nodejs/tencentcloud/services/hunyuan/v20230901/hunyuan_models';
-import { BaseChat } from './base';
+import { BaseChat } from './base/base';
 import { IChatInputMessage, IStreamHandler } from '../interface';
-import { DefaultSystem, TencentModels } from '../constant';
+import { DefaultSystem } from '../constant';
 
 export class TencentChat implements BaseChat {
   private client: Client;
+  public platform = 'tencent';
 
   constructor() {
     const key = process.env.TENCENT_KEY;
@@ -29,8 +30,8 @@ export class TencentChat implements BaseChat {
 
   async chatStream(
     messages: IChatInputMessage[],
-    onMessage?: IStreamHandler,
-    model = TencentModels.STD,
+    onMessage: IStreamHandler,
+    model: string,
     system = DefaultSystem
   ): Promise<void> {
     const Messages = this.transformMessage(messages);

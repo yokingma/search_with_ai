@@ -1,12 +1,12 @@
 <template>
   <div id="search" class="size-full">
-    <div class="fixed inset-x-0 top-0 z-50 w-full bg-white border-0 border-solid border-b border-zinc-100 py-2 dark:border-zinc-700 dark:bg-black">
+    <div class="fixed inset-x-0 top-0 z-50 w-full border-0 border-b border-solid border-zinc-100 bg-white py-2 dark:border-zinc-700 dark:bg-black">
       <div class="flex w-full items-center justify-center">
-        <div class="flex flex-row flex-nowrap items-center gap-4 w-full lg:max-w-2xl lg:p-0 xl:max-w-4xl">
+        <div class="flex w-full flex-row flex-nowrap items-center gap-4 lg:max-w-2xl lg:p-0 xl:max-w-4xl">
           <div class="grow pl-2">
             <SearchInputBar v-model="query" :autofocus="false" :loading="loading" @search="onSearch" />
           </div>
-          <div class="grow-0 shrink-0 pr-2">
+          <div class="shrink-0 grow-0 pr-2">
             <t-tooltip :content="t('back')">
               <t-button shape="circle" theme="default" @click="onBackHome">
                 <template #icon>
@@ -21,7 +21,7 @@
     <div class="inset-0 flex items-center justify-center">
       <div class="size-full lg:max-w-2xl xl:max-w-4xl">
         <div class="mt-20">
-          <div v-if="!loading" class="flex flex-wrap gap-2 justify-between px-4 py-2 lg:px-0">
+          <div v-if="!loading" class="flex flex-wrap justify-between gap-2 px-4 py-2 lg:px-0">
             <SearchMode @change="onSearchModeChanged" />
             <SearCategory @change="onSearchCategoryChanged" />
           </div>
@@ -104,18 +104,18 @@ const result = ref<IQueryResult>({
 });
 
 const onBackHome = () => {
-  router.push({ name: 'Home' })
-}
+  router.push({ name: 'Home' });
+};
 
 const onSearchModeChanged = (mode: TSearchMode) => {
-  console.log('search mode', mode)
+  console.log('search mode', mode);
   querySearch(query.value, false);
-}
+};
 
 const onSearchCategoryChanged = (category: TSearCategory) => {
-  console.log('search category', category)
+  console.log('search category', category);
   querySearch(query.value, false);
-}
+};
 
 const onSelectQuery = (val: string) => {
   query.value = val;
@@ -143,7 +143,7 @@ const onReload = () => {
 
 onMounted(() => {
   if (!keyword.value) {
-    router.push({ name: 'Home' })
+    router.push({ name: 'Home' });
     return;
   }
   query.value = keyword.value as string;

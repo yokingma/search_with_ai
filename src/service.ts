@@ -5,7 +5,7 @@ import searxng, { ESearXNGCategory } from './search/searxng';
 
 
 export const searchWithSearXNG = async (query: string, categories?: ESearXNGCategory[], language = 'all') => {
-  language = process.env.SEARXNG_LANGUAGE || language
+  language = process.env.SEARXNG_LANGUAGE || language;
   // Scientific search only supports english, so set to all.
   if (categories?.includes(ESearXNGCategory.SCIENCE)) language = 'all';
   const res = await searxng({ q: query, categories, language });

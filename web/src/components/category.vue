@@ -26,19 +26,19 @@ const value = ref(appStore.category);
 const onCategoryChange = (val: any) => {
   appStore.updateCategory(val);
   emits('change', val);
-}
+};
 </script>
 
 <script lang="ts">
 export default {
   name: 'SearchCategory'
-}
+};
 </script>
 
 <template>
   <div class="sear-category">
-    <t-radio-group variant="default-filled" @change="onCategoryChange" :default-value="value">
-      <t-radio-button v-for="item in categories" :value="item.value">
+    <t-radio-group variant="default-filled" :default-value="value" @change="onCategoryChange">
+      <t-radio-button v-for="item in categories" :key="item.value" :value="item.value">
         {{ t(item.name) }}
       </t-radio-button>
     </t-radio-group>

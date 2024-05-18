@@ -2,7 +2,7 @@
 
 [English](./README.md) **中文**  
 
-```更新时间: 2024/05/11```
+```更新时间: 2024/05/17```
 
 基于AI大语言模型的对话式搜索引擎的一个基本实现，基于Node.js&Vue3。适合小白入门AI开发参考:)，文档后有交流群二维码。 [Live Demo](https://isou.chat/)  
 
@@ -14,7 +14,7 @@
 
 ## 功能说明
 
-* 内置主流的LLM接口支持，如OpenAI、Google、通译千问、百度文心一言、Lepton。
+* 内置主流的LLM接口支持，如OpenAI、Google、通译千问、百度文心一言、Lepton、DeepSeek。
 * 内置搜索引擎支持，如Bing、Sogou、Google、SearXNG（免费开源）。
 * 简洁的搜索对话Web界面。
 * Web界面支持暗色模式。

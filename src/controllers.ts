@@ -1,11 +1,13 @@
 import { Context } from 'koa';
-import { AliyunModels, BaiduModels, DefaultQuery, GoogleModels, LeptonModels, MoonshotModels, OpenAIModels, TencentModels, YiModels } from './constant';
+import { DefaultQuery, Models } from './constant';
 import { searchWithSogou } from './service';
-import { aliyun, openai, baidu, yi, tencent, local, moonshot, lepton, google } from './platform';
+import platform from './platform';
 import { EBackend, IChatInputMessage, TMode } from './interface';
 import { Rag } from './rag';
 import { getFromCache, setToCache } from './cache';
 import { ESearXNGCategory } from './search/searxng';
+
+const CACHE_ENABLED = process.env.CACHE_ENABLE;
 
 export const searchController = async (ctx: Context) => {
   const stream = ctx.request.body.stream ?? true;
@@ -57,7 +59,9 @@ export const searchController = async (ctx: Context) => {
 
   ctx.res.end();
   // caching
-  setToCache(q as string, result, mode, categories);
+  if (CACHE_ENABLED === '1') {
+    setToCache(q as string, result, mode, categories);
+  }
 };
 
 export const sogouSearchController = async (ctx: Context) => {
@@ -71,36 +75,47 @@ export const chatStreamController = async (ctx: Context) => {
   const system: string | undefined = ctx.request.body.system;
   const model: string | undefined = ctx.request.body.model;
   const locally: boolean = ctx.request.body.locally ?? false;
+
+  if (!model) throw new Error('model is required');
+
   ctx.res.setHeader('Content-Type', 'text/event-stream');
   ctx.res.setHeader('Cache-Control', 'no-cache');
   ctx.res.setHeader('Connection', 'keep-alive');
-  const handler = locally ? local.chatStream.bind(local) : processModel(model);
+  const handler = locally ? platform.local.chatStream.bind(platform.local) : processModel(model);
   ctx.res.statusCode = 200;
-  await handler?.(messages, (data) => {
+
+  await handler?.(messages, (data: any) => {
     const eventData = `data: ${JSON.stringify({ text: data || '' })}\n\n`;
     ctx.res.write(eventData);
   }, model, system);
+
   ctx.res.end();
 };
 
 export const modelsController = async (ctx: Context) => {
-  const { GOOGLE_KEY, ALIYUN_KEY, OPENAI_KEY, BAIDU_KEY, TENCENT_KEY, YI_KEY, MOONSHOT_KEY, LEPTON_KEY } = process.env;
-  const models = {
-    aliyun: ALIYUN_KEY ? Object.values(AliyunModels) : [],
-    openai: OPENAI_KEY ? Object.values(OpenAIModels) : [],
-    baidu: BAIDU_KEY ? Object.values(BaiduModels) : [],
-    google: GOOGLE_KEY ? Object.values(GoogleModels) : [],
-    tencent: TENCENT_KEY ? Object.values(TencentModels) : [],
-    yi: YI_KEY ? Object.values(YiModels) : [],
-    moonshot: MOONSHOT_KEY ? Object.values(MoonshotModels) : [],
-    lepton: LEPTON_KEY ? Object.values(LeptonModels) : []
+  const { GOOGLE_KEY, ALIYUN_KEY, OPENAI_KEY, BAIDU_KEY, TENCENT_KEY, YI_KEY, MOONSHOT_KEY, LEPTON_KEY, DEEPSEEK_KEY } = process.env;
+  const keys: Record<string, string | undefined> = {
+    google: GOOGLE_KEY,
+    aliyun: ALIYUN_KEY,
+    openai: OPENAI_KEY,
+    baidu: BAIDU_KEY,
+    tencent: TENCENT_KEY,
+    yi: YI_KEY,
+    moonshot: MOONSHOT_KEY,
+    lepton: LEPTON_KEY,
+    deepseek: DEEPSEEK_KEY
   };
-  ctx.body = models;
+  const models = Models.filter(item => keys[item.platform] !== undefined);
+  const enabledModels: Record<string, string[]> = {};
+  for (const model of models) {
+    if (keys[model.platform]) enabledModels[model.platform] = model.models;
+  }
+  ctx.body = enabledModels;
 };
 
 // locally llm models
 export const localModelsController = async (ctx: Context) => {
-  const list = await local.list();
+  const list = await platform.local.list();
   ctx.body = list;
 };
 
@@ -113,37 +128,20 @@ export const localChatStreamController = async (ctx: Context) => {
   ctx.res.setHeader('Cache-Control', 'no-cache');
   ctx.res.setHeader('Connection', 'keep-alive');
   ctx.res.statusCode = 200;
-  await local.chatStream(messages, (data) => {
+  await platform.local.chatStream(messages, (data) => {
     const eventData = `data: ${JSON.stringify({ text: data || '' })}\n\n`;
     ctx.res.write(eventData);
   }, model);
   ctx.res.end();
 };
 
-function processModel(model = OpenAIModels.GPT35TURBO) {
-  if (Object.values(AliyunModels).includes(model)) {
-    return aliyun.chatStream.bind(aliyun);
+
+function processModel(model: string) {
+  const targetModel = Models.find(item => {
+    return item.models.includes(model);
+  });
+  if (targetModel?.platform) {
+    const target = platform[targetModel.platform];
+    return target.chatStream.bind(target);
   }
-  if (Object.values(OpenAIModels).includes(model)) {
-    return openai.chatStream.bind(openai);
-  }
-  if (Object.values(BaiduModels).includes(model)) {
-    return baidu.chatStream.bind(baidu);
-  }
-  if (Object.values(GoogleModels).includes(model)) {
-    return google.chatStream.bind(google);
-  }
-  if (Object.values(TencentModels).includes(model)) {
-    return tencent.chatStream.bind(tencent);
-  }
-  if (Object.values(YiModels).includes(model)) {
-    return yi.chatStream.bind(yi);
-  }
-  if (Object.values(MoonshotModels).includes(model)) {
-    return moonshot.chatStream.bind(moonshot);
-  }
-  if (Object.values(LeptonModels).includes(model)) {
-    return lepton.chatStream.bind(lepton);
-  }
-  return openai.chatStream.bind(openai);
 }
