@@ -7,7 +7,7 @@ import { Rag } from './rag';
 import { getFromCache, setToCache } from './cache';
 import { ESearXNGCategory } from './search/searxng';
 
-const CACHE_ENABLED = process.env.CACHE_ENABLED;
+const CACHE_ENABLED = process.env.CACHE_ENABLE;
 
 export const searchController = async (ctx: Context) => {
   const stream = ctx.request.body.stream ?? true;
