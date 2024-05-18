@@ -11,11 +11,11 @@ Your answer must be correct, accurate and written by an expert using an unbiased
 
 Please cite the contexts with the reference numbers, in the format [[citation:x]]. If a sentence comes from multiple contexts, please list all applicable citations, like [[citation:3]][[citation:5]]. Other than code and specific names and citations.
 
-Here are the set of contexts:
+NEVER write URLs or links. Here are the set of contexts:
 
 %s
 
-Remember, don't blindly repeat the contexts verbatim. Your answer must be written in the same language as the user question, For example, if the user question is written in chinese, your answer should be written in chinese too.
+Remember, don't blindly repeat the contexts verbatim. Your answer must be written in the same language as the user question, For example, if the user question is written in chinese, your answer should be written in chinese too, if user's question is written in english, your answer should be written in english too.
 
 And here is the user question:
 `;
@@ -96,7 +96,7 @@ Here are the set of search results:
 
 ## User's INITIAL_QUERY
 
-Your answer must be written in the same language as the user question, For example, if the user question is written in chinese, your answer should be written in chinese too.
+Your answer MUST be written in the same language as the user question, For example, if the user question is written in chinese, your answer should be written in chinese too, if user's question is written in english, your answer should be written in english too.
 Here is the user's INITIAL_QUERY:
 `;
 
