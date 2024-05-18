@@ -7,6 +7,8 @@ import { Rag } from './rag';
 import { getFromCache, setToCache } from './cache';
 import { ESearXNGCategory } from './search/searxng';
 
+const CACHE_ENABLED = process.env.CACHE_ENABLED;
+
 export const searchController = async (ctx: Context) => {
   const stream = ctx.request.body.stream ?? true;
   const q = ctx.request.query.q || DefaultQuery;
@@ -57,7 +59,9 @@ export const searchController = async (ctx: Context) => {
 
   ctx.res.end();
   // caching
-  setToCache(q as string, result, mode, categories);
+  if (CACHE_ENABLED === 'true') {
+    setToCache(q as string, result, mode, categories);
+  }
 };
 
 export const sogouSearchController = async (ctx: Context) => {
