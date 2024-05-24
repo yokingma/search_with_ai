@@ -7,6 +7,7 @@ import { yi } from './yi';
 import { moonshot } from './moonshot';
 import { lepton } from './lepton';
 import { deepseek } from './deepseek';
+import { chatglm } from './chatglm';
 import { local } from './ollama';
 
 const platform = {
@@ -17,6 +18,7 @@ const platform = {
   tencent,
   yi,
   deepseek,
+  chatglm,
   moonshot,
   lepton,
   local
