@@ -78,7 +78,10 @@ export class Rag {
     // searxng images search
     if (this.backend === EBackend.SEARXNG) {
       const res = await this.search(query, [ESearXNGCategory.IMAGES], language);
-      console.log(res);
+      const images = res.filter(item => item.engine?.includes('bing') || item.engine?.includes('google'));
+      for (const image of images) {
+        onMessage?.(JSON.stringify({ image }));
+      }
     }
     for (const context of limitContexts) {
       onMessage?.(JSON.stringify({ context }));

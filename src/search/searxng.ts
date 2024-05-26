@@ -2,11 +2,14 @@ import { httpRequest } from '../utils';
 import { ISearchResponseResult } from '../interface';
 
 const URL = process.env.SEARXNG_HOSTNAME || 'http://localhost:8080';
+
+// https://docs.searxng.org/dev/search_api.html
 export interface ISearXNGOptions {
   q: string;
   pageno?: number;
   categories?: ESearXNGCategory[];
   language?: string;
+  engines?: string;
 }
 
 export enum ESearXNGCategory {
@@ -21,7 +24,7 @@ export enum ESearXNGCategory {
 
 export default async function search(params: ISearXNGOptions): Promise<ISearchResponseResult[]> {
   try {
-    const { q, pageno = 1, categories = [ESearXNGCategory.GENERAL], language = 'all' } = params;
+    const { q, pageno = 1, categories = [ESearXNGCategory.GENERAL], engines = '', language = 'all' } = params;
     console.log('searxng language', language);
     const safesearch = process.env.SEARXNG_SAFE ?? 0;
     const res = await httpRequest({
@@ -33,16 +36,21 @@ export default async function search(params: ISearXNGOptions): Promise<ISearchRe
         categories: categories.join(','),
         format: 'json',
         safesearch,
-        language
+        language,
+        engines
       }
     });
     const result = await res.json();
     if (result.results) {
       return result.results.map((item: any, index: number) => {
+        console.log(item.engine);
         return {
           id: index + 1,
           name: item.title,
           url: item.url,
+          source: item.source,
+          img: item.img_src,
+          thumbnail: item.thumbnail_src,
           snippet: item.content,
           engine: item.engine
         };

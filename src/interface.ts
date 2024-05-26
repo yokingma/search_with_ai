@@ -39,7 +39,10 @@ export interface ISearchResponseResult {
   name: string;
   url: string;
   snippet: string;
-  [key: string]: string
+  thumbnail?: string;
+  img?: string;
+  source?: string;
+  [key: string]: string | undefined;
 }
 
 export type TMode = 'simple' | 'deep' | 'research'
