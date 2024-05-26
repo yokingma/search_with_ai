@@ -1,5 +1,6 @@
 import ChatAnswer from './answer.vue';
 import ChatSources from './sources.vue';
+import ChatMedia from './media.vue';
 import PageFooter from './footer.vue';
 import RelatedQuery from './related.vue';
 import SearchInputBar from './searchInputBar.vue';
@@ -15,6 +16,7 @@ import SearchMode from './mode.vue';
 export {
   ChatAnswer,
   ChatSources,
+  ChatMedia,
   SearchInputBar,
   RelatedQuery,
   ModelSelect,

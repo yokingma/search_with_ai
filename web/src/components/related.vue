@@ -29,7 +29,7 @@ const relatedArr = computed(() => {
 <template>
   <div class="flex w-full flex-col gap-4">
     <template v-if="relatedArr?.length">
-      <div class="text-lg font-bold text-black dark:text-gray-300">{{ t('related') }}:</div>
+      <div class="text-sm font-bold text-black dark:text-gray-300">{{ t('related') }}:</div>
       <div class="grid grid-cols-1 gap-2 md:grid-cols-3">
         <div
           v-for="(item, index) in relatedArr"

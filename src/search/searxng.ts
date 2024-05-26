@@ -43,7 +43,6 @@ export default async function search(params: ISearXNGOptions): Promise<ISearchRe
     const result = await res.json();
     if (result.results) {
       return result.results.map((item: any, index: number) => {
-        console.log(item.engine);
         return {
           id: index + 1,
           name: item.title,

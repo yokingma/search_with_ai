@@ -74,6 +74,10 @@ html[theme-mode="dark"] .markdown-body pre {
   background-color: #222222;
 }
 
+a {
+  text-decoration: none;
+}
+
 #app {
   display: flex;
   justify-content: center;

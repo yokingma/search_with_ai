@@ -2,6 +2,7 @@ export interface IQueryResult {
   related?: string;
   answer?: string;
   contexts?: Record<string, any>[];
+  images?: Record<string, any>[];
 }
 
 export interface ISelectOptions {

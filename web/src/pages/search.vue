@@ -43,6 +43,9 @@
               </div>
             </div>
             <div class="mt-4">
+              <ChatMedia :loading="loading" :sources="result?.images" />
+            </div>
+            <div class="mt-4">
               <div class="flex flex-nowrap items-center gap-2 py-4 text-black dark:text-gray-200">
                 <RiBook2Line />
                 <span class="text-lg font-bold ">{{ t('sources') }}</span>
@@ -74,16 +77,16 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue';
-import { PageFooter, ChatAnswer, RelatedQuery, ChatSources, SearchInputBar, SearchMode, SearCategory } from '../components';
-import { MessagePlugin } from 'tdesign-vue-next';
-import { useI18n } from 'vue-i18n';
-import { useAppStore } from '../store';
-import { RiChat3Line, RiBook2Line, RiChat1Fill, RiArrowGoBackLine } from '@remixicon/vue';
 import router from '../router';
 import { search } from '../api';
+import { useI18n } from 'vue-i18n';
+import { useAppStore } from '../store';
 import ContinueChat from './components/chat.vue';
 import ChatInput from './components/input.vue';
+import { computed, onMounted, ref } from 'vue';
+import { MessagePlugin } from 'tdesign-vue-next';
+import { PageFooter, ChatAnswer, ChatMedia, RelatedQuery, ChatSources, SearchInputBar, SearchMode, SearCategory } from '../components';
+import { RiChat3Line, RiBook2Line, RiChat1Fill, RiArrowGoBackLine } from '@remixicon/vue';
 import { IQueryResult, TSearCategory, TSearchMode } from '../interface';
 
 const appStore = useAppStore();
@@ -100,7 +103,8 @@ let abortCtrl: AbortController | null = null;
 const result = ref<IQueryResult>({
   related: '',
   answer: '',
-  contexts: []
+  contexts: [],
+  images: []
 });
 
 const onBackHome = () => {
@@ -179,6 +183,9 @@ async function querySearch(val: string | null, reload?: boolean) {
         if (data?.context) {
           result.value.contexts?.push(data.context);
         }
+        if (data?.image) {
+          result.value.images?.push(data.image);
+        }
         if (data?.answer) {
           result.value.answer += data.answer;
         }
@@ -210,7 +217,8 @@ function clear () {
   result.value = {
     related: '',
     answer: '',
-    contexts: []
+    contexts: [],
+    images: []
   };
   ask.value = '';
 }
