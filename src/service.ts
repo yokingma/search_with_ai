@@ -4,11 +4,22 @@ import { Sogou } from './search/sogou';
 import searxng, { ESearXNGCategory } from './search/searxng';
 
 
-export const searchWithSearXNG = async (query: string, categories?: ESearXNGCategory[], language = 'all') => {
+export const searchWithSearXNG = async (
+  query: string,
+  categories?: ESearXNGCategory[],
+  language = 'all'
+) => {
   language = process.env.SEARXNG_LANGUAGE || language;
+  const defaultEngines = process.env.SEARXNG_ENGINES ? process.env.SEARXNG_ENGINES.split(',') : [];
+  const engines = defaultEngines.map(item => item.trim());
   // Scientific search only supports english, so set to all.
   if (categories?.includes(ESearXNGCategory.SCIENCE)) language = 'all';
-  const res = await searxng({ q: query, categories, language });
+  const res = await searxng({
+    q: query,
+    categories,
+    language,
+    engines: engines.join(',')
+  });
   return res;
 };
 

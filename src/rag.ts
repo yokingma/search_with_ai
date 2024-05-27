@@ -22,6 +22,8 @@ export class Rag {
   private model: string;
   // enable stream?
   private stream: boolean;
+  // search backend
+  private backend: EBackend;
 
   constructor(params?: RagOptions) {
     const { backend = EBackend.SEARXNG, stream = true, model, locally } = params || {};
@@ -37,6 +39,7 @@ export class Rag {
     this.stream = stream;
     console.info('[query with]:', backend, model);
     console.info('[query with local llm]:', locally);
+    this.backend = backend;
     switch (backend) {
       case EBackend.GOOGLE:
         this.search = searchWithGoogle;
@@ -71,6 +74,14 @@ export class Rag {
         answer,
         contexts: limitContexts
       };
+    }
+    // searxng images search
+    if (this.backend === EBackend.SEARXNG) {
+      const res = await this.search(query, [ESearXNGCategory.IMAGES], language);
+      const images = res.filter(item => item.engine?.includes('bing') || item.engine?.includes('google'));
+      for (const image of images) {
+        onMessage?.(JSON.stringify({ image }));
+      }
     }
     for (const context of limitContexts) {
       onMessage?.(JSON.stringify({ context }));

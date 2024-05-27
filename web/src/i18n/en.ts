@@ -5,6 +5,7 @@ export default {
   answer: 'Answer',
   related: 'Related',
   sources: 'Sources',
+  media: 'Media',
   copy: 'Copy',
   reload: 'Reload',
   share: 'Share',

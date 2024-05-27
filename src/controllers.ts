@@ -1,9 +1,9 @@
 import { Context } from 'koa';
+import { Rag } from './rag';
+import platform from './platform';
 import { DefaultQuery, Models } from './constant';
 import { searchWithSogou } from './service';
-import platform from './platform';
 import { EBackend, IChatInputMessage, TMode } from './interface';
-import { Rag } from './rag';
 import { getFromCache, setToCache } from './cache';
 import { ESearXNGCategory } from './search/searxng';
 
