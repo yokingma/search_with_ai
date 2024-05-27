@@ -5,7 +5,7 @@ export default {
   ask: '问',
   related: '相关问题',
   sources: '参考资料',
-  media: '图片&视频',
+  media: '图片资源',
   copy: '复制',
   reload: '重新回答',
   share: '分享',

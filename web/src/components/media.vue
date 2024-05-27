@@ -22,21 +22,19 @@ const images = computed(() => {
 });
 
 const onFold = () => {
-  unfold.value = !unfold.value;
   if (!mediaRef.value) return;
-  if (!unfold.value) {
-    mediaRef.value.style.height = '84px';
-    mediaRef.value.style.overflow = 'hidden';
-  } else {
+  unfold.value = !unfold.value;
+  if (unfold.value) {
     mediaRef.value.style.height = 'auto';
     mediaRef.value.style.overflow = 'normal';
+  } else {
+    mediaRef.value.style.height = '84px';
+    mediaRef.value.style.overflow = 'hidden';
   }
 };
 
 onMounted(() => {
-  if (!mediaRef.value) return;
-  mediaRef.value.style.height = '84px';
-  mediaRef.value.style.overflow = 'hidden';
+  //
 });
 const rowCol = [
   [
@@ -60,13 +58,13 @@ export default {
 
 <template>
   <div class="w-full">
-    <div class="flex flex-nowrap justify-between py-4">
+    <div class="flex flex-nowrap justify-between py-2">
       <div class="text-sm font-bold text-black dark:text-gray-300">
         {{ t('media') }}
       </div>
       <t-button variant="text" shape="square" :disabled="loading" @click="onFold">
         <template #icon>
-          <RiArrowRightSLine v-if="unfold" />
+          <RiArrowRightSLine v-if="!unfold" />
           <RiArrowDownSLine v-else />
         </template>
       </t-button>
@@ -78,7 +76,13 @@ export default {
         </template>
       </t-alert>
     </div>
-    <div v-if="images.length" id="chat-media" ref="mediaRef" class="grid w-full grid-cols-4 gap-2 transition-all duration-300 md:grid-cols-8">
+    <div
+      v-if="images.length"
+      id="chat-media"
+      ref="mediaRef"
+      style="height: 84px; overflow: hidden;"
+      class="grid w-full grid-cols-4 gap-2 transition-all duration-300 md:grid-cols-8"
+    >
       <div v-for="item in images" :key="item.id" class="hover:opacity-80">
         <t-popup :content="item.name">
           <div class="flex flex-col gap-1">
