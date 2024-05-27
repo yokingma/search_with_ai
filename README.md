@@ -2,12 +2,12 @@
 
 **English** [中文](./README_CN.md)  
 
-```Updated: 2024/05/17```
+```Updated: 2024/05/27```
 
 Build your own conversation-based search with AI, a simple implementation with Node.js & Vue3. [Live Demo](https://isou.chat/)  
 
 <div align="center">
- <img src="./screenshot.png"></img>
+ <img src="./screenshot.jpg"></img>
 </div>
 
 repo: [GitHub](https://github.com/yokingma/search_with_ai)、 [Gitee](https://gitee.com/zac_ma/search_with_ai)  
@@ -23,6 +23,7 @@ repo: [GitHub](https://github.com/yokingma/search_with_ai)、 [Gitee](https://gi
 * Support i18n
 * Support Continue Q&A with contexts.
 * Support Cache results, Force regeneration.
+* Support images search. (update date: 2024/05/27)
 
 ## Deploy with Docker (recommended)
 
@@ -91,7 +92,10 @@ Remember to save your **.env** settings if it has been changed before.
 * Baidu Wenxin
 * 01.ai
 * Moonshot(Kimi)
+* DeepSeek
+* ChatGLM
 * Tencent Hunyuan
+* Ollama
 
 #### Local LLM
 
@@ -161,30 +165,55 @@ cd web && yarn install && yarn run build
 * **Config(.env)**
 
 ```ts
-// .env
-// Bing key
-BING_SEARCH_KEY=your-key
-// Google search key
+# Bing search key
+BING_SEARCH_KEY=
+# Google search key
 GOOGLE_SEARCH_KEY=
 GOOGLE_SEARCH_ID=
-// aliyun key
-ALIYUN_KEY=your-key
-// baidu key
-BAIDU_KEY=your-key
-BAIDU_SECRET=your-secret
-// google gemini key & base url
+# aliyun key
+ALIYUN_KEY=
+# Yi Key
+YI_KEY=
+# google gemini
 GOOGLE_KEY=
-// Google api base url
 GOOGLE_PROXY_URL=
-// tencent KEY:ID, SECRET:KEY
+# baidu
+BAIDU_KEY=
+BAIDU_SECRET=
+# tencent KEY:ID, SECRET:KEY
 TENCENT_KEY=
 TENCENT_SECRET=
-// Yi Key
-YI_KEY=
-// openai ChatGPT key
-OPENAI_KEY=your-key
-// openai base url
-OPENAI_PROXY_URL=https://api.openai.com/v1
+# openai key
+OPENAI_KEY=freeduckduckgo
+# openai proxy, default is for docker-compose, could modify if you need.
+OPENAI_PROXY_URL=http://freeduckduckgo:3456/v1
+# deepseek
+DEEPSEEK_KEY=#your_key
+# chatglm
+GLM_KEY=#your_key
+# moonshot
+MOONSHOT_KEY=
+# lepthon key
+LEPTON_KEY=
+# Local llm: Ollama hostname, could modify if you need.
+OLLAMA_HOST=http://host.docker.internal:11434
+# Searxng hostname, could modify if you need.
+SEARXNG_HOSTNAME=http://searxng:8080
+# The count of resources referenced
+REFERENCE_COUNT=8
+# Whitelist domains, eg. isou.chat,example.org, skip if empty.
+WHITELIST_DOMAINS=
+# Server Port
+PORT=3000
+# SearXNG query options, safesearch: Filter search results,  0: None 1: Moderate 2: Strict.
+SEARXNG_SAFE=0
+# SearXNG query options, language: default is 'all', eg. all/zh/en/en-US/de/it-IT/fr..., this setting has the highest priority.
+SEARXNG_LANGUAGE=
+# document: https://docs.searxng.org/user/configured_engines.html
+SEARXNG_ENGINES=bing,google
+SEARXNG_IMAGES_ENGINES=bing
+# enable cache, 1 enable, 0 disable
+CACHE_ENABLE=1
 ```
 
 * **Run**
