@@ -2,12 +2,12 @@
 
 [English](./README.md) **中文**  
 
-```更新时间: 2024/05/17```
+```更新时间: 2024/05/27```
 
 基于AI大语言模型的对话式搜索引擎的一个基本实现，基于Node.js&Vue3。适合小白入门AI开发参考:)，文档后有交流群二维码。 [Live Demo](https://isou.chat/)  
 
 <div align="center">
- <img src="./screenshot_cn.png"></img>
+ <img src="./screenshot_cn.jpg"></img>
 </div>
 
 仓库地址：[GitHub仓库](https://github.com/yokingma/search_with_ai)、 [Gitee仓库](https://gitee.com/zac_ma/search_with_ai)  
@@ -24,6 +24,7 @@
 * 支持多语言(i18n)。
 * 支持根据结果上下文继续问答。
 * 支持缓存结果、强制重新生成结果。
+* 支持图片搜索(update date: 2024/05/27)。
 
 ## 使用 Docker 一键安装部署
 
@@ -93,7 +94,10 @@ docker run -d -p 3000:3000 --name my_app my_image
 * 百度文心一言
 * 零一万物
 * 月之暗面（Kimi）
+* DeepSeek
+* ChatGLM
 * 腾讯混元
+* Ollama
 
 #### 本地大模型支持（无需Key）
 
@@ -164,33 +168,58 @@ yarn install && yarn run build
 cd web && yarn install && yarn run build
 ```
 
-* **配置**
+* **配置** (.env)
 
 ```ts
-// .env
-// Bing key
-BING_SEARCH_KEY=your-key
-// Google search key
+# Bing search key
+BING_SEARCH_KEY=
+# Google search key
 GOOGLE_SEARCH_KEY=
 GOOGLE_SEARCH_ID=
-// aliyun key
-ALIYUN_KEY=your-key
-// baidu key
-BAIDU_KEY=your-key
-BAIDU_SECRET=your-secret
-// google gemini key & base url
+# aliyun key
+ALIYUN_KEY=
+# Yi Key
+YI_KEY=
+# google gemini
 GOOGLE_KEY=
-// Google api base url
 GOOGLE_PROXY_URL=
-// tencent KEY:ID, SECRET:KEY
+# baidu
+BAIDU_KEY=
+BAIDU_SECRET=
+# tencent KEY:ID, SECRET:KEY
 TENCENT_KEY=
 TENCENT_SECRET=
-// Yi Key
-YI_KEY=
-// openai ChatGPT key
-OPENAI_KEY=your-key
-// openai base url
-OPENAI_PROXY_URL=https://api.openai.com/v1
+# openai key
+OPENAI_KEY=freeduckduckgo
+# openai proxy, default is for docker-compose, could modify if you need.
+OPENAI_PROXY_URL=http://freeduckduckgo:3456/v1
+# deepseek
+DEEPSEEK_KEY=#your_key
+# chatglm
+GLM_KEY=#your_key
+# moonshot
+MOONSHOT_KEY=
+# lepthon key
+LEPTON_KEY=
+# Local llm: Ollama hostname, could modify if you need.
+OLLAMA_HOST=http://host.docker.internal:11434
+# Searxng hostname, could modify if you need.
+SEARXNG_HOSTNAME=http://searxng:8080
+# The count of resources referenced
+REFERENCE_COUNT=8
+# Whitelist domains, eg. isou.chat,example.org, skip if empty.
+WHITELIST_DOMAINS=
+# Server Port
+PORT=3000
+# SearXNG query options, safesearch: Filter search results,  0: None 1: Moderate 2: Strict.
+SEARXNG_SAFE=0
+# SearXNG query options, language: default is 'all', eg. all/zh/en/en-US/de/it-IT/fr..., this setting has the highest priority.
+SEARXNG_LANGUAGE=
+# document: https://docs.searxng.org/user/configured_engines.html
+SEARXNG_ENGINES=bing,google
+SEARXNG_IMAGES_ENGINES=bing
+# enable cache, 1 enable, 0 disable
+CACHE_ENABLE=1
 ```
 
 * **启动**
