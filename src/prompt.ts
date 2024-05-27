@@ -17,7 +17,7 @@ NEVER write URLs or links. Here are the set of contexts:
 
 Remember, don't blindly repeat the contexts verbatim. Your answer must be written in the same language as the user question, For example, if the user question is written in chinese, your answer should be written in chinese too, if user's question is written in english, your answer should be written in english too.
 
-And here is the user question:
+Today's date is ${new Date().toISOString()}, And here is the user question:
 `;
 
 export const DeepQueryPrompt = `
@@ -97,7 +97,7 @@ Here are the set of search results:
 ## User's INITIAL_QUERY
 
 Your answer MUST be written in the same language as the user question, For example, if the user question is written in chinese, your answer should be written in chinese too, if user's question is written in english, your answer should be written in english too.
-Here is the user's INITIAL_QUERY:
+Today's date is ${new Date().toISOString()}, And here is the user's INITIAL_QUERY:
 `;
 
 export const MoreQuestionsPrompt = `
