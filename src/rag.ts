@@ -81,6 +81,7 @@ export class Rag {
       const engines = process.env.SEARXNG_IMAGES_ENGINES ? process.env.SEARXNG_IMAGES_ENGINES.split(',') : [];
 
       const images = res.filter(item => {
+        if (!item.thumbnail) return false;
         if (engines.length > 0)
           return engines.some(engine => item.engine?.includes(engine));
         return item.engine?.includes('bing') || item.engine?.includes('google');
