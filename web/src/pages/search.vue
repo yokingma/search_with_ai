@@ -124,6 +124,7 @@ const onSearchCategoryChanged = (category: TSearCategory) => {
 const onSelectQuery = (val: string) => {
   query.value = val;
   querySearch(val);
+  scrollToTop();
 };
 
 const onSearch = (val: string) => {
@@ -225,6 +226,10 @@ function clear () {
 
 function scrollToBottom() {
   document.body.scrollTop = document.body.scrollHeight;
+}
+
+function scrollToTop() {
+  document.body.scrollTop = 0;
 }
 
 function replaceQueryParam(name: string, val: string) {
