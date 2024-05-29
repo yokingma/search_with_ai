@@ -15,7 +15,7 @@
   ],
   "overrides": [
     {
-      "files": ["./src/**/*.js", "./src/**/*.ts"],
+      "files": ["./backend/**/*.js", "./backend/**/*.ts"],
       "extends": [
         "plugin:@typescript-eslint/recommended"
       ],

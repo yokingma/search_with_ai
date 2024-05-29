@@ -10,7 +10,7 @@
   },
   "scripts": {
     "start": "dotenvx run --env-file=.env -- node ./dist/app.js",
-    "dev": "dotenvx run --env-file=.env.local --env-file=.env -- cross-env NODE_ENV=development nodemon ./src/app.ts",
+    "dev": "dotenvx run --env-file=.env.local --env-file=.env -- cross-env NODE_ENV=development nodemon ./backend/app.ts",
     "build": "tsc"
   },
   "dependencies": {
