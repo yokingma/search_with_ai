@@ -19,7 +19,7 @@ RUN curl -fsS https://dotenvx.sh/ | sh
 COPY .env /app
 
 COPY --from=build /app/dist ./dist
-COPY --from=build /app/src ./src
+COPY --from=build /app/backend ./backend
 COPY --from=build /app/web/build ./web/build
 COPY --from=build /app/package.json ./
 
