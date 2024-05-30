@@ -240,6 +240,12 @@ cd web && yarn install && yarn run build
 
 启动成功后可以在浏览器打开<http://localhost:3000> 即可使用。
 
+## 部署案例展示
+
+* [UI版本]( https://github.com/onenov/search_with_ai ) 一个漂亮的UI实现
+* [sou.ffa.chat](https://sou.ffa.chat/)
+* [orence.net/ai](https://orence.net/ai)
+
 <div align="center">
  <img src="./qrcode.jpg"></img>
 </div>

@@ -13,13 +13,13 @@
     "declaration": true,
     "forceConsistentCasingInFileNames": true,
     "outDir": "./dist",
-    "rootDir": "./src",
+    "rootDir": "backend",
     "strict": true,
     "esModuleInterop": true,
     "strictPropertyInitialization": false
   },
   "include": [
-    "./src/**/*"
+    "backend/**/*"
   ],
   "exclude": [
     "node_modules",

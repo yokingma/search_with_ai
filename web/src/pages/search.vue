@@ -42,7 +42,7 @@
                 <RelatedQuery :related="result?.related" @select="onSelectQuery" />
               </div>
             </div>
-            <div class="mt-4">
+            <div v-if="appStore.engine === 'SEARXNG'" class="mt-4">
               <ChatMedia :loading="loading" :sources="result?.images" />
             </div>
             <div class="mt-4">
@@ -83,7 +83,7 @@ import { useI18n } from 'vue-i18n';
 import { useAppStore } from '../store';
 import ContinueChat from './components/chat.vue';
 import ChatInput from './components/input.vue';
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { MessagePlugin } from 'tdesign-vue-next';
 import { PageFooter, ChatAnswer, ChatMedia, RelatedQuery, ChatSources, SearchInputBar, SearchMode, SearCategory } from '../components';
 import { RiChat3Line, RiBook2Line, RiChat1Fill, RiArrowGoBackLine } from '@remixicon/vue';
@@ -124,6 +124,7 @@ const onSearchCategoryChanged = (category: TSearCategory) => {
 const onSelectQuery = (val: string) => {
   query.value = val;
   querySearch(val);
+  scrollToTop();
 };
 
 const onSearch = (val: string) => {
@@ -152,6 +153,10 @@ onMounted(() => {
   }
   query.value = keyword.value as string;
   querySearch(query.value);
+});
+
+onUnmounted(() => {
+  abortCtrl?.abort();
 });
 
 async function querySearch(val: string | null, reload?: boolean) {
@@ -225,6 +230,10 @@ function clear () {
 
 function scrollToBottom() {
   document.body.scrollTop = document.body.scrollHeight;
+}
+
+function scrollToTop() {
+  document.body.scrollTop = 0;
 }
 
 function replaceQueryParam(name: string, val: string) {

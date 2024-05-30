@@ -60,7 +60,7 @@ const onShare = async () => {
   } catch (err) {
     MessagePlugin.error(t('message.copyError'));
   }
-}
+};
 
 watch(() => props.answer, () => {
   const parent = processAnswer(props.answer);
