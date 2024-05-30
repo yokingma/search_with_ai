@@ -3,6 +3,8 @@ import { IMessage } from 'src/interface';
 import { useI18n } from 'vue-i18n';
 import { marked } from 'marked';
 import { RiRefreshLine } from '@remixicon/vue';
+import { citationMarkdownParse } from '../../utils';
+import { computed } from 'vue';
 
 interface Iprops {
   message: IMessage
@@ -11,8 +13,30 @@ interface Iprops {
 
 const { t } = useI18n();
 
-defineProps<Iprops>();
+const props = defineProps<Iprops>();
 
+const parsedContent = computed(() => {
+  const { content } = props.message;
+  const md = citationMarkdownParse(content);
+  const html = marked.parse(md, {
+    async: false
+  });
+
+  const parent = document.createElement('div');
+  parent.innerHTML = html as string;
+  const citationTags = parent.querySelectorAll('a');
+  citationTags.forEach(tag => {
+    const citationNumber = tag.getAttribute('href');
+    const text = tag.innerText;
+    if (text !== 'citation') return;
+
+    const w = document.createElement('span');
+    w.classList.add('text-xs', 'inline-block', 'text-center', 'size-4', 'text-zinc-50', 'bg-zinc-800', 'align-top', 'rounded-full');
+    w.innerText = `${citationNumber}`;
+    tag.parentNode?.replaceChild(w, tag);
+  });
+  return parent.innerHTML;
+});
 </script>
 
 <script lang="ts">
@@ -36,7 +60,7 @@ export default {
       </div>
       <div v-else class="rounded-xl  bg-zinc-50 p-4 leading-6 text-zinc-600 shadow-md shadow-zinc-100 dark:bg-zinc-700 dark:text-zinc-200 dark:shadow-zinc-800">
         <!-- eslint-disable-next-line vue/no-v-html -->
-        <div class="markdown-body" v-html="marked(message.content)"></div>
+        <div class="markdown-body" v-html="parsedContent"></div>
       </div>
     </div>
   </div>

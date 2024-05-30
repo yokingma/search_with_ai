@@ -83,7 +83,7 @@ import { useI18n } from 'vue-i18n';
 import { useAppStore } from '../store';
 import ContinueChat from './components/chat.vue';
 import ChatInput from './components/input.vue';
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { MessagePlugin } from 'tdesign-vue-next';
 import { PageFooter, ChatAnswer, ChatMedia, RelatedQuery, ChatSources, SearchInputBar, SearchMode, SearCategory } from '../components';
 import { RiChat3Line, RiBook2Line, RiChat1Fill, RiArrowGoBackLine } from '@remixicon/vue';
@@ -153,6 +153,10 @@ onMounted(() => {
   }
   query.value = keyword.value as string;
   querySearch(query.value);
+});
+
+onUnmounted(() => {
+  abortCtrl?.abort();
 });
 
 async function querySearch(val: string | null, reload?: boolean) {

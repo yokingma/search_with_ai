@@ -7,12 +7,13 @@ Your should based on a careful assessment of the context and the potential for f
 Make your response wisely to ensure that you fulfill your mission as a web researcher effectively and deliver the most valuable assistance to the user.
 `;
 
-export const UserPrompts = `Please write clean, concise and accurate answer to the question. You will be given a set of related contexts to the question, each starting with a reference number like [x], where x is a number. Please use the context and cite the context at the end of each sentence if applicable.
+export const UserPrompts = `Please write clean, concise and accurate answer to the question. You will be given a set of related contexts to the question, each starting with a reference number like [[citation:x]], where x is a number. Please use the context and cite the context at the end of each sentence if applicable.
+
 Here are the set of contexts:
 
 %s
 
-Your answer must be written in the same language as the original question.
+Your answer must be written in the same language as the original question. Please cite the contexts with the reference numbers, in the format [[citation:x]], If a sentence comes from multiple contexts, please list all applicable citations, like [[citation:3]][[citation:5]].
 
 And here is the first question:
 `;
@@ -26,7 +27,7 @@ export const SearXNGCategories = [
     name: 'science',
     displayName: 'category.science'
   }
-]
+];
 
 export const SearchMode = [
   {
@@ -42,4 +43,4 @@ export const SearchMode = [
     displayName: 'mode.research',
     disabled: true
   }
-]
+];
