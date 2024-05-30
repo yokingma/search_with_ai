@@ -42,7 +42,7 @@
                 <RelatedQuery :related="result?.related" @select="onSelectQuery" />
               </div>
             </div>
-            <div class="mt-4">
+            <div v-if="appStore.engine === 'SEARXNG'" class="mt-4">
               <ChatMedia :loading="loading" :sources="result?.images" />
             </div>
             <div class="mt-4">
