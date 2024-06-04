@@ -245,6 +245,7 @@ cd web && yarn install && yarn run build
 * [UI版本]( https://github.com/onenov/search_with_ai ) 一个漂亮的UI实现
 * [sou.ffa.chat](https://sou.ffa.chat/)
 * [orence.net/ai](https://orence.net/ai)
+* [sou.mofa.chat](https://sou.mofa.chat)
 
 <div align="center">
  <img src="./qrcode.jpg"></img>
