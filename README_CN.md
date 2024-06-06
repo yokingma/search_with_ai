@@ -2,7 +2,7 @@
 
 [English](./README.md) **中文**  
 
-```更新时间: 2024/05/27```
+```更新时间: 2024/06/06```
 
 基于AI大语言模型的对话式搜索引擎的一个基本实现，基于Node.js&Vue3。适合小白入门AI开发参考:)，文档后有交流群二维码。 [Live Demo](https://isou.chat/)  
 
@@ -29,6 +29,8 @@
 ## 使用 Docker 一键安装部署
 
 > 文档后面有微信群二维码，有疑问也可以加入群交流。
+
+**注意：使用SearXNG搜索引擎请确保你的网络能正常访问到Google**
 
 [安装Docker](https://docs.docker.com/install/).
 
