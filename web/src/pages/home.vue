@@ -48,11 +48,11 @@ const enableAdvanced = computed(() => appStore.engine === 'SEARXNG');
 
 const quickly: Record<string, string[]> = {
   zh: [
-    '什么是大语言模型LLM?',
+    '刘亦菲《玫瑰的故事》',
     '怎么使用Ollama在本地部署大模型?',
     'llama3-70b需要什么硬件配置？',
     '小米su7体验怎么样？',
-    '《庆余年2》什么时候播出？'
+    '《庆余年2》大结局'
   ],
   en: [
     'What is LLM?',
