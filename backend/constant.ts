@@ -54,7 +54,7 @@ export const Models: IModelInfo[] = [
   {
     platform: 'deepseek',
     type: 'openai',
-    models: ['deepseek-chat']
+    models: ['deepseek-chat', 'deepseek-coder']
   },
   {
     platform: 'chatglm',
