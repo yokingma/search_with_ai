@@ -6,7 +6,7 @@
   "author": "zac_ma",
   "license": "MIT",
   "engines": {
-    "node": ">=18"
+    "node": ">=20"
   },
   "scripts": {
     "start": "dotenvx run --env-file=.env -- node ./dist/app.js",
