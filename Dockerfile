@@ -1,4 +1,4 @@
-FROM node:18 AS build
+FROM node:20 AS build
 
 COPY . /app
 
@@ -10,7 +10,7 @@ RUN yarn install && yarn run build
 WORKDIR /app/web
 RUN yarn install && yarn run build
 
-FROM node:18-alpine
+FROM node:20-alpine
 WORKDIR /app
 
 # Install dotenvx
