@@ -1,6 +1,6 @@
 import { EBackend, IChatInputMessage, IStreamHandler, SearchFunc, TMode } from './interface';
 import { searchWithBing, searchWithGoogle, searchWithSogou, searchWithSearXNG } from './service';
-import { DeepQueryPrompt, MoreQuestionsPrompt, RagQueryPrompt } from './prompt';
+import { DeepQueryPrompt, MoreQuestionsPrompt, RagQueryPrompt, TranslatePrompt } from './prompt';
 import platform from './platform';
 import { Models } from './constant';
 import { ESearXNGCategory } from './search/searxng';
@@ -59,8 +59,15 @@ export class Rag {
   }
 
   public async query(query: string, categories = [ESearXNGCategory.GENERAL], mode: TMode = 'simple', language = 'all', onMessage?: (...args: any[]) => void) {
+    let searchQuery = query;
+    // rewrite query for [SCIENCE]
+    if (categories.includes(ESearXNGCategory.SCIENCE)) {
+      const rewrite = await this.translate(query)
+      if (rewrite) searchQuery = rewrite;
+    }
+    
     // Parameters supported by searxng: categories.
-    const contexts = await this.search(query, categories, language);
+    const contexts = await this.search(searchQuery, categories, language);
     console.log(`[search [${categories}] results]`, contexts.length);
     console.log('[search mode]', mode);
     const REFERENCE_COUNT = process.env.REFERENCE_COUNT || 8;
@@ -91,6 +98,7 @@ export class Rag {
         onMessage?.(JSON.stringify({ image }));
       }
     }
+
     for (const context of limitContexts) {
       onMessage?.(JSON.stringify({ context }));
     }
@@ -107,12 +115,12 @@ export class Rag {
   private async getRelatedQuestions(query: string, contexts: any[], onMessage?: IStreamHandler) {
     try {
       const { messages } = this.paramsFormatter(query, undefined, contexts, 'related');
-      const { model, stream, chat } = this;
+      const { model, stream } = this;
       if (!stream) {
         const res = await this.chat(messages, this.model);
         return res.split('\n');
       }
-      await chat(messages, onMessage, model);
+      await this.chat(messages, onMessage, model);
     } catch(err) {
       console.error('[LLM Error]:', err);
       return [];
@@ -120,14 +128,14 @@ export class Rag {
   }
 
   private async getAiAnswer(query: string, contexts: any[], mode: TMode = 'simple', onMessage?: IStreamHandler) {
-    const { model, stream, chat } = this;
+    const { model, stream } = this;
     try {
       const { messages } = this.paramsFormatter(query, mode, contexts, 'answer');
       if (!stream) {
         const res = await this.chat(messages, this.model);
         return res;
       }
-      await chat(messages, (msg: string, done: boolean) => {
+      await this.chat(messages, (msg: string, done: boolean) => {
         onMessage?.(msg, done);
       }, model);
     } catch (err: any) {
@@ -135,6 +143,33 @@ export class Rag {
       const msg = `[Oops~ Some errors seem to have occurred]: ${err?.message || 'Please check the console'}`;
       if (!stream) return msg;
       else onMessage?.(msg, true);
+    }
+  }
+
+  // translate
+  private async translate(text: string, targetLang = 'English'): Promise<string> {
+    try {
+      const content = util.format(TranslatePrompt, targetLang, text);
+      const messages: IChatInputMessage[] = [
+        {
+          role: 'user',
+          content
+        }
+      ];
+      console.log(content)
+      let translated = '';
+      if (!this.stream) {
+        const res = await this.chat(messages, this.model);
+        translated = res;
+      } else {
+        await this.chat(messages, (msg: string) => {
+          if (msg) translated += msg
+        }, this.model);
+      }
+      return translated;
+    } catch (err) {
+      console.log('[RAG Translate error]', err);
+      return text;
     }
   }
 
