@@ -3,7 +3,7 @@ import { Provider, TSearCategory, TSearchEngine, TSearchMode } from 'src/interfa
 import { ref } from 'vue';
 
 type Theme = 'dark' | 'light'
-type Lan = 'zh' | 'en'
+type Lan = 'zh' | 'en' | 'ptBR';
 export const useAppStore = defineStore('app', () => {
   const engine = ref<TSearchEngine>('SEARXNG');
   const model = ref('');
