@@ -4,7 +4,7 @@ import { BaseChat } from './base/base';
 import { Ollama } from 'ollama';
 
 const host = process.env.OLLAMA_HOST || 'http://localhost:11434';
-const ollama = new Ollama({
+const ollamaClient = new Ollama({
   host
 });
 /**
@@ -24,7 +24,7 @@ export class OllamaChat implements BaseChat {
         content: system
       });
     }
-    const response = await ollama.chat({
+    const response = await ollamaClient.chat({
       model,
       messages
     });
@@ -43,7 +43,7 @@ export class OllamaChat implements BaseChat {
         content: system
       });
     }
-    const response = await ollama.chat({
+    const response = await ollamaClient.chat({
       model,
       stream: true,
       messages,
@@ -56,8 +56,8 @@ export class OllamaChat implements BaseChat {
   }
 
   public async list() {
-    return ollama.list();
+    return ollamaClient.list();
   }
 }
 
-export const local = new OllamaChat();
+export const ollama = new OllamaChat();
