@@ -58,6 +58,11 @@ const quickly: Record<string, string[]> = {
     'What is LLM?',
     'What is RAG?',
     'How to use LLM in enterprise?'
+  ],
+  ptBR: [
+    "O que é LLM?",
+    "O que é RAG?",
+    "Como utilizar LLM em empresas?"
   ]
 };
 

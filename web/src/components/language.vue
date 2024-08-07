@@ -13,6 +13,10 @@ const languageList = [
   {
     name: '中文',
     value: 'zh'
+  },
+  {
+    name: 'Português BR',
+    value: 'ptBR'
   }
 ];
 

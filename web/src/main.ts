@@ -4,6 +4,7 @@ import { createPinia } from 'pinia';
 import * as VueI18n from 'vue-i18n';
 import zh from './i18n/zh';
 import en from './i18n/en';
+import ptBR from './i18n/ptBR';
 
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate';
 import './style.css';
@@ -19,6 +20,7 @@ const i18n = VueI18n.createI18n({
   messages: {
     en,
     zh,
+    ptBR
   },
 });
 

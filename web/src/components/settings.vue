@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ModelSelect, SearchEngineSelect, LocalModelSelect, LanguageSelect } from './';
+import { ModelSelect, SearchEngineSelect, LocalModelSelect, LocalProviderSelect, LanguageSelect } from './';
 import { RiSunLine, RiMoonLine } from '@remixicon/vue';
 import { useAppStore } from '../store';
 import { type SwitchValue } from 'tdesign-vue-next';
@@ -53,6 +53,10 @@ export default {
                 </template>
               </template>
             </t-switch>
+          </div>
+          <div class="mt-2 flex w-full flex-col gap-2">
+            <div class="">{{ t('localProvider') }}</div>
+            <LocalProviderSelect />
           </div>
           <div class="mt-2 flex w-full flex-col gap-2">
             <div class="">{{ t('localModel') }}</div>

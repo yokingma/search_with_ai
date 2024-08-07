@@ -15,6 +15,8 @@ export interface IChatInputMessage {
   role: ChatRoleType;
 }
 
+export type Provider = 'ollama' | 'lmstudio';
+
 export interface IChatResponse {
   text: string;
   usage?: {

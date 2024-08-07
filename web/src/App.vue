@@ -13,6 +13,7 @@ function followSystemLanguage() {
   const lan = window.navigator.language;
   if (!appStore.language) {
     if (lan.includes('zh')) appStore.updateLanguage('zh');
+    else if (lan.includes('ptBR')) appStore.updateLanguage('ptBR');
     else appStore.updateLanguage('en');
   }
   locale.value = appStore.language ?? 'en';

@@ -1,4 +1,4 @@
-import { EBackend, IChatInputMessage, IStreamHandler, SearchFunc, TMode } from './interface';
+import { EBackend, IChatInputMessage, IStreamHandler, Provider, SearchFunc, TMode } from './interface';
 import { searchWithBing, searchWithGoogle, searchWithSogou, searchWithSearXNG } from './service';
 import { DeepQueryPrompt, MoreQuestionsPrompt, RagQueryPrompt, TranslatePrompt } from './prompt';
 import platform from './platform';
@@ -12,6 +12,7 @@ interface RagOptions {
   model?: string
   // use local llm?
   locally?: boolean
+  provider?: Provider
 }
 
 // const CACHE_NAME = 'search_with_ai';
@@ -26,10 +27,10 @@ export class Rag {
   private backend: EBackend;
 
   constructor(params?: RagOptions) {
-    const { backend = EBackend.SEARXNG, stream = true, model, locally } = params || {};
+    const { backend = EBackend.SEARXNG, stream = true, model, locally, provider } = params || {};
     if (!model) throw new Error('model is required');
-    if (locally) {
-      this.chat = platform.local.chatStream.bind(platform.local);
+    if (locally && provider) {
+      this.chat = platform[provider].chatStream.bind(platform[provider]);
     } else {
       const chat = processModel(model);
       if (!chat) throw new Error('model is not supported');
@@ -65,7 +66,7 @@ export class Rag {
       const rewrite = await this.translate(query)
       if (rewrite) searchQuery = rewrite;
     }
-    
+
     // Parameters supported by searxng: categories.
     const contexts = await this.search(searchQuery, categories, language);
     console.log(`[search [${categories}] results]`, contexts.length);
@@ -121,7 +122,7 @@ export class Rag {
         return res.split('\n');
       }
       await this.chat(messages, onMessage, model);
-    } catch(err) {
+    } catch (err) {
       console.error('[LLM Error]:', err);
       return [];
     }
@@ -174,7 +175,7 @@ export class Rag {
   }
 
   private paramsFormatter(query: string, mode: TMode = 'simple', contexts: any[], type: 'answer' | 'related') {
-    const context = contexts.map((item, index) => `[[citation:${index + 1}]] ${item.snippet}` ).join('\n\n');
+    const context = contexts.map((item, index) => `[[citation:${index + 1}]] ${item.snippet}`).join('\n\n');
     let prompt = type === 'answer' ? RagQueryPrompt : MoreQuestionsPrompt;
 
     // deep answer

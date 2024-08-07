@@ -1,5 +1,5 @@
 import { fetchEventData } from 'fetch-sse';
-import { IMessage, TSearCategory, TSearchMode } from './interface';
+import { IMessage, Provider, TSearCategory, TSearchMode } from './interface';
 const BASE_URL = import.meta.env.MODE === 'development' ? 'http://127.0.0.1:3000' : '';
 
 const SEARCH = '/api/search';
@@ -10,6 +10,7 @@ export interface IQueryOptions {
   ctrl?: AbortController
   stream?: boolean
   model?: string | null
+  provider?: Provider | null
   engine?: string | null
   locally?: boolean
   system?: string
@@ -23,7 +24,7 @@ export interface IQueryOptions {
   onError?: (e: any) => void
 }
 export async function search(q: string, options: IQueryOptions) {
-  const { ctrl, stream = true, model, engine, reload = false, mode, categories, locally, language, onMessage, onOpen, onClose, onError } = options;
+  const { ctrl, stream = true, model, provider, engine, reload = false, mode, categories, locally, language, onMessage, onOpen, onClose, onError } = options;
   const query = new URLSearchParams({
     q
   });
@@ -34,6 +35,7 @@ export async function search(q: string, options: IQueryOptions) {
     data: {
       stream,
       model,
+      provider,
       mode,
       language,
       categories,
@@ -97,7 +99,7 @@ export async function getModels() {
   return res.json();
 }
 
-export async function getLocalModels() {
-  const res = await fetch(`${BASE_URL}${LOCAL_MODELS}`);
+export async function getLocalModels(provider: Provider) {
+  const res = await fetch(`${BASE_URL}${LOCAL_MODELS}?provider=${provider}`);
   return res.json();
 }

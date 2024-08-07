@@ -8,7 +8,8 @@ import { moonshot } from './moonshot';
 import { lepton } from './lepton';
 import { deepseek } from './deepseek';
 import { chatglm } from './chatglm';
-import { local } from './ollama';
+import { ollama } from './ollama';
+import { lmstudio } from './lmstudio'
 
 const platform = {
   aliyun,
@@ -21,7 +22,8 @@ const platform = {
   chatglm,
   moonshot,
   lepton,
-  local
+  ollama,
+  lmstudio
 };
 
 export default platform;
