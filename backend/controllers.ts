@@ -3,7 +3,7 @@ import { Rag } from './rag';
 import platform from './platform';
 import { DefaultQuery, Models } from './constant';
 import { searchWithSogou } from './service';
-import { EBackend, IChatInputMessage, TMode } from './interface';
+import { EBackend, IChatInputMessage, Provider, TMode } from './interface';
 import { getFromCache, setToCache } from './cache';
 import { ESearXNGCategory } from './search/searxng';
 
@@ -19,6 +19,7 @@ export const searchController = async (ctx: Context) => {
   const categories: ESearXNGCategory[] = ctx.request.body.categories ?? [];
   const mode: TMode = ctx.request.body.mode ?? 'simple';
   const language: string = ctx.request.body.language || 'all';
+  const provider: Provider = ctx.request.body.provider || 'ollama';
 
   ctx.res.setHeader('Content-Type', 'text/event-stream');
   ctx.res.setHeader('Cache-Control', 'no-cache');
@@ -40,7 +41,8 @@ export const searchController = async (ctx: Context) => {
     stream,
     model,
     backend: engine,
-    locally
+    locally,
+    provider
   });
 
   if (!stream) {
@@ -75,13 +77,14 @@ export const chatStreamController = async (ctx: Context) => {
   const system: string | undefined = ctx.request.body.system;
   const model: string | undefined = ctx.request.body.model;
   const locally: boolean = ctx.request.body.locally ?? false;
+  const provider: Provider = ctx.request.body.provider ?? 'ollama';
 
   if (!model) throw new Error('model is required');
 
   ctx.res.setHeader('Content-Type', 'text/event-stream');
   ctx.res.setHeader('Cache-Control', 'no-cache');
   ctx.res.setHeader('Connection', 'keep-alive');
-  const handler = locally ? platform.local.chatStream.bind(platform.local) : processModel(model);
+  const handler = locally ? platform[provider].chatStream.bind(platform[provider]) : processModel(model);
   ctx.res.statusCode = 200;
 
   await handler?.(messages, (data: any) => {
@@ -116,7 +119,9 @@ export const modelsController = async (ctx: Context) => {
 
 // locally llm models
 export const localModelsController = async (ctx: Context) => {
-  const list = await platform.local.list();
+  const provider: Provider = ctx.URL.searchParams.get('provider') as Provider ?? 'ollama';
+
+  const list = await platform[provider].list();
   ctx.body = list;
 };
 
@@ -125,11 +130,13 @@ export const localModelsController = async (ctx: Context) => {
 export const localChatStreamController = async (ctx: Context) => {
   const messages: IChatInputMessage[] = ctx.request.body.messages || [];
   const model: string | undefined = ctx.request.body.model;
+  const provider: Provider = ctx.request.body.provider;
+
   ctx.res.setHeader('Content-Type', 'text/event-stream');
   ctx.res.setHeader('Cache-Control', 'no-cache');
   ctx.res.setHeader('Connection', 'keep-alive');
   ctx.res.statusCode = 200;
-  await platform.local.chatStream(messages, (data) => {
+  await platform[provider].chatStream(messages, (data) => {
     const eventData = `data: ${JSON.stringify({ text: data || '' })}\n\n`;
     ctx.res.write(eventData);
   }, model);

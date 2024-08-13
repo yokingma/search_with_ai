@@ -12,6 +12,8 @@ export interface ISelectOptions {
 
 export type Role = 'user' | 'assistant'
 
+export type Provider = 'ollama' | 'lmstudio';
+
 export interface IMessage {
   role: Role;
   content: string;
