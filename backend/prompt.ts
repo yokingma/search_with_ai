@@ -160,4 +160,4 @@ You are a professional translation expert, adept at accurately translating sourc
 
 Please translate the following text to %s:
 %s
-`
+`;

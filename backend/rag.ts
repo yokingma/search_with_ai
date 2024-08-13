@@ -62,10 +62,10 @@ export class Rag {
     let searchQuery = query;
     // rewrite query for [SCIENCE]
     if (categories.includes(ESearXNGCategory.SCIENCE)) {
-      const rewrite = await this.translate(query)
+      const rewrite = await this.translate(query);
       if (rewrite) searchQuery = rewrite;
     }
-    
+
     // Parameters supported by searxng: categories.
     const contexts = await this.search(searchQuery, categories, language);
     console.log(`[search [${categories}] results]`, contexts.length);
@@ -156,14 +156,14 @@ export class Rag {
           content
         }
       ];
-      console.log(content)
+      console.log(content);
       let translated = '';
       if (!this.stream) {
         const res = await this.chat(messages, this.model);
         translated = res;
       } else {
         await this.chat(messages, (msg: string) => {
-          if (msg) translated += msg
+          if (msg) translated += msg;
         }, this.model);
       }
       return translated;
