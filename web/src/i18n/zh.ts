@@ -24,6 +24,9 @@ export default {
   selectEngine: '选择搜索引擎',
   selectLanguage: '选择语言',
   localModel: '本地大模型',
+  localProvider: '本地服务端',
+  selectProvider: '选择服务端',
+  provider: '服务方',
   enableLocalModel: '启用本地大模型',
   warning: '搜索生成的内容由AI大模型和搜索引擎生成，内容不代表我们的态度或观点，仅供研究学习用途。',
   message: {

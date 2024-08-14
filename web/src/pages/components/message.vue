@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { IMessage } from 'src/interface';
+import { IMessage } from '../../interface';
 import { useI18n } from 'vue-i18n';
 import { marked } from 'marked';
 import { RiRefreshLine } from '@remixicon/vue';

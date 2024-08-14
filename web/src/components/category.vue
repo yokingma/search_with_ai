@@ -3,7 +3,7 @@ import { useAppStore } from '../store';
 import { SearXNGCategories } from '../contants';
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { TSearCategory } from 'src/interface';
+import { TSearCategory } from '../interface';
 
 const { t } = useI18n();
 

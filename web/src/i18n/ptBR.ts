@@ -25,6 +25,8 @@ export default {
     selectEngine: 'Select Search Engine',
     localModel: 'Local LLM',
     localProvider: 'Local Provider',
+    selectProvider: 'Select Provider',
+    provider: 'PROVIDER',
     enableLocalModel: 'Ativar Local LLM',
     warning: 'Conteúdo gerado por IA, e a eficácia não pode ser garantida.',
     message: {

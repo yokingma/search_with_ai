@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { IMessage } from 'src/interface';
+import { IMessage } from '../../interface';
 import { computed, ref, watch } from 'vue';
 import ChatMessage from './message.vue';
 import { useAppStore } from '../../store';

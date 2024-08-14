@@ -9,7 +9,7 @@ import { lepton } from './lepton';
 import { deepseek } from './deepseek';
 import { chatglm } from './chatglm';
 import { ollama } from './ollama';
-import { lmstudio } from './lmstudio'
+import { lmstudio } from './lmstudio';
 
 const platform = {
   aliyun,

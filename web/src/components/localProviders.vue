@@ -2,7 +2,7 @@
 import { ref, onMounted, watch } from 'vue';
 import { useAppStore } from '../store';
 import { useI18n } from 'vue-i18n';
-import { Provider } from 'src/interface';
+import { Provider } from '../interface';
 
 const appStore = useAppStore();
 const provider = ref(appStore.localProvider);
@@ -43,8 +43,14 @@ export default {
 </script>
 
 <template>
-  <t-select v-model="provider" :disabled="!appStore.enableLocal" :loading="loading" :label="t('PROVIDER')"
-    :placeholder="t('selectProvider')" @change="onModelSelect">
+  <t-select
+    v-model="provider"
+    :disabled="!appStore.enableLocal"
+    :loading="loading"
+    :label="t('provider')"
+    :placeholder="t('selectProvider')"
+    @change="onModelSelect"
+  >
     <t-option v-for="(item, index) in providers" :key="index" :value="item" :label="item"></t-option>
   </t-select>
 </template>
