@@ -7,9 +7,13 @@ type Emits = {
 
 type Props = {
   loading: boolean
+  limit: number
 }
 const { t } = useI18n();
-const props = defineProps<Props>();
+
+const props = withDefaults(defineProps<Props>(), {
+  limit: 520
+});
 
 const emits = defineEmits<Emits>();
 
@@ -33,7 +37,7 @@ export default {
 <template>
   <div id="ask" class="flex items-center justify-center">
     <div class="w-10/12 overflow-hidden rounded-3xl border border-gray-100 bg-white dark:border-gray-300 dark:bg-zinc-700">
-      <t-input v-model="query" :disabled="props.loading" clearable :autofocus="false" :maxlength="100" size="large" :placeholder="t('tips.continue')" @enter="onAsk" />
+      <t-input v-model="query" :disabled="props.loading" clearable :autofocus="false" :maxlength="limit" size="large" :placeholder="t('tips.continue')" @enter="onAsk" />
     </div>
   </div>
 </template>
