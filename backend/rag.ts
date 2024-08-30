@@ -157,7 +157,7 @@ export class Rag {
           content
         }
       ];
-      console.log(content);
+      // console.log(content);
       let translated = '';
       if (!this.stream) {
         const res = await this.chat(messages, this.model);
