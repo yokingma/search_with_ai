@@ -2,9 +2,9 @@
 
 [English](./README.md) **中文**  
 
-```更新时间: 2024/06/06```
+```更新时间: 2024/08/31```
 
-基于AI大语言模型的对话式搜索引擎的一个基本实现，基于Node.js&Vue3。适合小白入门AI开发参考:)，文档后有交流群二维码。 [Live Demo](https://isou.chat/)  
+基于AI大语言模型的对话式搜索引擎，基于Node.js&Vue3。一个简单实现，适合入门AI大模型开发参考:)，文档后有交流群二维码。 [Live Demo](https://isou.chat/)  
 
 <div align="center">
  <img src="./screenshot_cn.jpg"></img>
@@ -20,13 +20,13 @@
 * Web界面支持暗色模式。
 * Web界面支持移动端。
 * 支持搜索引擎切换、AI模型切换。
-* 支持本地大模型（基于Ollama）。
+* 支持本地大模型（基于Ollama、llmStudio）。
 * 支持多语言(i18n)。
 * 支持根据结果上下文继续问答。
-* 支持缓存结果、强制重新生成结果。
-* 支持图片搜索(update date: 2024/05/27)。
+* 支持缓存结果、强制刷新结果。
+* 支持图片搜索。
 
-## 使用 Docker 一键安装部署
+## 使用 Docker 安装部署
 
 > 文档后面有微信群二维码，有疑问也可以加入群交流。
 
@@ -34,54 +34,46 @@
 
 [安装Docker](https://docs.docker.com/install/).
 
-* **克隆仓库**
+1、**克隆仓库**
 
 ```shell
 git clone https://github.com/yokingma/search_with_ai.git
 cd search_with_ai
 ```
 
-* **编辑** [.env.docker](https://github.com/yokingma/search_with_ai/blob/main/.env)
+2、**编辑** [.env.docker](https://github.com/yokingma/search_with_ai/blob/main/.env)
 
-如果你想一键快速体验，这里不需要修改任何配置，直接运行下面的docker compose即可。
+在此处配置你的KEY[如 OpenAI、Google、DeepSeek、阿里云、百度、腾讯]即可。
 
 ```shell
-...
+# 示例
 # openai KEY, docker compose 默认带了FreeGPT35，如果你没有自己的Key, 这里保持默认
-OPENAI_KEY=freegpt35
-# openai proxy
-OPENAI_PROXY_URL=http://freegpt35:3040/v1
+OPENAI_KEY=#your key
+# openai Base Url, 
+OPENAI_PROXY_URL=#OpenAI Base Url, 或者你的OneAPI接口也是支持的。
 ...
-# 如果需要在docker中访问本地部署的Ollama, 你可能不用改变这个变量。
+# 如果需要在docker中访问本地部署的Ollama, 你可能不用改变这个。
 OLLAMA_HOST=http://host.docker.internal:11434
 
 # docker compose 默认带了SearXNG免费聚合搜索, 默认不需要修改
 SEARXNG_HOSTNAME=http://searxng:8080
 ```
 
-* **运行docker-compose. (不需要任何KYE)**
+3、 **运行docker-compose.**
 
-默认包含了 SearXNG 和 FreeGPT3.5，只需要运行：
-> 前提是确保你的网络环境能访问Google&OpenAI
+默认包含了 SearXNG，只需要运行：
 
 ```shell
 docker compose up -d
 ```
 
-* 或者你也可以选择手动构建和运行（**可选的**）
-
-```shell
-docker build -t my_image .
-docker run -d -p 3000:3000 --name my_app my_image
-```
-
 浏览器访问 <http://localhost:3000>
 
-* **更新**
+4、 **更新**
 
 1. 运行 ```git pull``` （注意保存你的.env设置）
 
-2. 删除所有旧的容器和镜像
+2. 删除旧版本的镜像
 3. 执行 ```docker compose down```
 4. 执行 ```docker compose up -d```
 
@@ -99,17 +91,15 @@ docker run -d -p 3000:3000 --name my_app my_image
 * DeepSeek
 * ChatGLM
 * 腾讯混元
-* Ollama
+* 本地大模型支持：Ollama、LLMStudio
 
-#### 本地大模型支持（无需Key）
-
-支持[Ollama](https://github.com/ollama/ollama)运行的本地大模型。运行的时候只需要启动ollama即可。
+> 如果有新的模型项目暂时不支持的，可以修改(/backend/constant.ts)文件，添加新的模型名称即可。
 
 ## 搜索引擎配置
 
 内置了搜索引擎服务：Bing、Sogou、Google、SearXNG。
 
-#### SearXNG (免费开源，不需要KEY)
+#### 推荐使用SearXNG (免费开源，不需要KEY)
 
 安装 [SearXNG](https://github.com/searxng/searxng) ，推荐用Docker部署 [searxng-docker](https://github.com/searxng/searxng-docker)
 > SearXNG 是一款免费的互联网元搜索引擎，它集合了来自多个搜索服务和数据库的结果。该服务不会追踪或构建其用户档案，为寻求在线匿名性的用户提供保护。此外，SearXNG 还可通过 Tor 网络来实现在线匿名访问。
@@ -148,13 +138,13 @@ server:
 
 #### Sogou搜索
 
-内置的Sogou搜索并非直接调用API实现（似乎没有开放的API），只是通过网页搜索获取搜索结果。
-> 内置的Sogou搜索优点是免费的，**但是会触发人机验证**，遇到不返回参考资料的情况可以手动打开sogou.com随便搜索关键词，根据提示手动验证一下解除。
+内置的Sogou搜索并非直接调用API实现，只是通过简单的网页爬取获取搜索结果。
+> 内置的Sogou搜索本地测试用（只是简单的网页爬取），**会触发人机验证**，遇到不返回参考资料的情况可以手动打开sogou.com随便搜索关键词，根据提示手动验证一下解除。
 
 ## 普通安装部署
 
 需要：
-> Node.js >= 18
+> Node.js >= 20
 
 国内用户推荐使用阿里云通译千问大模型，在阿里云[模型服务灵积](https://dashscope.aliyun.com/)注册可以获取密钥(key)，通译千问部分API使用是免费的(qwen-max、qwen-max-1201、qwen-max-longcontext)，除了longcontext模型其他限制是60次请求/分钟。
 
@@ -172,57 +162,9 @@ cd web && yarn install && yarn run build
 
 * **配置** (.env)
 
-```ts
-# Bing search key
-BING_SEARCH_KEY=
-# Google search key
-GOOGLE_SEARCH_KEY=
-GOOGLE_SEARCH_ID=
-# aliyun key
-ALIYUN_KEY=
-# Yi Key
-YI_KEY=
-# google gemini
-GOOGLE_KEY=
-GOOGLE_PROXY_URL=
-# baidu
-BAIDU_KEY=
-BAIDU_SECRET=
-# tencent KEY:ID, SECRET:KEY
-TENCENT_KEY=
-TENCENT_SECRET=
-# openai key
-OPENAI_KEY=freeduckduckgo
-# openai proxy, default is for docker-compose, could modify if you need.
-OPENAI_PROXY_URL=http://freeduckduckgo:3456/v1
-# deepseek
-DEEPSEEK_KEY=#your_key
-# chatglm
-GLM_KEY=#your_key
-# moonshot
-MOONSHOT_KEY=
-# lepthon key
-LEPTON_KEY=
-# Local llm: Ollama hostname, could modify if you need.
-OLLAMA_HOST=http://host.docker.internal:11434
-# Searxng hostname, could modify if you need.
-SEARXNG_HOSTNAME=http://searxng:8080
-# The count of resources referenced
-REFERENCE_COUNT=8
-# Whitelist domains, eg. isou.chat,example.org, skip if empty.
-WHITELIST_DOMAINS=
-# Server Port
-PORT=3000
-# SearXNG query options, safesearch: Filter search results,  0: None 1: Moderate 2: Strict.
-SEARXNG_SAFE=0
-# SearXNG query options, language: default is 'all', eg. all/zh/en/en-US/de/it-IT/fr..., this setting has the highest priority.
-SEARXNG_LANGUAGE=
-# document: https://docs.searxng.org/user/configured_engines.html
-SEARXNG_ENGINES=bing,google
-SEARXNG_IMAGES_ENGINES=bing
-# enable cache, 1 enable, 0 disable
-CACHE_ENABLE=1
-```
+各项配置在[.env](https://github.com/yokingma/search_with_ai/blob/main/.env)文件中，请按照需求配置即可。
+
+[.env.docker](https://github.com/yokingma/search_with_ai/blob/main/.env.docker) 是docker部署使用到的配置文件。
 
 * **启动**
 在项目根目录中执行:

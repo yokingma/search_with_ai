@@ -2,7 +2,7 @@
 
 **English** [中文](./README_CN.md)  
 
-```Updated: 2024/05/27```
+```Updated: 2024/08/31```
 
 Build your own conversation-based search with AI, a simple implementation with Node.js & Vue3. [Live Demo](https://isou.chat/)  
 
@@ -15,36 +15,36 @@ repo: [GitHub](https://github.com/yokingma/search_with_ai)、 [Gitee](https://gi
 ## Features
 
 * Built-in support for LLM: OpenAI, Google, Lepton, DeepSeek, Ollama(local)
-* Built-in support for search engine: Bing, Sogou, Google, SearXNG(Free)
+* Built-in support for search engine: Bing, Google, SearXNG(Free)
 * Customizable pretty UI interface
 * Support dark mode
 * Support mobile display
-* Support local LLM with Ollama
+* Support Ollama, [LMStudio](https://github.com/lmstudio-ai/lms)
 * Support i18n
 * Support Continue Q&A with contexts.
-* Support Cache results, Force regeneration.
-* Support images search. (update date: 2024/05/27)
+* Support Cache results, Force reload.
+* Support images search.
 
 ## Deploy with Docker (recommended)
 
 [Install Docker](https://docs.docker.com/install/).
 
-* **Get the code.**
+1.**Get the code.**
 
 ```shell
 git clone https://github.com/yokingma/search_with_ai.git
 cd search_with_ai
 ```
 
-* **Edit** [.env.docker](https://github.com/yokingma/search_with_ai/blob/main/.env) **file.**
+2.**Edit** [.env.docker](https://github.com/yokingma/search_with_ai/blob/main/.env) **file.**
 
-For a quick start, no need to modify any configuration here, just run docker compose below.
+KEY is required.
 
 ```shell
 ...
-# default is for docker-compose, could modify if you need.
-OPENAI_KEY=freegpt35
-OPENAI_PROXY_URL=http://freegpt35:3040/v1
+# OpenAI's key & baseUrl
+OPENAI_KEY=#your key
+OPENAI_PROXY_URL=#baseURL
 
 # Local llm: Ollama hostname, could modify if you need.
 OLLAMA_HOST=http://host.docker.internal:11434
@@ -53,37 +53,26 @@ OLLAMA_HOST=http://host.docker.internal:11434
 SEARXNG_HOSTNAME=http://searxng:8080
 ```
 
-* **run with docker-compose. (No Key required)**
-
-this contains SearXNG and FreeGPT3.5 default, just run
+3.**run with docker-compose.**
 
 ```shell
 docker compose up -d
 ```
 
-* or build and run with docker manually. (**optional**)
-
-```shell
-docker build -t my_image .
-docker run -d -p 3000:3000 --name my_app my_image
-# linux run with host network
-# docker run -d --network host --name my_app my_image
-```
-
 then visit <http://localhost:3000>
 
-* **Update**
+4.**Update**
 
 Remember to save your **.env** settings if it has been changed before.
 
 1. run ```git pull```
-2. Delete all old containers and images using Docker Desktop or Docker CLI
+2. Delete old images using Docker Desktop or Docker CLI
 3. run ```docker compose down```
 4. run ```docker compose up -d```
 
-## LLM
+## LLMs
 
-#### Support API (needs KEY)
+#### Support
 
 * OpenAI ChatGPT
 * Google Gemini
@@ -95,15 +84,15 @@ Remember to save your **.env** settings if it has been changed before.
 * DeepSeek
 * ChatGLM
 * Tencent Hunyuan
-* Ollama
+* Ollama, LMStudio
 
 #### Local LLM
 
-Support [Ollama](https://github.com/ollama/ollama), just need run ollama serve.
+Support [Ollama](https://github.com/ollama/ollama), [LMStudio](https://github.com/lmstudio-ai/lms)
 
 ## Search Engine
 
-Built-in support for search engine: Bing, Sogou, Google, SearXNG
+Built-in support for search engine: Bing, Google, SearXNG
 
 #### SearXNG (Free, No Key required)
 
@@ -141,14 +130,10 @@ To use the Bing Web Search API, please visit [this link](https://www.microsoft.c
 
 You have three options for Google Search: you can use the SearchApi Google Search API from [SearchApi](https://www.searchapi.io/), [Serper](https://www.serper.dev/) Google Search API from Serper, or opt for the [Programmable Search Engine](https://developers.google.com/custom-search) provided by Google.
 
-#### Sogou Search
-
-For users in China.
-
-## Step by step setup
+## Setup
 
 Required:
-> Node.js >= 18
+> Node.js >= 20
 
 * **Server**
 
@@ -164,57 +149,9 @@ cd web && yarn install && yarn run build
 
 * **Config(.env)**
 
-```ts
-# Bing search key
-BING_SEARCH_KEY=
-# Google search key
-GOOGLE_SEARCH_KEY=
-GOOGLE_SEARCH_ID=
-# aliyun key
-ALIYUN_KEY=
-# Yi Key
-YI_KEY=
-# google gemini
-GOOGLE_KEY=
-GOOGLE_PROXY_URL=
-# baidu
-BAIDU_KEY=
-BAIDU_SECRET=
-# tencent KEY:ID, SECRET:KEY
-TENCENT_KEY=
-TENCENT_SECRET=
-# openai key
-OPENAI_KEY=freeduckduckgo
-# openai proxy, default is for docker-compose, could modify if you need.
-OPENAI_PROXY_URL=http://freeduckduckgo:3456/v1
-# deepseek
-DEEPSEEK_KEY=#your_key
-# chatglm
-GLM_KEY=#your_key
-# moonshot
-MOONSHOT_KEY=
-# lepthon key
-LEPTON_KEY=
-# Local llm: Ollama hostname, could modify if you need.
-OLLAMA_HOST=http://host.docker.internal:11434
-# Searxng hostname, could modify if you need.
-SEARXNG_HOSTNAME=http://searxng:8080
-# The count of resources referenced
-REFERENCE_COUNT=8
-# Whitelist domains, eg. isou.chat,example.org, skip if empty.
-WHITELIST_DOMAINS=
-# Server Port
-PORT=3000
-# SearXNG query options, safesearch: Filter search results,  0: None 1: Moderate 2: Strict.
-SEARXNG_SAFE=0
-# SearXNG query options, language: default is 'all', eg. all/zh/en/en-US/de/it-IT/fr..., this setting has the highest priority.
-SEARXNG_LANGUAGE=
-# document: https://docs.searxng.org/user/configured_engines.html
-SEARXNG_ENGINES=bing,google
-SEARXNG_IMAGES_ENGINES=bing
-# enable cache, 1 enable, 0 disable
-CACHE_ENABLE=1
-```
+[.env](https://github.com/yokingma/search_with_ai/blob/main/.env) is the project configuration file. Please configure it according to your requirements.
+
+[.env.docker](https://github.com/yokingma/search_with_ai/blob/main/.env.docker) is for docker deployment.
 
 * **Run**
 In the root of the project:
