@@ -10,13 +10,6 @@ services:
       - "3000:3000"
     restart: always
 
-  freeduckduckgo:
-    image: ghcr.io/missuo/freeduckduckgo:latest
-    container_name: freeduckduckgo
-    restart: always
-    #ports:
-    #  - "3456:3456"
-
   searxng:
     container_name: searxng
     image: docker.io/searxng/searxng:latest
