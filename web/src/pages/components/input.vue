@@ -7,7 +7,7 @@ type Emits = {
 
 type Props = {
   loading: boolean
-  limit: number
+  limit?: number
 }
 const { t } = useI18n();
 

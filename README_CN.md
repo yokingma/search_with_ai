@@ -20,7 +20,7 @@
 * Web界面支持暗色模式。
 * Web界面支持移动端。
 * 支持搜索引擎切换、AI模型切换。
-* 支持本地大模型（基于Ollama、llmStudio）。
+* 支持本地大模型（基于Ollama、lmStudio）。
 * 支持多语言(i18n)。
 * 支持根据结果上下文继续问答。
 * 支持缓存结果、强制刷新结果。
@@ -91,7 +91,7 @@ docker compose up -d
 * DeepSeek
 * ChatGLM
 * 腾讯混元
-* 本地大模型支持：Ollama、LLMStudio
+* 本地大模型支持：Ollama、LMStudio
 
 > 如果有新的模型项目暂时不支持的，可以修改(/backend/constant.ts)文件，添加新的模型名称即可。
 

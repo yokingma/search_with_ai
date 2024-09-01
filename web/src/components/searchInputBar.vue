@@ -8,7 +8,7 @@ type Emits = {
 type Props = {
   loading: boolean
   autofocus: boolean
-  limit: number
+  limit?: number
 }
 
 const { t } = useI18n();
