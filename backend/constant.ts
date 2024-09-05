@@ -19,12 +19,12 @@ export const Models: IModelInfo[] = [
   {
     platform: 'aliyun',
     type: '',
-    models: ['qwen-max', 'qwen-max-1201', 'qwen-turbo', 'qwen-plus']
+    models: ['qwen-max', 'qwen-max-0428', 'qwen-turbo', 'qwen-plus']
   },
   {
     platform: 'openai',
     type: 'openai',
-    models: ['gpt-3.5-turbo', 'gpt-4-0125-preview', 'gpt-4-turbo-preview', 'gpt-4o']
+    models: ['gpt-4o', 'gpt-4o-mini', 'chatgpt-4o-latest', 'gpt-3.5-turbo', 'gpt-4-preview', 'gpt-4-turbo', 'gpt-4']
   },
   {
     platform: 'baidu',
@@ -34,12 +34,12 @@ export const Models: IModelInfo[] = [
   {
     platform: 'google',
     type: 'gemini',
-    models: ['gemini-pro', 'gemini-1.5-pro-latest']
+    models: ['gemini-1.0-pro', 'gemini-1.5-pro', 'gemini-1.5-flash']
   },
   {
     platform: 'yi',
     type: 'openai',
-    models: ['yi-34b-chat-0205', 'yi-34b-chat-200k']
+    models: ['yi-large', 'yi-large-turbo', 'yi-medium', 'yi-spark']
   },
   {
     platform: 'moonshot',
@@ -59,7 +59,7 @@ export const Models: IModelInfo[] = [
   {
     platform: 'chatglm',
     type: 'openai',
-    models: ['glm-4', 'glm-4v', 'glm-3-turbo']
+    models: ['glm-4', 'glm-4-plus', 'glm-4-air', 'glm-4-airx', 'glm-4-flash']
   },
   {
     platform: 'tencent',
