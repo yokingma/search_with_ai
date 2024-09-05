@@ -7,7 +7,7 @@
 基于AI大语言模型的对话式搜索引擎，基于Node.js&Vue3。一个简单实现，适合入门AI大模型开发参考:)，文档后有交流群二维码。 [Live Demo](https://isou.chat/)  
 
 <div align="center">
- <img src="./screenshot_cn.jpg"></img>
+ <img src="./assets//screenshot_cn.jpg"></img>
 </div>
 
 仓库地址：[GitHub仓库](https://github.com/yokingma/search_with_ai)、 [Gitee仓库](https://gitee.com/zac_ma/search_with_ai)  
@@ -192,5 +192,5 @@ cd web && yarn install && yarn run build
 * [sou.mofa.chat](https://sou.mofa.chat)
 
 <div align="center">
- <img src="./qrcode.jpg"></img>
+ <img src="./assets/qrcode.jpg"></img>
 </div>

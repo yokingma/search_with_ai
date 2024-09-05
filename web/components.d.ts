@@ -40,7 +40,6 @@ declare module 'vue' {
     TSkeleton: typeof import('tdesign-vue-next')['Skeleton']
     TSwitch: typeof import('tdesign-vue-next')['Switch']
     TTag: typeof import('tdesign-vue-next')['Tag']
-    TTextarea: typeof import('tdesign-vue-next')['Textarea']
     TTooltip: typeof import('tdesign-vue-next')['Tooltip']
   }
 }
