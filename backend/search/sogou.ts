@@ -1,5 +1,5 @@
 import * as cheerio from 'cheerio';
-import { httpRequest } from '../utils';
+import { httpRequest } from '../utils/utils';
 
 const EndPoints = {
   WEB: 'https://www.sogou.com/web',

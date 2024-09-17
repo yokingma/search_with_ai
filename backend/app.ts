@@ -4,9 +4,9 @@ import cors from '@koa/cors';
 import { bodyParser } from '@koa/bodyparser';
 import serve from 'koa-static';
 import path from 'path';
-import { whiteListMiddleware } from './middlewares';
+import { whiteListMiddleware } from './middleware';
 import history from 'koa2-connect-history-api-fallback';
-import { chatStreamController, localChatStreamController, localModelsController, modelsController, searchController, sogouSearchController } from './controllers';
+import { chatStreamController, localChatStreamController, localModelsController, modelsController, searchController, sogouSearchController } from './controller';
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore

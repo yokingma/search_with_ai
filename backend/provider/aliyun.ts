@@ -1,5 +1,5 @@
 import { IChatInputMessage, IStreamHandler } from '../interface';
-import { httpRequest } from '../utils';
+import { httpRequest } from '../utils/utils';
 import { BaseChat } from './base/base';
 import { fetchEventData } from 'fetch-sse';
 

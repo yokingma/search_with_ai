@@ -1,7 +1,8 @@
-import { EndPoint, DEFAULT_SEARCH_ENGINE_TIMEOUT, BING_MKT } from './constant';
-import { httpRequest } from './utils';
+import { EndPoint, DEFAULT_SEARCH_ENGINE_TIMEOUT, BING_MKT } from './utils/constant';
+import { httpRequest } from './utils/utils';
 import { Sogou } from './search/sogou';
 import searxng, { ESearXNGCategory } from './search/searxng';
+import { webSearch } from './search/chatglm';
 
 
 export const searchWithSearXNG = async (
@@ -108,6 +109,20 @@ export const searchWithSogou = async (query: string) => {
     return {
       id: index + 1,
       ...item
+    };
+  });
+};
+
+export const searchWithChatGLM = async (query: string) => {
+  const results = await webSearch(query);
+  return results.map((item, index) => {
+    return {
+      id: index + 1,
+      name: item.title,
+      url: item.link,
+      snippet: item.content,
+      icon: item.icon,
+      media: item.media,
     };
   });
 };

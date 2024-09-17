@@ -1,9 +1,9 @@
 import { Context } from 'koa';
 import { Rag } from './rag';
-import platform from './platform';
-import { DefaultQuery, Models } from './constant';
+import platform from './provider';
+import { DefaultQuery, Models } from './utils/constant';
 import { searchWithSogou } from './service';
-import { EBackend, IChatInputMessage, Provider, TMode } from './interface';
+import { ESearchEngine, IChatInputMessage, Provider, TMode } from './interface';
 import { getFromCache, setToCache } from './cache';
 import { ESearXNGCategory } from './search/searxng';
 
@@ -14,7 +14,7 @@ export const searchController = async (ctx: Context) => {
   const q = ctx.request.query.q || DefaultQuery;
   const model: string = ctx.request.body.model;
   const reload: boolean = ctx.request.body.reload ?? false;
-  const engine: EBackend = ctx.request.body.engine;
+  const engine: ESearchEngine = ctx.request.body.engine;
   const locally: boolean = ctx.request.body.locally ?? false;
   const categories: ESearXNGCategory[] = ctx.request.body.categories ?? [];
   const mode: TMode = ctx.request.body.mode ?? 'simple';
@@ -40,7 +40,7 @@ export const searchController = async (ctx: Context) => {
   const rag = new Rag({
     stream,
     model,
-    backend: engine,
+    engine,
     locally,
     provider
   });

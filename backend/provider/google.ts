@@ -1,7 +1,7 @@
 import { BaseChat } from './base/base';
 import { IChatInputMessage, IStreamHandler } from '../interface';
-import { DefaultSystem } from '../constant';
-import { httpRequest } from '../utils';
+import { DefaultSystem } from '../utils/constant';
+import { httpRequest } from '../utils/utils';
 import { fetchEventData } from 'fetch-sse';
 
 const BASE_URL = 'https://generativelanguage.googleapis.com/v1beta';

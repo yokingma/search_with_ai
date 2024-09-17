@@ -1,4 +1,4 @@
-import { IModelInfo } from './interface';
+import { IModelInfo } from '../interface';
 
 // Search engine related. You don't really need to change this.
 export const EndPoint = {

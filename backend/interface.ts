@@ -1,12 +1,13 @@
-import platform from './platform';
+import platform from './provider';
 
 export type SearchFunc = (...args: any[]) => Promise<any[]>;
 
-export enum EBackend {
+export enum ESearchEngine {
   GOOGLE = 'GOOGLE',
   BING = 'BING',
   SOGOU = 'SOGOU',
-  SEARXNG = 'SEARXNG'
+  SEARXNG = 'SEARXNG',
+  CHATGLM = 'CHATGLM'
 }
 
 export type ChatRoleType = 'user' | 'assistant' | 'system';

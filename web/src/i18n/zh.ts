@@ -12,6 +12,7 @@ export default {
   search: '搜索引擎',
   newChat: '新会话',
   sogou: '搜狗',
+  chatglm: 'ChatGLM',
   bing: '必应搜索',
   google: '谷歌搜索',
   searxng: 'SearXNG',

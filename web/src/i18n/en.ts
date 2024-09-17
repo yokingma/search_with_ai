@@ -12,6 +12,7 @@ export default {
   search: 'Engine',
   newChat: 'New Q&A',
   sogou: 'Sogou',
+  chatglm: 'ChatGLM',
   bing: 'Bing',
   google: 'Google',
   searxng: 'SearXNG',
