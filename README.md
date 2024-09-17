@@ -2,12 +2,12 @@
 
 **English** [中文](./README_CN.md)  
 
-```Updated: 2024/08/31```
+```Updated: 2024/09/17```
 
 Build your own conversation-based search with AI, a simple implementation with Node.js & Vue3. [Live Demo](https://isou.chat/)  
 
 <div align="center">
- <img src="./assets//screenshot.jpg"></img>
+ <img src="./assets/screenshot.jpg"></img>
 </div>
 
 repo: [GitHub](https://github.com/yokingma/search_with_ai)、 [Gitee](https://gitee.com/zac_ma/search_with_ai)  
@@ -16,6 +16,7 @@ repo: [GitHub](https://github.com/yokingma/search_with_ai)、 [Gitee](https://gi
 
 * Built-in support for LLM: OpenAI, Google, Lepton, DeepSeek, Ollama(local)
 * Built-in support for search engine: Bing, Google, SearXNG(Free)
+* Built-in support for web search plugin: ChatGLM
 * Customizable pretty UI interface
 * Support dark mode
 * Support mobile display
@@ -130,6 +131,11 @@ To use the Bing Web Search API, please visit [this link](https://www.microsoft.c
 
 You have three options for Google Search: you can use the SearchApi Google Search API from [SearchApi](https://www.searchapi.io/), [Serper](https://www.serper.dev/) Google Search API from Serper, or opt for the [Programmable Search Engine](https://developers.google.com/custom-search) provided by Google.
 
+#### ChatGLM Web Search
+
+[2024/09/17] Added Zhipu AI's ChatGLM Web Search plugin, used as a Chinese search engine.
+> Zhipu AI's glm-flash is currently free, and its Web Search plugin is also free. Based on these two, ChatGLM has been added as a free Chinese search engine.
+
 ## Setup
 
 Required:
@@ -170,3 +176,7 @@ cd web && yarn install && yarn run build
 ```
 
 Now you can visit <http://localhost:3000>
+
+<div align="center">
+ <img src="./assets/qrcode.jpg"></img>
+</div>

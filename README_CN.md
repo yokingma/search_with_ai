@@ -2,12 +2,12 @@
 
 [English](./README.md) **中文**  
 
-```更新时间: 2024/08/31```
+```更新时间: 2024/09/17```
 
-基于AI大语言模型的对话式搜索引擎，基于Node.js&Vue3。一个简单实现，适合入门AI大模型开发参考:)，文档后有交流群二维码。 [Live Demo](https://isou.chat/)  
+基于AI大语言模型的对话式搜索引擎，基于Node.js&Vue3。适合新手入门AI大模型开发参考:)，文档后有交流群二维码。 [Live Demo](https://isou.chat/)  
 
 <div align="center">
- <img src="./assets//screenshot_cn.jpg"></img>
+ <img src="./assets/screenshot_cn.jpg"></img>
 </div>
 
 仓库地址：[GitHub仓库](https://github.com/yokingma/search_with_ai)、 [Gitee仓库](https://gitee.com/zac_ma/search_with_ai)  
@@ -16,6 +16,7 @@
 
 * 内置主流的LLM接口支持，如OpenAI、Google、通译千问、百度文心一言、Lepton、DeepSeek。
 * 内置搜索引擎支持，如Bing、Sogou、Google、SearXNG（免费开源）。
+* 支持ChatGLM Web搜索插件 [作为搜索引擎,目前免费]。
 * 简洁的搜索对话Web界面。
 * Web界面支持暗色模式。
 * Web界面支持移动端。
@@ -83,17 +84,17 @@ docker compose up -d
 
 * OpenAI ChatGPT
 * Google Gemini
-* Lepton LLama2、Mixtral8*7B
+* Lepton
 * 阿里云通译千问
 * 百度文心一言
 * 零一万物
-* 月之暗面（Kimi）
+* 月之暗面
 * DeepSeek
 * ChatGLM
 * 腾讯混元
 * 本地大模型支持：Ollama、LMStudio
 
-> 如果有新的模型项目暂时不支持的，可以修改(/backend/constant.ts)文件，添加新的模型名称即可。
+> 如果有新的模型项目暂时不支持的，可以修改(/backend/utils/constant.ts)文件，添加新的模型名称即可。
 
 ## 搜索引擎配置
 
@@ -140,6 +141,10 @@ server:
 
 内置的Sogou搜索并非直接调用API实现，只是通过简单的网页爬取获取搜索结果。
 > 内置的Sogou搜索本地测试用（只是简单的网页爬取），**会触发人机验证**，遇到不返回参考资料的情况可以手动打开sogou.com随便搜索关键词，根据提示手动验证一下解除。
+
+#### ChatGLM Web Search插件
+[2024/09/17] 新增智谱AI的ChatGLM Web Search插件，作为中文搜索引擎使用。
+> 智谱AI的glm-flash目前免费，其Web Search插件目前也是免费，基于结合这两者新增了ChatGLM作为免费的中文搜索引擎。
 
 ## 普通安装部署
 
