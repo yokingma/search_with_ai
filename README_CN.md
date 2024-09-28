@@ -189,6 +189,92 @@ cd web && yarn install && yarn run build
 
 启动成功后可以在浏览器打开<http://localhost:3000> 即可使用。
 
+## API
+
+项目前后端分离， 如果你需要使用API服务，也可以单独部署后端服务。
+
+HOST: <http://localhost:3000>
+
+- ```POST /api/search```  AI搜索
+
+```json
+// 请求参数 Request body
+{
+  "q": "今日新闻", // [必填]搜索关键词
+  "model": "qwen-max", // [必填]模型名称
+  "engine": "bing", // [必填]搜索引擎，默认bing
+
+  "stream": true, // [可选]是否流式输出，默认true
+  "reload": false, // [可选]是否强制刷新缓存，默认false
+  "categories": [], // [可选]SearXNG搜索引擎分类，默认[]
+  "mode": "simple", // [可选]搜索模式，type TMode = "simple" | "deep" | "research"
+  "language": "all", // [可选]SearXNG搜索引擎语言
+  "locally": false, // [可选]是否使用本地大模型
+  "provider": "ollama" // [可选]本地大模型服务, 默认ollama
+}
+```
+
+**[stream = false] 非流式输出**
+
+```json
+// 响应参数 Response body
+{
+  "answer": "text", // AI回答答案
+  "contexts": [], // 上下文搜索结果
+  "related": [], // 相关搜索问题
+  "images": [], // 图片搜索结果
+}
+```
+
+**[stream = true] 流式输出**
+
+```text
+data: {"data": { "answer": "I" } }\n\n
+data: {"data": { "answer": "'m " } }\n\n
+data: {"data": { "answer": "a robot" } }\n\n
+data: {"data": { "image": {...} } }\n\n
+data: {"data": { "image": {...} } }\n\n
+data: {"data": { "context": {...} } }\n\n
+data: {"data": { "context": {...} } }\n\n
+data: {"data": { "related": {...} } }\n\n
+data: {"data": { "related": {...} } }\n\n
+```
+
+参数类型说明
+
+```ts
+// 搜索引擎支持类型
+export enum ESearchEngine {
+  GOOGLE = 'GOOGLE',
+  BING = 'BING',
+  SOGOU = 'SOGOU',
+  SEARXNG = 'SEARXNG',
+  CHATGLM = 'CHATGLM'
+}
+
+// SearXNG搜索引擎分类
+export enum ESearXNGCategory {
+  SCIENCE = 'science',
+  IT = 'it',
+  GENERAL = 'general',
+  IMAGES = 'images',
+  VIDEOS = 'videos',
+  NEWS = 'news',
+  MUSIC = 'music'
+}
+
+// 搜索模式
+export type TMode = 'simple' | 'deep' | 'research'
+
+// 本地大模型服务
+export type Provider = 'ollama' | 'lmstudio';
+```
+
+
+- ```GET /api/models``` 获取模型列表
+
+- ```GET /api/local/models``` 本地模型列表
+
 ## 部署案例展示
 
 * [UI版本]( https://github.com/onenov/search_with_ai ) 一个漂亮的UI实现

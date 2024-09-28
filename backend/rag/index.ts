@@ -1,9 +1,9 @@
 import { ESearchEngine, IChatInputMessage, IStreamHandler, Provider, SearchFunc, TMode } from '../interface';
 import { searchWithBing, searchWithGoogle, searchWithSogou, searchWithSearXNG, searchWithChatGLM } from '../service';
 import { DeepQueryPrompt, MoreQuestionsPrompt, RagQueryPrompt, TranslatePrompt } from './prompt';
-import platform from '../provider';
-import { Models } from '../utils/constant';
 import { ESearXNGCategory } from '../search/searxng';
+import platform from '../provider';
+import { Models } from '../model';
 import util from 'util';
 
 interface RagOptions {
@@ -76,6 +76,22 @@ export class Rag {
     console.log('[search mode]', mode);
     const REFERENCE_COUNT = process.env.REFERENCE_COUNT || 8;
     const limitContexts = contexts.slice(0, +REFERENCE_COUNT);
+
+    let images: Record<string, any>[] = [];
+
+    // searxng images search
+    if (this.engine === ESearchEngine.SEARXNG) {
+      const res = await this.search(query, [ESearXNGCategory.IMAGES], language);
+      const engines = process.env.SEARXNG_IMAGES_ENGINES ? process.env.SEARXNG_IMAGES_ENGINES.split(',') : [];
+
+      images = res.filter(item => {
+        if (!item.thumbnail) return false;
+        if (engines.length > 0)
+          return engines.some(engine => item.engine?.includes(engine));
+        return item.engine?.includes('bing') || item.engine?.includes('google');
+      });
+    }
+
     if (!this.stream) {
       const relatedPromise = this.getRelatedQuestions(query, limitContexts);
       const answerPromise = this.getAiAnswer(query, contexts);
@@ -83,35 +99,27 @@ export class Rag {
       return {
         related,
         answer,
+        images,
         contexts: limitContexts
       };
     }
-    // searxng images search
-    if (this.engine === ESearchEngine.SEARXNG) {
-      const res = await this.search(query, [ESearXNGCategory.IMAGES], language);
-      const engines = process.env.SEARXNG_IMAGES_ENGINES ? process.env.SEARXNG_IMAGES_ENGINES.split(',') : [];
 
-      const images = res.filter(item => {
-        if (!item.thumbnail) return false;
-        if (engines.length > 0)
-          return engines.some(engine => item.engine?.includes(engine));
-        return item.engine?.includes('bing') || item.engine?.includes('google');
-      });
-
-      for (const image of images) {
-        onMessage?.(JSON.stringify({ image }));
-      }
+    for (const image of images) {
+      onMessage?.(JSON.stringify({ image }));
     }
 
     for (const context of limitContexts) {
       onMessage?.(JSON.stringify({ context }));
     }
+
     await this.getAiAnswer(query, limitContexts, mode, (msg) => {
       onMessage?.(JSON.stringify({ answer: msg }));
     });
+
     await this.getRelatedQuestions(query, limitContexts, (msg) => {
       onMessage?.(JSON.stringify({ related: msg }));
     });
+
     onMessage?.(null, true);
   }
 
