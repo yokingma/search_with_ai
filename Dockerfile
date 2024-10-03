@@ -14,9 +14,10 @@ FROM node:20-alpine
 WORKDIR /app
 
 # Install dotenvx
-RUN curl -fsS https://dotenvx.sh/ | sh
+RUN curl -fsS https://dotenvx.sh/ | sh && \
+  apk del curl
 
-COPY .env /app
+# COPY .env /app
 
 COPY --from=build /app/dist ./dist
 COPY --from=build /app/backend ./backend
@@ -24,7 +25,9 @@ COPY --from=build /app/web/build ./web/build
 COPY --from=build /app/package.json ./
 
 # RUN yarn config set registry https://mirrors.cloud.tencent.com/npm/
-RUN yarn install --production && yarn cache clean
+RUN yarn install --production --frozen-lockfile && \
+  yarn cache clean && \
+  apk del curl
 
 EXPOSE 3000
-CMD yarn run start
+CMD ["yarn", "run", "start"]
