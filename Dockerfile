@@ -12,7 +12,7 @@ RUN yarn install && yarn run build
 WORKDIR /app/web
 RUN yarn install && yarn run build
 
-FROM node:20-alpine
+FROM node:20-alpine AS production
 WORKDIR /app
 
 # 安装 curl，下载并安装 dotenvx，然后删除 curl

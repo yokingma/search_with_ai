@@ -2,8 +2,11 @@ version: "3.7"
 
 services:
   search:
-    build: ./
-    container_name: search
+    container_name: aisearch
+    # You can build locally
+    # build: ./
+    # Or you can use our pre-built image
+    image: zacma/aisearch:latest
     volumes:
       - ./.env.docker:/app/.env
     ports:
