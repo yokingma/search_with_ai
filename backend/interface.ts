@@ -2,13 +2,7 @@ import platform from './provider';
 
 export type SearchFunc = (...args: any[]) => Promise<any[]>;
 
-export enum ESearchEngine {
-  GOOGLE = 'GOOGLE',
-  BING = 'BING',
-  SOGOU = 'SOGOU',
-  SEARXNG = 'SEARXNG',
-  CHATGLM = 'CHATGLM'
-}
+export type TSearchEngine = 'GOOGLE' | 'BING' | 'SOGOU' | 'SEARXNG' | 'CHATGLM';
 
 export type ChatRoleType = 'user' | 'assistant' | 'system';
 export interface IChatInputMessage {

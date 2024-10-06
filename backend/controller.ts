@@ -4,7 +4,7 @@ import platform from './provider';
 import { DefaultQuery } from './utils/constant';
 import { Models } from './model';
 import { searchWithSogou } from './service';
-import { ESearchEngine, IChatInputMessage, Provider, TMode } from './interface';
+import { TSearchEngine, IChatInputMessage, Provider, TMode } from './interface';
 import { getFromCache, setToCache } from './cache';
 import { ESearXNGCategory } from './search/searxng';
 
@@ -15,7 +15,7 @@ export const searchController = async (ctx: Context) => {
   const q = ctx.request.query.q || DefaultQuery;
   const model: string = ctx.request.body.model;
   const reload: boolean = ctx.request.body.reload ?? false;
-  const engine: ESearchEngine = ctx.request.body.engine;
+  const engine: TSearchEngine = ctx.request.body.engine;
   const locally: boolean = ctx.request.body.locally ?? false;
   const categories: ESearXNGCategory[] = ctx.request.body.categories ?? [];
   const mode: TMode = ctx.request.body.mode ?? 'simple';

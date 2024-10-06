@@ -1,4 +1,4 @@
-import { ESearchEngine, IChatInputMessage, IStreamHandler, Provider, SearchFunc, TMode } from '../interface';
+import { TSearchEngine, IChatInputMessage, IStreamHandler, Provider, SearchFunc, TMode } from '../interface';
 import { searchWithBing, searchWithGoogle, searchWithSogou, searchWithSearXNG, searchWithChatGLM } from '../service';
 import { DeepQueryPrompt, MoreQuestionsPrompt, RagQueryPrompt, TranslatePrompt } from './prompt';
 import { ESearXNGCategory } from '../search/searxng';
@@ -7,7 +7,7 @@ import { Models } from '../model';
 import util from 'util';
 
 interface RagOptions {
-  engine?: ESearchEngine
+  engine?: TSearchEngine
   stream?: boolean
   model?: string
   // use local llm?
@@ -24,10 +24,10 @@ export class Rag {
   // enable stream?
   private stream: boolean;
   // search engine
-  private engine: ESearchEngine;
+  private engine: TSearchEngine;
 
   constructor(params?: RagOptions) {
-    const { engine = ESearchEngine.SEARXNG, stream = true, model, locally, provider } = params || {};
+    const { engine = 'SEARXNG', stream = true, model, locally, provider } = params || {};
     if (!model) throw new Error('model is required');
     if (locally && provider) {
       this.chat = platform[provider].chatStream.bind(platform[provider]);
@@ -42,19 +42,19 @@ export class Rag {
     console.info('[query with local llm]:', locally);
     this.engine = engine;
     switch (engine) {
-      case ESearchEngine.GOOGLE:
+      case 'GOOGLE':
         this.search = searchWithGoogle;
         break;
-      case ESearchEngine.BING:
+      case 'BING':
         this.search = searchWithBing;
         break;
-      case ESearchEngine.SOGOU:
+      case 'SOGOU':
         this.search = searchWithSogou;
         break;
-      case ESearchEngine.SEARXNG:
+      case 'SEARXNG':
         this.search = searchWithSearXNG;
         break;
-      case ESearchEngine.CHATGLM:
+      case 'CHATGLM':
         this.search = searchWithChatGLM;
         break;
       default:
@@ -65,7 +65,7 @@ export class Rag {
   public async query(query: string, categories = [ESearXNGCategory.GENERAL], mode: TMode = 'simple', language = 'all', onMessage?: (...args: any[]) => void) {
     let searchQuery = query;
     // rewrite query for [SCIENCE]
-    if (categories.includes(ESearXNGCategory.SCIENCE) && this.engine === ESearchEngine.SEARXNG) {
+    if (categories.includes(ESearXNGCategory.SCIENCE) && this.engine === 'SEARXNG') {
       const rewrite = await this.translate(query);
       if (rewrite) searchQuery = rewrite;
     }
@@ -80,7 +80,7 @@ export class Rag {
     let images: Record<string, any>[] = [];
 
     // searxng images search
-    if (this.engine === ESearchEngine.SEARXNG) {
+    if (this.engine === 'SEARXNG') {
       const res = await this.search(query, [ESearXNGCategory.IMAGES], language);
       const engines = process.env.SEARXNG_IMAGES_ENGINES ? process.env.SEARXNG_IMAGES_ENGINES.split(',') : [];
 
