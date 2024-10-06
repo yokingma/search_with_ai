@@ -2,7 +2,7 @@
 
 [English](./README.md) **中文**  
 
-```更新时间: 2024/09/17```
+```更新时间: 2024/10/06```
 
 基于AI大语言模型的对话式搜索引擎，基于Node.js&Vue3。适合新手入门AI大模型开发参考:)，文档后有交流群二维码。 [Live Demo](https://isou.chat/)  
 
@@ -35,6 +35,8 @@
 
 [安装Docker](https://docs.docker.com/install/).
 
+> 项目预构建镜像 [Docker Hub](https://hub.docker.com/r/zacma/aisearch)
+
 1、**克隆仓库**
 
 ```shell
@@ -42,9 +44,10 @@ git clone https://github.com/yokingma/search_with_ai.git
 cd search_with_ai
 ```
 
-2、**编辑** [.env.docker](https://github.com/yokingma/search_with_ai/blob/main/.env)
+2、**编辑** [.env.docker](https://github.com/yokingma/search_with_ai/blob/main/.env) 文件位于```docker```目录下
 
-在此处配置你的KEY[如 OpenAI、Google、DeepSeek、阿里云、百度、腾讯]即可。
+在此处配置你的KEY[如 OpenAI、Google、DeepSeek、阿里云 ]即可。
+> 如果修改了.env.docker文件，只需要重启Docker容器即可生效。
 
 ```shell
 # 示例
@@ -53,18 +56,14 @@ OPENAI_KEY=#your key
 # openai Base Url, 
 OPENAI_PROXY_URL=#OpenAI Base Url, 或者你的OneAPI接口也是支持的。
 ...
-# 如果需要在docker中访问本地部署的Ollama, 你可能不用改变这个。
-OLLAMA_HOST=http://host.docker.internal:11434
-
-# docker compose 默认带了SearXNG免费聚合搜索, 默认不需要修改
+# docker compose 部署默认带了SearXNG聚合搜索, 默认不需要修改
 SEARXNG_HOSTNAME=http://searxng:8080
 ```
 
-3、 **运行docker-compose.**
-
-默认包含了 SearXNG，只需要运行：
+3、 在```docker```目录下运行：
 
 ```shell
+# 默认包含了 SearXNG 服务
 docker compose up -d
 ```
 
@@ -72,11 +71,9 @@ docker compose up -d
 
 4、 **更新**
 
-1. 运行 ```git pull``` （注意保存你的.env设置）
-
-2. 删除旧版本的镜像
-3. 执行 ```docker compose down```
-4. 执行 ```docker compose up -d```
+1. 手动删除旧版本的镜像（如果需要）
+2. 执行 ```docker compose down```
+3. 执行 ```docker compose up -d```
 
 ## 大模型支持
 
@@ -151,7 +148,7 @@ server:
 需要：
 > Node.js >= 20
 
-国内用户推荐使用阿里云通译千问大模型，在阿里云[模型服务灵积](https://dashscope.aliyun.com/)注册可以获取密钥(key)，通译千问部分API使用是免费的(qwen-max、qwen-max-1201、qwen-max-longcontext)，除了longcontext模型其他限制是60次请求/分钟。
+国内用户推荐使用阿里云通译千问、DeepSeek、ChatGLM等大模型服务
 
 * **服务端**
 
@@ -169,7 +166,7 @@ cd web && yarn install && yarn run build
 
 各项配置在[.env](https://github.com/yokingma/search_with_ai/blob/main/.env)文件中，请按照需求配置即可。
 
-[.env.docker](https://github.com/yokingma/search_with_ai/blob/main/.env.docker) 是docker部署使用到的配置文件。
+> [.env.docker](https://github.com/yokingma/search_with_ai/blob/main/.env.docker) 是docker部署配置文件。
 
 * **启动**
 在项目根目录中执行:

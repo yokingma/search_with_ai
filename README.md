@@ -2,7 +2,7 @@
 
 **English** [中文](./README_CN.md)  
 
-```Updated: 2024/09/17```
+```Updated: 2024/10/06```
 
 Build your own conversation-based search with AI, a simple implementation with Node.js & Vue3. [Live Demo](https://isou.chat/)  
 
@@ -29,6 +29,7 @@ repo: [GitHub](https://github.com/yokingma/search_with_ai)、 [Gitee](https://gi
 ## Deploy with Docker (recommended)
 
 [Install Docker](https://docs.docker.com/install/).
+> Project pre-built image [Docker Hub](https://hub.docker.com/r/zacma/aisearch)
 
 1.**Get the code.**
 
@@ -37,9 +38,11 @@ git clone https://github.com/yokingma/search_with_ai.git
 cd search_with_ai
 ```
 
-2.**Edit** [.env.docker](https://github.com/yokingma/search_with_ai/blob/main/.env) **file.**
+2.**Edit** [.env.docker](https://github.com/yokingma/search_with_ai/blob/main/.env) **file.** in ```docker``` directory.
 
-KEY is required.
+> If you modify the .env.docker file, simply restart the Docker container for the changes to take effect.
+
+You must set at least one KEY.
 
 ```shell
 ...
@@ -47,10 +50,7 @@ KEY is required.
 OPENAI_KEY=#your key
 OPENAI_PROXY_URL=#baseURL
 
-# Local llm: Ollama hostname, could modify if you need.
-OLLAMA_HOST=http://host.docker.internal:11434
-
-# Searxng hostname, could modify if you need.
+# Searxng hostname.
 SEARXNG_HOSTNAME=http://searxng:8080
 ```
 
@@ -64,12 +64,9 @@ then visit <http://localhost:3000>
 
 4.**Update**
 
-Remember to save your **.env** settings if it has been changed before.
-
-1. run ```git pull```
-2. Delete old images using Docker Desktop or Docker CLI
-3. run ```docker compose down```
-4. run ```docker compose up -d```
+1. Delete old images using Docker Desktop or Docker CLI (if needed)
+2. run ```docker compose down```
+3. run ```docker compose up -d```
 
 ## LLMs
 
