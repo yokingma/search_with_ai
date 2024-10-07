@@ -1,6 +1,6 @@
 # Search with AI
 
-**English** [中文](./README_CN.md)  
+**English** [中文](./README_CN.md) [日本語](./README_JP.md)
 
 ```Updated: 2024/10/06```
 
