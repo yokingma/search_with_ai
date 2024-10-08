@@ -2,7 +2,7 @@ import { Context } from 'koa';
 import { Rag } from './rag';
 import platform from './provider';
 import { DefaultQuery } from './utils/constant';
-import { Models } from './model';
+import Models from './model.json';
 import { searchWithSogou } from './service';
 import { TSearchEngine, IChatInputMessage, Provider, TMode } from './interface';
 import { getFromCache, setToCache } from './cache';
@@ -150,7 +150,7 @@ function processModel(model: string) {
     return item.models.includes(model);
   });
   if (targetModel?.platform) {
-    const target = platform[targetModel.platform];
+    const target = platform[targetModel.platform as keyof typeof platform];
     return target.chatStream.bind(target);
   }
 }

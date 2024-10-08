@@ -3,7 +3,7 @@ import { searchWithBing, searchWithGoogle, searchWithSogou, searchWithSearXNG, s
 import { DeepQueryPrompt, MoreQuestionsPrompt, RagQueryPrompt, TranslatePrompt } from './prompt';
 import { ESearXNGCategory } from '../search/searxng';
 import platform from '../provider';
-import { Models } from '../model';
+import Models from '../model.json';
 import util from 'util';
 
 interface RagOptions {
@@ -212,7 +212,7 @@ function processModel(model: string) {
     return item.models.includes(model);
   });
   if (targetModel?.platform) {
-    const target = platform[targetModel.platform];
+    const target = platform[targetModel.platform as keyof typeof platform];
     return target.chatStream.bind(target);
   }
 }

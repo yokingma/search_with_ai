@@ -14,6 +14,7 @@
     "forceConsistentCasingInFileNames": true,
     "outDir": "./dist",
     "rootDir": "backend",
+    "resolveJsonModule": true,
     "strict": true,
     "esModuleInterop": true,
     "strictPropertyInitialization": false
