@@ -280,5 +280,6 @@ export type Provider = 'ollama' | 'lmstudio';
 * [sou.mofa.chat](https://sou.mofa.chat)
 
 <div align="center">
- <img src="./assets/qrcode.jpg"></img>
+ <img width="200" src="./assets/wechat.jpg"></img>
+ <div>扫码添加助手进群交流</div>
 </div>

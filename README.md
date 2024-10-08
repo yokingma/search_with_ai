@@ -173,7 +173,3 @@ cd web && yarn install && yarn run build
 ```
 
 Now you can visit <http://localhost:3000>
-
-<div align="center">
- <img src="./assets/qrcode.jpg"></img>
-</div>

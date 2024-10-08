@@ -173,7 +173,3 @@ cd web && yarn install && yarn run build
 ```
 
 これで<http://localhost:3000>にアクセスできます。
-
-<div align="center">
- <img src="./assets/qrcode.jpg"></img>
-</div>
