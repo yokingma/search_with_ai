@@ -1,10 +1,18 @@
-# AIで検索
+<br>
+<p align="center" style="font-size: 32px;"><b>AIで検索</b></p>
+<p align="center">
+  AIを使った会話ベースの検索エンジンを構築するためのシンプルな実装です。Node.js & Vue3を使用しています。
+</p>
+<p align="center">
+  <a href="https://isou.chat/">ライブデモ</a>
+</p>
 
-[English](./README.md) [中文](./README_CN.md) **日本語**
-
-```更新日: 2024/10/06```
-
-AIを使った会話ベースの検索エンジンを構築するためのシンプルな実装です。Node.js & Vue3を使用しています。 [ライブデモ](https://isou.chat/)
+<p align="center">
+  <a href="https://github.com/yokingma/search_with_ai/stargazers"><img src="https://img.shields.io/github/stars/yokingma/search_with_ai" alt="Github Stars"></a>
+  <a href="https://github.com/yokingma/search_with_ai/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-purple" alt="License"></a>
+  <a href="https://github.com/yokingma/search_with_ai/issues/new"><img src="https://img.shields.io/badge/Report a bug-Github-%231F80C0" alt="Report a bug"></a>
+  <a href="https://github.com/yokingma/search_with_ai/discussions/new?category=q-a"><img src="https://img.shields.io/badge/Ask a question-Github-%231F80C0" alt="Ask a question"></a>
+</p>
 
 <div align="center">
  <img src="./assets/screenshot.jpg"></img>
@@ -29,7 +37,7 @@ AIを使った会話ベースの検索エンジンを構築するためのシン
 ## Dockerでのデプロイ (推奨)
 
 [Dockerのインストール](https://docs.docker.com/install/).
-> プロジェクトの事前構築イメージ [Docker Hub](https://hub.docker.com/r/zacma/aisearch)
+> プロジェクトの事前構築イメージ [Docker Hub](https://hub.docker.com/r/zacma/aisearch/tags)
 
 1.**コードを取得します。**
 

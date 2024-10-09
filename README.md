@@ -1,16 +1,26 @@
-# Search with AI
+<br>
+<p align="center" style="font-size: 32px;"><b>Search with AI</b></p>
+<p align="center">
+  Build your own conversation-based search with AI, a simple implementation with Node.js & Vue3.
+</p>
+<p align="center">
+  <a href="https://isou.chat/">Live Demo</a>
+</p>
+
+<p align="center">
+  <a href="https://github.com/yokingma/search_with_ai/stargazers"><img src="https://img.shields.io/github/stars/yokingma/search_with_ai" alt="Github Stars"></a>
+  <a href="https://github.com/yokingma/search_with_ai/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-purple" alt="License"></a>
+  <a href="https://github.com/yokingma/search_with_ai/issues/new"><img src="https://img.shields.io/badge/Report a bug-Github-%231F80C0" alt="Report a bug"></a>
+  <a href="https://github.com/yokingma/search_with_ai/discussions/new?category=q-a"><img src="https://img.shields.io/badge/Ask a question-Github-%231F80C0" alt="Ask a question"></a>
+</p>
 
 **English** [中文](./README_CN.md) [日本語](./README_JP.md)
-
-```Updated: 2024/10/06```
-
-Build your own conversation-based search with AI, a simple implementation with Node.js & Vue3. [Live Demo](https://isou.chat/)  
 
 <div align="center">
  <img src="./assets/screenshot.jpg"></img>
 </div>
 
-repo: [GitHub](https://github.com/yokingma/search_with_ai)、 [Gitee](https://gitee.com/zac_ma/search_with_ai)  
+Repo: [GitHub](https://github.com/yokingma/search_with_ai)、 [Gitee](https://gitee.com/zac_ma/search_with_ai)  
 
 ## Features
 
@@ -29,7 +39,7 @@ repo: [GitHub](https://github.com/yokingma/search_with_ai)、 [Gitee](https://gi
 ## Deploy with Docker (recommended)
 
 [Install Docker](https://docs.docker.com/install/).
-> Project pre-built image [Docker Hub](https://hub.docker.com/r/zacma/aisearch)
+> Project pre-built image [Docker Hub](https://hub.docker.com/r/zacma/aisearch/tags)
 
 1.**Get the code.**
 

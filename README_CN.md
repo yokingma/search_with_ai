@@ -1,10 +1,20 @@
-# Search with AI
+<br>
+<p align="center" style="font-size: 32px;"><b>Search with AI</b></p>
+<p align="center">
+  基于AI大语言模型的对话式搜索引擎，基于Node.js&Vue3。适合新手入门AI大模型开发参考:)，文档后有交流群二维码。
+</p>
+<p align="center">
+  <a href="https://isou.chat/">Live Demo</a>
+</p>
 
-[English](./README.md) **中文** [日本語](./README_JP.md)
+<p align="center">
+  <a href="https://github.com/yokingma/search_with_ai/stargazers"><img src="https://img.shields.io/github/stars/yokingma/search_with_ai" alt="Github Stars"></a>
+  <a href="https://github.com/yokingma/search_with_ai/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-purple" alt="License"></a>
+  <a href="https://github.com/yokingma/search_with_ai/issues/new"><img src="https://img.shields.io/badge/Report a bug-Github-%231F80C0" alt="Report a bug"></a>
+  <a href="https://github.com/yokingma/search_with_ai/discussions/new?category=q-a"><img src="https://img.shields.io/badge/Ask a question-Github-%231F80C0" alt="Ask a question"></a>
+</p>
 
-```更新时间: 2024/10/06```
-
-基于AI大语言模型的对话式搜索引擎，基于Node.js&Vue3。适合新手入门AI大模型开发参考:)，文档后有交流群二维码。 [Live Demo](https://isou.chat/)  
+**English** [中文](./README_CN.md) [日本語](./README_JP.md)
 
 <div align="center">
  <img src="./assets/screenshot_cn.jpg"></img>
@@ -35,7 +45,7 @@
 
 [安装Docker](https://docs.docker.com/install/).
 
-> 项目预构建镜像 [Docker Hub](https://hub.docker.com/r/zacma/aisearch)
+> 项目预构建镜像 [Docker Hub](https://hub.docker.com/r/zacma/aisearch/tags)
 
 1、**克隆仓库**
 
