@@ -14,19 +14,19 @@
   <a href="https://github.com/yokingma/search_with_ai/discussions/new?category=q-a"><img src="https://img.shields.io/badge/Ask a question-Github-%231F80C0" alt="Ask a question"></a>
 </p>
 
-**English** [中文](./README_CN.md) [日本語](./README_JP.md)
+[English](./README.md) **中文** [日本語](./README_JP.md)
 
 <div align="center">
  <img src="./assets/screenshot_cn.jpg"></img>
 </div>
 
-仓库地址：[GitHub仓库](https://github.com/yokingma/search_with_ai)、 [Gitee仓库](https://gitee.com/zac_ma/search_with_ai)  
+仓库地址：[GitHub仓库](https://github.com/yokingma/search_with_ai) [Gitee仓库](https://gitee.com/zac_ma/search_with_ai) [CNB](https://cnb.cool/isou/AiSearch) 
 
 ## 功能说明
 
 * 内置主流的LLM接口支持，如OpenAI、Google、通译千问、百度文心一言、Lepton、DeepSeek。
 * 内置搜索引擎支持，如Bing、Sogou、Google、SearXNG（免费开源）。
-* 支持ChatGLM Web搜索插件 [作为搜索引擎,目前免费]。
+* 支持ChatGLM Web搜索插件 [作为搜索引擎, 目前免费]。
 * 简洁的搜索对话Web界面。
 * Web界面支持暗色模式。
 * Web界面支持移动端。
@@ -39,7 +39,7 @@
 
 ## 使用 Docker 安装部署
 
-> 文档后面有微信群二维码，有疑问也可以加入群交流。
+> 文档后面二维码加入微信群交流。
 
 **注意：使用SearXNG搜索引擎请确保你的网络能正常访问到Google**
 
@@ -64,13 +64,24 @@ cd search_with_ai
 # openai KEY, docker compose 默认带了FreeGPT35，如果你没有自己的Key, 这里保持默认
 OPENAI_KEY=#your key
 # openai Base Url, 
-OPENAI_PROXY_URL=#OpenAI Base Url, 或者你的OneAPI接口也是支持的。
+OPENAI_PROXY_URL=#OpenAI Base Url, OneAPI接口也是支持的。
 ...
 # docker compose 部署默认带了SearXNG聚合搜索, 默认不需要修改
 SEARXNG_HOSTNAME=http://searxng:8080
 ```
 
-3、 在```docker```目录下运行：
+3、[可选]编辑模型配置文件: ```/docker/model.json```
+
+```json
+{
+  "platform": "openai",
+  "type": "openai",
+  // 增加修改你的模型名称
+  "models": ["o1-preview", "o1-mini", "gpt-4o", "gpt-4o-mini"]
+}
+```
+
+4、在```docker```目录下运行：
 
 ```shell
 # 默认包含了 SearXNG 服务
@@ -79,11 +90,11 @@ docker compose up -d
 
 浏览器访问 <http://localhost:3000>
 
-4、 **更新**
+5、 **更新**
 
-1. 手动删除旧版本的镜像（如果需要）
-2. 执行 ```docker compose down```
-3. 执行 ```docker compose up -d```
+- 手动删除旧版本的镜像（如果需要）
+- 执行 ```docker compose down```
+- 执行 ```docker compose up -d```
 
 ## 大模型支持
 

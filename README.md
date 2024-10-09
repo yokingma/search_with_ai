@@ -20,7 +20,7 @@
  <img src="./assets/screenshot.jpg"></img>
 </div>
 
-Repo: [GitHub](https://github.com/yokingma/search_with_ai)、 [Gitee](https://gitee.com/zac_ma/search_with_ai)  
+Repositories: [GitHub](https://github.com/yokingma/search_with_ai) [Gitee](https://gitee.com/zac_ma/search_with_ai) [CNB](https://cnb.cool/isou/AiSearch) 
 
 ## Features
 
@@ -64,19 +64,30 @@ OPENAI_PROXY_URL=#baseURL
 SEARXNG_HOSTNAME=http://searxng:8080
 ```
 
-3.**run with docker-compose.**
+3.**Edit** [model.json](https://github.com/yokingma/search_with_ai/blob/main/docker/model.json) **file.** [Optional]
+
+```json
+{
+  "platform": "openai",
+  "type": "openai",
+  // add your models
+  "models": ["o1-preview", "o1-mini", "gpt-4o", "gpt-4o-mini"]
+}
+```
+
+4.**run with docker-compose.**
 
 ```shell
 docker compose up -d
 ```
 
-then visit <http://localhost:3000>
+Then visit <http://localhost:3000>
 
-4.**Update**
+5.**Update**
 
-1. Delete old images using Docker Desktop or Docker CLI (if needed)
-2. run ```docker compose down```
-3. run ```docker compose up -d```
+- Delete old images using Docker Desktop or Docker CLI (if needed)
+- run ```docker compose down```
+- run ```docker compose up -d```
 
 ## LLMs
 

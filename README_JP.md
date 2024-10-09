@@ -14,11 +14,13 @@
   <a href="https://github.com/yokingma/search_with_ai/discussions/new?category=q-a"><img src="https://img.shields.io/badge/Ask a question-Github-%231F80C0" alt="Ask a question"></a>
 </p>
 
+[English](./README.md) [中文](./README_CN.md) **日本語**
+
 <div align="center">
  <img src="./assets/screenshot.jpg"></img>
 </div>
 
-リポジトリ: [GitHub](https://github.com/yokingma/search_with_ai)、 [Gitee](https://gitee.com/zac_ma/search_with_ai)
+リポジトリ: [GitHub](https://github.com/yokingma/search_with_ai) [Gitee](https://gitee.com/zac_ma/search_with_ai) [CNB](https://cnb.cool/isou/AiSearch)
 
 ## 機能
 
@@ -62,7 +64,18 @@ OPENAI_PROXY_URL=#baseURL
 SEARXNG_HOSTNAME=http://searxng:8080
 ```
 
-3.**docker-composeで実行します。**
+3.**[model.json](https://github.com/yokingma/search_with_ai/blob/main/docker/model.json) ファイルを編集します。** [オプション]
+
+```json
+{
+  "platform": "openai",
+  "type": "openai",
+  // 追加または変更するモデル
+  "models": ["o1-preview", "o1-mini", "gpt-4o", "gpt-4o-mini"]
+}
+```
+
+4.**docker-composeで実行します。**
 
 ```shell
 docker compose up -d
@@ -70,11 +83,11 @@ docker compose up -d
 
 その後、<http://localhost:3000>にアクセスします。
 
-4.**更新**
+5.**更新**
 
-1. Docker DesktopまたはDocker CLIを使用して古いイメージを削除します（必要に応じて）
-2. ```docker compose down```を実行します。
-3. ```docker compose up -d```を実行します。
+- Docker DesktopまたはDocker CLIを使用して古いイメージを削除します（必要に応じて）
+- ```docker compose down```を実行します。
+- ```docker compose up -d```を実行します。
 
 ## LLMs
 
