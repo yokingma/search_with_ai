@@ -304,3 +304,8 @@ export type Provider = 'ollama' | 'lmstudio';
  <img width="200" src="./assets/wechat.jpg"></img>
  <div>扫码添加助手进群交流</div>
 </div>
+
+
+## 许可证
+
+此存储库的源代码在[MIT许可证](LICENSE)下提供。
