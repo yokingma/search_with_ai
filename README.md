@@ -1,7 +1,8 @@
+# Search with AI
+
 <br>
-<p align="center" style="font-size: 32px;"><b>Search with AI</b></p>
 <p align="center">
-  Build your own conversation-based search with AI, a simple implementation with Node.js & Vue3.
+  Build your conversation-based search with AI, a simple implementation with Node.js & Vue3.
 </p>
 <p align="center">
   <a href="https://isou.chat/">Live Demo</a>
@@ -14,7 +15,11 @@
   <a href="https://github.com/yokingma/search_with_ai/discussions/new?category=q-a"><img src="https://img.shields.io/badge/Ask a question-Github-%231F80C0" alt="Ask a question"></a>
 </p>
 
-**English** [中文](./README_CN.md) [日本語](./README_JP.md)
+<div align="center">
+  
+**English** | [中文](./README_CN.md) | [日本語](./README_JP.md)
+
+</div>
 
 <div align="center">
  <img src="./assets/screenshot.jpg"></img>
