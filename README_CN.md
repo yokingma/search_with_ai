@@ -14,7 +14,11 @@
   <a href="https://github.com/yokingma/search_with_ai/discussions/new?category=q-a"><img src="https://img.shields.io/badge/Ask a question-Github-%231F80C0" alt="Ask a question"></a>
 </p>
 
-[English](./README.md) **中文** [日本語](./README_JP.md)
+<div align="center">
+  
+[English](./README.md) | **中文** | [日本語](./README_JP.md)  | [Français](./README_FR.md)
+
+</div>
 
 <div align="center">
  <img src="./assets/screenshot_cn.jpg"></img>
