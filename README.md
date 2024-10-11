@@ -175,7 +175,7 @@ cd web && yarn install && yarn run build
 
 [.env](https://github.com/yokingma/search_with_ai/blob/main/.env) is the project configuration file. Please configure it according to your requirements.
 
-[.env.docker](https://github.com/yokingma/search_with_ai/blob/main/.env.docker) is for docker deployment.
+[.env.docker](https://github.com/yokingma/search_with_ai/blob/main/docker/.env.docker) is for docker deployment.
 
 * **Run**
 In the root of the project:

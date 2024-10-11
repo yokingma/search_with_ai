@@ -187,7 +187,7 @@ cd web && yarn install && yarn run build
 
 各项配置在[.env](https://github.com/yokingma/search_with_ai/blob/main/.env)文件中，请按照需求配置即可。
 
-> [.env.docker](https://github.com/yokingma/search_with_ai/blob/main/.env.docker) 是docker部署配置文件。
+> [.env.docker](https://github.com/yokingma/search_with_ai/blob/main/docker/.env.docker) 是docker部署配置文件。
 
 * **启动**
 在项目根目录中执行:

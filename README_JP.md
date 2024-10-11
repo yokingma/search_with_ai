@@ -175,7 +175,7 @@ cd web && yarn install && yarn run build
 
 [.env](https://github.com/yokingma/search_with_ai/blob/main/.env)はプロジェクトの設定ファイルです。要件に応じて設定してください。
 
-[.env.docker](https://github.com/yokingma/search_with_ai/blob/main/.env.docker)はdockerデプロイ用です。
+[.env.docker](https://github.com/yokingma/search_with_ai/blob/main/docker/.env.docker)はdockerデプロイ用です。
 
 * **実行**
 プロジェクトのルートで:
