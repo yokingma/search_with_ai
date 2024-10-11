@@ -194,3 +194,8 @@ cd web && yarn install && yarn run build
 ```
 
 これで<http://localhost:3000>にアクセスできます。
+
+## ライセンス
+
+このリポジトリのソースコードは、[MITライセンス](LICENSE)の下で公開されています。
+
