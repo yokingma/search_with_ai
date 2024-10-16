@@ -45,7 +45,9 @@
 
 [安装Docker](https://docs.docker.com/install/).
 
-> 项目预构建镜像 [Docker Hub](https://hub.docker.com/r/zacma/aisearch/tags)
+> 项目预构建Docker镜像
+> 1. [Docker Hub](https://hub.docker.com/r/zacma/aisearch/tags)
+> 2. [CNB.cool](https://cnb.cool/aigc/AiSearch) (国内镜像源 > 制品库)
 
 1、**克隆仓库**
 
