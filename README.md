@@ -1,3 +1,4 @@
+<a name="top"></a>
 # Search with AI
 
 <br>
@@ -203,3 +204,5 @@ Now you can visit <http://localhost:3000>
 ## License
 
 This repository's source code is available under the [MIT License](LICENSE).
+
+[🚀Back to top](#top)
