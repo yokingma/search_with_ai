@@ -1,12 +1,13 @@
 [
   {
     "platform": "aliyun",
-    "type": "",
+    "type": "openai",
     "models": ["qwen-max", "qwen-max-0428", "qwen-turbo", "qwen-plus"]
   },
   {
     "platform": "openai",
     "type": "openai",
+    "baseURL": "https://api.openai.com/v1",
     "models": ["o1-preview", "o1-mini", "gpt-4o", "gpt-4o-mini", "gpt-4o-latest", "gpt-4-preview", "gpt-4-turbo", "gpt-4", "gpt-3.5-turbo"]
   },
   {
@@ -22,31 +23,37 @@
   {
     "platform": "yi",
     "type": "openai",
+    "baseURL": "https://api.lingyiwanwu.com/v1",
     "models": ["yi-large", "yi-large-turbo", "yi-medium", "yi-spark"]
   },
   {
     "platform": "moonshot",
     "type": "openai",
+    "baseURL": "https://api.moonshot.cn/v1",
     "models": ["moonshot-v1-8k", "moonshot-v1-32k", "moonshot-v1-128k"]
   },
   {
     "platform": "lepton",
     "type": "openai",
+    "baseURL": "https://%s.lepton.run/api/v1",
     "models": ["llama2-7b", "llama2-13b", "llama2-70b", "mixtral-8*7b", "mixtral-8*22b"]
   },
   {
     "platform": "deepseek",
     "type": "openai",
+    "baseURL": "https://api.deepseek.com/v1",
     "models": ["deepseek-chat", "deepseek-coder"]
   },
   {
     "platform": "chatglm",
     "type": "openai",
+    "baseURL": "https://open.bigmodel.cn/api/paas/v4/",
     "models": ["glm-4", "glm-4-plus", "glm-4-air", "glm-4-airx", "glm-4-flash"]
   },
   {
     "platform": "tencent",
     "type": "tencent",
+    "baseURL": "https://hunyuan.tencentcloudapi.com",
     "models": ["std", "pro"]
   }
 ]

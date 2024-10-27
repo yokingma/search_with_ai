@@ -11,7 +11,12 @@
       "sourceType": "module"
   },
   "ignorePatterns": [
-    "web/"
+    "web/",
+    "dist/",
+    ".yarn/",
+    "node_modules/",
+    "logs/",
+    "docker/"
   ],
   "overrides": [
     {

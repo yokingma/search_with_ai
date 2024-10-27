@@ -52,4 +52,7 @@ build/
 log/
 logs/
 
+#yarn
+.yarn
+
 .DS_Store

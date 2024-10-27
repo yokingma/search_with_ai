@@ -4,9 +4,10 @@ import { Sogou } from './search/sogou';
 import searxng, { ESearXNGCategory } from './search/searxng';
 import { webSearch } from './search/chatglm';
 import { logger } from './logger';
+import { getConfig } from './config';
 
 // Configuration management using environment variables
-const getEnv = (key: string, defaultValue?: string) => process.env[key] || defaultValue;
+const getEnv = (key: string, defaultValue: string = '') => getConfig(key) || defaultValue;
 
 // Function to search with SearXNG
 export const searchWithSearXNG = async (

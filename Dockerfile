@@ -4,7 +4,7 @@ COPY . /app
 
 # RUN yarn config set registry https://mirrors.cloud.tencent.com/npm/
 
-RUN apt-get update && apt-get install -y python3 make g++
+# RUN apt-get update && apt-get install -y python3 make g++
 
 WORKDIR /app
 RUN yarn install && yarn run build
@@ -19,7 +19,7 @@ WORKDIR /app
 RUN apk add --no-cache curl && \
     curl -fsS https://dotenvx.sh/ | sh
 
-RUN apk add --no-cache python3 make g++
+# RUN apk add --no-cache python3 make g++
 
 # COPY .env /app
 
@@ -31,7 +31,7 @@ COPY --from=build /app/package.json ./
 # RUN yarn config set registry https://mirrors.cloud.tencent.com/npm/
 RUN yarn install --production --frozen-lockfile && \
   yarn cache clean && \
-  apk del curl python3 make g++
+  apk del curl
 
 EXPOSE 3000
 CMD ["yarn", "run", "start"]

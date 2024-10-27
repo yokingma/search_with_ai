@@ -1,22 +1,26 @@
 import Koa from 'koa';
+import path from 'path';
 import Router from '@koa/router';
 import cors from '@koa/cors';
-import { bodyParser } from '@koa/bodyparser';
 import serve from 'koa-static';
-import path from 'path';
+import { bodyParser } from '@koa/bodyparser';
 import { whiteListMiddleware } from './middleware';
+import { getConfig } from './config';
+import { logger } from './logger';
 import history from 'koa2-connect-history-api-fallback';
-import { chatStreamController, localChatStreamController, localModelsController, modelsController, searchController, sogouSearchController } from './controller';
-
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import dotenvx from '@dotenvx/dotenvx';
-dotenvx.config();
+import {
+  chatStreamController,
+  localChatStreamController,
+  localModelsController,
+  modelsController,
+  searchController,
+  sogouSearchController
+} from './controller';
 
 const app = new Koa();
 const router = new Router();
 
-const port = process.env.PORT || 3000;
+const port = Number(getConfig('PORT', '3000'));
 
 app.use(history({
   index: '/index.html',
@@ -60,4 +64,6 @@ router.get('/api/models', modelsController);
 router.get('/api/local/models', localModelsController);
 router.post('/api/local/chat', localChatStreamController);
 
-app.listen(port);
+app.listen(port, () => {
+  logger.info(`[Server is running on port]: ${port}`);
+});
