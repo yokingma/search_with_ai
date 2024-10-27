@@ -1,3 +1,4 @@
+<a name="top"></a>
 <br>
 <p align="center" style="font-size: 32px;"><b>Search with AI</b></p>
 <p align="center">
@@ -311,3 +312,5 @@ export type Provider = 'ollama' | 'lmstudio';
 ## 许可证
 
 此存储库的源代码在[MIT许可证](LICENSE)下提供。
+
+[🚀回到顶部](#top)
