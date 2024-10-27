@@ -6,6 +6,7 @@ import serve from 'koa-static';
 import { bodyParser } from '@koa/bodyparser';
 import { whiteListMiddleware } from './middleware';
 import { getConfig } from './config';
+import { logger } from './logger';
 import history from 'koa2-connect-history-api-fallback';
 import {
   chatStreamController,
@@ -63,4 +64,6 @@ router.get('/api/models', modelsController);
 router.get('/api/local/models', localModelsController);
 router.post('/api/local/chat', localChatStreamController);
 
-app.listen(port);
+app.listen(port, () => {
+  logger.info(`[Server is running on port]: ${port}`);
+});
