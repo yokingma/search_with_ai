@@ -20,7 +20,6 @@ export class LeptonChat implements BaseChat {
     } else {
       this.openai = null;
     }
-    console.log('[Lepton AI loaded]');
   }
 
   async chatStream(

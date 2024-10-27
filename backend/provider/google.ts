@@ -19,7 +19,6 @@ export class GoogleChat implements BaseChat {
   constructor() {
     this.key = process.env.GOOGLE_KEY;
     this.baseUrl = process.env.GOOGLE_PROXY_URL || BASE_URL;
-    console.log('GoogleAI BaseURL: ', this.baseUrl);
   }
 
   public async chat(
