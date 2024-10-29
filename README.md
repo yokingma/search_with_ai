@@ -56,7 +56,7 @@ cd search_with_ai
 
 2.**Edit** [.env.docker](https://github.com/yokingma/search_with_ai/blob/main/.env) **file.** in ```docker``` directory.
 
-> If you modify the .env.docker file, simply restart the Docker container for the changes to take effect.
+> After modifying the .env.docker file, restart the Docker container to apply changes.
 
 You must set at least one KEY.
 
@@ -81,7 +81,7 @@ SEARXNG_HOSTNAME=http://searxng:8080
 }
 ```
 
-4.**run with docker-compose.**
+4.**Run with Docker Compose.**
 
 ```shell
 docker compose up -d
@@ -92,8 +92,8 @@ Then visit <http://localhost:3000>
 5.**Update**
 
 - Delete old images using Docker Desktop or Docker CLI (if needed)
-- run ```docker compose down```
-- run ```docker compose up -d```
+- Run ```docker compose down```
+- Run ```docker compose up -d```
 
 ## LLMs
 
@@ -121,7 +121,7 @@ Built-in support for search engine: Bing, Google, SearXNG
 
 #### SearXNG (Free, No Key required)
 
-install [SearXNG](https://github.com/searxng/searxng) with [searxng-docker](https://github.com/searxng/searxng-docker)
+Install [SearXNG](https://github.com/searxng/searxng) with [searxng-docker](https://github.com/searxng/searxng-docker)
 > SearXNG is a free internet metasearch engine which aggregates results from various search services and databases. The service does not track or profile its users, providing online anonymity for those who seek it. Additionally, SearXNG can be used over Tor for online anonymity.
 
 When you install SearxNG, the only active output format by default is the HTML format. You need to activate the json format to use the API. This can be done by adding the following line to the settings.yml file:
