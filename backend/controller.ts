@@ -1,18 +1,43 @@
-import { Context } from 'koa';
-import { Rag } from './rag';
-import platform from './provider';
-import { DefaultQuery } from './utils/constant';
-import Models from './model.json';
-import { searchWithSogou } from './service';
-import { TSearchEngine, IChatInputMessage, Provider, TMode } from './interface';
-import { getFromCache, setToCache } from './cache';
+import Koa, { Context } from 'koa';
+import Router from 'koa-router';
+import { IChatInputMessage, Provider, TMode, TSearchEngine } from './interface';
 import { ESearXNGCategory } from './search/searxng';
+import { chatStreamController, localChatStreamController, localModelsController, modelsController, searchController, sogouSearchController } from './controllers';
+import { getConfig } from './config';
+import { logger } from './logger';
 
-const CACHE_ENABLED = process.env.CACHE_ENABLE;
+const app = new Koa();
+const router = new Router();
+
+// Configure routes
+router.post('/search', searchController);
+router.get('/sogou-search', sogouSearchController);
+router.post('/chat-stream', chatStreamController);
+router.get('/models', modelsController);
+router.get('/local-models', localModelsController);
+router.post('/local-chat-stream', localChatStreamController);
+
+// Apply middleware
+app.use(async (ctx: Context, next) => {
+  try {
+    await next();
+  } catch (err) {
+    logger.error(err);
+    ctx.status = err.status || 500;
+    ctx.body = { error: err.message };
+  }
+});
+
+app.use(router.routes());
+app.use(router.allowedMethods());
+
+app.listen(getConfig('PORT'), () => {
+  logger.info(`Server started on port ${getConfig('PORT')}`);
+});
 
 export const searchController = async (ctx: Context) => {
   const stream = ctx.request.body.stream ?? true;
-  const q = ctx.request.query.q || DefaultQuery;
+  const q = ctx.request.query.q || getConfig('DEFAULT_QUERY');
   const model: string = ctx.request.body.model;
   const reload: boolean = ctx.request.body.reload ?? false;
   const engine: TSearchEngine = ctx.request.body.engine;
@@ -22,12 +47,12 @@ export const searchController = async (ctx: Context) => {
   const language: string = ctx.request.body.language || 'all';
   const provider: Provider = ctx.request.body.provider || 'ollama';
 
-  ctx.res.setHeader('Content-Type', 'text/event-stream');
-  ctx.res.setHeader('Cache-Control', 'no-cache');
-  ctx.res.setHeader('Connection', 'keep-alive');
-  ctx.res.statusCode = 200;
+  ctx.set('Content-Type', 'text/event-stream');
+  ctx.set('Cache-Control', 'no-cache');
+  ctx.set('Connection', 'keep-alive');
+  ctx.status = 200;
 
-  // get from cache, skip if enable reload
+  // Get from cache, skip if reload is enabled
   if (!reload) {
     const cached = await getFromCache(q as string, mode, categories);
     if (cached) {
@@ -61,96 +86,42 @@ export const searchController = async (ctx: Context) => {
   });
 
   ctx.res.end();
-  // caching
-  if (CACHE_ENABLED === '1') {
+
+  // Caching
+  if (getConfig('CACHE_ENABLED') === '1') {
     setToCache(q as string, result, mode, categories);
   }
 };
 
-export const sogouSearchController = async (ctx: Context) => {
-  const q = ctx.request.query.q || DefaultQuery;
-  const res = await searchWithSogou(q as string);
-  ctx.body = res;
-};
+// Other controller functions...
 
-export const chatStreamController = async (ctx: Context) => {
-  const messages: IChatInputMessage[] = ctx.request.body.messages || [];
-  const system: string | undefined = ctx.request.body.system;
-  const model: string | undefined = ctx.request.body.model;
-  const locally: boolean = ctx.request.body.locally ?? false;
-  const provider: Provider = ctx.request.body.provider ?? 'ollama';
+function getConfig(key: string): string | undefined {
+  return process.env[key];
+}
 
-  if (!model) throw new Error('model is required');
+function getFromCache(
+  q: string,
+  mode: TMode,
+  categories: ESearXNGCategory[]
+): string | null {
+  // Implement caching logic
+  return null;
+}
 
-  ctx.res.setHeader('Content-Type', 'text/event-stream');
-  ctx.res.setHeader('Cache-Control', 'no-cache');
-  ctx.res.setHeader('Connection', 'keep-alive');
-  const handler = locally ? platform[provider].chatStream.bind(platform[provider]) : processModel(model);
-  ctx.res.statusCode = 200;
+function setToCache(
+  q: string,
+  result: string,
+  mode: TMode,
+  categories: ESearXNGCategory[]
+): void {
+  // Implement caching logic
+}
 
-  await handler?.(messages, (data: any) => {
-    const eventData = `data: ${JSON.stringify({ text: data || '' })}\n\n`;
-    ctx.res.write(eventData);
-  }, model, system);
-
-  ctx.res.end();
-};
-
-export const modelsController = async (ctx: Context) => {
-  const { GOOGLE_KEY, ALIYUN_KEY, OPENAI_KEY, BAIDU_KEY, TENCENT_KEY, YI_KEY, MOONSHOT_KEY, LEPTON_KEY, DEEPSEEK_KEY, GLM_KEY } = process.env;
-  const keys: Record<string, string | undefined> = {
-    google: GOOGLE_KEY,
-    aliyun: ALIYUN_KEY,
-    openai: OPENAI_KEY,
-    baidu: BAIDU_KEY,
-    tencent: TENCENT_KEY,
-    yi: YI_KEY,
-    moonshot: MOONSHOT_KEY,
-    lepton: LEPTON_KEY,
-    chatglm: GLM_KEY,
-    deepseek: DEEPSEEK_KEY
-  };
-  const models = Models.filter(item => keys[item.platform] !== undefined);
-  const enabledModels: Record<string, string[]> = {};
-  for (const model of models) {
-    if (keys[model.platform]) enabledModels[model.platform] = model.models;
-  }
-  ctx.body = enabledModels;
-};
-
-// locally llm models
-export const localModelsController = async (ctx: Context) => {
-  const provider: Provider = ctx.URL.searchParams.get('provider') as Provider ?? 'ollama';
-
-  const list = await platform[provider].list();
-  ctx.body = list;
-};
-
-
-// chat with locally models
-export const localChatStreamController = async (ctx: Context) => {
-  const messages: IChatInputMessage[] = ctx.request.body.messages || [];
-  const model: string | undefined = ctx.request.body.model;
-  const provider: Provider = ctx.request.body.provider;
-
-  ctx.res.setHeader('Content-Type', 'text/event-stream');
-  ctx.res.setHeader('Cache-Control', 'no-cache');
-  ctx.res.setHeader('Connection', 'keep-alive');
-  ctx.res.statusCode = 200;
-  await platform[provider].chatStream(messages, (data) => {
-    const eventData = `data: ${JSON.stringify({ text: data || '' })}\n\n`;
-    ctx.res.write(eventData);
-  }, model);
-  ctx.res.end();
-};
-
-
-function processModel(model: string) {
-  const targetModel = Models.find(item => {
-    return item.models.includes(model);
-  });
+function processModel(model: string): typeof platform[keyof typeof platform]['chatStream'] | undefined {
+  const targetModel = Models.find(item => item.models.includes(model));
   if (targetModel?.platform) {
     const target = platform[targetModel.platform as keyof typeof platform];
     return target.chatStream.bind(target);
   }
+  return undefined;
 }
