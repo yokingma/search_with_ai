@@ -57,6 +57,7 @@ html .markdown-body {
   color: var(--main-font-color);
   background-color: transparent;
   line-height: 26px;
+  min-height: auto;
 }
 
 html .markdown-body pre {
