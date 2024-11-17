@@ -63,7 +63,7 @@ export class Sogou {
     return list.filter(item => item.url && item.snippet && item.name);
   }
 
-  private async resultFilter(el: cheerio.Element) {
+  private async resultFilter(el: any) {
     const $el = this.$(el);
     const title = $el.find(SELECTOR.resultTitle).text().replace(/\n/g, '').trim();
     const link = $el.find(SELECTOR.resultLink).get(0)?.attribs.href;

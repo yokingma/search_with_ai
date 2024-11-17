@@ -1,7 +1,7 @@
 import * as tencentcloud from 'tencentcloud-sdk-nodejs';
 import { ClientConfig } from 'tencentcloud-sdk-nodejs/tencentcloud/common/interface';
 import { Client } from 'tencentcloud-sdk-nodejs/tencentcloud/services/hunyuan/v20230901/hunyuan_client';
-import { ChatStdResponse } from 'tencentcloud-sdk-nodejs/tencentcloud/services/hunyuan/v20230901/hunyuan_models';
+import { ChatCompletionsResponse } from 'tencentcloud-sdk-nodejs/tencentcloud/services/hunyuan/v20230901/hunyuan_models';
 import { BaseChat } from './base/base';
 import { IChatInputMessage, IStreamHandler } from '../interface';
 import { DefaultSystem } from '../utils/constant';
@@ -42,12 +42,13 @@ export class TencentChat implements BaseChat {
         Content: system
       });
     }
-    const result: any = await this.client.ChatStd({
-      Messages
+    const result: any = await this.client.ChatCompletions({
+      Messages,
+      Model: model
     });
     return new Promise((resolve) => {
       result.on('message', (res: any) => {
-        const data: ChatStdResponse = JSON.parse(res.data ?? '{}');
+        const data: ChatCompletionsResponse = JSON.parse(res.data ?? '{}');
         const text = data.Choices?.[0].Delta?.Content || '';
         const stop = data.Choices?.[0].FinishReason === 'stop' ? true : false;
         onMessage?.(text, stop);
