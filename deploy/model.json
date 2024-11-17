@@ -1,7 +1,7 @@
 [
   {
     "platform": "aliyun",
-    "type": "",
+    "type": "openai",
     "models": ["qwen-max", "qwen-max-0428", "qwen-turbo", "qwen-plus"]
   },
   {

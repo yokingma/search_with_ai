@@ -3,10 +3,10 @@ version: "3.7"
 services:
   search:
     container_name: aisearch
-    image: zacma/aisearch:latest
+    image: zacma/aisearch:latest-linux-amd64 #or latest-linux-arm64
     volumes:
-      - ./.env.docker:/app/.env
-      - ./model.json:/app/dist/model.json
+      - ./.env.docker:/apps/server/.env
+      - ./model.json:/apps/server/dist/model.json
     ports:
       - "3000:3000"
     restart: always

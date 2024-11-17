@@ -44,7 +44,7 @@ const onCopy = async () => {
     const text = answerRef.value?.innerText;
     if (text) {
       await navigator.clipboard.writeText(text);
-      MessagePlugin.success(t('message.success'))
+      MessagePlugin.success(t('message.success'));
     }
   } catch (err) {
     MessagePlugin.error(t('message.copyError'));
@@ -53,10 +53,10 @@ const onCopy = async () => {
 
 const onShare = async () => {
   try {
-    const url = window.location.href
-    const copyMsg = `${props.query}\n${url}`
+    const url = window.location.href;
+    const copyMsg = `${props.query}\n${url}`;
     await navigator.clipboard.writeText(copyMsg);
-    MessagePlugin.success(t('message.shareSuccess'))
+    MessagePlugin.success(t('message.shareSuccess'));
   } catch (err) {
     MessagePlugin.error(t('message.copyError'));
   }
