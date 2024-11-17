@@ -11,16 +11,14 @@
       "sourceType": "module"
   },
   "ignorePatterns": [
-    "web/",
     "dist/",
     ".yarn/",
     "node_modules/",
-    "logs/",
-    "docker/"
+    "logs/"
   ],
   "overrides": [
     {
-      "files": ["./backend/**/*.js", "./backend/**/*.ts"],
+      "files": ["./src/**/*.js", "./src/**/*.ts"],
       "extends": [
         "plugin:@typescript-eslint/recommended"
       ],

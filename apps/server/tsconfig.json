@@ -13,18 +13,17 @@
     "declaration": true,
     "forceConsistentCasingInFileNames": true,
     "outDir": "./dist",
-    "rootDir": "backend",
+    "rootDir": "./src",
     "resolveJsonModule": true,
     "strict": true,
     "esModuleInterop": true,
     "strictPropertyInitialization": false
   },
   "include": [
-    "backend/**/*"
+    "./src/**/*"
   ],
   "exclude": [
     "node_modules",
-    "web",
     "dist",
     "test"
   ]
