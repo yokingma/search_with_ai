@@ -157,32 +157,30 @@ Google検索には、[SearchApi](https://www.searchapi.io/)のSearchApi Google S
 
 ## セットアップ
 
-必要条件:
 > Node.js >= 20
+> Turborepo
+> PackageManager: yarn@3.5.1
 
-* **サーバー**
+* **ディレクトリ構造**
 
-```shell
-yarn install && yarn run build
+```text
+apps/
+  | server: サーバー
+  | web: フロントエンド
+deploy/
+  | docker-compose.yaml: dockerデプロイファイル
+  | .env.docker: サーバー設定ファイル
+  | model.json: サーバーモデル設定ファイル
+  ...
 ```
 
-* **Web**
-
-```shell
-cd web && yarn install && yarn run build
-```
-
-* **設定(.env)**
-
-[.env](https://github.com/yokingma/search_with_ai/blob/main/.env)はプロジェクトの設定ファイルです。要件に応じて設定してください。
-
-[.env.docker](https://github.com/yokingma/search_with_ai/blob/main/docker/.env.docker)はdockerデプロイ用です。
-
-* **実行**
+* **開発&ビルド**
 プロジェクトのルートで:
 
 ```shell
-yarn run start 
+turbo dev
+# or
+turbo build
 ```
 
 * **更新**
@@ -190,11 +188,7 @@ yarn run start
 
 ```shell
 git pull
-yarn install
-cd web && yarn install && yarn run build
 ```
-
-これで<http://localhost:3000>にアクセスできます。
 
 ## ライセンス
 

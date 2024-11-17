@@ -167,36 +167,32 @@ server:
 [2024/09/17] 新增智谱AI的ChatGLM Web Search插件，作为中文搜索引擎使用。
 > 智谱AI的glm-flash目前免费，其Web Search插件目前也是免费，基于结合这两者新增了ChatGLM作为免费的中文搜索引擎。
 
-## 普通安装部署
+## 部署&开发
 
-需要：
 > Node.js >= 20
+> Turborepo
+> PackageManager: yarn@3.5.1
 
-国内用户推荐使用阿里云通译千问、DeepSeek、ChatGLM等大模型服务
+* **项目结构**
 
-* **服务端**
-
-```shell
-yarn install && yarn run build
+```text
+apps/
+  | server: 服务端
+  | web: 前端
+deploy/
+  | docker-compose.yaml: docker部署文件
+  | .env.docker: 服务端参数配置文件
+  | model.json: 服务端模型配置文件
+  ...
 ```
 
-* **前端页面**
-
-```shell
-cd web && yarn install && yarn run build
-```
-
-* **配置** (.env)
-
-各项配置在[.env](https://github.com/yokingma/search_with_ai/blob/main/.env)文件中，请按照需求配置即可。
-
-> [.env.docker](https://github.com/yokingma/search_with_ai/blob/main/docker/.env.docker) 是docker部署配置文件。
-
-* **启动**
+* **开发&构建**
 在项目根目录中执行:
 
 ```shell
-yarn run start 
+turbo dev
+# or
+turbo build
 ```
 
 * **更新**
@@ -204,11 +200,7 @@ yarn run start
 
 ```shell
 git pull
-yarn install
-cd web && yarn install && yarn run build
 ```
-
-启动成功后可以在浏览器打开<http://localhost:3000> 即可使用。
 
 ## API
 
