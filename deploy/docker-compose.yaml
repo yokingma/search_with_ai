@@ -5,8 +5,8 @@ services:
     container_name: aisearch
     image: zacma/aisearch:latest
     volumes:
-      - ./.env.docker:/app/.env
-      - ./model.json:/app/dist/model.json
+      - ./.env.docker:/apps/server/.env
+      - ./model.json:/apps/server/dist/model.json
     ports:
       - "3000:3000"
     restart: always
