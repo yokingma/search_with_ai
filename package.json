@@ -5,5 +5,12 @@
   "workspaces": [
     "apps/*"
   ],
-  "packageManager": "yarn@3.5.1"
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev"
+  },
+  "packageManager": "yarn@3.5.1",
+  "devDependencies": {
+    "turbo": "^2.3.0"
+  }
 }

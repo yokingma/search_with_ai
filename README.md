@@ -160,34 +160,32 @@ You have three options for Google Search: you can use the SearchApi Google Searc
 [2024/09/17] Added Zhipu AI's ChatGLM Web Search plugin, used as a Chinese search engine.
 > Zhipu AI's glm-flash is currently free, and its Web Search plugin is also free. Based on these two, ChatGLM has been added as a free Chinese search engine.
 
-## Setup
+## Deploy & Development
 
-Required:
 > Node.js >= 20
+> Turborepo
+> PackageManager: yarn@3.5.1
 
-* **Server**
+* **Directory Structure**
 
-```shell
-yarn install && yarn run build
+```text
+apps/
+  | server: backend
+  | web: frontend
+deploy/
+  | docker-compose.yaml: docker deployment file
+  | .env.docker: backend configuration file
+  | model.json: backend model configuration file
+  ...
 ```
 
-* **Web**
-
-```shell
-cd web && yarn install && yarn run build
-```
-
-* **Config(.env)**
-
-[.env](https://github.com/yokingma/search_with_ai/blob/main/.env) is the project configuration file. Please configure it according to your requirements.
-
-[.env.docker](https://github.com/yokingma/search_with_ai/blob/main/docker/.env.docker) is for docker deployment.
-
-* **Run**
+* **Development & Build**
 In the root of the project:
 
 ```shell
-yarn run start 
+turbo dev
+# or
+turbo build
 ```
 
 * **Update**
@@ -195,11 +193,7 @@ In the root of the project:
 
 ```shell
 git pull
-yarn install
-cd web && yarn install && yarn run build
 ```
-
-Now you can visit <http://localhost:3000>
 
 ## License
 

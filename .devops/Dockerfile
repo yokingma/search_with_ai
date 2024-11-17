@@ -27,7 +27,7 @@ RUN apk add --no-cache python3 make g++
 COPY --from=build /apps/server/dist ./dist
 COPY --from=build /apps/server/.env ./
 COPY --from=build /apps/server/package.json ./
-COPY --from=build /apps/web/build ./web/build
+COPY --from=build /apps/web/dist ./web/dist
 
 # RUN yarn config set registry https://mirrors.cloud.tencent.com/npm/
 RUN yarn install --production --frozen-lockfile && \
