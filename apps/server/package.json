@@ -1,7 +1,5 @@
 {
-  "name": "ai_search",
-  "version": "1.0.8",
-  "description": "ai search with node.js",
+  "name": "server",
   "main": "./dist/app.js",
   "author": "zac_ma",
   "license": "MIT",

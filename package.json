@@ -1,5 +1,6 @@
 {
   "name": "search_with_ai",
+  "description": "ai search with node.js",
   "private": true,
   "workspaces": [
     "apps/*"
