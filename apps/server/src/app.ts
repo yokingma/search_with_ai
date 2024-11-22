@@ -28,7 +28,7 @@ app.use(history({
 }));
 
 // static path
-const staticPath = path.join(__dirname, '../web/build');
+const staticPath = path.join(__dirname, '../web/dist');
 app.use(serve(staticPath, {
   gzip: true,
   index: 'index.html'
