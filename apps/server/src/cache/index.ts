@@ -1,7 +1,7 @@
 import { createCache, memoryStore } from 'cache-manager';
 import { createHash } from 'node:crypto';
 import { TMode } from '../interface';
-import { ESearXNGCategory } from '../search/searxng';
+import { ESearXNGCategory } from '../libs/search/searxng';
 
 const memoryCache = createCache(memoryStore(), {
   ttl: 60 * 1000 * 60 * 24 // ms

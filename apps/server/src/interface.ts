@@ -1,4 +1,4 @@
-import platform from './provider';
+import platform from './libs/provider';
 
 export type SearchFunc = (...args: any[]) => Promise<any[]>;
 

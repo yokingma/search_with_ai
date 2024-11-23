@@ -1,13 +1,11 @@
-import { EndPoint, DEFAULT_SEARCH_ENGINE_TIMEOUT, BING_MKT } from './utils/constant';
-import { httpRequest } from './utils/utils';
-import { Sogou } from './search/sogou';
-import searxng, { ESearXNGCategory } from './search/searxng';
-import { webSearch } from './search/chatglm';
+import { EndPoint, DEFAULT_SEARCH_ENGINE_TIMEOUT, BING_MKT } from '../libs/utils/constant';
+import { httpRequest } from '../libs/utils/utils';
+import { Sogou } from '../libs/search/sogou';
+import searxng, { ESearXNGCategory } from '../libs/search/searxng';
+import { webSearch } from '../libs/search/chatglm';
 import { logger } from './logger';
-import { getConfig } from './config';
-
-// Configuration management using environment variables
-const getEnv = (key: string, defaultValue: string = '') => getConfig(key) || defaultValue;
+import { getConfig } from '../config';
+import { retryAsync } from '../libs/utils/utils';
 
 // Function to search with SearXNG
 export const searchWithSearXNG = async (
@@ -19,8 +17,8 @@ export const searchWithSearXNG = async (
     throw new Error('Query cannot be empty');
   }
 
-  language = getEnv('SEARXNG_LANGUAGE', language);
-  const defaultEngines = getEnv('SEARXNG_ENGINES', '').split(',');
+  language = getConfig('SEARXNG_LANGUAGE', language);
+  const defaultEngines = getConfig('SEARXNG_ENGINES', '').split(',');
   const engines = defaultEngines.map(item => item.trim());
 
   // Scientific search only supports English, so set to all.
@@ -46,7 +44,7 @@ export const searchWithBing = async (query: string) => {
     throw new Error('Query cannot be empty');
   }
 
-  const subscriptionKey = getEnv('BING_SEARCH_KEY');
+  const subscriptionKey = getConfig('BING_SEARCH_KEY');
   if (!subscriptionKey) {
     throw new Error('Bing search key is not provided.');
   }
@@ -87,8 +85,8 @@ export const searchWithGoogle = async (query: string) => {
     throw new Error('Query cannot be empty');
   }
 
-  const key = getEnv('GOOGLE_SEARCH_KEY');
-  const id = getEnv('GOOGLE_SEARCH_ID');
+  const key = getConfig('GOOGLE_SEARCH_KEY');
+  const id = getConfig('GOOGLE_SEARCH_ID');
   if (!key || !id) {
     throw new Error('Google search key or ID is not provided.');
   }
@@ -171,27 +169,6 @@ export const searchWithChatGLM = async (query: string) => {
     logger.error('ChatGLM Search Error:', err);
     throw err;
   }
-};
-
-// Retry mechanism for network requests
-const retryAsync = async <T>(
-  fn: () => Promise<T>,
-  retries: number = 3,
-  delay: number = 500
-): Promise<T> => {
-  let attempt = 0;
-  while (attempt < retries) {
-    try {
-      return await fn();
-    } catch (err) {
-      logger.error(`Retry ${attempt + 1} failed:`, err);
-      attempt++;
-      if (attempt < retries) {
-        await new Promise((resolve) => setTimeout(resolve, delay));
-      }
-    }
-  }
-  throw new Error('Max retries exceeded');
 };
 
 // Example usage with retry mechanism

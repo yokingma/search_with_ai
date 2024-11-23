@@ -1,12 +1,12 @@
 import { Context } from 'koa';
-import { Rag } from './rag';
-import platform from './provider';
-import { DefaultQuery } from './utils/constant';
+import { Rag } from './service/rag';
+import platform from './libs/provider';
+import { DefaultQuery } from './libs/utils/constant';
 import Models from './model.json';
-import { searchWithSogou } from './service';
+import { searchWithSogou } from './service/search';
 import { TSearchEngine, IChatInputMessage, Provider, TMode } from './interface';
 import { getFromCache, setToCache } from './cache';
-import { ESearXNGCategory } from './search/searxng';
+import { ESearXNGCategory } from './libs/search/searxng';
 
 const CACHE_ENABLED = process.env.CACHE_ENABLE;
 
@@ -137,7 +137,7 @@ export const localChatStreamController = async (ctx: Context) => {
   ctx.res.setHeader('Cache-Control', 'no-cache');
   ctx.res.setHeader('Connection', 'keep-alive');
   ctx.res.statusCode = 200;
-  await platform[provider].chatStream(messages, (data) => {
+  await platform[provider].chatStream(messages, (data: any) => {
     const eventData = `data: ${JSON.stringify({ text: data || '' })}\n\n`;
     ctx.res.write(eventData);
   }, model);

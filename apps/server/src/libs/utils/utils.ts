@@ -1,4 +1,6 @@
 import url from 'url';
+import { logger } from '../../service/logger';
+
 interface RequestConfig {
   endpoint: string;
   timeout?: number;
@@ -23,4 +25,25 @@ export const httpRequest = async (config: RequestConfig) => {
   });
   clearTimeout(id);
   return res;
+};
+
+// Retry mechanism for network requests
+export const retryAsync = async <T>(
+  fn: () => Promise<T>,
+  retries: number = 3,
+  delay: number = 500
+): Promise<T> => {
+  let attempt = 0;
+  while (attempt < retries) {
+    try {
+      return await fn();
+    } catch (err) {
+      logger.error(`Retry ${attempt + 1} failed:`, err);
+      attempt++;
+      if (attempt < retries) {
+        await new Promise((resolve) => setTimeout(resolve, delay));
+      }
+    }
+  }
+  throw new Error('Max retries exceeded');
 };

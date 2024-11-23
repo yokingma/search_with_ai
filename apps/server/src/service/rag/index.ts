@@ -1,9 +1,9 @@
-import { TSearchEngine, IChatInputMessage, IStreamHandler, Provider, SearchFunc, TMode } from '../interface';
-import { searchWithBing, searchWithGoogle, searchWithSogou, searchWithSearXNG, searchWithChatGLM } from '../service';
+import { TSearchEngine, IChatInputMessage, IStreamHandler, Provider, SearchFunc, TMode } from '../../interface';
+import { searchWithBing, searchWithGoogle, searchWithSogou, searchWithSearXNG, searchWithChatGLM } from '../search';
 import { DeepQueryPrompt, MoreQuestionsPrompt, RagQueryPrompt, TranslatePrompt } from './prompt';
-import { ESearXNGCategory } from '../search/searxng';
-import platform from '../provider';
-import Models from '../model.json';
+import { ESearXNGCategory } from '../../libs/search/searxng';
+import platform from '../../libs/provider';
+import Models from '../../model.json';
 import util from 'util';
 
 interface RagOptions {
