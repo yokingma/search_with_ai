@@ -33,10 +33,11 @@
 * Web界面支持移动端。
 * 支持搜索引擎切换、AI模型切换。
 * 支持本地大模型（基于Ollama、lmStudio）。
-* 支持多语言(i18n)。
+* 支持多语言（i18n）。
 * 支持根据结果上下文继续问答。
 * 支持缓存结果、强制刷新结果。
 * 支持图片搜索。
+* 支持完整的网页内容抓取，基于[Jina](https://jina.ai/) Reader URL。
 
 ## 使用 Docker 安装部署
 
@@ -166,6 +167,15 @@ server:
 #### ChatGLM Web Search插件
 [2024/09/17] 新增智谱AI的ChatGLM Web Search插件，作为中文搜索引擎使用。
 > 智谱AI的glm-flash目前免费，其Web Search插件目前也是免费，基于结合这两者新增了ChatGLM作为免费的中文搜索引擎。
+
+#### Jina Reader URL API
+[2024/11/24] 新增[Jina](https://jina.ai/) Reader URL API，支持完整的网页内容抓取。
+WEB页面选择[研究]选项模式的时候会调用Jina API抓取网页的全文内容作为AI的上下文参考资料，需要配置JINA_KEY：
+
+```shell
+# JINA API KEY
+JINA_KEY=#your key
+```
 
 ## 部署&开发
 
@@ -299,7 +309,6 @@ export type Provider = 'ollama' | 'lmstudio';
  <img width="200" src="./assets/wechat.jpg"></img>
  <div>扫码添加助手进群交流</div>
 </div>
-
 
 ## 许可证
 
