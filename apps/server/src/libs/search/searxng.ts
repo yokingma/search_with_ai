@@ -1,5 +1,5 @@
-import { httpRequest } from '../utils/utils';
-import { ISearchResponseResult } from '../interface';
+import { httpRequest } from '../utils';
+import { ISearchResponseResult } from '../../interface';
 
 const URL = process.env.SEARXNG_HOSTNAME || 'http://localhost:8080';
 

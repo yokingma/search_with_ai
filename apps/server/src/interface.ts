@@ -1,6 +1,6 @@
-import platform from './provider';
+import platform from './libs/provider';
 
-export type SearchFunc = (...args: any[]) => Promise<any[]>;
+export type SearchFunc = (...args: any[]) => Promise<ISearchResponseResult[]>;
 
 export type TSearchEngine = 'GOOGLE' | 'BING' | 'SOGOU' | 'SEARXNG' | 'CHATGLM';
 
@@ -33,13 +33,15 @@ export interface IStreamHandler {
 
 // search engine result
 export interface ISearchResponseResult {
+  id?: number;
   name: string;
   url: string;
   snippet: string;
   thumbnail?: string;
   img?: string;
   source?: string;
-  [key: string]: string | undefined;
+  engine?: string;
+  [key: string]: string | number | undefined;
 }
 
-export type TMode = 'simple' | 'deep' | 'research'
+export type TSearchMode = 'simple' | 'deep' | 'research'

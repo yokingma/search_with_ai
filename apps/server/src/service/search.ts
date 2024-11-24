@@ -1,13 +1,12 @@
-import { EndPoint, DEFAULT_SEARCH_ENGINE_TIMEOUT, BING_MKT } from './utils/constant';
-import { httpRequest } from './utils/utils';
-import { Sogou } from './search/sogou';
-import searxng, { ESearXNGCategory } from './search/searxng';
-import { webSearch } from './search/chatglm';
-import { logger } from './logger';
-import { getConfig } from './config';
-
-// Configuration management using environment variables
-const getEnv = (key: string, defaultValue: string = '') => getConfig(key) || defaultValue;
+import { EndPoint, DEFAULT_SEARCH_ENGINE_TIMEOUT, BING_MKT } from '../libs/utils/constant';
+import { httpRequest } from '../libs/utils';
+import { Sogou } from '../libs/search/sogou';
+import searxng, { ESearXNGCategory } from '../libs/search/searxng';
+import { webSearch } from '../libs/search/chatglm';
+import { logger } from '../logger';
+import { getConfig } from '../config';
+import { retryAsync } from '../libs/utils';
+import { ISearchResponseResult } from '../interface';
 
 // Function to search with SearXNG
 export const searchWithSearXNG = async (
@@ -19,8 +18,8 @@ export const searchWithSearXNG = async (
     throw new Error('Query cannot be empty');
   }
 
-  language = getEnv('SEARXNG_LANGUAGE', language);
-  const defaultEngines = getEnv('SEARXNG_ENGINES', '').split(',');
+  language = getConfig('SEARXNG_LANGUAGE', language);
+  const defaultEngines = getConfig('SEARXNG_ENGINES', '').split(',');
   const engines = defaultEngines.map(item => item.trim());
 
   // Scientific search only supports English, so set to all.
@@ -41,12 +40,12 @@ export const searchWithSearXNG = async (
 };
 
 // Function to search with Bing
-export const searchWithBing = async (query: string) => {
+export const searchWithBing = async (query: string): Promise<ISearchResponseResult[]> => {
   if (!query.trim()) {
     throw new Error('Query cannot be empty');
   }
 
-  const subscriptionKey = getEnv('BING_SEARCH_KEY');
+  const subscriptionKey = getConfig('BING_SEARCH_KEY');
   if (!subscriptionKey) {
     throw new Error('Bing search key is not provided.');
   }
@@ -65,30 +64,34 @@ export const searchWithBing = async (query: string) => {
     });
 
     const result = await res.json();
-    const list = result?.webPages?.value || [];
+    const list: Record<string, any>[] = result?.webPages?.value || [];
 
-    return list.map((item: any, index: number) => {
-      return {
-        id: index + 1,
-        name: item.name,
-        url: item.url,
-        snippet: item.snippet,
-      };
-    });
+    const results: ISearchResponseResult[] = list.map(
+      (item: Record<string, any>, index: number) => {
+        return {
+          id: index + 1,
+          name: item.name,
+          url: item.url,
+          snippet: item.snippet,
+        };
+      }
+    );
+
+    return results;
   } catch (err) {
     logger.error('[Bing Search Error]:', err);
     throw err;
   }
 };
 
-// Function to search with Google
-export const searchWithGoogle = async (query: string) => {
+// Search with Google
+export const searchWithGoogle = async (query: string): Promise<ISearchResponseResult[]> => {
   if (!query.trim()) {
     throw new Error('Query cannot be empty');
   }
 
-  const key = getEnv('GOOGLE_SEARCH_KEY');
-  const id = getEnv('GOOGLE_SEARCH_ID');
+  const key = getConfig('GOOGLE_SEARCH_KEY');
+  const id = getConfig('GOOGLE_SEARCH_ID');
   if (!key || !id) {
     throw new Error('Google search key or ID is not provided.');
   }
@@ -106,19 +109,23 @@ export const searchWithGoogle = async (query: string) => {
     });
 
     const result = await res.json();
-    const list = result.items ?? [];
+    const list: Record<string, any>[] = result.items ?? [];
 
-    return list.map((item: any, index: number) => {
-      return {
-        id: index + 1,
-        name: item.title,
-        url: item.link,
-        formattedUrl: item.formattedUrl,
-        snippet: item.snippet,
-        imageLink: item.image?.thumbnailLink,
-        imageContextLink: item.image?.contextLink,
-      };
-    });
+    const results: ISearchResponseResult[] = list.map(
+      (item: Record<string, any>, index: number) => {
+        return {
+          id: index + 1,
+          name: item.title,
+          url: item.link,
+          formattedUrl: item.formattedUrl,
+          snippet: item.snippet,
+          imageLink: item.image?.thumbnailLink,
+          imageContextLink: item.image?.contextLink,
+        };
+      }
+    );
+
+    return results;
   } catch (err) {
     logger.error('Google Search Error:', err);
     throw err;
@@ -126,7 +133,7 @@ export const searchWithGoogle = async (query: string) => {
 };
 
 // Function to search with Sogou
-export const searchWithSogou = async (query: string) => {
+export const searchWithSogou = async (query: string): Promise<ISearchResponseResult[]> => {
   if (!query.trim()) {
     throw new Error('Query cannot be empty');
   }
@@ -134,14 +141,17 @@ export const searchWithSogou = async (query: string) => {
   try {
     const sogou = new Sogou(query);
     await sogou.init();
-    const results = await sogou.getResults();
+    const list = await sogou.getResults();
 
-    return results.map((item, index) => {
+    const results: ISearchResponseResult[] = list.map((item, index) => {
       return {
         id: index + 1,
         ...item,
+        url: item.url || '',
       };
     });
+
+    return results;
   } catch (err) {
     logger.error('Sogou Search Error:', err);
     throw err;
@@ -149,15 +159,15 @@ export const searchWithSogou = async (query: string) => {
 };
 
 // Function to search with ChatGLM
-export const searchWithChatGLM = async (query: string) => {
+export const searchWithChatGLM = async (query: string): Promise<ISearchResponseResult[]> => {
   if (!query.trim()) {
     throw new Error('Query cannot be empty');
   }
 
   try {
-    const results = await webSearch(query);
+    const list = await webSearch(query);
 
-    return results.map((item, index) => {
+    const results: ISearchResponseResult[] = list.map((item, index) => {
       return {
         id: index + 1,
         name: item.title,
@@ -167,31 +177,12 @@ export const searchWithChatGLM = async (query: string) => {
         media: item.media,
       };
     });
+
+    return results;
   } catch (err) {
     logger.error('ChatGLM Search Error:', err);
     throw err;
   }
-};
-
-// Retry mechanism for network requests
-const retryAsync = async <T>(
-  fn: () => Promise<T>,
-  retries: number = 3,
-  delay: number = 500
-): Promise<T> => {
-  let attempt = 0;
-  while (attempt < retries) {
-    try {
-      return await fn();
-    } catch (err) {
-      logger.error(`Retry ${attempt + 1} failed:`, err);
-      attempt++;
-      if (attempt < retries) {
-        await new Promise((resolve) => setTimeout(resolve, delay));
-      }
-    }
-  }
-  throw new Error('Max retries exceeded');
 };
 
 // Example usage with retry mechanism

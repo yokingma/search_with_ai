@@ -1,9 +1,10 @@
-import { TSearchEngine, IChatInputMessage, IStreamHandler, Provider, SearchFunc, TMode } from '../interface';
-import { searchWithBing, searchWithGoogle, searchWithSogou, searchWithSearXNG, searchWithChatGLM } from '../service';
-import { DeepQueryPrompt, MoreQuestionsPrompt, RagQueryPrompt, TranslatePrompt } from './prompt';
-import { ESearXNGCategory } from '../search/searxng';
-import platform from '../provider';
-import Models from '../model.json';
+import { TSearchEngine, IChatInputMessage, IStreamHandler, Provider, SearchFunc, TSearchMode, ISearchResponseResult } from '../../interface';
+import { searchWithBing, searchWithGoogle, searchWithSogou, searchWithSearXNG, searchWithChatGLM } from '../search';
+import { DeepQueryPrompt, MoreQuestionsPrompt, RagQueryPrompt, ResearchSystemPrompt, TranslatePrompt } from './prompt';
+import { ESearXNGCategory } from '../../libs/search/searxng';
+import platform from '../../libs/provider';
+import Models from '../../model.json';
+import { jinaUrlsReader } from '../../libs/jina';
 import util from 'util';
 
 interface RagOptions {
@@ -33,13 +34,10 @@ export class Rag {
       this.chat = platform[provider].chatStream.bind(platform[provider]);
     } else {
       const chat = processModel(model);
-      if (!chat) throw new Error('model is not supported');
       this.chat = chat;
     }
     this.model = model;
     this.stream = stream;
-    console.info('[query with]:', engine, model);
-    console.info('[query with local llm]:', locally);
     this.engine = engine;
     switch (engine) {
       case 'GOOGLE':
@@ -62,7 +60,7 @@ export class Rag {
     }
   }
 
-  public async query(query: string, categories = [ESearXNGCategory.GENERAL], mode: TMode = 'simple', language = 'all', onMessage?: (...args: any[]) => void) {
+  public async query(query: string, categories = [ESearXNGCategory.GENERAL], mode: TSearchMode = 'simple', language = 'all', onMessage?: (...args: any[]) => void) {
     let searchQuery = query;
     // rewrite query for [SCIENCE]
     if (categories.includes(ESearXNGCategory.SCIENCE) && this.engine === 'SEARXNG') {
@@ -72,10 +70,16 @@ export class Rag {
 
     // Parameters supported by searxng: categories.
     const contexts = await this.search(searchQuery, categories, language);
-    console.log(`[search [${categories}] results]`, contexts.length);
-    console.log('[search mode]', mode);
     const REFERENCE_COUNT = process.env.REFERENCE_COUNT || 8;
-    const limitContexts = contexts.slice(0, +REFERENCE_COUNT);
+    let limitContexts = contexts.slice(0, +REFERENCE_COUNT);
+
+    if (mode === 'research') {
+      const fullContexts = await this.getFullSearchResult(limitContexts);
+      limitContexts = limitContexts.map((item, index) => ({
+        ...item,
+        content: fullContexts[index].content || ''
+      }));
+    }
 
     let images: Record<string, any>[] = [];
 
@@ -123,6 +127,12 @@ export class Rag {
     onMessage?.(null, true);
   }
 
+  private async getFullSearchResult(results: ISearchResponseResult[]) {
+    const urls = results.map(item => item.url);
+    const fullContexts = await jinaUrlsReader({ urls });
+    return fullContexts;
+  }
+
   // Gets related questions based on the query and context.
   private async getRelatedQuestions(query: string, contexts: any[], onMessage?: IStreamHandler) {
     try {
@@ -139,8 +149,9 @@ export class Rag {
     }
   }
 
-  private async getAiAnswer(query: string, contexts: any[], mode: TMode = 'simple', onMessage?: IStreamHandler) {
+  private async getAiAnswer(query: string, contexts: any[], mode: TSearchMode = 'simple', onMessage?: IStreamHandler) {
     const { model, stream } = this;
+    console.log('mode', mode);
     try {
       const { messages } = this.paramsFormatter(query, mode, contexts, 'answer');
       if (!stream) {
@@ -185,13 +196,25 @@ export class Rag {
     }
   }
 
-  private paramsFormatter(query: string, mode: TMode = 'simple', contexts: any[], type: 'answer' | 'related') {
-    const context = contexts.map((item, index) => `[[citation:${index + 1}]] ${item.snippet}`).join('\n\n');
-    let prompt = type === 'answer' ? RagQueryPrompt : MoreQuestionsPrompt;
+  private paramsFormatter(query: string, mode: TSearchMode = 'simple', contexts: any[], type: 'answer' | 'related') {
+    const context = contexts.map(
+      (item, index) => `[[citation:${index + 1}]] ${item.content || item.snippet}`
+    ).join('\n\n');
+
+    let prompt = MoreQuestionsPrompt;
 
     // deep answer
     if (mode === 'deep' && type === 'answer') {
       prompt = DeepQueryPrompt;
+    }
+
+    if (type === 'answer') {
+      if (mode === 'deep') {
+        prompt = DeepQueryPrompt;
+      }
+      if (mode === 'simple' || mode === 'research') {
+        prompt = RagQueryPrompt;
+      }
     }
 
     const system = util.format(prompt, context);
@@ -201,6 +224,14 @@ export class Rag {
         content: `${system} ${query}`
       }
     ];
+
+    if (mode === 'research' && type === 'answer') {
+      messages.unshift({
+        role: 'system',
+        content: ResearchSystemPrompt
+      });
+    }
+
     return {
       messages
     };
@@ -215,4 +246,5 @@ function processModel(model: string) {
     const target = platform[targetModel.platform as keyof typeof platform];
     return target.chatStream.bind(target);
   }
+  throw new Error(`[RAG] model ${model} is not supported`);
 }

@@ -1,8 +1,8 @@
 import { fetchEventData } from 'fetch-sse';
-import { httpRequest }  from '../utils/utils';
-import memoryCache from '../cache';
+import { httpRequest }  from '../utils';
+import memoryCache from '../../cache';
 import { BaseChat } from './base/base';
-import { IChatInputMessage, IStreamHandler } from '../interface';
+import { IChatInputMessage, IStreamHandler } from '../../interface';
 import { type MemoryCache } from 'cache-manager';
 
 const BASE_URL =

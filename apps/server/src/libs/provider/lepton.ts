@@ -1,7 +1,7 @@
 import { BaseChat } from './base/base';
 import OpenAI from 'openai';
 import util from 'util';
-import { IChatInputMessage, IStreamHandler } from '../interface';
+import { IChatInputMessage, IStreamHandler } from '../../interface';
 import { DefaultSystem } from '../utils/constant';
 
 const BASE_URLS = 'https://%s.lepton.run/api/v1';

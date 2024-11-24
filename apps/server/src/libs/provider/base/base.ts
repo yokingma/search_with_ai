@@ -1,4 +1,4 @@
-import { IChatInputMessage, IStreamHandler } from '../../interface';
+import { IChatInputMessage, IStreamHandler } from '../../../interface';
 
 export abstract class BaseChat {
   platform: string;
