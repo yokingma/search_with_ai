@@ -36,6 +36,7 @@
 * コンテキストを使用したQ&Aの継続
 * 結果のキャッシュ、強制リロードのサポート
 * 画像検索のサポート
+* 完全なウェブコンテンツの抽出、[Jina](https://jina.ai/) Reader URLに基づく。
 
 ## Dockerでのデプロイ (推奨)
 
@@ -154,6 +155,16 @@ Google検索には、[SearchApi](https://www.searchapi.io/)のSearchApi Google S
 
 [2024/09/17] Zhipu AIのChatGLM Web Searchプラグインが追加され、中国語の検索エンジンとして使用されます。
 > Zhipu AIのglm-flashは現在無料であり、そのWeb Searchプラグインも無料です。これら2つを基に、ChatGLMが無料の中国語検索エンジンとして追加されました。
+
+#### Jina Reader URL API
+
+[2024/11/24] [Jina](https://jina.ai/) Reader URL APIが追加され、完全なウェブコンテンツの抽出がサポートされました。
+WEBページで[研究]オプションモードを選択した場合、Jina APIが呼び出され、ウェブページの全文内容をAIのコンテキスト参考資料として抽出します。JINA_KEYを設定する必要があります。
+
+```shell
+# JINA API KEY
+JINA_KEY=#your key
+```
 
 ## セットアップ
 

@@ -17,7 +17,7 @@
 </p>
 
 <div align="center">
-  
+
 **English** | [中文](./README_CN.md) | [日本語](./README_JP.md)
 
 </div>
@@ -41,6 +41,7 @@ Repositories: [GitHub](https://github.com/yokingma/search_with_ai) [Gitee](https
 * Support Continue Q&A with contexts.
 * Support Cache results, Force reload.
 * Support images search.
+* Support full web content extraction, based on [Jina](https://jina.ai/) Reader URL.
 
 ## Deploy with Docker (recommended)
 
@@ -160,6 +161,15 @@ You have three options for Google Search: you can use the SearchApi Google Searc
 [2024/09/17] Added Zhipu AI's ChatGLM Web Search plugin, used as a Chinese search engine.
 > Zhipu AI's glm-flash is currently free, and its Web Search plugin is also free. Based on these two, ChatGLM has been added as a free Chinese search engine.
 
+#### Jina Reader URL API
+[2024/11/24] Added [Jina](https://jina.ai/) Reader URL API, supporting full web content extraction.
+When selecting the [Research] mode on the web page, the Jina API will be called to extract the full content of the web page as context for the AI. You need to configure JINA_KEY:
+
+```shell
+# JINA API KEY
+JINA_KEY=#your key
+```
+
 ## Deploy & Development
 
 > Node.js >= 20
@@ -170,12 +180,12 @@ You have three options for Google Search: you can use the SearchApi Google Searc
 
 ```text
 apps/
-  | server: backend
-  | web: frontend
+  | server # backend
+  | web # frontend
 deploy/
-  | docker-compose.yaml: docker deployment file
-  | .env.docker: backend configuration file
-  | model.json: backend model configuration file
+  | docker-compose.yaml # docker deployment file
+  | .env.docker # backend configuration file
+  | model.json # backend model configuration file
   ...
 ```
 
