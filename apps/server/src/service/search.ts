@@ -1,11 +1,12 @@
 import { EndPoint, DEFAULT_SEARCH_ENGINE_TIMEOUT, BING_MKT } from '../libs/utils/constant';
-import { httpRequest } from '../libs/utils/utils';
+import { httpRequest } from '../libs/utils';
 import { Sogou } from '../libs/search/sogou';
 import searxng, { ESearXNGCategory } from '../libs/search/searxng';
 import { webSearch } from '../libs/search/chatglm';
-import { logger } from './logger';
+import { logger } from '../logger';
 import { getConfig } from '../config';
-import { retryAsync } from '../libs/utils/utils';
+import { retryAsync } from '../libs/utils';
+import { ISearchResponseResult } from '../interface';
 
 // Function to search with SearXNG
 export const searchWithSearXNG = async (
@@ -39,7 +40,7 @@ export const searchWithSearXNG = async (
 };
 
 // Function to search with Bing
-export const searchWithBing = async (query: string) => {
+export const searchWithBing = async (query: string): Promise<ISearchResponseResult[]> => {
   if (!query.trim()) {
     throw new Error('Query cannot be empty');
   }
@@ -63,24 +64,28 @@ export const searchWithBing = async (query: string) => {
     });
 
     const result = await res.json();
-    const list = result?.webPages?.value || [];
+    const list: Record<string, any>[] = result?.webPages?.value || [];
 
-    return list.map((item: any, index: number) => {
-      return {
-        id: index + 1,
-        name: item.name,
-        url: item.url,
-        snippet: item.snippet,
-      };
-    });
+    const results: ISearchResponseResult[] = list.map(
+      (item: Record<string, any>, index: number) => {
+        return {
+          id: index + 1,
+          name: item.name,
+          url: item.url,
+          snippet: item.snippet,
+        };
+      }
+    );
+
+    return results;
   } catch (err) {
     logger.error('[Bing Search Error]:', err);
     throw err;
   }
 };
 
-// Function to search with Google
-export const searchWithGoogle = async (query: string) => {
+// Search with Google
+export const searchWithGoogle = async (query: string): Promise<ISearchResponseResult[]> => {
   if (!query.trim()) {
     throw new Error('Query cannot be empty');
   }
@@ -104,19 +109,23 @@ export const searchWithGoogle = async (query: string) => {
     });
 
     const result = await res.json();
-    const list = result.items ?? [];
+    const list: Record<string, any>[] = result.items ?? [];
 
-    return list.map((item: any, index: number) => {
-      return {
-        id: index + 1,
-        name: item.title,
-        url: item.link,
-        formattedUrl: item.formattedUrl,
-        snippet: item.snippet,
-        imageLink: item.image?.thumbnailLink,
-        imageContextLink: item.image?.contextLink,
-      };
-    });
+    const results: ISearchResponseResult[] = list.map(
+      (item: Record<string, any>, index: number) => {
+        return {
+          id: index + 1,
+          name: item.title,
+          url: item.link,
+          formattedUrl: item.formattedUrl,
+          snippet: item.snippet,
+          imageLink: item.image?.thumbnailLink,
+          imageContextLink: item.image?.contextLink,
+        };
+      }
+    );
+
+    return results;
   } catch (err) {
     logger.error('Google Search Error:', err);
     throw err;
@@ -124,7 +133,7 @@ export const searchWithGoogle = async (query: string) => {
 };
 
 // Function to search with Sogou
-export const searchWithSogou = async (query: string) => {
+export const searchWithSogou = async (query: string): Promise<ISearchResponseResult[]> => {
   if (!query.trim()) {
     throw new Error('Query cannot be empty');
   }
@@ -132,14 +141,17 @@ export const searchWithSogou = async (query: string) => {
   try {
     const sogou = new Sogou(query);
     await sogou.init();
-    const results = await sogou.getResults();
+    const list = await sogou.getResults();
 
-    return results.map((item, index) => {
+    const results: ISearchResponseResult[] = list.map((item, index) => {
       return {
         id: index + 1,
         ...item,
+        url: item.url || '',
       };
     });
+
+    return results;
   } catch (err) {
     logger.error('Sogou Search Error:', err);
     throw err;
@@ -147,15 +159,15 @@ export const searchWithSogou = async (query: string) => {
 };
 
 // Function to search with ChatGLM
-export const searchWithChatGLM = async (query: string) => {
+export const searchWithChatGLM = async (query: string): Promise<ISearchResponseResult[]> => {
   if (!query.trim()) {
     throw new Error('Query cannot be empty');
   }
 
   try {
-    const results = await webSearch(query);
+    const list = await webSearch(query);
 
-    return results.map((item, index) => {
+    const results: ISearchResponseResult[] = list.map((item, index) => {
       return {
         id: index + 1,
         name: item.title,
@@ -165,6 +177,8 @@ export const searchWithChatGLM = async (query: string) => {
         media: item.media,
       };
     });
+
+    return results;
   } catch (err) {
     logger.error('ChatGLM Search Error:', err);
     throw err;

@@ -1,5 +1,5 @@
 import OpenAI from 'openai';
-import { IChatInputMessage, IStreamHandler } from '../../interface';
+import { IChatInputMessage, IStreamHandler } from '../../../interface';
 import { BaseChat } from './base';
 
 export class BaseOpenAIChat implements BaseChat {
@@ -58,6 +58,8 @@ export class BaseOpenAIChat implements BaseChat {
         ...messages,
       ];
     }
+
+    console.log('messages', messages);
     const stream = await this.openai.chat.completions.create({
       messages,
       model,

@@ -1,5 +1,5 @@
 import { DefaultSystem } from '../utils/constant';
-import { IChatInputMessage, IStreamHandler } from '../interface';
+import { IChatInputMessage, IStreamHandler } from '../../interface';
 import { BaseChat } from './base/base';
 import { LMStudioClient } from '@lmstudio/sdk';
 

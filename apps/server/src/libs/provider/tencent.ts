@@ -3,7 +3,7 @@ import { ClientConfig } from 'tencentcloud-sdk-nodejs/tencentcloud/common/interf
 import { Client } from 'tencentcloud-sdk-nodejs/tencentcloud/services/hunyuan/v20230901/hunyuan_client';
 import { ChatCompletionsResponse } from 'tencentcloud-sdk-nodejs/tencentcloud/services/hunyuan/v20230901/hunyuan_models';
 import { BaseChat } from './base/base';
-import { IChatInputMessage, IStreamHandler } from '../interface';
+import { IChatInputMessage, IStreamHandler } from '../../interface';
 import { DefaultSystem } from '../utils/constant';
 
 export class TencentChat implements BaseChat {

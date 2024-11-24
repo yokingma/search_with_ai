@@ -16,7 +16,6 @@ const modes = SearchMode.map(item => {
   return {
     name: item.displayName,
     value: item.name,
-    disabled: item.disabled
   };
 });
 const appStore = useAppStore();
@@ -38,7 +37,7 @@ export default {
 <template>
   <div class="search-mode">
     <t-radio-group variant="primary-filled" :default-value="value" @change="onChange">
-      <t-radio-button v-for="item in modes" :key="item.value" :disabled="item.disabled" :value="item.value">
+      <t-radio-button v-for="item in modes" :key="item.value" :value="item.value">
         {{ t(item.name) }}
       </t-radio-button>
     </t-radio-group>

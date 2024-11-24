@@ -4,7 +4,7 @@ import platform from './libs/provider';
 import { DefaultQuery } from './libs/utils/constant';
 import Models from './model.json';
 import { searchWithSogou } from './service/search';
-import { TSearchEngine, IChatInputMessage, Provider, TMode } from './interface';
+import { TSearchEngine, IChatInputMessage, Provider, TSearchMode } from './interface';
 import { getFromCache, setToCache } from './cache';
 import { ESearXNGCategory } from './libs/search/searxng';
 
@@ -18,7 +18,7 @@ export const searchController = async (ctx: Context) => {
   const engine: TSearchEngine = ctx.request.body.engine;
   const locally: boolean = ctx.request.body.locally ?? false;
   const categories: ESearXNGCategory[] = ctx.request.body.categories ?? [];
-  const mode: TMode = ctx.request.body.mode ?? 'simple';
+  const mode: TSearchMode = ctx.request.body.mode ?? 'simple';
   const language: string = ctx.request.body.language || 'all';
   const provider: Provider = ctx.request.body.provider || 'ollama';
 

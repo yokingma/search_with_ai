@@ -1,5 +1,5 @@
 import url from 'url';
-import { logger } from '../../service/logger';
+import { logger } from '../../logger';
 
 interface RequestConfig {
   endpoint: string;

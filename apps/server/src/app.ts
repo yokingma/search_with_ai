@@ -6,7 +6,7 @@ import serve from 'koa-static';
 import { bodyParser } from '@koa/bodyparser';
 import { whiteListMiddleware } from './middleware';
 import { getConfig } from './config';
-import { logger } from './service/logger';
+import { logger } from './logger';
 import history from 'koa2-connect-history-api-fallback';
 import {
   chatStreamController,
