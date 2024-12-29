@@ -55,7 +55,7 @@ git clone https://github.com/yokingma/search_with_ai.git
 cd search_with_ai
 ```
 
-2.**Edit** [.env.docker](https://github.com/yokingma/search_with_ai/blob/main/.env) **file.** in ```docker``` directory.
+2.**Edit** [.env.docker](https://github.com/yokingma/search_with_ai/blob/main/.env) **file.** in ```deploy``` directory.
 
 > After modifying the .env.docker file, restart the Docker container to apply changes.
 
@@ -71,7 +71,7 @@ OPENAI_PROXY_URL=#baseURL
 SEARXNG_HOSTNAME=http://searxng:8080
 ```
 
-3.**Edit** [model.json](https://github.com/yokingma/search_with_ai/blob/main/docker/model.json) **file.** [Optional]
+3.**Edit** [model.json](https://github.com/yokingma/search_with_ai/blob/main/deploy/model.json) **file.** [Optional]
 
 ```json
 {

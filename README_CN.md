@@ -58,7 +58,7 @@ git clone https://github.com/yokingma/search_with_ai.git
 cd search_with_ai
 ```
 
-2、**编辑** [.env.docker](https://github.com/yokingma/search_with_ai/blob/main/.env) 文件位于```docker```目录下
+2、**编辑** [.env.docker](https://github.com/yokingma/search_with_ai/blob/main/.env) 文件位于```deploy```目录下
 
 在此处配置你的KEY[如 OpenAI、Google、DeepSeek、阿里云 ]即可。
 > 如果修改了.env.docker文件，只需要重启Docker容器即可生效。
@@ -74,7 +74,7 @@ OPENAI_PROXY_URL=#OpenAI Base Url, OneAPI接口也是支持的。
 SEARXNG_HOSTNAME=http://searxng:8080
 ```
 
-3、[可选]编辑模型配置文件: ```/docker/model.json```
+3、[可选]编辑模型配置文件: ```/deploy/model.json```
 
 ```json
 {
@@ -85,7 +85,7 @@ SEARXNG_HOSTNAME=http://searxng:8080
 }
 ```
 
-4、在```docker```目录下运行：
+4、在```deploy```目录下运行：
 
 ```shell
 # 默认包含了 SearXNG 服务
