@@ -30,11 +30,11 @@ Repositories: [GitHub](https://github.com/yokingma/search_with_ai) [Gitee](https
 
 ## Features
 
-* Built-in support for LLM: OpenAI, Google, Lepton, DeepSeek, and more.
+* Built-in support for LLM: OpenAI, Google, Lepton, DeepSeek(R1), SiliconFlow, AliYun, Baidu, ChatGLM, Moonshot, Tencent, Lepton, Yi and more.
+* Support Ollama, [LMStudio](https://github.com/lmstudio-ai/lms)
 * Built-in support for search engine: Bing, Google, [SearXNG](https://github.com/searxng/searxng)
 * Customizable pretty UI interface
 * Support light&dark mode/mobile
-* Support Ollama, [LMStudio](https://github.com/lmstudio-ai/lms)
 * Support i18n
 * Support Continue Q&A with contexts.
 * Support Cache results, Force reload.
