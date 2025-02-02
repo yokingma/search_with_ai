@@ -140,7 +140,7 @@ export default {
     </div>
     <div class="mt-4 w-full">
       <div v-for="(message, index) in messages" :key="index" class="mt-4">
-        <t-loading v-if="message.role === 'assistant' && (!message.content || !message.reasoning)" size="small" />
+        <t-loading v-if="message.role === 'assistant' && (!message.content && !message.reasoning)" size="small" />
         <ChatMessage v-else :enable-reload="enableReload" :message="message" />
       </div>
     </div>

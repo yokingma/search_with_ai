@@ -146,6 +146,7 @@ function getCitationContent (num?: string | null) {
               </div>
             </div>
           </template>
+          <!-- eslint-disable-next-line vue/no-v-html -->
           <div class="text-xs text-zinc-500" v-html="reasoningHtml" />
         </t-collapse-panel>
       </t-collapse>
