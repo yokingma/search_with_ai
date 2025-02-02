@@ -6,14 +6,25 @@ import { RiRefreshLine } from '@remixicon/vue';
 import { citationMarkdownParse } from '../../utils';
 import { computed } from 'vue';
 
-interface Iprops {
+interface IProps {
   message: IMessage
   enableReload: boolean
 }
 
 const { t } = useI18n();
 
-const props = defineProps<Iprops>();
+const props = defineProps<IProps>();
+
+const parsedReasoning = computed(() => {
+  const { reasoning } = props.message;
+  if (!reasoning) {
+    return '';
+  }
+  const md = citationMarkdownParse(reasoning);
+  return marked.parse(md, {
+    async: false
+  });
+});
 
 const parsedContent = computed(() => {
   const { content } = props.message;
@@ -48,7 +59,7 @@ export default {
 <template>
   <div class="h-auto w-full">
     <div class="flex flex-col gap-2">
-      <div v-if="message.role === 'user'" class="flex items-center gap-2 text-xs text-zinc-400">
+      <div v-if="message.role === 'user'" class="flex items-center gap-2 text-xs text-zinc-600 dark:text-zinc-200">
         {{ message.content }}
         <t-tooltip :content="t('reload')">
           <t-button v-if="enableReload" theme="default" shape="circle">
@@ -58,7 +69,16 @@ export default {
         </t-button>
         </t-tooltip>
       </div>
-      <div v-else class="rounded-xl  bg-zinc-50 p-4 leading-6 text-zinc-600 shadow-md shadow-zinc-100 dark:bg-zinc-700 dark:text-zinc-200 dark:shadow-zinc-800">
+      <div v-else class="rounded-xl  bg-zinc-50 p-4 leading-6 text-zinc-600 dark:bg-zinc-700 dark:text-zinc-200">
+        <template v-if="message.reasoning">
+          <div class="mb-2 flex flex-col gap-1">
+            <div class="text-xs font-bold text-zinc-800 dark:text-zinc-200">
+              {{ t('reasoning') }}
+            </div>
+            <!-- eslint-disable-next-line vue/no-v-html -->
+            <div class="text-xs text-zinc-500 dark:text-zinc-400" v-html="parsedReasoning" />
+          </div>
+        </template>
         <!-- eslint-disable-next-line vue/no-v-html -->
         <div class="markdown-body" v-html="parsedContent"></div>
       </div>

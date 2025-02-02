@@ -34,12 +34,14 @@
               <ChatAnswer
                 :query="query"
                 :answer="result?.answer"
+                :reasoning="result?.reasoning"
                 :contexts="result?.contexts"
                 :loading="loading"
                 @reload="onReload"
               />
-              <div class="mt-4 flex">
-                <RelatedQuery :related="result?.related" @select="onSelectQuery" />
+              <div class="mt-4 flex flex-col gap-2">
+                <div class="text-sm font-bold text-zinc-600 dark:text-gray-300">{{ t('related') }}:</div>
+                <RelatedQuery :related="result?.related" :loading="loading" @select="onSelectQuery" />
               </div>
             </div>
             <div v-if="appStore.engine === 'SEARXNG'" class="mt-4">
@@ -57,7 +59,16 @@
                 <RiChat1Fill />
                 <span class="text-lg font-bold ">{{ t('chat') }}</span>
               </div>
-              <ContinueChat :contexts="result?.contexts" :clear="loading" :query="query" :answer="result?.answer ?? ''" :ask="ask" @message="onAnswering" />
+              <ContinueChat
+                :contexts="result?.contexts"
+                :reasoning="result?.reasoning"
+                :clear="loading"
+                :query="query"
+                :answer="result?.answer ?? ''"
+                :question="question"
+                @message="onAnswering"
+                @done="onContinueChatDone"
+              />
             </div>
             <div class="pb-20 pt-10">
               <PageFooter />
@@ -67,7 +78,7 @@
         <div class="fixed inset-x-0 bottom-0 z-50 w-full bg-gradient-to-t from-white to-transparent py-4 dark:from-black">
           <div class="flex w-full items-center justify-center">
             <div class="w-full drop-shadow-2xl lg:max-w-2xl xl:max-w-4xl">
-              <ChatInput :loading="loading" @ask="onChat" />
+              <ChatInput :loading="loading" @ask="onContinueChat" />
             </div>
           </div>
         </div>
@@ -95,13 +106,14 @@ const { t } = useI18n();
 
 const keyword = computed(() => router.currentRoute.value.query.q ?? '');
 const query = ref<string>('');
-const ask = ref<string>('');
+const question = ref<string>('');
 const loading = ref(false);
 
 let abortCtrl: AbortController | null = null;
 
 const result = ref<IQueryResult>({
   related: '',
+  reasoning: '',
   answer: '',
   contexts: [],
   images: []
@@ -133,8 +145,13 @@ const onSearch = (val: string) => {
   querySearch(val);
 }; 
 
-const onChat = (val: string) => {
-  ask.value = val.trim();
+const onContinueChat = (val: string) => {
+  question.value = val.trim();
+  scrollToBottom();
+};
+
+const onContinueChatDone = () => {
+  question.value = '';
   scrollToBottom();
 };
 
@@ -173,16 +190,16 @@ async function querySearch(val: string | null, reload?: boolean) {
   abortCtrl = ctrl;
   try {
     loading.value = true;
-    const { model, engine, mode, category, enableLocal, localModel, localProvider } = appStore;
-    const modelName = enableLocal ? localModel : model?.split(':')[1];
+    const { model, engine, mode, category } = appStore;
+    const provider = model?.split(':')[0];
+    const modelName = model?.split(':')[1];
     await search(val, {
       model: modelName,
-      provider: localProvider,
+      provider,
       engine,
       mode,
       language,
       categories: [category],
-      locally: enableLocal,
       reload,
       ctrl,
       onMessage: (data: any) => {
@@ -192,8 +209,11 @@ async function querySearch(val: string | null, reload?: boolean) {
         if (data?.image) {
           result.value.images?.push(data.image);
         }
-        if (data?.answer) {
-          result.value.answer += data.answer;
+        if (data?.content) {
+          result.value.answer += data.content;
+        }
+        if (data?.reasoningContent) {
+          result.value.reasoning += data.reasoningContent;
         }
         if (data?.related) {
           result.value.related += data.related;
@@ -222,11 +242,12 @@ async function querySearch(val: string | null, reload?: boolean) {
 function clear () {
   result.value = {
     related: '',
+    reasoning: '',
     answer: '',
     contexts: [],
     images: []
   };
-  ask.value = '';
+  question.value = '';
 }
 
 function scrollToBottom() {

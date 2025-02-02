@@ -2,6 +2,7 @@ export default {
   title: '基于AI的搜索引擎',
   theme: '主题',
   answer: 'AI回答',
+  reasoning: '深度思考',
   ask: '问',
   related: '相关问题',
   sources: '参考资料',
@@ -36,6 +37,7 @@ export default {
     noSelect: '暂未选择',
     sourceError: '获取参考资料失败了',
     shareSuccess: '分享链接已复制到剪贴板。',
+    noRelated: '没有相关问题或者查询失败了',
     success: '操作成功了！'
   },
   category: {

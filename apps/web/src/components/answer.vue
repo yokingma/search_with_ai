@@ -5,15 +5,16 @@ export default {
 </script>
 
 <script setup lang="tsx">
-import { watch, ref, render } from 'vue';
+import { watch, ref, render, computed } from 'vue';
 import { MessagePlugin, Popup } from 'tdesign-vue-next';
 import { citationMarkdownParse } from '../utils';
 import { marked } from 'marked';
 import { useI18n } from 'vue-i18n';
-import { RiRestartLine, RiClipboardLine, RiShareForwardLine } from '@remixicon/vue';
+import { RiRestartLine, RiClipboardLine, RiShareForwardLine, RiInfinityLine } from '@remixicon/vue';
 
-interface Iprops {
+interface IProps {
   query?: string
+  reasoning?: string
   answer?: string
   contexts?: Record<string, any>[]
   loading?: boolean
@@ -25,7 +26,7 @@ interface IEmits {
 
 const { t } = useI18n();
 
-const props = defineProps<Iprops>();
+const props = defineProps<IProps>();
 const emits = defineEmits<IEmits>();
 const answerRef = ref<HTMLDivElement | null>(null);
 
@@ -34,6 +35,12 @@ const answerRef = ref<HTMLDivElement | null>(null);
 //   processAnswer(props.answer)
 //   return
 // })
+
+const reasoningHtml = computed(() => {
+  if (!props.reasoning) return '';
+  const text = citationMarkdownParse(props.reasoning || '');
+  return marked.parse(text, { async: false });
+});
 
 const onReload = () => {
   emits('reload');
@@ -124,9 +131,28 @@ function getCitationContent (num?: string | null) {
 
 <template>
   <div class="h-auto w-full text-base leading-7 text-zinc-600 dark:text-gray-200">
-    <t-skeleton theme="paragraph" animation="flashed" :loading="!answer"></t-skeleton>
+    <t-skeleton theme="paragraph" animation="flashed" :loading="!answer && !reasoning"></t-skeleton>
+    <div v-if="reasoning" class="relative mb-4 box-border h-auto w-full pl-2">
+      <div class="absolute left-0 top-0 h-full border border-solid border-zinc-200 dark:border-zinc-600"></div>
+      <t-collapse :expand-icon="true" :default-expand-all="true" expand-icon-placement="right" :borderless="true">
+        <t-collapse-panel>
+          <template #header>
+            <div class="flex flex-nowrap items-center justify-between gap-1">
+              <div class="flex flex-nowrap items-center gap-1">
+                <RiInfinityLine size="12" class="text-zinc-600" />
+                <div class="text-xs font-bold text-zinc-600">
+                  {{ t('reasoning') }}
+                </div>
+              </div>
+            </div>
+          </template>
+          <!-- eslint-disable-next-line vue/no-v-html -->
+          <div class="text-xs text-zinc-500" v-html="reasoningHtml" />
+        </t-collapse-panel>
+      </t-collapse>
+    </div>
     <div ref="answerRef" class="markdown-body h-auto w-full dark:bg-zinc-800" />
-    <div v-if="!loading" class="flex w-full flex-row justify-between border-0 border-b border-solid border-zinc-200 py-2 dark:border-zinc-600">
+    <div v-if="!loading" class="mt-4 flex w-full flex-row justify-between border-0 border-b border-solid border-zinc-200 py-2 dark:border-zinc-600">
       <div class="flex gap-2">
         <t-tooltip :content="t('share')">
           <t-button :disabled="loading" theme="default" shape="round" variant="dashed" @click="onShare">
@@ -150,3 +176,15 @@ function getCitationContent (num?: string | null) {
     </div>
   </div>
 </template>
+
+<style scoped>
+:deep(.t-collapse-panel__header) {
+  padding: 0;
+}
+:deep(.t-collapse-panel__content) {
+  padding: 0;
+}
+:deep(.t-collapse), :deep(.t-collapse-panel), :deep(.t-collapse-panel__body) {
+  background: transparent!important;
+}
+</style>

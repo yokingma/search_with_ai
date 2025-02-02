@@ -48,11 +48,9 @@ const enableAdvanced = computed(() => appStore.engine === 'SEARXNG');
 
 const quickly: Record<string, string[]> = {
   zh: [
-    '刘亦菲《玫瑰的故事》',
     '怎么使用Ollama在本地部署大模型?',
-    'llama3-70b需要什么硬件配置？',
-    '小米su7体验怎么样？',
-    '《庆余年2》大结局'
+    '70b模型一般需要什么样的硬件配置？',
+    'DeepSeek R1和o3-mini有什么区别？',
   ],
   en: [
     'What is LLM?',

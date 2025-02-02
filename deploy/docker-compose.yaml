@@ -3,7 +3,7 @@ version: "3.7"
 services:
   search:
     container_name: aisearch
-    image: docker.cnb.cool/aigc/aisearch #or latest-linux-arm64
+    image: docker.cnb.cool/aigc/aisearch
     volumes:
       - ./.env.docker:/app/.env
       - ./model.json:/app/dist/model.json

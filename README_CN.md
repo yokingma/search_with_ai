@@ -25,17 +25,14 @@
 
 ## 功能说明
 
-* 内置主流的LLM接口支持，如OpenAI、Google、通译千问、百度文心一言、Lepton、DeepSeek。
-* 内置搜索引擎支持，如Bing、Sogou、Google、SearXNG（免费开源）。
-* 支持ChatGLM Web搜索插件 [作为搜索引擎, 目前免费]。
-* 简洁的搜索对话Web界面。
-* Web界面支持暗色模式。
-* Web界面支持移动端。
-* 支持搜索引擎切换、AI模型切换。
+* 内置主流的LLM接口支持，如OpenAI、Google、DeepSeek(R1)、SiliconFlow、腾讯混元、通译千问、百度、Lepton、零一万物、月之暗面等。
 * 支持本地大模型（基于Ollama、lmStudio）。
+* 内置搜索引擎支持，如Bing、Sogou、Google、[SearXNG](https://github.com/searxng/searxng), 支持ChatGLM Web搜索插件 [作为搜索引擎, 目前免费]。
+* 简洁的搜索对话Web界面，支持暗色模式、移动端。
+* 支持搜索引擎切换、AI模型切换。
 * 支持多语言（i18n）。
-* 支持根据结果上下文继续问答。
-* 支持缓存结果、强制刷新结果。
+* 支持根据上下文结果继续问答。
+* 支持回答结果缓存（可以强制刷新）。
 * 支持图片搜索。
 * 支持完整的网页内容抓取，基于[Jina](https://jina.ai/) Reader URL。
 
@@ -47,9 +44,11 @@
 
 [安装Docker](https://docs.docker.com/install/).
 
-> 项目预构建Docker镜像
-> 1. [Docker Hub](https://hub.docker.com/r/zacma/aisearch/tags)
-> 2. [CNB.cool](https://cnb.cool/aigc/AiSearch) (国内镜像源 > 制品库)
+```shell
+docker pull docker.cnb.cool/aigc/aisearch
+```
+
+> 项目预构建Docker镜像 [CNB.cool](https://cnb.cool/aigc/AiSearch) (国内镜像源 > 制品库)
 
 1、**克隆仓库**
 
@@ -67,19 +66,19 @@ cd search_with_ai
 # 示例
 # openai KEY, docker compose 默认带了FreeGPT35，如果你没有自己的Key, 这里保持默认
 OPENAI_KEY=#your key
-# openai Base Url, 
-OPENAI_PROXY_URL=#OpenAI Base Url, OneAPI接口也是支持的。
 ...
 # docker compose 部署默认带了SearXNG聚合搜索, 默认不需要修改
 SEARXNG_HOSTNAME=http://searxng:8080
 ```
 
-3、[可选]编辑模型配置文件: ```/deploy/model.json```
+3、[可选] 如果需要修改`BaseUrl`、`模型名称`, 请修改[model.json](https://github.com/yokingma/search_with_ai/blob/main/deploy/model.json)文件。
 
 ```json
 {
-  "platform": "openai",
+  "provider": "openai",
   "type": "openai",
+  // 修改BaseUrl, 支持oneAPI
+  "baseURL": "https://api.openai.com/v1",
   // 增加修改你的模型名称
   "models": ["o1-preview", "o1-mini", "gpt-4o", "gpt-4o-mini"]
 }
@@ -99,24 +98,6 @@ docker compose up -d
 - 手动删除旧版本的镜像（如果需要）
 - 执行 ```docker compose down```
 - 执行 ```docker compose up -d```
-
-## 大模型支持
-
-#### 基于在线大模型的API（需要Key）
-
-* OpenAI ChatGPT
-* Google Gemini
-* Lepton
-* 阿里云通译千问
-* 百度文心一言
-* 零一万物
-* 月之暗面
-* DeepSeek
-* ChatGLM
-* 腾讯混元
-* 本地大模型支持：Ollama、LMStudio
-
-> 如果有新的模型项目暂时不支持的，可以修改(/backend/utils/constant.ts)文件，添加新的模型名称即可。
 
 ## 搜索引擎配置
 
@@ -225,6 +206,7 @@ HOST: <http://localhost:3000>
 {
   "q": "今日新闻", // [必填]搜索关键词
   "model": "qwen-max", // [必填]模型名称
+  "provider": "ollama", // [必选]大模型服务[], 如ollama、lmstudio、openai、deepseek等
   "engine": "bing", // [必填]搜索引擎，默认bing
 
   "stream": true, // [可选]是否流式输出，默认true
@@ -232,8 +214,6 @@ HOST: <http://localhost:3000>
   "categories": [], // [可选]SearXNG搜索引擎分类，默认[]
   "mode": "simple", // [可选]搜索模式，type TMode = "simple" | "deep" | "research"
   "language": "all", // [可选]SearXNG搜索引擎语言
-  "locally": false, // [可选]是否使用本地大模型
-  "provider": "ollama" // [可选]本地大模型服务, 默认ollama
 }
 ```
 
@@ -242,7 +222,8 @@ HOST: <http://localhost:3000>
 ```json
 // 响应参数 Response body
 {
-  "answer": "text", // AI回答答案
+  "reasoningContent": "text", // AI推理过程[如果有]
+  "content": "text", // AI回答答案
   "contexts": [], // 上下文搜索结果
   "related": [], // 相关搜索问题
   "images": [], // 图片搜索结果
@@ -252,6 +233,7 @@ HOST: <http://localhost:3000>
 **[stream = true] 流式输出**
 
 ```text
+data: {"data": { "reasoningContent": "..." } }\n\n
 data: {"data": { "answer": "I" } }\n\n
 data: {"data": { "answer": "'m " } }\n\n
 data: {"data": { "answer": "a robot" } }\n\n
@@ -288,15 +270,9 @@ export enum ESearXNGCategory {
 
 // 搜索模式
 export type TMode = 'simple' | 'deep' | 'research'
-
-// 本地大模型服务
-export type Provider = 'ollama' | 'lmstudio';
 ```
 
-
-- ```GET /api/models``` 获取模型列表
-
-- ```GET /api/local/models``` 本地模型列表
+- ```GET /api/models``` 获取可用模型列表[只能获得提供了KEY的模型]
 
 ## 部署案例展示
 

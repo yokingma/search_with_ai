@@ -6,8 +6,6 @@ import RelatedQuery from './related.vue';
 import SearchInputBar from './searchInputBar.vue';
 import ModelSelect from './models.vue';
 import SearchEngineSelect from './engine.vue';
-import LocalModelSelect from './localModels.vue';
-import LocalProviderSelect from './localProviders.vue';
 import LanguageSelect from './language.vue';
 import AppSettings from './settings.vue';
 import ToolBar from './toolbar.vue';
@@ -21,8 +19,6 @@ export {
   SearchInputBar,
   RelatedQuery,
   ModelSelect,
-  LocalModelSelect,
-  LocalProviderSelect,
   LanguageSelect,
   SearchEngineSelect,
   ToolBar,

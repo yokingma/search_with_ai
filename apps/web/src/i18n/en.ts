@@ -3,6 +3,7 @@ export default {
   theme: 'Theme',
   ask: 'Me',
   answer: 'Answer',
+  reasoning: 'Deep Thinking',
   related: 'Related',
   sources: 'Sources',
   media: 'Media',
@@ -36,6 +37,7 @@ export default {
     noSelect: 'Not selected yet',
     sourceError: 'Failed to obtain information',
     shareSuccess: 'Sharing link copied to clipboard.',
+    noRelated: 'No related questions found',
     success: 'successful!'
   },
   category: {

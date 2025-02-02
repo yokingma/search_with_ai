@@ -2,10 +2,12 @@
   "name": "server",
   "main": "./dist/app.js",
   "author": "zac_ma",
+  "version": "1.0.0",
   "license": "MIT",
   "engines": {
     "node": ">=20"
   },
+
   "scripts": {
     "start": "dotenvx run --env-file=.env -- node ./dist/app.js",
     "dev": "dotenvx run --env-file=.env.local --env-file=.env -- cross-env NODE_ENV=development nodemon ./src/app.ts",
@@ -14,21 +16,21 @@
   },
   "dependencies": {
     "@dotenvx/dotenvx": "^0.24.0",
-    "@google/generative-ai": "^0.2.1",
+    "@google/generative-ai": "^0.21.0",
     "@koa/bodyparser": "^5.1.0",
     "@koa/cors": "^5.0.0",
     "@koa/router": "^12.0.1",
-    "@lmstudio/sdk": "^0.1.0",
+    "@lmstudio/sdk": "^0.4.7",
     "cache-manager": "^5.4.0",
     "cheerio": "^1.0.0",
     "dotenv": "^16.4.5",
-    "fetch-sse": "1.0.23",
+    "fetch-sse": "^1.1.1",
     "koa": "^2.15.0",
     "koa-static": "^5.0.0",
     "koa2-connect-history-api-fallback": "^0.1.3",
-    "ollama": "^0.5.9",
-    "openai": "^4.61.1",
-    "tencentcloud-sdk-nodejs": "^4.0.973",
+    "ollama": "^0.5.12",
+    "openai": "^4.80.1",
+    "tencentcloud-sdk-nodejs": "^4.0.1021",
     "winston": "^3.15.0"
   },
   "devDependencies": {

@@ -8,13 +8,18 @@ export default {
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
+interface IProps {
+  related?: string
+  loading?: boolean
+}
+
 type Emits = {
   (e: 'select', query: string): void
 }
 
 const { t } = useI18n();
 
-const props = defineProps<{ related?: string }>();
+const props = defineProps<IProps>();
 const emits = defineEmits<Emits>();
 const onSelect = (query: string) => {
   const pretty = query.trim().replace(/^([0-9]|\*|-)(\.|\s)/, '').trim();
@@ -28,8 +33,8 @@ const relatedArr = computed(() => {
 
 <template>
   <div class="flex w-full flex-col gap-4">
+    <t-skeleton animation="flashed" :row-col="[3]" :loading="loading"></t-skeleton>
     <template v-if="relatedArr?.length">
-      <div class="text-sm font-bold text-black dark:text-gray-300">{{ t('related') }}:</div>
       <div class="grid grid-cols-1 gap-2 md:grid-cols-3">
         <div
           v-for="(item, index) in relatedArr"
@@ -41,5 +46,6 @@ const relatedArr = computed(() => {
         </div>
       </div>
     </template>
+    <t-alert v-if="!relatedArr?.length && !loading" theme="info" :message="t('message.noRelated')" />
   </div>
 </template>

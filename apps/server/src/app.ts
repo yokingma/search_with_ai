@@ -10,8 +10,6 @@ import { logger } from './logger';
 import history from 'koa2-connect-history-api-fallback';
 import {
   chatStreamController,
-  localChatStreamController,
-  localModelsController,
   modelsController,
   searchController,
   sogouSearchController
@@ -59,10 +57,6 @@ router.post('/api/search', whiteListMiddleware(), searchController);
 router.post('/api/sogou/search', sogouSearchController);
 router.post('/api/chat', chatStreamController);
 router.get('/api/models', modelsController);
-
-// local llm
-router.get('/api/local/models', localModelsController);
-router.post('/api/local/chat', localChatStreamController);
 
 app.listen(port, () => {
   logger.info(`[Server is running on port]: ${port}`);

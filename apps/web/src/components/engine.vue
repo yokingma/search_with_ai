@@ -34,7 +34,6 @@ onMounted(() => {
       name: t('sogou'),
       value: 'SOGOU'
     },
-    
   ];
 });
 </script>

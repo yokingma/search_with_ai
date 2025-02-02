@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useAppStore } from '../store';
-import { SearchMode } from '../contants';
+import { SearchMode } from '../constants';
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { TSearchMode } from '../interface';

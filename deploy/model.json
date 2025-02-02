@@ -1,52 +1,79 @@
 [
   {
-    "platform": "aliyun",
+    "provider": "aliyun",
     "type": "openai",
+    "baseURL": "https://dashscope.aliyuncs.com/compatible-mode/v1",
     "models": ["qwen-max", "qwen-max-0428", "qwen-turbo", "qwen-plus"]
   },
   {
-    "platform": "openai",
+    "provider": "openai",
     "type": "openai",
+    "baseURL": "https://api.openai.com/v1",
     "models": ["o1-preview", "o1-mini", "gpt-4o", "gpt-4o-mini", "gpt-4o-latest", "gpt-4-preview", "gpt-4-turbo", "gpt-4", "gpt-3.5-turbo"]
   },
   {
-    "platform": "baidu",
-    "type": "baidu",
-    "models": ["eb-instant", "completions_pro", "ernie_bot_8k"]
-  },
-  {
-    "platform": "google",
-    "type": "gemini",
-    "models": ["gemini-1.0-pro", "gemini-1.5-pro", "gemini-1.5-flash"]
-  },
-  {
-    "platform": "yi",
+    "provider": "siliconflow",
     "type": "openai",
-    "models": ["yi-large", "yi-large-turbo", "yi-medium", "yi-spark"]
+    "baseURL": "https://api.siliconflow.cn/v1",
+    "models": ["deepseek-ai/DeepSeek-R1"]
   },
   {
-    "platform": "moonshot",
+    "provider": "baidu",
     "type": "openai",
+    "baseURL": "https://qianfan.baidubce.com/v2",
+    "models": ["ERNIE-4.0-8K-Latest", "ERNIE-4.0-8K-Preview", "ERNIE-4.0-Turbo-8K", "ERNIE-Lite-8K"]
+  },
+  {
+    "provider": "google",
+    "type": "google",
+    "models": ["gemini-1.5-pro", "gemini-1.5-flash"]
+  },
+  {
+    "provider": "yi",
+    "type": "openai",
+    "baseURL": "https://api.lingyiwanwu.com/v1",
+    "models": ["yi-lightning", "yi-large", "yi-spark"]
+  },
+  {
+    "provider": "moonshot",
+    "type": "openai",
+    "baseURL": "https://api.moonshot.cn/v1",
     "models": ["moonshot-v1-8k", "moonshot-v1-32k", "moonshot-v1-128k"]
   },
   {
-    "platform": "lepton",
-    "type": "openai",
+    "provider": "lepton",
+    "type": "lepton",
+    "baseURL": "https://%s.lepton.run/api/v1",
     "models": ["llama2-7b", "llama2-13b", "llama2-70b", "mixtral-8*7b", "mixtral-8*22b"]
   },
   {
-    "platform": "deepseek",
+    "provider": "deepseek",
     "type": "openai",
-    "models": ["deepseek-chat", "deepseek-coder"]
+    "baseURL": "https://api.deepseek.com/v1",
+    "models": ["deepseek-chat", "deepseek-reasoner"]
   },
   {
-    "platform": "chatglm",
+    "provider": "chatglm",
     "type": "openai",
+    "baseURL": "https://open.bigmodel.cn/api/paas/v4",
     "models": ["glm-4", "glm-4-plus", "glm-4-air", "glm-4-airx", "glm-4-flash"]
   },
   {
-    "platform": "tencent",
-    "type": "tencent",
+    "provider": "tencent",
+    "type": "openai",
+    "baseURL": "https://api.hunyuan.cloud.tencent.com/v1",
     "models": ["std", "pro"]
+  },
+  {
+    "provider": "ollama",
+    "type": "openai",
+    "baseURL": "http://localhost:11434/v1",
+    "models": ["llama3.1:8b"]
+  },
+  {
+    "provider": "lmstudio",
+    "type": "openai",
+    "baseURL": "http://localhost:1234/v1",
+    "models": ["meta-llama-3.1-8b-instruct"]
   }
 ]

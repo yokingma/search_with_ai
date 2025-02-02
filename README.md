@@ -30,13 +30,11 @@ Repositories: [GitHub](https://github.com/yokingma/search_with_ai) [Gitee](https
 
 ## Features
 
-* Built-in support for LLM: OpenAI, Google, Lepton, DeepSeek, Ollama(local)
-* Built-in support for search engine: Bing, Google, SearXNG(Free)
-* Built-in support for web search plugin: ChatGLM
-* Customizable pretty UI interface
-* Support dark mode
-* Support mobile display
+* Built-in support for LLM: OpenAI, Google, Lepton, DeepSeek(R1), SiliconFlow, AliYun, Baidu, ChatGLM, Moonshot, Tencent, Lepton, Yi and more.
 * Support Ollama, [LMStudio](https://github.com/lmstudio-ai/lms)
+* Built-in support for search engine: Bing, Google, [SearXNG](https://github.com/searxng/searxng)
+* Customizable pretty UI interface
+* Support light&dark mode/mobile
 * Support i18n
 * Support Continue Q&A with contexts.
 * Support Cache results, Force reload.
@@ -63,9 +61,8 @@ You must set at least one KEY.
 
 ```shell
 ...
-# OpenAI's key & baseUrl
+# OpenAI's key
 OPENAI_KEY=#your key
-OPENAI_PROXY_URL=#baseURL
 
 # Searxng hostname.
 SEARXNG_HOSTNAME=http://searxng:8080
@@ -75,8 +72,10 @@ SEARXNG_HOSTNAME=http://searxng:8080
 
 ```json
 {
-  "platform": "openai",
+  "provider": "openai",
   "type": "openai",
+  // change baseURL, support oneAPI
+  "baseURL": "https://api.openai.com/v1",
   // add your models
   "models": ["o1-preview", "o1-mini", "gpt-4o", "gpt-4o-mini"]
 }
@@ -95,26 +94,6 @@ Then visit <http://localhost:3000>
 - Delete old images using Docker Desktop or Docker CLI (if needed)
 - Run ```docker compose down```
 - Run ```docker compose up -d```
-
-## LLMs
-
-#### Support
-
-* OpenAI ChatGPT
-* Google Gemini
-* Lepton LLama2、Mixtral8*7B
-* AliYun Qwen
-* Baidu Wenxin
-* 01.ai
-* Moonshot(Kimi)
-* DeepSeek
-* ChatGLM
-* Tencent Hunyuan
-* Ollama, LMStudio
-
-#### Local LLM
-
-Support [Ollama](https://github.com/ollama/ollama), [LMStudio](https://github.com/lmstudio-ai/lms)
 
 ## Search Engine
 

@@ -1,14 +1,6 @@
 import url from 'url';
 import { logger } from '../../logger';
-
-interface RequestConfig {
-  endpoint: string;
-  timeout?: number;
-  query?: Record<string, any>;
-  data?: BodyInit | null;
-  headers?: Record<string, any>;
-  method?: RequestInit['method']
-}
+import { RequestConfig } from '../../interface';
 
 export const httpRequest = async (config: RequestConfig) => {
   const { endpoint, timeout = 10 * 60 * 1000, query, headers, data, method = 'GET' } = config;

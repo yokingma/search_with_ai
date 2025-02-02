@@ -1,5 +1,6 @@
 export interface IQueryResult {
   related?: string;
+  reasoning?: string;
   answer?: string;
   contexts?: Record<string, any>[];
   images?: Record<string, any>[];
@@ -12,11 +13,10 @@ export interface ISelectOptions {
 
 export type Role = 'user' | 'assistant'
 
-export type Provider = 'ollama' | 'lmstudio';
-
 export interface IMessage {
   role: Role;
   content: string;
+  reasoning?: string;
 }
 
 export type TSearCategory = 'general' | 'science' | 'images' | 'videos' | 'news'
