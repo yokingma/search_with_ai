@@ -1,11 +1,8 @@
 import Models from '../../model.json';
 import { IProviderModel, Provider } from '../../interface';
 import { BaseOpenAIChat } from './base/openai';
-import { BaiduChat } from './baidu';
 import { GoogleChat } from './google';
 import { LeptonChat } from './lepton';
-import { LMStudioChat } from './lmstudio';
-import { OllamaChat } from './ollama';
 import { getProviderKeys } from '../../config';
 
 const models = Models as IProviderModel[];
@@ -25,16 +22,10 @@ export function getProvider(provider: Provider, key?: string, baseUrl?: string) 
   switch (target.type) {
     case 'openai':
       return new BaseOpenAIChat(provider, key, baseUrl);
-    case 'baidu':
-      return new BaiduChat();
     case 'google':
       return new GoogleChat();
     case 'lepton':
       return new LeptonChat();
-    case 'lmstudio':
-      return new LMStudioChat();
-    case 'ollama':
-      return new OllamaChat();
     default:
       throw new Error(`Provider ${provider} not supported`);
   }
