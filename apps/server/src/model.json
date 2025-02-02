@@ -25,13 +25,13 @@
   {
     "provider": "google",
     "type": "google",
-    "models": ["gemini-1.0-pro", "gemini-1.5-pro", "gemini-1.5-flash"]
+    "models": ["gemini-1.5-pro", "gemini-1.5-flash"]
   },
   {
     "provider": "yi",
     "type": "openai",
     "baseURL": "https://api.lingyiwanwu.com/v1",
-    "models": ["yi-large", "yi-large-turbo", "yi-medium", "yi-spark"]
+    "models": ["yi-lightning", "yi-large", "yi-spark"]
   },
   {
     "provider": "moonshot",

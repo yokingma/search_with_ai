@@ -15,7 +15,7 @@ export class OllamaChat implements BaseChat {
   public platform = Provider.OLLAMA;
 
   public async chat(options: IChatOptions, onMessage?: IStreamHandler): Promise<IChatResponse> {
-    const { system = DefaultSystem, messages, model } = options;
+    const { system = DefaultSystem, messages, model, temperature } = options;
     if (system) {
       messages.unshift({
         role: 'system',
@@ -28,6 +28,9 @@ export class OllamaChat implements BaseChat {
         model,
         stream: true,
         messages,
+        options: {
+          temperature
+        }
       });
       let content = '';
       for await (const chunk of response) {
@@ -44,7 +47,10 @@ export class OllamaChat implements BaseChat {
 
     const response = await ollamaClient.chat({
       model,
-      messages
+      messages,
+      options: {
+        temperature
+      }
     });
     return {
       content: response.message.content,

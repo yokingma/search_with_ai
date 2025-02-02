@@ -22,10 +22,6 @@ export function getProvider(provider: Provider, key?: string, baseUrl?: string) 
 
   baseUrl = baseUrl || target.baseURL;
 
-  if (!baseUrl || !key) {
-    throw new Error(`Provider ${provider} baseURL or key not found`);
-  }
-
   switch (target.type) {
     case 'openai':
       return new BaseOpenAIChat(provider, key, baseUrl);
