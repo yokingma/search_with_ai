@@ -25,12 +25,10 @@
 
 ## 機能
 
-* LLMのサポート: OpenAI, Google, Lepton, DeepSeek, Ollama(ローカル)
-* 検索エンジンのサポート: Bing, Google, SearXNG(無料)
-* Web検索プラグインのサポート: ChatGLM
+* LLMのサポート: OpenAI, Google, Lepton, DeepSeek, その他...
+* 検索エンジンのサポート: Bing, Google, [SearXNG](https://github.com/searxng/searxng)
 * カスタマイズ可能な美しいUIインターフェース
-* ダークモードのサポート
-* モバイル表示のサポート
+* ライト&ダークモード, モバイルのサポート
 * Ollama, [LMStudio](https://github.com/lmstudio-ai/lms)のサポート
 * i18nのサポート
 * コンテキストを使用したQ&Aの継続
@@ -41,7 +39,12 @@
 ## Dockerでのデプロイ (推奨)
 
 [Dockerのインストール](https://docs.docker.com/install/).
-> プロジェクトの事前構築イメージ [Docker Hub](https://hub.docker.com/r/zacma/aisearch/tags)
+
+```shell
+docker pull docker.cnb.cool/aigc/aisearch
+```
+
+> プロジェクトの事前構築イメージ [CNB.cool](https://cnb.cool/aigc/AiSearch)
 
 1.**コードを取得します。**
 
@@ -58,9 +61,8 @@ cd search_with_ai
 
 ```shell
 ...
-# OpenAIのキーとベースURL
+# OpenAI KEY
 OPENAI_KEY=#your key
-OPENAI_PROXY_URL=#baseURL
 
 # Searxngのホスト名。
 SEARXNG_HOSTNAME=http://searxng:8080
@@ -70,9 +72,11 @@ SEARXNG_HOSTNAME=http://searxng:8080
 
 ```json
 {
-  "platform": "openai",
+  "provider": "openai",
   "type": "openai",
-  // 追加または変更するモデル
+  // BaseUrlを変更する
+  "baseURL": "https://api.openai.com/v1",
+  // 変更または追加するモデル
   "models": ["o1-preview", "o1-mini", "gpt-4o", "gpt-4o-mini"]
 }
 ```
@@ -90,26 +94,6 @@ docker compose up -d
 - Docker DesktopまたはDocker CLIを使用して古いイメージを削除します（必要に応じて）
 - ```docker compose down```を実行します。
 - ```docker compose up -d```を実行します。
-
-## LLMs
-
-#### サポート
-
-* OpenAI ChatGPT
-* Google Gemini
-* Lepton LLama2、Mixtral8*7B
-* AliYun Qwen
-* Baidu Wenxin
-* 01.ai
-* Moonshot(Kimi)
-* DeepSeek
-* ChatGLM
-* Tencent Hunyuan
-* Ollama, LMStudio
-
-#### ローカルLLM
-
-[Ollama](https://github.com/ollama/ollama)、[LMStudio](https://github.com/lmstudio-ai/lms)のサポート
 
 ## 検索エンジン
 
