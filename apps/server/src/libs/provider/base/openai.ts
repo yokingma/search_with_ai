@@ -41,44 +41,44 @@ export class BaseOpenAIChat implements BaseChat {
         ...messages,
       ];
     }
-    if (typeof onMessage !== 'function') {
-      const res = await this.openai.chat.completions.create({
+    if (typeof onMessage === 'function') {
+      const stream = await this.openai.chat.completions.create({
         messages,
         model,
+        stream: true,
         temperature
       });
+      let content = '';
+      let reasoningContent = '';
+      for await (const chunk of stream) {
+        if (chunk.choices[0]) {
+          const response: IChatResponse = {
+            content: chunk.choices[0].delta?.content ?? '',
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            reasoningContent: chunk.choices[0].delta?.reasoning_content ?? '',
+          };
+          content += response.content;
+          reasoningContent += response.reasoningContent ?? '';
+          onMessage?.(response);
+        }
+      }
       return {
-        content: res.choices[0]?.message.content || '',
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        reasoningContent: res.choices[0].message.reasoning_content || '',
+        content,
+        reasoningContent
       };
     }
 
-    const stream = await this.openai.chat.completions.create({
+    const res = await this.openai.chat.completions.create({
       messages,
       model,
-      stream: true,
       temperature
     });
-    let content = '';
-    let reasoningContent = '';
-    for await (const chunk of stream) {
-      if (chunk.choices[0]) {
-        const response: IChatResponse = {
-          content: chunk.choices[0].delta?.content ?? '',
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          reasoningContent: chunk.choices[0].delta?.reasoning_content ?? '',
-        };
-        content += response.content;
-        reasoningContent += response.reasoningContent ?? '';
-        onMessage?.(response);
-      }
-    }
     return {
-      content,
-      reasoningContent
+      content: res.choices[0]?.message.content || '',
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      reasoningContent: res.choices[0].message.reasoning_content || '',
     };
   }
 

@@ -116,9 +116,8 @@ export class Rag {
       onMessage?.(JSON.stringify(msg));
     });
 
-    await this.getRelatedQuestions(query, limitContexts, (msg) => {
-      onMessage?.(JSON.stringify({ related: msg?.content }));
-    });
+    const related = await this.getRelatedQuestions(query, limitContexts);
+    onMessage?.(JSON.stringify({ related }));
 
     onMessage?.(null, true);
   }
@@ -130,18 +129,17 @@ export class Rag {
   }
 
   // Gets related questions based on the query and context.
-  private async getRelatedQuestions(query: string, contexts: any[], onMessage?: IStreamHandler) {
+  private async getRelatedQuestions(query: string, contexts: any[]) {
     try {
       const { messages } = this.paramsFormatter(query, undefined, contexts, 'related');
-      const { model, stream } = this;
-      if (!stream) {
-        const res = await this.chat({ messages, model });
-        return res.content.split('\n');
-      }
-      await this.chat({ messages, model }, onMessage);
+      const { model } = this;
+      const res = await this.chat({ messages, model });
+      // remove <think> and </think>
+      const related = res.content.replace(/<think>[\s\S]*?<\/think>/g, '');
+      return related;
     } catch (err) {
       console.error('[LLM Error]:', err);
-      return [];
+      return '';
     }
   }
 

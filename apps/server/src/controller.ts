@@ -4,7 +4,7 @@ import { getChatByProvider } from './libs/provider';
 import { DefaultQuery } from './libs/utils/constant';
 import Models from './model.json';
 import { searchWithSogou } from './service/search';
-import { TSearchEngine, IChatInputMessage, Provider, TSearchMode, IProviderModel } from './interface';
+import { TSearchEngine, IChatInputMessage, Provider, TSearchMode, IProviderModel, IChatResponse } from './interface';
 import { getFromCache, setToCache } from './cache';
 import { ESearXNGCategory } from './libs/search/searxng';
 import { getProviderKeys } from './config';
@@ -62,7 +62,7 @@ export const searchController = async (ctx: Context) => {
     result += eventData;
     ctx.res.write(eventData, 'utf-8');
   });
-
+  ctx.res.write('[DONE] \n\n');
   ctx.res.end();
   // caching
   if (CACHE_ENABLED === '1') {
@@ -91,11 +91,11 @@ export const chatStreamController = async (ctx: Context) => {
   const handler = getChatByProvider(provider);
   ctx.res.statusCode = 200;
 
-  await handler?.({ messages, model, system }, (data: any) => {
-    const eventData = `data: ${JSON.stringify({ text: data || '' })}\n\n`;
+  await handler?.({ messages, model, system }, (data: IChatResponse | null) => {
+    const eventData = `data: ${JSON.stringify({ data })}\n\n`;
     ctx.res.write(eventData);
   });
-
+  ctx.res.write('[DONE] \n\n');
   ctx.res.end();
 };
 
