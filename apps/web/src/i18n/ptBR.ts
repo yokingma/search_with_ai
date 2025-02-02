@@ -3,6 +3,7 @@ export default {
     theme: 'Tema',
     ask: 'Eu',
     answer: 'Resposta',
+    reasoning: 'Pensamento Profundo',
     related: 'Relacionado',
     sources: 'Fontes',
     media: 'Mídia',
@@ -36,6 +37,7 @@ export default {
         noSelect: 'Não selecionado',
         sourceError: 'Falha ao obter informação',
         shareSuccess: 'Link de compartilhamento copiado.',
+        noRelated: 'Nenhuma pergunta relacionada encontrada',
         success: 'sucesso!'
     },
     category: {

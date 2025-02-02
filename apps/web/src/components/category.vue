@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useAppStore } from '../store';
-import { SearXNGCategories } from '../contants';
+import { SearXNGCategories } from '../constants';
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { TSearCategory } from '../interface';

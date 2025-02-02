@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ModelSelect, SearchEngineSelect, LocalModelSelect, LocalProviderSelect, LanguageSelect } from './';
+import { ModelSelect, SearchEngineSelect, LanguageSelect } from './';
 import { RiSunLine, RiMoonLine } from '@remixicon/vue';
 import { useAppStore } from '../store';
 import { type SwitchValue } from 'tdesign-vue-next';
@@ -16,9 +16,6 @@ const onChangeTheme = (val: SwitchValue) => {
   else appStore.updateTheme('light');
 };
 
-const onEnableLocalModel = (val: SwitchValue) => {
-  appStore.switchLocalModel(val as boolean);
-};
 </script>
 
 <script lang="ts">
@@ -39,28 +36,6 @@ export default {
           <div class="mt-2 flex w-full flex-col gap-2">
             <div class="">{{ t('selectEngine') }}</div>
             <SearchEngineSelect />
-          </div>
-          <t-divider>{{ t('localModel') }}</t-divider>
-          <div class="mt-2 flex w-full flex-col gap-2">
-            <div class="">{{ t('enableLocalModel') }}</div>
-            <t-switch class="w-12" size="large" :default-value="appStore.enableLocal" @change="onEnableLocalModel">
-              <template #label="slotProps">
-                <template v-if="slotProps.value">
-                  on
-                </template>
-                <template v-else>
-                  off
-                </template>
-              </template>
-            </t-switch>
-          </div>
-          <div class="mt-2 flex w-full flex-col gap-2">
-            <div class="">{{ t('localProvider') }}</div>
-            <LocalProviderSelect />
-          </div>
-          <div class="mt-2 flex w-full flex-col gap-2">
-            <div class="">{{ t('localModel') }}</div>
-            <LocalModelSelect />
           </div>
           <t-divider>{{ t('language') }}</t-divider>
           <div class="mt-2 flex w-full flex-col gap-2">
