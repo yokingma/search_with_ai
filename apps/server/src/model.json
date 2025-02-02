@@ -74,6 +74,6 @@
     "provider": "lmstudio",
     "type": "openai",
     "baseURL": "http://localhost:1234/v1",
-    "models": ["lmstudio/lmstudio-v1-70b-instruct"]
+    "models": ["meta-llama-3.1-8b-instruct"]
   }
 ]
