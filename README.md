@@ -44,7 +44,10 @@ Repositories: [GitHub](https://github.com/yokingma/search_with_ai) [Gitee](https
 ## Deploy with Docker (recommended)
 
 [Install Docker](https://docs.docker.com/install/).
-> Project pre-built image [Docker Hub](https://hub.docker.com/r/zacma/aisearch/tags)
+
+```shell
+docker pull docker.cnb.cool/aigc/aisearch
+```
 
 1.**Get the code.**
 
