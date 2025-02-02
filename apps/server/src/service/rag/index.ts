@@ -98,9 +98,9 @@ export class Rag {
       const [related, answer] = await Promise.all([relatedPromise, answerPromise]);
       return {
         related,
-        answer,
         images,
-        contexts: limitContexts
+        contexts: limitContexts,
+        ...answer
       };
     }
 
@@ -145,12 +145,11 @@ export class Rag {
 
   private async getAiAnswer(query: string, contexts: any[], mode: TSearchMode = 'simple', onMessage?: IStreamHandler) {
     const { model, stream } = this;
-    console.log('mode', mode);
     try {
       const { messages } = this.paramsFormatter(query, mode, contexts, 'answer');
       if (!stream) {
         const res = await this.chat({ messages, model });
-        return res.content;
+        return res;
       }
       await this.chat({ messages, model }, (msg) => {
         onMessage?.(msg);
