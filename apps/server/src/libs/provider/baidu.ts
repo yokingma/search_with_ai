@@ -2,8 +2,9 @@ import { fetchEventData } from 'fetch-sse';
 import { httpRequest }  from '../utils';
 import memoryCache from '../../cache';
 import { BaseChat } from './base/base';
-import { IChatInputMessage, IStreamHandler } from '../../interface';
+import { IStreamHandler, Provider } from '../../interface';
 import { type MemoryCache } from 'cache-manager';
+import { IChatOptions } from './base/openai';
 
 const BASE_URL =
   'https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/chat';
@@ -14,7 +15,7 @@ export class BaiduChat implements BaseChat {
   private key?: string;
   private secret?: string;
   private cache: MemoryCache;
-  public platform = 'baidu';
+  public platform = Provider.BAIDU;
 
   constructor() {
     this.key = process.env.BAIDU_KEY;
@@ -22,12 +23,34 @@ export class BaiduChat implements BaseChat {
     this.cache = memoryCache;
   }
 
-  public async chat(
-    messages: IChatInputMessage[],
-    model: string,
-    system?: string
-  ) {
+  public async chat(options: IChatOptions, onMessage?: IStreamHandler) {
+    const { messages, system, model } = options;
     const token = await this.getAccessToken();
+    if (typeof onMessage === 'function') {
+      const url = `${BASE_URL}/${model}?access_token=${token}`;
+      const abort = new AbortController();
+      let content = '';
+      await fetchEventData(url, {
+        method: 'POST',
+        data: {
+          messages,
+          system,
+          stream: true,
+        },
+        signal: abort.signal,
+        onMessage: (eventData) => {
+          const data = eventData?.data;
+          const result = JSON.parse(data || '{}');
+          const msg = result.result ?? '';
+          content += msg;
+          onMessage(msg, false);
+        }
+      });
+      onMessage?.(null, true);
+      return {
+        content
+      };
+    }
     const res = await httpRequest({
       endpoint: `${BASE_URL}/${model}`,
       method: 'POST',
@@ -48,30 +71,8 @@ export class BaiduChat implements BaseChat {
     return data.result;
   }
 
-  public async chatStream(
-    messages: IChatInputMessage[],
-    onMessage: IStreamHandler,
-    model: string,
-    system?: string
-  ): Promise<void> {
-    const token = await this.getAccessToken();
-    const url = `${BASE_URL}/${model}?access_token=${token}`;
-    const abort = new AbortController();
-    await fetchEventData(url, {
-      method: 'POST',
-      data: {
-        messages,
-        system,
-        stream: true,
-      },
-      signal: abort.signal,
-      onMessage: (eventData) => {
-        const data = eventData?.data;
-        const result = JSON.parse(data || '{}');
-        const msg = result.result ?? '';
-        onMessage(msg, false);
-      }
-    });
+  public async listModels() {
+    return [];
   }
 
   /**

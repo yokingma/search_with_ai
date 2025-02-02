@@ -1,8 +1,9 @@
 import { BaseChat } from './base/base';
 import OpenAI from 'openai';
 import util from 'util';
-import { IChatInputMessage, IStreamHandler } from '../../interface';
+import { IChatResponse, IStreamHandler } from '../../interface';
 import { DefaultSystem } from '../utils/constant';
+import { IChatOptions } from './base/openai';
 
 const BASE_URLS = 'https://%s.lepton.run/api/v1';
 
@@ -22,25 +23,46 @@ export class LeptonChat implements BaseChat {
     }
   }
 
-  async chatStream(
-    messages: IChatInputMessage[],
-    onMessage: IStreamHandler,
-    model: string,
-    system = DefaultSystem
-  ): Promise<void> {
+  async chat(options: IChatOptions, onMessage?: IStreamHandler): Promise<IChatResponse> {
     if (!this.openai) throw new Error('Lepton AI: Key is Required.');
+    const { system = DefaultSystem, messages, model } = options;
     const url = this.getBaseURL(model);
     this.openai.baseURL = url;
     if (system) messages.unshift({ role: 'system', content: system });
-    const stream = await this.openai.chat.completions.create({
+
+
+    if (typeof onMessage === 'function') {
+      const stream = await this.openai.chat.completions.create({
+        messages,
+        model,
+        stream: true
+      });
+      let content = '';
+      for await (const chunk of stream) {
+        content += chunk.choices[0].delta.content || '';
+        const msg = {
+          content: chunk.choices[0].delta.content || ''
+        };
+        if (chunk.choices[0]) onMessage?.(msg, false);
+      }
+      onMessage?.(null, true);
+      return {
+        content: content
+      };
+    }
+
+    const response = await this.openai.chat.completions.create({
       messages,
       model,
-      stream: true
+      stream: false
     });
-    for await (const chunk of stream) {
-      if (chunk.choices[0]) onMessage?.(chunk.choices[0].delta.content || null, false);
-    }
-    onMessage?.(null, true);
+    return {
+      content: response.choices[0].message.content || ''
+    };
+  }
+
+  public async listModels() {
+    return [];
   }
 
   private getBaseURL(model: string) {

@@ -1,18 +1,13 @@
-import { IChatInputMessage, IStreamHandler } from '../../../interface';
+import { IChatResponse, IStreamHandler } from '../../../interface';
+import { IChatOptions } from './openai';
 
 export abstract class BaseChat {
   platform: string;
 
-  abstract chat?(
-    messages: IChatInputMessage[],
-    model?: string,
-    system?: string
-  ): Promise<string | null>;
+  abstract chat(
+    options: IChatOptions,
+    onMessage?: IStreamHandler
+  ): Promise<IChatResponse>
 
-  abstract chatStream(
-    messages: IChatInputMessage[],
-    onMessage: IStreamHandler,
-    model?: string,
-    system?: string
-  ): Promise<void>;
+  abstract listModels(): Promise<string[]>
 }

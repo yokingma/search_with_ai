@@ -3,6 +3,7 @@ import { IChatInputMessage, IStreamHandler } from '../../interface';
 import { DefaultSystem } from '../utils/constant';
 import { httpRequest } from '../utils';
 import { fetchEventData } from 'fetch-sse';
+import { IChatOptions } from './base/openai';
 
 const BASE_URL = 'https://generativelanguage.googleapis.com/v1beta';
 
@@ -22,37 +23,10 @@ export class GoogleChat implements BaseChat {
   }
 
   public async chat(
-    messages: IChatInputMessage[],
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    model: string
+    options: IChatOptions,
+    onMessage?: IStreamHandler
   ) {
-    const msgs = this.transformMessage(messages);
-    const url = `${this.baseUrl}/${URLS.geminiProStream}`;
-    const res = await httpRequest({
-      endpoint: url,
-      method: 'POST',
-      data: JSON.stringify({
-        contents: msgs
-      }),
-      query: {
-        key: this.key,
-      },
-    });
-    const data = await res.json();
-    const resMsg = data.candidates?.[0];
-    if (res.status !== 200 || !resMsg) {
-      throw new Error(data.message ?? 'Google AI request error.');
-    }
-    return resMsg.content?.parts[0]?.text;
-  }
-
-  public async chatStream(
-    messages: IChatInputMessage[],
-    onMessage: IStreamHandler,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    model: string,
-    system = DefaultSystem
-  ) {
+    const { messages, system = DefaultSystem } = options;
     const msgs = this.transformMessage(messages);
     if (system) {
       msgs.unshift({
@@ -71,36 +45,66 @@ export class GoogleChat implements BaseChat {
         ]
       });
     }
-    const url = `${this.baseUrl}${URLS.geminiProStream}`;
-    const data = {
-      contents: msgs
-    };
-    const abort = new AbortController();
-    await fetchEventData(url, {
-      method: 'POST',
-      data,
-      signal: abort.signal,
-      headers: {
-        'Content-Type': 'application/json',
-        'x-goog-api-key': this.key
-      },
-      onOpen: async () => {
+    if (typeof onMessage === 'function') {
+      // stream
+      let content = '';
+      const url = `${this.baseUrl}${URLS.geminiProStream}`;
+      const data = {
+        contents: msgs
+      };
+      const abort = new AbortController();
+      await fetchEventData(url, {
+        method: 'POST',
+        data,
+        signal: abort.signal,
+        headers: {
+          'Content-Type': 'application/json',
+          'x-goog-api-key': this.key
+        },
+        onOpen: async () => {
         //
-      },
-      onMessage: (eventData) => {
-        const data = eventData?.data;
-        const result = JSON.parse(data || '{}');
-        const msg = result.candidates?.[0]?.content?.parts[0]?.text ?? '';
-        onMessage(msg, false);
-      },
-      onClose: () => {
-        onMessage(null, true);
-      },
-      onError: (error) => {
-        abort.abort();
-        console.log(error);
+        },
+        onMessage: (eventData) => {
+          const data = eventData?.data;
+          const result = JSON.parse(data || '{}');
+          const msg = result.candidates?.[0]?.content?.parts[0]?.text || '';
+          content += msg;
+          onMessage(msg, false);
+        },
+        onError: (error) => {
+          abort.abort();
+          console.log(error);
+        },
+      });
+      onMessage?.(null, true);
+      return {
+        content
+      };
+    }
+
+    const url = `${this.baseUrl}/${URLS.geminiProStream}`;
+    const res = await httpRequest({
+      endpoint: url,
+      method: 'POST',
+      data: JSON.stringify({
+        contents: msgs
+      }),
+      query: {
+        key: this.key,
       },
     });
+    const data = await res.json();
+    const resMsg = data.candidates?.[0];
+    if (res.status !== 200 || !resMsg) {
+      throw new Error(data.message ?? 'Google AI request error.');
+    }
+    return {
+      content: resMsg.content?.parts[0]?.text
+    };
+  }
+
+  public async listModels() {
+    return [];
   }
 
   private transformMessage(messages: IChatInputMessage[]) {

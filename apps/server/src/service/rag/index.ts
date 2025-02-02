@@ -1,18 +1,16 @@
-import { TSearchEngine, IChatInputMessage, IStreamHandler, Provider, SearchFunc, TSearchMode, ISearchResponseResult } from '../../interface';
+import { TSearchEngine, IChatInputMessage, IStreamHandler, Provider, SearchFunc, TSearchMode, ISearchResponseResult, IChatResponse } from '../../interface';
 import { searchWithBing, searchWithGoogle, searchWithSogou, searchWithSearXNG, searchWithChatGLM } from '../search';
 import { DeepQueryPrompt, MoreQuestionsPrompt, RagQueryPrompt, ResearchSystemPrompt, TranslatePrompt } from './prompt';
 import { ESearXNGCategory } from '../../libs/search/searxng';
-import platform from '../../libs/provider';
-import Models from '../../model.json';
+import { getChatByProvider } from '../../libs/provider';
 import { jinaUrlsReader } from '../../libs/jina';
 import util from 'util';
+import { IChatOptions } from '../../libs/provider/base/openai';
 
 interface RagOptions {
   engine?: TSearchEngine
   stream?: boolean
   model?: string
-  // use local llm?
-  locally?: boolean
   provider?: Provider
 }
 
@@ -20,7 +18,7 @@ interface RagOptions {
 
 export class Rag {
   private search: SearchFunc;
-  private chat: (...args: any[]) => Promise<any>;
+  private chat: (options: IChatOptions, onMessage?: IStreamHandler) => Promise<IChatResponse>;
   private model: string;
   // enable stream?
   private stream: boolean;
@@ -28,17 +26,15 @@ export class Rag {
   private engine: TSearchEngine;
 
   constructor(params?: RagOptions) {
-    const { engine = 'SEARXNG', stream = true, model, locally, provider } = params || {};
-    if (!model) throw new Error('model is required');
-    if (locally && provider) {
-      this.chat = platform[provider].chatStream.bind(platform[provider]);
-    } else {
-      const chat = processModel(model);
-      this.chat = chat;
-    }
+    const { engine = 'SEARXNG', stream = true, model, provider } = params || {};
+    if (!model) throw new Error('[RAG] model is required');
+    if (!provider) throw new Error('[RAG] provider is required');
+    this.chat = getChatByProvider(provider);
+
     this.model = model;
     this.stream = stream;
     this.engine = engine;
+
     switch (engine) {
       case 'GOOGLE':
         this.search = searchWithGoogle;
@@ -117,11 +113,11 @@ export class Rag {
     }
 
     await this.getAiAnswer(query, limitContexts, mode, (msg) => {
-      onMessage?.(JSON.stringify({ answer: msg }));
+      onMessage?.(JSON.stringify(msg));
     });
 
     await this.getRelatedQuestions(query, limitContexts, (msg) => {
-      onMessage?.(JSON.stringify({ related: msg }));
+      onMessage?.(JSON.stringify({ related: msg?.content }));
     });
 
     onMessage?.(null, true);
@@ -139,10 +135,10 @@ export class Rag {
       const { messages } = this.paramsFormatter(query, undefined, contexts, 'related');
       const { model, stream } = this;
       if (!stream) {
-        const res = await this.chat(messages, this.model);
-        return res.split('\n');
+        const res = await this.chat({ messages, model });
+        return res.content.split('\n');
       }
-      await this.chat(messages, onMessage, model);
+      await this.chat({ messages, model }, onMessage);
     } catch (err) {
       console.error('[LLM Error]:', err);
       return [];
@@ -155,15 +151,17 @@ export class Rag {
     try {
       const { messages } = this.paramsFormatter(query, mode, contexts, 'answer');
       if (!stream) {
-        const res = await this.chat(messages, this.model);
-        return res;
+        const res = await this.chat({ messages, model });
+        return res.content;
       }
-      await this.chat(messages, (msg: string, done: boolean) => {
-        onMessage?.(msg, done);
-      }, model);
+      await this.chat({ messages, model }, (msg) => {
+        onMessage?.(msg);
+      });
     } catch (err: any) {
       console.error('[LLM Error]:', err);
-      const msg = `[Oops~ Some errors seem to have occurred]: ${err?.message || 'Please check the console'}`;
+      const msg = {
+        content: `[Oops~ Some errors seem to have occurred]: ${err?.message || 'Please check the console'}`,
+      };
       if (!stream) return msg;
       else onMessage?.(msg, true);
     }
@@ -180,14 +178,15 @@ export class Rag {
         }
       ];
       // console.log(content);
+      const { model, stream } = this;
       let translated = '';
-      if (!this.stream) {
-        const res = await this.chat(messages, this.model);
-        translated = res;
+      if (!stream) {
+        const res = await this.chat({ messages, model });
+        translated = res.content;
       } else {
-        await this.chat(messages, (msg: string) => {
-          if (msg) translated += msg;
-        }, this.model);
+        await this.chat({ messages, model }, (msg) => {
+          if (msg) translated += msg.content;
+        });
       }
       return translated;
     } catch (err) {
@@ -236,15 +235,4 @@ export class Rag {
       messages
     };
   }
-}
-
-function processModel(model: string) {
-  const targetModel = Models.find(item => {
-    return item.models.includes(model);
-  });
-  if (targetModel?.platform) {
-    const target = platform[targetModel.platform as keyof typeof platform];
-    return target.chatStream.bind(target);
-  }
-  throw new Error(`[RAG] model ${model} is not supported`);
 }

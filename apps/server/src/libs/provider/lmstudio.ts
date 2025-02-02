@@ -1,7 +1,8 @@
 import { DefaultSystem } from '../utils/constant';
-import { IChatInputMessage, IStreamHandler } from '../../interface';
+import { IChatResponse, IStreamHandler, Provider } from '../../interface';
 import { BaseChat } from './base/base';
 import { LMStudioClient } from '@lmstudio/sdk';
+import { IChatOptions } from './base/openai';
 
 const host = process.env.OLLAMA_HOST || 'localhost:1234';
 const lmstudioClient = new LMStudioClient({
@@ -11,13 +12,10 @@ const lmstudioClient = new LMStudioClient({
  * run large language models locally with LMStudio.
  */
 export class LMStudioChat implements BaseChat {
-  public platform = 'lmstudio';
+  public platform = Provider.LMSTUDIO;
 
-  public async chat(
-    messages: IChatInputMessage[],
-    model = 'lmstudio-community/Meta-Llama-3.1-8B-Instruct-GGUF',
-    system = DefaultSystem
-  ): Promise<string | null> {
+  public async chat(options: IChatOptions, onMessage?: IStreamHandler): Promise<IChatResponse> {
+    const { system = DefaultSystem, messages, model } = options;
     if (system) {
       messages.unshift({
         role: 'system',
@@ -25,44 +23,37 @@ export class LMStudioChat implements BaseChat {
       });
     }
 
-    const llama3 = await lmstudioClient.llm.load(model);
-    const response = await llama3.respond(messages);
+    if (typeof onMessage === 'function') {
+      let content = '';
+      const loadedModel = await lmstudioClient.llm.load(model);
+      const response = loadedModel.respond(messages);
+      for await (const chunk of response) {
+        content += chunk.content;
+        onMessage?.({
+          content: chunk.content
+        }, false);
+      }
 
-    return response.content;
+      onMessage?.(null, true);
+      return {
+        content
+      };
+    }
+
+    const loadedModel = await lmstudioClient.llm.load(model);
+    const response = await loadedModel.respond(messages);
+
+    return {
+      content: response.content
+    };
   }
 
-  public async chatStream(
-    messages: IChatInputMessage[],
-    onMessage: IStreamHandler,
-    model = 'llama2',
-    system = DefaultSystem
-  ): Promise<void> {
-    if (system) {
-      messages.unshift({
-        role: 'system',
-        content: system
-      });
-    }
-    const llama3 = await lmstudioClient.llm.load(model);
-
-    const response = llama3.respond(messages);
-
-    for await (const chunk of response) {
-      onMessage?.(chunk, false);
-    }
-    onMessage?.(null, true);
-  }
-
-  public async list() {
+  public async listModels() {
     const models = await lmstudioClient.llm.listLoaded();
     if (models.length === 0) return Promise.reject('No models loaded.');
-    return {
-      models: models.map((x: any) => {
-        return {
-          name: x.identifier
-        };
-      })
-    };
+    return models.map((x: any) => {
+      return x.identifier;
+    });
   }
 }
 

@@ -1,34 +1,58 @@
-import platform from './libs/provider';
+export interface RequestConfig {
+  endpoint: string;
+  timeout?: number;
+  query?: Record<string, any>;
+  data?: BodyInit | null;
+  headers?: Record<string, any>;
+  method?: RequestInit['method']
+}
 
 export type SearchFunc = (...args: any[]) => Promise<ISearchResponseResult[]>;
 
 export type TSearchEngine = 'GOOGLE' | 'BING' | 'SOGOU' | 'SEARXNG' | 'CHATGLM';
 
 export type ChatRoleType = 'user' | 'assistant' | 'system';
+
+export enum Provider {
+  OLLAMA = 'ollama',
+  LMSTUDIO = 'lmstudio',
+  OPENAI = 'openai',
+  GOOGLE = 'google',
+  DEEPSEEK = 'deepseek',
+  SILICONFLOW = 'siliconflow',
+  ALIYUN = 'aliyun',
+  BAIDU = 'baidu',
+  CHATGLM = 'chatglm',
+  MOONSHOT = 'moonshot',
+  TENCENT = 'tencent',
+  LEPTON = 'lepton',
+  YI = 'yi'
+}
+
+export interface IProviderModel {
+  provider: Provider;
+  type: string;
+  models: string[];
+  baseURL?: string;
+}
+
 export interface IChatInputMessage {
   content: string;
   role: ChatRoleType;
 }
 
-export type Provider = 'ollama' | 'lmstudio';
-
 export interface IChatResponse {
-  text: string;
+  content: string;
+  reasoningContent?: string;
   usage?: {
     outputTokens: number;
     inputTokens: number;
   };
 }
 
-export interface IModelInfo {
-  platform: keyof typeof platform;
-  type: string;
-  models: string[];
-}
-
 
 export interface IStreamHandler {
-  (message: string | null, done: boolean): void
+  (response: IChatResponse | null, done?: boolean): void
 }
 
 // search engine result
