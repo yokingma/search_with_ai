@@ -1,4 +1,4 @@
-import { BaseChat } from './base/base';
+import { BaseChat } from './base/chat';
 import OpenAI from 'openai';
 import util from 'util';
 import { IChatResponse, IStreamHandler } from '../../interface';

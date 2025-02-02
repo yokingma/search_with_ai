@@ -1,4 +1,4 @@
-import { BaseChat } from './base/base';
+import { BaseChat } from './base/chat';
 import { IChatInputMessage, IStreamHandler, Provider } from '../../interface';
 import { DefaultSystem } from '../utils/constant';
 import { IChatOptions } from './base/openai';
