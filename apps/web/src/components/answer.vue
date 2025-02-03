@@ -38,8 +38,24 @@ const answerRef = ref<HTMLDivElement | null>(null);
 
 const reasoningHtml = computed(() => {
   if (!props.reasoning) return '';
-  const text = citationMarkdownParse(props.reasoning || '');
-  return marked.parse(text, { async: false });
+  const md = citationMarkdownParse(props.reasoning || '');
+  const html = marked.parse(md, {
+    async: false
+  });
+  const parent = document.createElement('div');
+  parent.innerHTML = html as string;
+  const citationTags = parent.querySelectorAll('a');
+  citationTags.forEach(tag => {
+    const citationNumber = tag.getAttribute('href');
+    const text = tag.innerText;
+    if (text !== 'citation') return;
+
+    const w = document.createElement('span');
+    w.classList.add('text-xs', 'inline-block', 'text-center', 'px-1', 'text-zinc-50', 'bg-zinc-600', 'align-top', 'rounded-md');
+    w.innerText = `${citationNumber}`;
+    tag.parentNode?.replaceChild(w, tag);
+  });
+  return parent.innerHTML;
 });
 
 const onReload = () => {
