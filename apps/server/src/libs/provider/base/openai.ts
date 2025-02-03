@@ -71,7 +71,7 @@ export class BaseOpenAIChat implements BaseChat {
 
     const res = await this.openai.chat.completions.create({
       messages,
-      model: model.toLowerCase(),
+      model,
       temperature
     });
     return {

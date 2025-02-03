@@ -37,8 +37,9 @@ const answerRef = ref<HTMLDivElement | null>(null);
 // })
 
 const reasoningHtml = computed(() => {
-  if (!props.reasoning) return '';
-  const md = citationMarkdownParse(props.reasoning || '');
+  const reasoning = props.reasoning;
+  if (!reasoning) return '';
+  const md = citationMarkdownParse(reasoning || '');
   const html = marked.parse(md, {
     async: false
   });
