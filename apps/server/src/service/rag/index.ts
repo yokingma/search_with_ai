@@ -134,9 +134,7 @@ export class Rag {
       const { messages } = this.paramsFormatter(query, undefined, contexts, 'related');
       const { model } = this;
       const res = await this.chat({ messages, model });
-      // remove <think> and </think>
-      const related = res.content.replace(/<think>[\s\S]*?<\/think>/g, '');
-      return related;
+      return res.content;
     } catch (err) {
       console.error('[LLM Error]:', err);
       return '';
