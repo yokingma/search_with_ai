@@ -21,7 +21,7 @@
     "provider": "baidu",
     "type": "openai",
     "baseURL": "https://qianfan.baidubce.com/v2",
-    "models": ["ERNIE-4.0-8K-Latest", "ERNIE-4.0-8K-Preview", "ERNIE-4.0-Turbo-8K", "ERNIE-Lite-8K"]
+    "models": ["ernie-4.0-8k-latest", "ernie-4.0-8k-preview", "ernie-4.0-turbo-8k", "ernie-lite-8k"]
   },
   {
     "provider": "google",

@@ -44,7 +44,7 @@ export class BaseOpenAIChat implements BaseChat {
     if (typeof onMessage === 'function') {
       const stream = await this.openai.chat.completions.create({
         messages,
-        model: model.toLowerCase(),
+        model,
         stream: true,
         temperature
       });
