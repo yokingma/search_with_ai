@@ -96,8 +96,9 @@ async function startChat() {
   abortCtrl = ctrl;
   loading.value = true;
   const { model } = appStore;
-  const provider = model?.split(':')[0];
-  const modelName = model?.split(':')[1];
+  // Split only on the first colon to preserve subsequent colons in model name
+  const [provider, ...modelParts] = model?.split(':') || [];
+  const modelName = modelParts.join(':');
   messages.value.push({
     role: 'assistant',
     content: '',
