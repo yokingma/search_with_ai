@@ -33,7 +33,7 @@ const relatedArr = computed(() => {
 
 <template>
   <div class="flex w-full flex-col gap-4">
-    <t-skeleton animation="flashed" :row-col="[3]" :loading="loading"></t-skeleton>
+    <t-skeleton animation="flashed" :row-col="[3]" :loading="loading && !relatedArr.length"></t-skeleton>
     <template v-if="relatedArr?.length">
       <div class="grid grid-cols-1 gap-2 md:grid-cols-3">
         <div

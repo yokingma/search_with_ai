@@ -116,8 +116,9 @@ export class Rag {
       onMessage?.(JSON.stringify(msg));
     });
 
-    const related = await this.getRelatedQuestions(query, limitContexts);
-    onMessage?.(JSON.stringify({ related }));
+    await this.getRelatedQuestions(query, limitContexts, (msg) => {
+      onMessage?.(JSON.stringify({ related: msg?.content }));
+    });
 
     onMessage?.(null, true);
   }
@@ -129,10 +130,14 @@ export class Rag {
   }
 
   // Gets related questions based on the query and context.
-  private async getRelatedQuestions(query: string, contexts: any[]) {
+  private async getRelatedQuestions(query: string, contexts: any[], onMessage?: IStreamHandler) {
     try {
       const { messages } = this.paramsFormatter(query, undefined, contexts, 'related');
       const { model } = this;
+      if (typeof onMessage === 'function') {
+        await this.chat({ messages, model }, onMessage);
+        return;
+      }
       const res = await this.chat({ messages, model });
       return res.content;
     } catch (err) {

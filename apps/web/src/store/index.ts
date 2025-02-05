@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 import { TSearCategory, TSearchEngine, TSearchMode } from 'src/interface';
 import { ref } from 'vue';
 
-type Theme = 'dark' | 'light'
+type Theme = 'dark' | 'light';
 type Lan = 'zh' | 'en' | 'ptBR';
 export const useAppStore = defineStore('app', () => {
   const engine = ref<TSearchEngine>('SEARXNG');
@@ -17,6 +17,10 @@ export const useAppStore = defineStore('app', () => {
 
   const updateModel = (val: string) => {
     model.value = val;
+  };
+
+  const updateProvider = (val: string) => {
+    provider.value = val;
   };
 
   const updateEngine = (val: TSearchEngine) => {
@@ -53,7 +57,8 @@ export const useAppStore = defineStore('app', () => {
     updateTheme,
     updateLanguage,
     updateCategory,
-    updateMode
+    updateMode,
+    updateProvider
   };
 }, {
   persist: true

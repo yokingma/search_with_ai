@@ -96,8 +96,8 @@ async function startChat() {
   abortCtrl = ctrl;
   loading.value = true;
   const { model } = appStore;
-  const provider = model?.split(':')[0];
-  const modelName = model?.split(':')[1];
+  const provider = model?.split('::')[0];
+  const modelName = model?.split('::')[1];
   messages.value.push({
     role: 'assistant',
     content: '',
