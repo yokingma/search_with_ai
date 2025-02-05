@@ -191,8 +191,8 @@ async function querySearch(val: string | null, reload?: boolean) {
   try {
     loading.value = true;
     const { model, engine, mode, category } = appStore;
-    const provider = model?.split(':')[0];
-    const modelName = model?.split(':')[1];
+    const provider = model?.split('::')[0];
+    const modelName = model?.split('::')[1];
     await search(val, {
       model: modelName,
       provider,
