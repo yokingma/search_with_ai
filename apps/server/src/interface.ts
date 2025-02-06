@@ -19,6 +19,7 @@ export enum Provider {
   OPENAI = 'openai',
   GOOGLE = 'google',
   DEEPSEEK = 'deepseek',
+  NVIDIA = 'nvidia',
   SILICONFLOW = 'siliconflow',
   ALIYUN = 'aliyun',
   BAIDU = 'baidu',

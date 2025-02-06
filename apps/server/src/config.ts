@@ -27,7 +27,8 @@ export function getProviderKeys() {
     GLM_KEY,
     SILICONFLOW_KEY,
     LMSTUDIO_KEY,
-    OLLAMA_KEY
+    OLLAMA_KEY,
+    NVIDIA_KEY
   } = process.env;
   const keys: Record<Provider, string | undefined> = {
     [Provider.GOOGLE]: GOOGLE_KEY,
@@ -42,7 +43,8 @@ export function getProviderKeys() {
     [Provider.CHATGLM]: GLM_KEY,
     [Provider.SILICONFLOW]: SILICONFLOW_KEY,
     [Provider.LMSTUDIO]: LMSTUDIO_KEY,
-    [Provider.OLLAMA]: OLLAMA_KEY
+    [Provider.OLLAMA]: OLLAMA_KEY,
+    [Provider.NVIDIA]: NVIDIA_KEY
   };
   return keys;
 }

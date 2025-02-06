@@ -26,7 +26,11 @@
  <img src="./assets/screenshot.jpg"></img>
 </div>
 
-Repositories: [GitHub](https://github.com/yokingma/search_with_ai) [Gitee](https://gitee.com/zac_ma/search_with_ai) [CNB](https://cnb.cool/isou/AiSearch) 
+<div align="center">
+ <img src="./assets/deepseek.png" style="box-sizing: border-box;border: 4px solid #ccc;border-radius: 10px;"></img>
+</div>
+
+Repositories: [GitHub](https://github.com/yokingma/search_with_ai) [CNB](https://cnb.cool/isou/AiSearch)
 
 ## Features
 
