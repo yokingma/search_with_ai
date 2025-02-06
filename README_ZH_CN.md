@@ -21,7 +21,11 @@
  <img src="./assets/screenshot_cn.jpg"></img>
 </div>
 
-仓库地址：[GitHub仓库](https://github.com/yokingma/search_with_ai) [Gitee仓库](https://gitee.com/zac_ma/search_with_ai) [CNB](https://cnb.cool/isou/AiSearch) 
+<div align="center">
+ <img src="./assets/deepseek.png" style="box-sizing: border-box;border: 4px solid #ccc;border-radius: 10px;"></img>
+</div>
+
+仓库地址：[GitHub仓库](https://github.com/yokingma/search_with_ai) [腾讯CNB](https://cnb.cool/isou/AiSearch)
 
 ## 功能说明
 
@@ -274,15 +278,15 @@ export type TMode = 'simple' | 'deep' | 'research'
 
 - ```GET /api/models``` 获取可用模型列表[只能获得提供了KEY的模型]
 
-## 部署案例展示
-
-* [UI版本]( https://github.com/onenov/search_with_ai ) 一个漂亮的UI实现
-* [sou.ffa.chat](https://sou.ffa.chat/)
-* [orence.net/ai](https://orence.net/ai)
-* [sou.mofa.chat](https://sou.mofa.chat)
+## 联系
 
 <div align="center">
- <img width="200" src="./assets/wechat.jpg"></img>
+  <img width="320" src="./assets/appreciate.jpg"></img>
+  <div>如果你喜欢这个项目</div>
+</div>
+
+<div align="center">
+ <img width="320" src="./assets/wechat.jpg"></img>
  <div>扫码添加助手进群交流</div>
 </div>
 
