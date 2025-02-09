@@ -140,6 +140,7 @@ const onSelectQuery = (val: string) => {
 };
 
 const onSearch = (val: string) => {
+  if (!val) return;
   query.value = val;
   router.currentRoute.value.query.q ??= val;
   querySearch(val);
