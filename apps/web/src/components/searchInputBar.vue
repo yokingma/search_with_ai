@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { RiArrowRightLine } from '@remixicon/vue';
+import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 type Emits = {
   (e: 'search', val: string): void,
@@ -17,12 +18,23 @@ const props = withDefaults(defineProps<Props>(), {
   limit: 520
 });
 
+const isComposing = ref(false);
+
+const onCompositionStart = () => {
+  isComposing.value = true;
+};
+
+const onCompositionEnd = () => {
+  isComposing.value = false;
+};
+
 const emits = defineEmits<Emits>();
 
 const query = defineModel<string>();
 
 const onSearch = () => {
   if (!query.value?.trim()) return;  
+  if (isComposing.value) return;
   emits('search', query.value.trim());
 };
 </script>
@@ -38,6 +50,8 @@ const onSearch = () => {
         :placeholder="t('tips.search')"
         size="large"
         clearable
+        @compositionstart="onCompositionStart"
+        @compositionend="onCompositionEnd"
         @enter="onSearch"
       >
         <template #suffix>
