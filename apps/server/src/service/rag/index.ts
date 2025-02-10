@@ -1,5 +1,5 @@
 import { TSearchEngine, IChatInputMessage, IStreamHandler, Provider, SearchFunc, TSearchMode, ISearchResponseResult, IChatResponse } from '../../interface';
-import { searchWithBing, searchWithGoogle, searchWithSogou, searchWithSearXNG, searchWithChatGLM } from '../search';
+import { searchWithBing, searchWithGoogle, searchWithSogou, searchWithSearXNG, searchWithChatGLM, searchWithTavily } from '../search';
 import { DeepQueryPrompt, MoreQuestionsPrompt, RagQueryPrompt, ResearchSystemPrompt, TranslatePrompt } from './prompt';
 import { ESearXNGCategory } from '../../libs/search/searxng';
 import { getChatByProvider } from '../../libs/provider';
@@ -50,6 +50,9 @@ export class Rag {
         break;
       case 'CHATGLM':
         this.search = searchWithChatGLM;
+        break;
+      case 'TAVILY':
+        this.search = searchWithTavily;
         break;
       default:
         this.search = searchWithSearXNG;

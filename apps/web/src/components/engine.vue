@@ -19,6 +19,10 @@ onMounted(() => {
       value: 'SEARXNG'
     },
     {
+      name: 'Tavily',
+      value: 'TAVILY'
+    },
+    {
       name: t('chatglm'),
       value: 'CHATGLM'
     },

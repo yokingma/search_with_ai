@@ -31,7 +31,7 @@
 
 * 内置主流的LLM接口支持，如OpenAI、Google、DeepSeek(R1)、SiliconFlow、腾讯混元、通译千问、百度、Lepton、零一万物、月之暗面等。
 * 支持本地大模型（基于Ollama、lmStudio）。
-* 内置搜索引擎支持，如Bing、Sogou、Google、[SearXNG](https://github.com/searxng/searxng), 支持ChatGLM Web搜索插件 [作为搜索引擎, 目前免费]。
+* 内置搜索引擎支持，如Bing、Sogou、Google、[Tavily](https://tavily.com/)、[SearXNG](https://github.com/searxng/searxng), 支持ChatGLM Web搜索插件 [作为搜索引擎, 目前免费]。
 * 简洁的搜索对话Web界面，支持暗色模式、移动端。
 * 支持搜索引擎切换、AI模型切换。
 * 支持多语言（i18n）。

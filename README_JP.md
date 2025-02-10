@@ -31,7 +31,7 @@
 
 * LLMのサポート: OpenAI, Google, Lepton, DeepSeek(R1), SiliconFlow, AliYun, Baidu, ChatGLM, Moonshot, Tencent, Lepton, Yi, その他...
 * Ollama, [LMStudio](https://github.com/lmstudio-ai/lms)のサポート
-* 検索エンジンのサポート: Bing, Google, [SearXNG](https://github.com/searxng/searxng)
+* 検索エンジンのサポート: Bing, Google, [Tavily](https://tavily.com/), [SearXNG](https://github.com/searxng/searxng)
 * カスタマイズ可能な美しいUIインターフェース
 * ライト&ダークモード, モバイルのサポート
 * i18nのサポート
