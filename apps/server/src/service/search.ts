@@ -3,6 +3,7 @@ import { httpRequest } from '../libs/utils';
 import { Sogou } from '../libs/search/sogou';
 import searxng, { ESearXNGCategory } from '../libs/search/searxng';
 import { webSearch } from '../libs/search/chatglm';
+import { tavilySearch } from '../libs/search/tavily';
 import { logger } from '../logger';
 import { getConfig } from '../config';
 import { retryAsync } from '../libs/utils';
@@ -156,6 +157,23 @@ export const searchWithSogou = async (query: string): Promise<ISearchResponseRes
     logger.error('Sogou Search Error:', err);
     throw err;
   }
+};
+
+export const searchWithTavily = async (query: string): Promise<ISearchResponseResult[]> => {
+  if (!query.trim()) {
+    throw new Error('Query cannot be empty');
+  }
+  const count = process.env.REFERENCE_COUNT || 8;
+  const results = await tavilySearch(
+    query,
+    {
+      topic: 'general',
+      timeRange: 'year',
+      searchDepth: 'basic',
+      maxResults: +count,
+    }
+  );
+  return results;
 };
 
 // Function to search with ChatGLM

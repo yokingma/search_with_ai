@@ -9,7 +9,7 @@ export interface RequestConfig {
 
 export type SearchFunc = (...args: any[]) => Promise<ISearchResponseResult[]>;
 
-export type TSearchEngine = 'GOOGLE' | 'BING' | 'SOGOU' | 'SEARXNG' | 'CHATGLM';
+export type TSearchEngine = 'GOOGLE' | 'BING' | 'SOGOU' | 'SEARXNG' | 'CHATGLM' | 'TAVILY';
 
 export type ChatRoleType = 'user' | 'assistant' | 'system';
 
