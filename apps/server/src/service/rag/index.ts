@@ -6,6 +6,7 @@ import { getChatByProvider } from '../../libs/provider';
 import { jinaUrlsReader } from '../../libs/jina';
 import util from 'util';
 import { IChatOptions } from '../../libs/provider/base/openai';
+import { replaceVariable } from '../../libs/utils';
 
 interface RagOptions {
   engine?: TSearchEngine
@@ -205,17 +206,19 @@ export class Rag {
 
     let prompt = MoreQuestionsPrompt;
 
+    const date = new Date().toISOString();
+
     // deep answer
     if (mode === 'deep' && type === 'answer') {
-      prompt = DeepQueryPrompt;
+      prompt = replaceVariable(DeepQueryPrompt, { date });
     }
 
     if (type === 'answer') {
       if (mode === 'deep') {
-        prompt = DeepQueryPrompt;
+        prompt = replaceVariable(DeepQueryPrompt, { date });
       }
       if (mode === 'simple' || mode === 'research') {
-        prompt = RagQueryPrompt;
+        prompt = replaceVariable(RagQueryPrompt, { date });
       }
     }
 

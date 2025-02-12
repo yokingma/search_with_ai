@@ -19,6 +19,8 @@ export const httpRequest = async (config: RequestConfig) => {
   return res;
 };
 
+
+
 // Retry mechanism for network requests
 export const retryAsync = async <T>(
   fn: () => Promise<T>,
@@ -39,3 +41,32 @@ export const retryAsync = async <T>(
   }
   throw new Error('Max retries exceeded');
 };
+
+/**
+ * check if the string is a link
+ */
+export function strIsLink(str?: string) {
+  if (!str) return false;
+  if (/^((http|https)?:\/\/|www\.|\/)[^\s/$.?#].[^\s]*$/i.test(str))
+    return true;
+  return false;
+}
+
+/**
+ * replace the variable in the string with the value
+ * e.g replaceVariable(`abc{{query}}, efg.`, { query: '456' })
+ */
+export function replaceVariable(
+  text: any,
+  obj: Record<string, string | number>
+): string {
+  if (!(typeof text === 'string')) return text;
+
+  for (const key in obj) {
+    const val = obj[key];
+    if (!['string', 'number'].includes(typeof val)) continue;
+
+    text = text.replace(new RegExp(`{{(${key})}}`, 'g'), String(val));
+  }
+  return text || '';
+}
