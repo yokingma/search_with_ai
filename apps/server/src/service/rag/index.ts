@@ -1,6 +1,6 @@
 import { TSearchEngine, IChatInputMessage, IStreamHandler, Provider, SearchFunc, TSearchMode, ISearchResponseResult, IChatResponse } from '../../interface';
 import { searchWithBing, searchWithGoogle, searchWithSogou, searchWithSearXNG, searchWithChatGLM, searchWithTavily } from '../search';
-import { DeepQueryPrompt, MoreQuestionsPrompt, RagQueryPrompt, ResearchSystemPrompt, TranslatePrompt } from './prompt';
+import { DeepQueryPrompt, MoreQuestionsPrompt, RagQueryPrompt, TranslatePrompt } from './prompt';
 import { ESearXNGCategory } from '../../libs/search/searxng';
 import { getChatByProvider } from '../../libs/provider';
 import { jinaUrlsReader } from '../../libs/jina';
@@ -229,13 +229,6 @@ export class Rag {
         content: `${system} ${query}`
       }
     ];
-
-    if (mode === 'research' && type === 'answer') {
-      messages.unshift({
-        role: 'system',
-        content: ResearchSystemPrompt
-      });
-    }
 
     return {
       messages
