@@ -7,7 +7,7 @@ export default {
 <script setup lang="tsx">
 import { watch, ref, render, computed } from 'vue';
 import { MessagePlugin, Popup } from 'tdesign-vue-next';
-import { citationMarkdownParse } from '../utils';
+import { citationMarkdownParse, clipboardCopy } from '../utils';
 import { marked } from 'marked';
 import { useI18n } from 'vue-i18n';
 import { RiRestartLine, RiClipboardLine, RiShareForwardLine, RiInfinityLine } from '@remixicon/vue';
@@ -67,7 +67,7 @@ const onCopy = async () => {
   try {
     const text = answerRef.value?.innerText;
     if (text) {
-      await navigator.clipboard.writeText(text);
+      clipboardCopy(text);
       MessagePlugin.success(t('message.success'));
     }
   } catch (err) {
