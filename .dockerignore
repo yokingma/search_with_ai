@@ -1,0 +1,11 @@
+Dockerfile
+.dockerignore
+
+**/node_modules
+**/dist
+**/.turbo
+**/.yarn
+
+**/.env.local
+
+.git
