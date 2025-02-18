@@ -36,6 +36,7 @@ RUN apk add --no-cache curl && curl -fsS https://dotenvx.sh/ | sh
 WORKDIR /app
 
 COPY --from=build /apps/server/package.json ./
+COPY --from=build /apps/server/yarn.lock ./
 
 RUN yarn install --production --frozen-lockfile && \
   yarn cache clean && \
