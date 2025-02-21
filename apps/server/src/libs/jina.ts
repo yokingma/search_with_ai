@@ -14,17 +14,17 @@ const BASE_URL = 'https://r.jina.ai/';
 
 export const jinaUrlsReader = async (options: IJinaReaderOptions) => {
   const apiKey = getConfig('JINA_KEY');
+
+  const headers: Record<string, any> = {};
+
   if (!apiKey) {
-    logger.error('[JINA] JINA_KEY is not set');
-    return [];
+    logger.info('[JINA] JINA_KEY is not set, limit to 20RPM');
   }
 
   const { urls, batchSize = 4, format = 'markdown', timeout } = options;
 
   // headers
-  const headers: Record<string, any> = {
-    'Authorization': `Bearer ${apiKey}`
-  };
+  if (apiKey) headers['Authorization'] = `Bearer ${apiKey}`;
   if (format) headers['X-Return-Format'] = format;
   if (timeout)  headers['X-Timeout'] = timeout;
 
