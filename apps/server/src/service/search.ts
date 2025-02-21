@@ -9,6 +9,25 @@ import { getConfig } from '../config';
 import { retryAsync } from '../libs/utils';
 import { ISearchResponseResult } from '../interface';
 
+export function getSearchEngine(engine: string) {
+  switch (engine) {
+    case 'GOOGLE':
+      return searchWithGoogle;
+    case 'BING':
+      return searchWithBing;
+    case 'SOGOU':
+      return searchWithSogou;
+    case 'SEARXNG':
+      return searchWithSearXNG;
+    case 'CHATGLM':
+      return searchWithChatGLM;
+    case 'TAVILY':
+      return searchWithTavily;
+    default:
+      return searchWithSearXNG;
+  }
+}
+
 // Function to search with SearXNG
 export const searchWithSearXNG = async (
   query: string,

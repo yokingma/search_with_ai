@@ -1,5 +1,5 @@
 import { TSearchEngine, IChatInputMessage, IStreamHandler, Provider, SearchFunc, TSearchMode, ISearchResponseResult, IChatResponse } from '../../interface';
-import { searchWithBing, searchWithGoogle, searchWithSogou, searchWithSearXNG, searchWithChatGLM, searchWithTavily } from '../search';
+import { getSearchEngine } from '../search';
 import { DeepQueryPrompt, MoreQuestionsPrompt, RagQueryPrompt, TranslatePrompt } from './prompt';
 import { ESearXNGCategory } from '../../libs/search/searxng';
 import { getChatByProvider } from '../../libs/provider';
@@ -36,28 +36,7 @@ export class Rag {
     this.stream = stream;
     this.engine = engine;
 
-    switch (engine) {
-      case 'GOOGLE':
-        this.search = searchWithGoogle;
-        break;
-      case 'BING':
-        this.search = searchWithBing;
-        break;
-      case 'SOGOU':
-        this.search = searchWithSogou;
-        break;
-      case 'SEARXNG':
-        this.search = searchWithSearXNG;
-        break;
-      case 'CHATGLM':
-        this.search = searchWithChatGLM;
-        break;
-      case 'TAVILY':
-        this.search = searchWithTavily;
-        break;
-      default:
-        this.search = searchWithSearXNG;
-    }
+    this.search = getSearchEngine(engine);
   }
 
   public async query(query: string, categories = [ESearXNGCategory.GENERAL], mode: TSearchMode = 'simple', language = 'all', onMessage?: (...args: any[]) => void) {

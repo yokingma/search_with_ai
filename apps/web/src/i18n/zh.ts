@@ -42,7 +42,7 @@ export default {
   },
   category: {
     general: '全网',
-    science: '学术',
+    science: '学术(英文)',
     images: '图片',
     videos: '视频'
   },

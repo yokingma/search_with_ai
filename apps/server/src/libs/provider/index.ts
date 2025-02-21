@@ -31,6 +31,14 @@ export function getProvider(provider: Provider, key?: string, baseUrl?: string) 
   }
 }
 
+export function getInfoByProvider(provider: Provider) {
+  const model = models.find(item => {
+    return item.provider === provider;
+  });
+  if (!model) throw new Error(`Provider ${provider} not found`);
+  return model;
+}
+
 export function getChatByProvider(providerName: string) {
   const model = models.find(item => {
     return item.provider === providerName;
