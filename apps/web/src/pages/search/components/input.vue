@@ -11,6 +11,10 @@ type Props = {
 }
 const { t } = useI18n();
 
+defineOptions({
+  name: 'ChatInput'
+});
+
 const props = withDefaults(defineProps<Props>(), {
   limit: 520
 });
@@ -37,11 +41,6 @@ const onCompositionStart = () => {
 
 const onCompositionEnd = () => {
   isComposing.value = false;
-};
-</script>
-<script lang="ts">
-export default {
-  name: 'ChatInput'
 };
 </script>
 

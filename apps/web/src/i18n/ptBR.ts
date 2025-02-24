@@ -11,6 +11,7 @@ export default {
     reload: 'Recarregar',
     share: 'Compartilhar',
     search: 'Buscador',
+    deepResearch: 'Pesquisa Profundo',
     newChat: 'Novo Q&A',
     sogou: 'Sogou',
     chatglm: 'ChatGLM',

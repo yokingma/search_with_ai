@@ -11,6 +11,7 @@ export default {
   reload: 'Reload',
   share: 'Share',
   search: 'Engine',
+  deepResearch: 'Deep Research',
   newChat: 'New Q&A',
   sogou: 'Sogou',
   chatglm: 'ChatGLM',

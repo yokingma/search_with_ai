@@ -7,6 +7,10 @@ import { TSearchMode } from '../interface';
 
 const { t } = useI18n();
 
+defineOptions({
+  name: 'SearchMode',
+});
+
 type Emits = {
   (e: 'change', val: TSearchMode): void
 }
@@ -18,6 +22,7 @@ const modes = SearchMode.map(item => {
     value: item.name,
   };
 });
+
 const appStore = useAppStore();
 
 const value = ref(appStore.mode);
@@ -28,13 +33,8 @@ const onChange = (val: any) => {
 };
 </script>
 
-<script lang="ts">
-export default {
-  name: 'SearchMode'
-};
-</script>
-
 <template>
+  <!-- eslint-disable-next-line tailwindcss/no-custom-classname -->
   <div class="search-mode">
     <t-radio-group variant="primary-filled" :default-value="value" @change="onChange">
       <t-radio-button v-for="item in modes" :key="item.value" :value="item.value">

@@ -11,6 +11,7 @@ export default {
   reload: '重新回答',
   share: '分享',
   search: '搜索引擎',
+  deepResearch: '深度研究',
   newChat: '新会话',
   sogou: '搜狗',
   chatglm: 'ChatGLM',

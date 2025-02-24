@@ -88,17 +88,17 @@
 </template>
 
 <script setup lang="ts">
-import router from '../router';
-import { search } from '../api';
+import router from '../../router';
+import { search } from '../../api';
 import { useI18n } from 'vue-i18n';
-import { useAppStore } from '../store';
+import { useAppStore } from '../../store';
 import ContinueChat from './components/chat.vue';
 import ChatInput from './components/input.vue';
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { MessagePlugin } from 'tdesign-vue-next';
-import { PageFooter, ChatAnswer, ChatMedia, RelatedQuery, ChatSources, SearchInputBar, SearchMode, SearCategory } from '../components';
+import { PageFooter, ChatAnswer, ChatMedia, RelatedQuery, ChatSources, SearchInputBar, SearchMode, SearCategory } from '../../components';
 import { RiChat3Line, RiBook2Line, RiChat1Fill, RiArrowGoBackLine } from '@remixicon/vue';
-import { IQueryResult, TSearCategory, TSearchMode } from '../interface';
+import { IQueryResult, TSearCategory, TSearchMode } from '../../interface';
 
 const appStore = useAppStore();
 

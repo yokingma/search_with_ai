@@ -3,7 +3,7 @@
     "provider": "aliyun",
     "type": "openai",
     "baseURL": "https://dashscope.aliyuncs.com/compatible-mode/v1",
-    "models": ["qwen-max", "qwen-max-0428", "qwen-turbo", "qwen-plus"]
+    "models": ["qwen-max", "qwen-turbo", "qwen2.5-7b-instruct-1m"]
   },
   {
     "provider": "openai",
