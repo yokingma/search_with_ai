@@ -33,9 +33,60 @@ export const processSerpResultPrompt = (query: string, contents: string[], numLe
 };
 
 export const generateReportPrompt = (prompt: string, learningsString: string) => {
-  return `Given the following prompt from the user, write a final report on the topic using the learnings from research. Make it as as detailed as possible, aim for 3 or more pages, include ALL the learnings from research:\n\n<prompt>${prompt}</prompt>\n\nHere are all the learnings from previous research:\n\n<learnings>\n${learningsString}\n</learnings>`;
+  return `
+Given the following prompt from the user, write a final report on the topic using the learnings from research. Make it as as detailed as possible, aim for 3 or more pages, include ALL the learnings from research:
+
+<prompt>${prompt}</prompt>
+
+Here are all the learnings from previous research:
+
+<learnings>
+${learningsString}
+</learnings>
+
+You are skilled at using Markdown formatting such as lists, headings, paragraphs, tables, code blocks, links and other tags to organize content and make it more readable.
+`;
 };
 
-export const generateFollowUpPrompt = (query: string, numQuestions = 3) => {
-  return `Given the following query from the user, ask some follow up questions to clarify the research direction, and give answers to these questions. Return a maximum of ${numQuestions} questions, but feel free to return less if the original query is clear: <query>${query}</query>, you should use the same language as the user's original query.`;
+export const generateFollowUpPrompt = (queries: string[], contexts: string[]) => {
+  return `
+Given the following contexts for the queries <queries>, give clear and specific answers to clarify the research direction, each answer should be concise and to the point, as detailed and information dense as possible.
+
+<queries>
+${queries.map(query => `<query>\n${query}\n</query>`).join('\n')}
+</queries>
+
+<contexts>
+${contexts.map(context => `<context>\n${context}\n</context>`).join('\n')}
+</contexts>
+
+You should use the same language as the user's original query.
+  `;
+};
+
+export const generateInitialQueryPrompt = (query: string, numQuestions = 3) => {
+  return `
+您是多步骤系统中的第一个组件，设计用于分析用户的查询，并生成多个不同的查询，以引导系统进行更深入的研究。该系统可访问以下工具：
+  - **Web 搜索**：用于搜索网络信息。
+  - **浏览页面**：用于从特定 URL 检索内容。
+
+您的角色是接收和分析用户查询，并生成多个查询问题用于从搜索引擎中获取详细的信息，以便澄清研究方向，引导系统进行更深入的研究。限制最多生成 ${numQuestions} 个查询，如果用户的查询缺少足够的信息或者是不明确的，请直接返回原始查询。
+
+**示例1：**
+
+用户查询：“当前阿里巴巴的股票价格是多少？”
+
+- 推理：
+  - 首先需要知道阿里巴巴是什么，用户查询的是股票价格，这应该是一家上市公司，所以需要生成搜索问题：阿里巴巴是一家什么公司？
+  - 用户可能需要查询当前股票价格，每天都会变化，所以需要生成搜索问题：阿里巴巴的当前股票价格是多少？
+
+**示例2：**
+
+用户查询：“你好？”
+
+- 推理：
+  - 用户查询的是“你好？”，这显然是一个问候语，没有足够的信息来引导系统进行更深入的研究，所以直接返回原始查询。
+
+**用户的原始查询问题是：** <query>${query}</query>
+`;
 };

@@ -60,6 +60,8 @@ router.post('/api/chat', chatStreamController);
 router.post('/api/deep-research', deepResearchController);
 router.get('/api/models', modelsController);
 
-app.listen(port, () => {
+const server = app.listen(port, () => {
   logger.info(`[Server is running on port]: ${port}`);
 });
+
+server.timeout = 1000 * 60 * 60;

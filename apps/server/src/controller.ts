@@ -8,7 +8,7 @@ import { TSearchEngine, IChatInputMessage, Provider, TSearchMode, IProviderModel
 import { getFromCache, setToCache } from './cache';
 import { ESearXNGCategory } from './libs/search/searxng';
 import { getProviderKeys } from './config';
-import { DeepResearch } from './service/research';
+import { DeepResearch, EResearchProgress } from './service/research';
 
 const CACHE_ENABLED = process.env.CACHE_ENABLE;
 
@@ -76,48 +76,117 @@ export const deepResearchController = async (ctx: Context) => {
   // llm provider
   const provider: Provider = ctx.request.body.provider;
   const model: string = ctx.request.body.model;
+  const reportModel: string = ctx.request.body.reportModel;
   // search engine
   const searchEngine: TSearchEngine = ctx.request.body.searchEngine;
-  const info = getInfoByProvider(provider);
+  const llmProvider = getInfoByProvider(provider);
+  // options
+  const { depth = 2, breadth = 2 } = ctx.request.body;
 
-  const { baseURL } = info;
+  const { baseURL } = llmProvider;
   const keys = getProviderKeys();
   const apiKey = keys[provider];
   if (!baseURL || !provider) throw new Error('Provider not found');
 
+  ctx.res.setHeader('Content-Type', 'text/event-stream');
+  ctx.res.setHeader('Cache-Control', 'no-cache');
+  ctx.res.setHeader('Connection', 'keep-alive');
+  ctx.res.statusCode = 200;
+
   const deepResearch = new DeepResearch({
-    openaiOptions: {
+    llmOptions: {
+      model,
       baseURL,
       apiKey,
       name: provider
     },
-    model,
+    reportLlmOptions: {
+      model: reportModel,
+      baseURL,
+      apiKey,
+      name: provider
+    },
     searchEngine
   });
 
-  const depth = 2;
-  const breadth = 2;
+  const startTime = Date.now();
 
-  const followUpQuestions = await deepResearch.generateFollowUpQuestions(query, 3);
 
-  const combinedQuery = `
-    Initial Query: ${query}
-    Follow-up Questions and Answers:
-    ${followUpQuestions.map((q) => `Q: ${q.question}\nA: ${q.answer}`).join('\n')}
-  `;
+  // 创建心跳定时器
+  const heartbeat = setInterval(() => {
+    const eventData = `data: ${JSON.stringify({
+      progress: EResearchProgress.Heartbeat,
+      time: Date.now() - startTime
+    })}\n\n`;
+    ctx.res.write(eventData);
+  }, 3000); // 3秒一次
 
-  const { learnings, urls } = await deepResearch.research({
-    query: combinedQuery,
-    depth,
-    breadth
-  });
+  try {
+    ctx.res.write(`data: ${JSON.stringify({
+      progress: EResearchProgress.Analyzing,
+      time: Date.now() - startTime
+    })}\n\n`);
 
-  const report = await deepResearch.generateReport({
-    prompt: combinedQuery,
-    learnings,
-    urls
-  });
-  ctx.body = report;
+    const combinedQuery = await deepResearch.generateCombinedQuery({
+      initialQuery: query,
+      numFollowUpQuestions: 3
+    });
+
+    ctx.res.write(`data: ${JSON.stringify({
+      progress: EResearchProgress.Start,
+      time: Date.now() - startTime
+    })}\n\n`);
+
+    const { learnings, urls } = await deepResearch.research({
+      query: combinedQuery,
+      depth,
+      breadth,
+      onProgress: (progress) => {
+        const eventData = `data: ${JSON.stringify({
+          progress: EResearchProgress.Researching,
+          time: Date.now() - startTime,
+          researchProgress: progress
+        })}\n\n`;
+        ctx.res.write(eventData);
+      }
+    });
+
+    const eventData = `data: ${JSON.stringify({
+      progress: EResearchProgress.Completed,
+      time: Date.now() - startTime,
+      researchProgress: {
+        currentDepth: 0,
+        currentQuery: null,
+        visitedUrls: urls
+      }
+    })}\n\n`;
+    ctx.res.write(eventData);
+
+    ctx.res.write(`data: ${JSON.stringify({
+      progress: EResearchProgress.Report,
+      time: Date.now() - startTime
+    })}\n\n`);
+
+    await deepResearch.generateReport({
+      combinedQuery,
+      learnings,
+      onProgress: (text: string) => {
+        const eventData = `data: ${JSON.stringify({
+          progress: EResearchProgress.Report,
+          time: Date.now() - startTime,
+          report: text
+        })}\n\n`;
+        ctx.res.write(eventData);
+      }
+    });
+
+    ctx.res.write('[DONE] \n\n');
+    ctx.res.end();
+
+  } finally {
+    clearInterval(heartbeat);
+    ctx.res.end();
+  }
 };
 
 export const sogouSearchController = async (ctx: Context) => {
