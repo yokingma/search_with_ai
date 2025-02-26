@@ -1,8 +1,9 @@
 <a name="top"></a>
+# Open AI Search (支持 DeepResearch)
+
 <br>
-<p align="center" style="font-size: 32px;"><b>Search with AI</b></p>
 <p align="center">
-  基于AI大语言模型的对话式搜索引擎，基于Node.js&Vue3。适合新手入门AI大模型开发参考:)，文档后有交流群二维码。
+  基于AI大语言模型的搜索引擎，支持DeepResearch生成详细报告，支持DeepSeek R1深度思考。基于Node.js&Vue3。适合新手入门AI大模型开发参考:)，文档后有交流群二维码。
 </p>
 <p align="center">
   <a href="https://isou.chat/">Live Demo</a>
@@ -21,14 +22,11 @@
  <img src="./assets/screenshot_cn.jpg"></img>
 </div>
 
-<div align="center">
- <img src="./assets/deepseek.png" style="box-sizing: border-box;border: 4px solid #ccc;border-radius: 10px;"></img>
-</div>
-
 仓库地址：[GitHub仓库](https://github.com/yokingma/search_with_ai) [腾讯CNB](https://cnb.cool/isou/AiSearch)
 
 ## 功能说明
 
+* 🔍 **新增：** 支持类似OpenAI/Gemini/Perplexity的"**Deep Research**"功能。
 * 内置主流的LLM接口支持，如OpenAI、Google、DeepSeek(R1)、SiliconFlow、腾讯混元、通译千问、百度、Lepton、零一万物、月之暗面等。
 * 支持本地大模型（基于Ollama、lmStudio）。
 * 内置搜索引擎支持，如Bing、Sogou、Google、[Tavily](https://tavily.com/)、[SearXNG](https://github.com/searxng/searxng), 支持ChatGLM Web搜索插件 [作为搜索引擎, 目前免费]。
@@ -38,11 +36,29 @@
 * 支持根据上下文结果继续问答。
 * 支持回答结果缓存（可以强制刷新）。
 * 支持图片搜索。
-* 支持完整的网页内容抓取，基于[Jina](https://jina.ai/) Reader URL。
+
+## 关于 DeepResearch
+
+支持类似OpenAI/Gemini/Perplexity的"Deep Research"功能，通过搜索引擎，Web刮削和AI大模型对任何主题或者问题进行迭代，深入研究并生成报告。项目参考了[deep-research](https://github.com/dzhng/deep-research)的实现, 感谢作者[dzhng](https://github.com/dzhng)。
+
+**注意:**
+
+- 需要AI接口支持`Function Calling`.
+- **警告:** 消耗大量Tokens.
+
+**工作流程:**
+
+1. 分析用户查询
+2. 生成跟进问题以细化研究方向
+3. 生成并执行搜索查询
+4. 处理和分析搜索结果
+5. 基于`步骤4`进行递归探索
+6. 生成全面的报告
+
+详细讨论可以参考[DeepResearch 讨论](https://github.com/yokingma/search_with_ai/issues/116)。
+或者通过文档后面二维码加入微信群交流。
 
 ## 使用 Docker 安装部署
-
-> 文档后面二维码加入微信群交流。
 
 **注意：使用SearXNG搜索引擎请确保你的网络能正常访问到Google**
 

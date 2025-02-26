@@ -33,13 +33,13 @@
 </template>
 
 <script setup lang="tsx">
-import router from '../router';
+import router from '@/router';
 import { RiSearch2Line } from '@remixicon/vue';
-import { PageFooter, SearchInputBar, SearCategory, SearchMode } from '../components';
-import logoUrl from '../assets/logo.png';
+import { PageFooter, SearchInputBar, SearCategory, SearchMode } from '@/components';
+import logoUrl from '@/assets/logo.png';
 import { useI18n } from 'vue-i18n';
 import { computed } from 'vue';
-import { useAppStore } from '../store';
+import { useAppStore } from '@/store';
 
 const { locale } = useI18n();
 const appStore = useAppStore();
@@ -73,12 +73,21 @@ const search = (val: string) => {
   if (!val) {
     return;
   }
-  router.push({
-    name: 'SearchPage',
-    query: {
-      q: val
-    }
-  });
+  if (appStore.mode === 'research') {
+    router.push({
+      name: 'DeepResearch',
+      params: {
+        query: val
+      }
+    });
+  } else {
+    router.push({
+      name: 'SearchPage',
+      query: {
+        q: val
+      }
+    });
+  }
 };
 
 const onQuickSearch = (val: string) => {

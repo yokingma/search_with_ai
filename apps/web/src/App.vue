@@ -4,7 +4,7 @@ import { useAppStore } from './store';
 import { useI18n } from 'vue-i18n';
 import { AppSettings, ToolBar } from './components';
 
-const { t, locale } = useI18n();
+const { locale } = useI18n();
 const appStore = useAppStore();
 
 const showSettings = ref(false);
@@ -21,7 +21,6 @@ function followSystemLanguage() {
 
 onMounted(() => {
   followSystemLanguage();
-  document.title = t('title');
   if (appStore.theme) appStore.updateTheme(appStore.theme);
   else {
     if (window.matchMedia('(prefers-color-scheme: dark)').matches) {

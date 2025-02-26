@@ -1,15 +1,19 @@
 <script setup lang="ts">
-import { IMessage } from '../../interface';
+import { IMessage } from '@/interface';
 import { useI18n } from 'vue-i18n';
 import { marked } from 'marked';
 import { RiRefreshLine } from '@remixicon/vue';
-import { citationMarkdownParse } from '../../utils';
+import { citationMarkdownParse } from '@/utils';
 import { computed } from 'vue';
 
 interface IProps {
   message: IMessage
   enableReload: boolean
 }
+
+defineOptions({
+  name: 'ChatMessage'
+});
 
 const { t } = useI18n();
 
@@ -48,12 +52,6 @@ const parsedContent = computed(() => {
   });
   return parent.innerHTML;
 });
-</script>
-
-<script lang="ts">
-export default {
-  name: 'ChatMessage'
-};
 </script>
 
 <template>

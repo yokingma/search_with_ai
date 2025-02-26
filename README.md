@@ -1,9 +1,9 @@
 <a name="top"></a>
-# Search with AI
+# Open AI Search (Support Deep Research)
 
 <br>
 <p align="center">
-  Build your conversation-based search with AI, a simple implementation with Node.js & Vue3.
+  Build your conversation-based search with LLM, support DeepResearch / DeepSeek R1.
 </p>
 <p align="center">
   <a href="https://isou.chat/">Live Demo</a>
@@ -26,14 +26,11 @@
  <img src="./assets/screenshot.jpg"></img>
 </div>
 
-<div align="center">
- <img src="./assets/deepseek.png" style="box-sizing: border-box;border: 4px solid #ccc;border-radius: 10px;"></img>
-</div>
-
 Repositories: [GitHub](https://github.com/yokingma/search_with_ai) [CNB](https://cnb.cool/isou/AiSearch)
 
 ## Features
 
+* 🔍 **New!** Support "**Deep Research**" like OpenAI/Gemini/Perplexity.
 * Built-in support for LLM: OpenAI, Google, Lepton, DeepSeek(R1), SiliconFlow, AliYun, Baidu, ChatGLM, Moonshot, Tencent, Lepton, Yi and more.
 * Support Ollama, [LMStudio](https://github.com/lmstudio-ai/lms)
 * Built-in support for search engine: Bing, Google, [Tavily](https://tavily.com/), [SearXNG](https://github.com/searxng/searxng)
@@ -43,7 +40,26 @@ Repositories: [GitHub](https://github.com/yokingma/search_with_ai) [CNB](https:/
 * Support Continue Q&A with contexts.
 * Support Cache results, Force reload.
 * Support images search.
-* Support full web content extraction, based on [Jina](https://jina.ai/) Reader URL.
+
+## About DeepResearch
+
+Support "Deep Research" like OpenAI/Gemini/Perplexity, through search engine, web scraping and LLM to iterate on any topic or question, and generate a comprehensive report. Project reference [deep-research](https://github.com/dzhng/deep-research), thanks to author [dzhng](https://github.com/dzhng).
+
+**Note:**
+
+- Need to support `Function Calling`.
+- **Warning:** It will cost a lot of Tokens.
+
+**Workflow:**
+
+1. Analyze user's query.
+2. Generate follow-up questions to refine the research direction.
+3. Generate and execute search queries.
+4. Process and analyze search results.
+5. Recursive exploration leads to deeper exploration base on `step 4`.
+6. Generate a comprehensive report.
+
+More details can be found in [DeepResearch discussion](https://github.com/yokingma/search_with_ai/issues/116).
 
 ## Deploy with Docker (recommended)
 

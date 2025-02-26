@@ -10,6 +10,7 @@ import { logger } from './logger';
 import history from 'koa2-connect-history-api-fallback';
 import {
   chatStreamController,
+  deepResearchController,
   modelsController,
   searchController,
   sogouSearchController
@@ -56,8 +57,11 @@ app.use(router.routes()).use(router.allowedMethods());
 router.post('/api/search', whiteListMiddleware(), searchController);
 router.post('/api/sogou/search', sogouSearchController);
 router.post('/api/chat', chatStreamController);
+router.post('/api/deep-research', deepResearchController);
 router.get('/api/models', modelsController);
 
-app.listen(port, () => {
+const server = app.listen(port, () => {
   logger.info(`[Server is running on port]: ${port}`);
 });
+
+server.timeout = 1000 * 60 * 60;

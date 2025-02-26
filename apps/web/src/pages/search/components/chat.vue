@@ -1,11 +1,15 @@
 <script setup lang="ts">
-import { IMessage } from '../../interface';
+import { IMessage } from '@/interface';
 import { computed, ref, watch } from 'vue';
 import ChatMessage from './message.vue';
-import { useAppStore } from '../../store';
-import { chat } from '../../api';
-import { SystemPrompts, UserPrompts } from '../../constants';
+import { useAppStore } from '@/store';
+import { chat } from '@/api';
+import { SystemPrompts, UserPrompts } from '@/constants';
 import { useI18n } from 'vue-i18n';
+
+defineOptions({
+  name: 'ContinueChat'
+});
 
 interface IProps {
   question: string
@@ -125,12 +129,6 @@ async function startChat() {
     messages.value.pop();
   }
 }
-</script>
-
-<script lang="ts">
-export default {
-  name: 'ContinueChat',
-};
 </script>
 
 <template>
