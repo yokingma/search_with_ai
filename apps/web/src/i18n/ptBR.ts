@@ -12,6 +12,8 @@ export default {
     share: 'Compartilhar',
     search: 'Buscador',
     deepResearch: 'Pesquisa Profundo',
+    researchGoal: 'Objetivo de Pesquisa',
+    webSearch: 'Pesquisa na Web',
     newChat: 'Novo Q&A',
     sogou: 'Sogou',
     chatglm: 'ChatGLM',
@@ -32,6 +34,17 @@ export default {
     provider: 'PROVIDER',
     enableLocalModel: 'Ativar Local LLM',
     warning: 'Conteúdo gerado por IA, e a eficácia não pode ser garantida.',
+    progress: {
+        start: 'Iniciar Análise',
+        analyzing: 'Analisando...',
+        searching: 'Procurando...',
+        researching: 'Pesquisando...',
+        reading: 'Lendo...',
+        summarizing: 'Resumindo...',
+        reporting: 'Gerando Relatório...',
+        done: 'Concluído',
+        failed: 'Falhou'
+    },
     message: {
         queryError: 'Erro ao consultar',
         copyError: 'Falha ao copiar',

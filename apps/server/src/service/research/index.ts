@@ -11,6 +11,38 @@ import { TSearchEngine } from '../../interface';
 import { logger } from '../../logger';
 import { retryAsync } from '../../libs/utils';
 
+export enum EResearchProgress {
+  Heartbeat = 'heartbeat',
+  Analyzing = 'analyzing',
+  Start = 'start',
+  Searching = 'searching',
+  Researching = 'researching',
+  Summarizing = 'summarizing',
+  Reporting = 'reporting',
+  Done = 'done'
+}
+
+export enum EResearchStatus {
+  Searching = 'searching',
+  Reading = 'reading'
+}
+
+export interface IResearchProgress {
+  currentDepth: number;
+  currentQuery: string;
+  visitedUrls: string[];
+  searchProgress?: ISearchProgress;
+}
+
+export interface ISearchProgress {
+  status: EResearchStatus;
+  target: {
+    query: string;
+    researchGoal: string;
+  };
+  total?: number;
+}
+
 export interface IResearchOptions {
   searchEngine: TSearchEngine;
   llmOptions: OpenAICompatibleProviderSettings & { model: string };
@@ -22,21 +54,6 @@ export type ResearchResult = {
   urls: string[];
   // learnings
   learnings: string[];
-}
-
-export interface IResearchProgress {
-  currentDepth: number;
-  currentQuery: string;
-  visitedUrls: string[];
-}
-
-export enum EResearchProgress {
-  Heartbeat = 'heartbeat',
-  Analyzing = 'analyzing',
-  Start = 'start',
-  Researching = 'researching',
-  Report = 'report',
-  Completed = 'completed'
 }
 
 export class DeepResearch {
@@ -51,7 +68,7 @@ export class DeepResearch {
     const llm = createOpenAICompatible(llmOptionsWithoutModel).chatModel(model);
     this.llm = llm;
     // report llm
-    if (reportLlmOptions) {
+    if (reportLlmOptions?.model) {
       const { model: reportModel, ...reportLlmOptionsWithoutModel } = reportLlmOptions;
       const reportLlm = createOpenAICompatible(reportLlmOptionsWithoutModel).chatModel(reportModel);
       this.reportLlm = reportLlm;
@@ -89,8 +106,27 @@ export class DeepResearch {
     const results = await Promise.all(
       serpQueries.map(async (query) => {
         try {
+          const searchProgress: ISearchProgress = {
+            status: EResearchStatus.Searching,
+            target: query
+          };
+
+          onProgress?.({
+            ...progress,
+            searchProgress
+          });
+
           const results = await this.search(query.query);
           const urls = results.map(item => item.url);
+
+          onProgress?.({
+            ...progress,
+            searchProgress: {
+              ...searchProgress,
+              status: EResearchStatus.Reading,
+              total: urls.length
+            }
+          });
 
           const { learnings: newLearnings, followUpQuestions } = await this.processSerpResult({
             query: query.query,

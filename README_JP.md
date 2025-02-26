@@ -1,8 +1,8 @@
 <a name="top"></a>
 <br>
-<p align="center" style="font-size: 32px;"><b>AIで検索</b></p>
+# Open AI Search (DeepResearch 対応)
 <p align="center">
-  AIを使った会話ベースの検索エンジンを構築するためのシンプルな実装です。Node.js & Vue3を使用しています。
+  LLMを使用して会話ベースの検索を構築し、DeepResearch / DeepSeek R1をサポートします。
 </p>
 <p align="center">
   <a href="https://isou.chat/">ライブデモ</a>
@@ -21,14 +21,11 @@
  <img src="./assets/screenshot.jpg"></img>
 </div>
 
-<div align="center">
- <img src="./assets/deepseek.png" style="box-sizing: border-box;border: 4px solid #ccc;border-radius: 10px;"></img>
-</div>
-
 リポジトリ: [GitHub](https://github.com/yokingma/search_with_ai) [CNB](https://cnb.cool/isou/AiSearch)
 
 ## 機能
 
+* 🔍 **新機能:** 類似OpenAI/Gemini/Perplexityの"**Deep Research**"機能をサポート。
 * LLMのサポート: OpenAI, Google, Lepton, DeepSeek(R1), SiliconFlow, AliYun, Baidu, ChatGLM, Moonshot, Tencent, Lepton, Yi, その他...
 * Ollama, [LMStudio](https://github.com/lmstudio-ai/lms)のサポート
 * 検索エンジンのサポート: Bing, Google, [Tavily](https://tavily.com/), [SearXNG](https://github.com/searxng/searxng)
@@ -38,7 +35,6 @@
 * コンテキストを使用したQ&Aの継続
 * 結果のキャッシュ、強制リロードのサポート
 * 画像検索のサポート
-* 完全なウェブコンテンツの抽出、[Jina](https://jina.ai/) Reader URLに基づく。
 
 ## Dockerでのデプロイ (推奨)
 

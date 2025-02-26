@@ -3,47 +3,47 @@
 
 
 "@ai-sdk/openai-compatible@^0.1.11":
-  version "0.1.11"
-  resolved "https://registry.npmmirror.com/@ai-sdk/openai-compatible/-/openai-compatible-0.1.11.tgz"
-  integrity sha512-r9kIDPdKCM1tbZEEKUauGzXp+w1ADrFPPfSxVeVr7of4QIvKzXqLaH/jR/HtdZ1JR5i9uywHijOAZtw7ZcDvQQ==
+  version "0.1.12"
+  resolved "https://registry.npmmirror.com/@ai-sdk/openai-compatible/-/openai-compatible-0.1.12.tgz"
+  integrity sha512-2bMhAEeiRz4lbW5ixjGjbPhwyqjtujkjLVpqqtqWvvUDvtUM3cw1go9pqWFgaNKSBDaXRUfi8mkAVrn1yRuY2A==
   dependencies:
-    "@ai-sdk/provider" "1.0.8"
-    "@ai-sdk/provider-utils" "2.1.9"
+    "@ai-sdk/provider" "1.0.9"
+    "@ai-sdk/provider-utils" "2.1.10"
 
-"@ai-sdk/provider-utils@2.1.9":
-  version "2.1.9"
-  resolved "https://registry.npmmirror.com/@ai-sdk/provider-utils/-/provider-utils-2.1.9.tgz"
-  integrity sha512-NerKjTuuUUs6glJGaentaXEBH52jRM0pR+cRCzc7aWke/K5jYBD6Frv1JYBpcxS7gnnCqSQZR9woiyS+6jrdjw==
+"@ai-sdk/provider-utils@2.1.10":
+  version "2.1.10"
+  resolved "https://registry.npmmirror.com/@ai-sdk/provider-utils/-/provider-utils-2.1.10.tgz"
+  integrity sha512-4GZ8GHjOFxePFzkl3q42AU0DQOtTQ5w09vmaWUf/pKFXJPizlnzKSUkF0f+VkapIUfDugyMqPMT1ge8XQzVI7Q==
   dependencies:
-    "@ai-sdk/provider" "1.0.8"
+    "@ai-sdk/provider" "1.0.9"
     eventsource-parser "^3.0.0"
     nanoid "^3.3.8"
     secure-json-parse "^2.7.0"
 
-"@ai-sdk/provider@1.0.8":
-  version "1.0.8"
-  resolved "https://registry.npmmirror.com/@ai-sdk/provider/-/provider-1.0.8.tgz"
-  integrity sha512-f9jSYwKMdXvm44Dmab1vUBnfCDSFfI5rOtvV1W9oKB7WYHR5dGvCC6x68Mk3NUfrdmNoMVHGoh6JT9HCVMlMow==
+"@ai-sdk/provider@1.0.9":
+  version "1.0.9"
+  resolved "https://registry.npmmirror.com/@ai-sdk/provider/-/provider-1.0.9.tgz"
+  integrity sha512-jie6ZJT2ZR0uVOVCDc9R2xCX5I/Dum/wEK28lx21PJx6ZnFAN9EzD2WsPhcDWfCgGx3OAZZ0GyM3CEobXpa9LA==
   dependencies:
     json-schema "^0.4.0"
 
-"@ai-sdk/react@1.1.17":
-  version "1.1.17"
-  resolved "https://registry.npmmirror.com/@ai-sdk/react/-/react-1.1.17.tgz"
-  integrity sha512-NAuEflFvjw1uh1AOmpyi7rBF4xasWsiWUb86JQ8ScjDGxoGDYEdBnaHOxUpooLna0dGNbSPkvDMnVRhoLKoxPQ==
+"@ai-sdk/react@1.1.18":
+  version "1.1.18"
+  resolved "https://registry.npmmirror.com/@ai-sdk/react/-/react-1.1.18.tgz"
+  integrity sha512-2wlWug6NVAc8zh3pgqtvwPkSNTdA6Q4x9CmrNXCeHcXfJkJ+MuHFQz/I7Wb7mLRajf0DAxsFLIhHyBCEuTkDNw==
   dependencies:
-    "@ai-sdk/provider-utils" "2.1.9"
-    "@ai-sdk/ui-utils" "1.1.15"
+    "@ai-sdk/provider-utils" "2.1.10"
+    "@ai-sdk/ui-utils" "1.1.16"
     swr "^2.2.5"
     throttleit "2.1.0"
 
-"@ai-sdk/ui-utils@1.1.15":
-  version "1.1.15"
-  resolved "https://registry.npmmirror.com/@ai-sdk/ui-utils/-/ui-utils-1.1.15.tgz"
-  integrity sha512-NsV/3CMmjc4m53snzRdtZM6teTQUXIKi8u0Kf7GBruSzaMSuZ4DWaAAlUshhR3p2FpZgtsogW+vYG1/rXsGu+Q==
+"@ai-sdk/ui-utils@1.1.16":
+  version "1.1.16"
+  resolved "https://registry.npmmirror.com/@ai-sdk/ui-utils/-/ui-utils-1.1.16.tgz"
+  integrity sha512-jfblR2yZVISmNK2zyNzJZFtkgX57WDAUQXcmn3XUBJyo8LFsADu+/vYMn5AOyBi9qJT0RBk11PEtIxIqvByw3Q==
   dependencies:
-    "@ai-sdk/provider" "1.0.8"
-    "@ai-sdk/provider-utils" "2.1.9"
+    "@ai-sdk/provider" "1.0.9"
+    "@ai-sdk/provider-utils" "2.1.10"
     zod-to-json-schema "^3.24.1"
 
 "@alloc/quick-lru@^5.2.0":
@@ -988,14 +988,14 @@ agentkeepalive@^4.2.1:
     humanize-ms "^1.2.1"
 
 ai@^4.1.44:
-  version "4.1.44"
-  resolved "https://registry.npmmirror.com/ai/-/ai-4.1.44.tgz"
-  integrity sha512-2THAHlSdZkRemTu7XinH5wckO3QprrniKg31fczgg4RKvsow0OztsLalwcIGoo69S0WN4BErNKkBisT+wXREZg==
+  version "4.1.46"
+  resolved "https://registry.npmmirror.com/ai/-/ai-4.1.46.tgz"
+  integrity sha512-VTvAktT69IN1qcNAv7OlcOuR0q4HqUlhkVacrWmMlEoprYykF9EL5RY8IECD5d036Wqg0walwbSKZlA2noHm1A==
   dependencies:
-    "@ai-sdk/provider" "1.0.8"
-    "@ai-sdk/provider-utils" "2.1.9"
-    "@ai-sdk/react" "1.1.17"
-    "@ai-sdk/ui-utils" "1.1.15"
+    "@ai-sdk/provider" "1.0.9"
+    "@ai-sdk/provider-utils" "2.1.10"
+    "@ai-sdk/react" "1.1.18"
+    "@ai-sdk/ui-utils" "1.1.16"
     "@opentelemetry/api" "1.9.0"
     jsondiffpatch "0.6.0"
 
@@ -3653,7 +3653,7 @@ semver@^7.0.0, semver@^7.3.4, semver@^7.3.5, semver@^7.3.6, semver@^7.5.3, semve
   version "7.6.3"
 
 "server@file:/Users/zac/opensources/search_with_ai/apps/server":
-  version "1.0.4"
+  version "1.1.0"
   resolved "file:apps/server"
   dependencies:
     "@ai-sdk/openai-compatible" "^0.1.11"
@@ -4336,7 +4336,7 @@ web-streams-polyfill@4.0.0-beta.3:
   version "4.0.0-beta.3"
 
 "web@file:/Users/zac/opensources/search_with_ai/apps/web":
-  version "1.0.4"
+  version "1.1.0"
   resolved "file:apps/web"
   dependencies:
     "@remixicon/vue" "^4.1.0"
@@ -4509,9 +4509,9 @@ yocto-queue@^0.1.0:
   version "0.1.0"
 
 zod-to-json-schema@^3.24.1:
-  version "3.24.1"
-  resolved "https://registry.npmmirror.com/zod-to-json-schema/-/zod-to-json-schema-3.24.1.tgz"
-  integrity sha512-3h08nf3Vw3Wl3PK+q3ow/lIil81IT2Oa7YpQyUUDsEWbXveMesdfK1xBd2RhCkynwZndAxixji/7SYJJowr62w==
+  version "3.24.3"
+  resolved "https://registry.npmmirror.com/zod-to-json-schema/-/zod-to-json-schema-3.24.3.tgz"
+  integrity sha512-HIAfWdYIt1sssHfYZFCXp4rU1w2r8hVVXYIlmoa0r0gABLs5di3RCqPU5DDROogVz1pAdYBaz7HK5n9pSUNs3A==
 
 zod@^3.0.0, zod@^3.22.4, zod@^3.23.8, zod@^3.24.1, zod@^3.24.2:
   version "3.24.2"

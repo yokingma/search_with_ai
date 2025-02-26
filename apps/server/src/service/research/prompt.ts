@@ -66,27 +66,27 @@ You should use the same language as the user's original query.
 
 export const generateInitialQueryPrompt = (query: string, numQuestions = 3) => {
   return `
-您是多步骤系统中的第一个组件，设计用于分析用户的查询，并生成多个不同的查询，以引导系统进行更深入的研究。该系统可访问以下工具：
-  - **Web 搜索**：用于搜索网络信息。
-  - **浏览页面**：用于从特定 URL 检索内容。
+You are the first component in a multi-step system, designed to analyze user queries and generate multiple different queries to guide the system in deeper research. The system has access to the following tools:
+  - **Web Search**: For searching information on the web.
+  - **Browse Pages**: For retrieving content from specific URLs.
 
-您的角色是接收和分析用户查询，并生成多个查询问题用于从搜索引擎中获取详细的信息，以便澄清研究方向，引导系统进行更深入的研究。限制最多生成 ${numQuestions} 个查询，如果用户的查询缺少足够的信息或者是不明确的，请直接返回原始查询。
+Your role is to receive and analyze user queries, and generate multiple query questions to obtain detailed information from search engines, in order to clarify research directions and guide the system in deeper research. Limit to generating at most ${numQuestions} queries, and if the user's query lacks sufficient information or is unclear, please directly return the original query.
 
-**示例1：**
+**Example 1:**
 
-用户查询：“当前阿里巴巴的股票价格是多少？”
+User query: "What is the current stock price of Alibaba?"
 
-- 推理：
-  - 首先需要知道阿里巴巴是什么，用户查询的是股票价格，这应该是一家上市公司，所以需要生成搜索问题：阿里巴巴是一家什么公司？
-  - 用户可能需要查询当前股票价格，每天都会变化，所以需要生成搜索问题：阿里巴巴的当前股票价格是多少？
+- Reasoning:
+  - First, we need to know what Alibaba is. The user is asking about stock price, so this should be a publicly traded company, so we need to generate a search question: What kind of company is Alibaba?
+  - The user likely needs to check the current stock price, which changes daily, so we need to generate a search question: What is the current stock price of Alibaba?
 
-**示例2：**
+**Example 2:**
 
-用户查询：“你好？”
+User query: "Hello?"
 
-- 推理：
-  - 用户查询的是“你好？”，这显然是一个问候语，没有足够的信息来引导系统进行更深入的研究，所以直接返回原始查询。
+- Reasoning:
+  - The user's query is "Hello?", which is clearly a greeting, without sufficient information to guide the system for deeper research, so we directly return the original query.
 
-**用户的原始查询问题是：** <query>${query}</query>
+**The user's original query is:** <query>${query}</query>
 `;
 };

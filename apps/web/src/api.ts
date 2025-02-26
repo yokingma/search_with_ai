@@ -1,5 +1,5 @@
 import { fetchEventData } from 'fetch-sse';
-import { IMessage, TSearCategory, TSearchEngine, TSearchMode } from './interface';
+import { IResearchProgress, IMessage, TSearCategory, TSearchEngine, TSearchMode } from './interface';
 const BASE_URL = import.meta.env.MODE === 'development' ? 'http://127.0.0.1:3000' : '';
 
 const SEARCH = '/api/search';
@@ -33,7 +33,7 @@ export interface IDeepResearchOptions {
   breadth?: number;
   reportModel?: string;
   ctrl?: AbortController;
-  onProgress?: (data: Record<string, any>) => void
+  onProgress?: (data: IResearchProgress) => void
 }
 
 export async function search(q: string, options: IQueryOptions) {
@@ -62,7 +62,6 @@ export async function search(q: string, options: IQueryOptions) {
       onOpen?.();
     },
     onMessage: (e) => {
-      console.log('[search]', e);
       try {
         if (e?.data) {
           const data = JSON.parse(e.data);
@@ -123,7 +122,7 @@ export async function deepResearch(options: IDeepResearchOptions) {
     onMessage: (e) => {
       try {
         if (e?.data) {
-          const data = JSON.parse(e.data);
+          const data: IResearchProgress = JSON.parse(e.data);
           onProgress?.(data);
         }
       } catch (err) {

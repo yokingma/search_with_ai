@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { onMounted, onUnmounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { RiArrowGoBackLine } from '@remixicon/vue';
 import ResearchReport from './components/report.vue';
@@ -8,32 +8,59 @@ import ResearchProgress from './components/progress.vue';
 import { deepResearch } from '@/api';
 import { useAppStore } from '@/store';
 import { MessagePlugin } from 'tdesign-vue-next';
+import { useRouter } from 'vue-router';
+import ResearchSource from './components/source.vue';
+import { IResearchProgress, EDeepResearchProgress } from '@/interface';
+
+interface IProps {
+  query: string;
+}
 
 defineOptions({
   name: 'DeepResearch'
 });
 
+const props = defineProps<IProps>();
+
+const router = useRouter();
+
 const { t } = useI18n();
 
 const appStore = useAppStore();
 
-const query = ref('');
+const query = ref(props.query);
 const loading = ref(false);
+
+// research report
+const report = ref<IResearchProgress>({
+  time: 0,
+  sources: [],
+  report: '',
+});
 
 let abortCtrl: AbortController | null = null;
 
 const onSearch = () => {
+  query.value = query.value.trim();
+  if (query.value !== props.query) {
+    router.replace({ 
+      name: router.currentRoute.value.name, 
+      params: { ...router.currentRoute.value.params, query: query.value } 
+    });
+  }
+  // clear previous report
+  report.value = {
+    time: 0,
+    progress: EDeepResearchProgress.Start,
+    sources: [],
+    report: '',
+  };
   querySearch(query.value);
 };
 
 const onBackHome = () => {
-  console.log('back home');
+  router.push({ name: 'Home' });
 };
-
-// research report
-const report = ref('');
-const sources = ref<string[]>([]);
-const time = ref(0);
 
 async function querySearch(val: string | null) {
   if (!val) return;
@@ -57,28 +84,51 @@ async function querySearch(val: string | null) {
       searchEngine: engine,
       depth: 2,
       breadth: 2,
-      reportModel: 'deepseek-r1-distill-qwen-32b',
+      // reportModel: 'deepseek-r1-distill-qwen-32b',
       ctrl,
-      onProgress: (data: Record<string, any>) => {
+      onProgress: (data) => {
         if (data?.report) {
-          report.value += data.report;
+          report.value.report += data.report;
+        }
+        if (data?.progress !== EDeepResearchProgress.Heartbeat) {
+          report.value.progress = data.progress;
         }
         if (data?.researchProgress) {
-          sources.value = data.researchProgress.visitedUrls;
+          if (data.researchProgress.searchProgress) {
+            report.value.progress = EDeepResearchProgress.Searching;
+            report.value.searchProgress = data.researchProgress.searchProgress;
+          }
+        }
+        if (data?.sources) {
+          report.value.sources = data.sources;
         }
         if (data?.time) {
-          time.value = data.time;
+          report.value.time = Math.ceil(data.time / 1000);
         }
       }
     });
   } catch(err) {
     ctrl.abort();
-    abortCtrl = null;
-    console.log(err);
-    loading.value = false;
+    console.error('[DeepResearch Error]', err);
     MessagePlugin.error(t('message.queryError'));
+  } finally {
+    abortCtrl = null;
+    loading.value = false;
   }
 }
+
+onMounted(() => {
+  if (props.query) {
+    querySearch(props.query);
+  }
+});
+
+onUnmounted(() => {
+  if (abortCtrl) {
+    abortCtrl.abort();
+    abortCtrl = null;
+  }
+});
 </script>
 
 <template>
@@ -103,10 +153,19 @@ async function querySearch(val: string | null) {
       <div class="size-full lg:max-w-2xl xl:max-w-4xl">
         <div class="box-border flex flex-col gap-4 p-4">
           <div class="flex flex-col gap-4">
-            <ResearchProgress :sources="sources" :time="time" />
+            <ResearchProgress
+              :sources="report.sources"
+              :loading="loading"
+              :time="report.time"
+              :progress="report.progress"
+              :search-progress="report.searchProgress"
+            />
           </div>
           <div class="mt-4 flex flex-col gap-4">
-            <ResearchReport :report="report" t />
+            <ResearchReport v-if="report.report" :report="report.report" />
+          </div>
+          <div class="mt-4 flex flex-col gap-4">
+            <ResearchSource v-if="report.sources?.length" :sources="report.sources" />
           </div>
         </div>
       </div>

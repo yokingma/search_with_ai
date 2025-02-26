@@ -22,11 +22,21 @@ const routes = [
   },
   {
     path: '/deep-research',
-    name: 'DeepResearch',
-    component: DeepResearch,
-    meta: {
-      title: 'DeepResearch'
-    }
+    children: [
+      {
+        path: '',
+        redirect: '/'
+      },
+      {
+        path: ':query',
+        name: 'DeepResearch',
+        component: DeepResearch,
+        props: true,
+        meta: {
+          title: 'DeepResearch'
+        }
+      }
+    ]
   }
 ];
 

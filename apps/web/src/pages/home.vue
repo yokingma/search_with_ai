@@ -76,8 +76,8 @@ const search = (val: string) => {
   if (appStore.mode === 'research') {
     router.push({
       name: 'DeepResearch',
-      query: {
-        q: val
+      params: {
+        query: val
       }
     });
   } else {

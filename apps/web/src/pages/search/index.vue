@@ -124,12 +124,15 @@ const onBackHome = () => {
 };
 
 const onSearchModeChanged = (mode: TSearchMode) => {
-  console.log('search mode', mode);
-  querySearch(query.value, false);
+  if (mode === 'deep') {
+    router.push({ name: 'Research', query: { q: query.value } });
+  } else {
+    querySearch(query.value, false);
+  }
 };
 
 const onSearchCategoryChanged = (category: TSearCategory) => {
-  console.log('search category', category);
+  console.log(category);
   querySearch(query.value, false);
 };
 

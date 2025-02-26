@@ -152,7 +152,7 @@ export const deepResearchController = async (ctx: Context) => {
     });
 
     const eventData = `data: ${JSON.stringify({
-      progress: EResearchProgress.Completed,
+      progress: EResearchProgress.Done,
       time: Date.now() - startTime,
       researchProgress: {
         currentDepth: 0,
@@ -163,7 +163,7 @@ export const deepResearchController = async (ctx: Context) => {
     ctx.res.write(eventData);
 
     ctx.res.write(`data: ${JSON.stringify({
-      progress: EResearchProgress.Report,
+      progress: EResearchProgress.Reporting,
       time: Date.now() - startTime
     })}\n\n`);
 
@@ -172,13 +172,19 @@ export const deepResearchController = async (ctx: Context) => {
       learnings,
       onProgress: (text: string) => {
         const eventData = `data: ${JSON.stringify({
-          progress: EResearchProgress.Report,
+          progress: EResearchProgress.Reporting,
           time: Date.now() - startTime,
           report: text
         })}\n\n`;
         ctx.res.write(eventData);
       }
     });
+
+    ctx.res.write(`data: ${JSON.stringify({
+      progress: EResearchProgress.Done,
+      time: Date.now() - startTime,
+      sources: urls
+    })}\n\n`);
 
     ctx.res.write('[DONE] \n\n');
     ctx.res.end();
