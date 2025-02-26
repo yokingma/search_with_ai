@@ -32,6 +32,16 @@ export default {
   provider: '服务方',
   enableLocalModel: '启用本地大模型',
   warning: '搜索生成的内容由AI大模型和搜索引擎生成，内容不代表我们的态度或观点，仅供研究学习用途。',
+  progress: {
+    start: '开始分析',
+    analyzing: '分析中...',
+    searching: '搜索中...',
+    researching: '研究中...',
+    summarizing: '总结中...',
+    reporting: '报告生成中...',
+    done: '完成',
+    failed: '失败'
+  },
   message: {
     queryError: '查询出错了',
     copyError: '复制失败了',
