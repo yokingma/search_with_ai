@@ -36,6 +36,26 @@
 * 結果のキャッシュ、強制リロードのサポート
 * 画像検索のサポート
 
+## DeepResearchについて
+
+OpenAI/Gemini/Perplexityに類似した「Deep Research」機能をサポートし、検索エンジン、Webスクレイピング、AIモデルを使用してあらゆるトピックや質問に対して反復的に深く調査し、包括的なレポートを生成します。このプロジェクトは[deep-research](https://github.com/dzhng/deep-research)の実装を参考にしており、作者の[dzhng](https://github.com/dzhng)に感謝します。
+
+https://github.com/user-attachments/assets/da5e038d-5e0a-4a6f-bae2-b1a58eee193e
+
+**注意:**
+
+- AIインターフェースが`Function Calling`をサポートする必要があります。
+- **警告:** 大量のトークンを消費します。
+
+**ワークフロー:**
+
+1. ユーザークエリの分析
+2. 研究方向を絞り込むためのフォローアップ質問の生成
+3. 検索クエリの生成と実行
+4. 検索結果の処理と分析
+5. `ステップ4`に基づく再帰的な探索
+6. 包括的なレポートの生成
+
 ## Dockerでのデプロイ (推奨)
 
 [Dockerのインストール](https://docs.docker.com/install/).
