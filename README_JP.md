@@ -95,9 +95,7 @@ SEARXNG_HOSTNAME=http://searxng:8080
 {
   "provider": "openai",
   "type": "openai",
-  // BaseUrlを変更する
   "baseURL": "https://api.openai.com/v1",
-  // 変更または追加するモデル
   "models": ["o1-preview", "o1-mini", "gpt-4o", "gpt-4o-mini"]
 }
 ```
