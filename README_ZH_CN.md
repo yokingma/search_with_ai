@@ -45,8 +45,9 @@ https://github.com/user-attachments/assets/da5e038d-5e0a-4a6f-bae2-b1a58eee193e
 
 **注意:**
 
-- 需要AI接口支持`Function Calling`.
 - **警告:** 消耗大量Tokens.
+- 需要AI接口支持`Function Calling`.
+- 使用JINA.ai提取网页内容(可以不配置KEY, 免费限速: 20RPM).
 
 **工作流程:**
 

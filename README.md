@@ -49,8 +49,9 @@ https://github.com/user-attachments/assets/da5e038d-5e0a-4a6f-bae2-b1a58eee193e
 
 **Note:**
 
-- Need to support `Function Calling`.
 - **Warning:** It will cost a lot of Tokens.
+- Need to support `Function Calling`.
+- Use JINA.ai to extract web page content (No need to configure KEY, limited: 20RPM).
 
 **Workflow:**
 

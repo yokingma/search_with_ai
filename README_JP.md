@@ -44,8 +44,9 @@ https://github.com/user-attachments/assets/da5e038d-5e0a-4a6f-bae2-b1a58eee193e
 
 **注意:**
 
-- AIインターフェースが`Function Calling`をサポートする必要があります。
 - **警告:** 大量のトークンを消費します。
+- AIインターフェースが`Function Calling`をサポートする必要があります。
+- 使用JINA.aiを抽出するWebページの内容(キーを設定する必要はありません、無料の制限: 20RPM)。
 
 **ワークフロー:**
 
