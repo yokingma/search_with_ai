@@ -49,8 +49,9 @@ https://github.com/user-attachments/assets/da5e038d-5e0a-4a6f-bae2-b1a58eee193e
 
 **Note:**
 
-- Need to support `Function Calling`.
 - **Warning:** It will cost a lot of Tokens.
+- Need to support `Function Calling`.
+- Use JINA.ai to extract web page content (No need to configure KEY, limited: 20RPM).
 
 **Workflow:**
 
@@ -99,9 +100,7 @@ SEARXNG_HOSTNAME=http://searxng:8080
 {
   "provider": "openai",
   "type": "openai",
-  // change baseURL, support oneAPI
   "baseURL": "https://api.openai.com/v1",
-  // add your models
   "models": ["o1-preview", "o1-mini", "gpt-4o", "gpt-4o-mini"]
 }
 ```
@@ -116,20 +115,19 @@ Then visit <http://localhost:3000>
 
 5.**Update**
 
-- Delete old images using Docker Desktop or Docker CLI (if needed)
-- Run ```docker compose down```
-- Run ```docker compose up -d```
+* Delete old images.
+* Run ```docker compose down```
+* Run ```docker compose up -d```
 
 ## Search Engine
 
-Built-in support for search engine: Bing, Google, SearXNG
+Built-in support for search engine: SearXNG, Bing, Google, Tavily, etc.
 
 #### SearXNG (Free, No Key required)
 
 Install [SearXNG](https://github.com/searxng/searxng) with [searxng-docker](https://github.com/searxng/searxng-docker)
-> SearXNG is a free internet metasearch engine which aggregates results from various search services and databases. The service does not track or profile its users, providing online anonymity for those who seek it. Additionally, SearXNG can be used over Tor for online anonymity.
 
-When you install SearxNG, the only active output format by default is the HTML format. You need to activate the json format to use the API. This can be done by adding the following line to the settings.yml file:
+Make sure to activate the json format to use the API. This can be done by adding the following line to the settings.yml file:
 
 ```yaml
 search:
@@ -145,7 +143,7 @@ server:
    limiter: false # default is true
 ```
 
-You can also set the host in .env:
+`apps/server/.env`:
 
 ```shell
 # SEARXNG_HOSTNAME=<host>
@@ -154,20 +152,19 @@ You can also set the host in .env:
 #### Bing Search
 
 To use the Bing Web Search API, please visit [this link](https://www.microsoft.com/en-us/bing/apis/bing-web-search-api) to obtain your Bing subscription key.
-> The Bing Search API is billed, but has a free tier of 1000 calls per month.
 
 #### Google Search
 
 You have three options for Google Search: you can use the SearchApi Google Search API from [SearchApi](https://www.searchapi.io/), [Serper](https://www.serper.dev/) Google Search API from Serper, or opt for the [Programmable Search Engine](https://developers.google.com/custom-search) provided by Google.
 
-#### ChatGLM Web Search
+#### Tavily Search
 
-[2024/09/17] Added Zhipu AI's ChatGLM Web Search plugin, used as a Chinese search engine.
-> Zhipu AI's glm-flash is currently free, and its Web Search plugin is also free. Based on these two, ChatGLM has been added as a free Chinese search engine.
+[Tavily](https://tavily.com/) is a search engine optimized for LLMs.
 
 #### Jina Reader URL API
-[2024/11/24] Added [Jina](https://jina.ai/) Reader URL API, supporting full web content extraction.
-When selecting the [Research] mode on the web page, the Jina API will be called to extract the full content of the web page as context for the AI. You need to configure JINA_KEY:
+
+[Jina](https://jina.ai/) Reader URL API, supporting full web content extraction. used in [DeepResearch] mode.
+JINA KEY is optional (limited to 20RPM).
 
 ```shell
 # JINA API KEY
@@ -176,9 +173,9 @@ JINA_KEY=#your key
 
 ## Deploy & Development
 
-> Node.js >= 20
-> Turborepo
-> PackageManager: yarn@3.5.1
+* Node.js >= 20
+* Turborepo
+* PackageManager: yarn@3.5.1
 
 * **Directory Structure**
 
