@@ -45,6 +45,8 @@ Repositories: [GitHub](https://github.com/yokingma/search_with_ai) [CNB](https:/
 
 Support "Deep Research" like OpenAI/Gemini/Perplexity, through search engine, web scraping and LLM to iterate on any topic or question, and generate a comprehensive report. Project reference [deep-research](https://github.com/dzhng/deep-research), thanks to author [dzhng](https://github.com/dzhng).
 
+https://github.com/user-attachments/assets/da5e038d-5e0a-4a6f-bae2-b1a58eee193e
+
 **Note:**
 
 - Need to support `Function Calling`.

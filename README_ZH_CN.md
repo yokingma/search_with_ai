@@ -41,6 +41,8 @@
 
 支持类似OpenAI/Gemini/Perplexity的"Deep Research"功能，通过搜索引擎，Web刮削和AI大模型对任何主题或者问题进行迭代，深入研究并生成报告。项目参考了[deep-research](https://github.com/dzhng/deep-research)的实现, 感谢作者[dzhng](https://github.com/dzhng)。
 
+https://github.com/user-attachments/assets/da5e038d-5e0a-4a6f-bae2-b1a58eee193e
+
 **注意:**
 
 - 需要AI接口支持`Function Calling`.
