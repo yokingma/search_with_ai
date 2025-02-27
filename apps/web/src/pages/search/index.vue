@@ -124,8 +124,9 @@ const onBackHome = () => {
 };
 
 const onSearchModeChanged = (mode: TSearchMode) => {
-  if (mode === 'deep') {
-    router.push({ name: 'Research', query: { q: query.value } });
+  if (!query.value) return;
+  if (mode === 'research') {
+    router.push({ name: 'DeepResearch', params: { query: query.value } });
   } else {
     querySearch(query.value, false);
   }
@@ -144,9 +145,13 @@ const onSelectQuery = (val: string) => {
 
 const onSearch = (val: string) => {
   if (!val) return;
-  query.value = val;
-  router.currentRoute.value.query.q ??= val;
-  querySearch(val);
+  if (appStore.mode === 'research') {
+    router.push({ name: 'DeepResearch', params: { query: val } });
+  } else {
+    query.value = val;
+    router.currentRoute.value.query.q ??= val;
+    querySearch(val);
+  }
 }; 
 
 const onContinueChat = (val: string) => {
