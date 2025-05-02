@@ -81,8 +81,8 @@
     "type": "openai",
     "baseURL": "http://localhost:1234/v1",
     "models": ["meta-llama-3.1-8b-instruct"]
-  }
-    {
+  },
+  {
     "provider": "xai",
     "type": "openai",
     "baseURL": "https://api.x.ai/v1",
@@ -91,7 +91,7 @@
   {
     "provider": "azure",
     "type": "openai",
-    "baseURL": "https://<Endpointname>.openai.azure.com/openai/deployments/<your-deploymentname>", 
+    "baseURL": "https://<Endpointname>.openai.azure.com/openai/deployments/<your-deploymentname>",
     "models": ["gpt-4", "gpt-35-turbo", "gpt-4o", "dalle3"]
   },
   {
