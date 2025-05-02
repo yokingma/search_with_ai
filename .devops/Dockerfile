@@ -14,12 +14,19 @@ FROM base AS web-builder
 # 安装编译工具（直接使用 root 权限）
 RUN apk add --no-cache python3 make g++
 
+# 全局设置 npm/yarn registry (根据架构选择镜像源)
+RUN if [ "$(uname -m)" = "aarch64" ]; then \
+    yarn config set registry https://registry.npmmirror.com; \
+elif [ "$(uname -m)" = "x86_64" ]; then \
+    yarn config set registry https://registry.yarnpkg.com; \
+fi
+
 # 复制前端配置和依赖
 WORKDIR /app/apps/web
 COPY apps/web/package.json apps/web/yarn.lock apps/web/.yarnrc.yml ./
 
-# 安装前端依赖
-RUN yarn install --frozen-lockfile
+# 安装前端依赖 (尝试设置 NODE_OPTIONS 增加超时)
+RUN NODE_OPTIONS="--max-http-header-size=8192 --timeout=60000" yarn install --frozen-lockfile
 
 # 复制前端代码并构建
 COPY apps/web .
