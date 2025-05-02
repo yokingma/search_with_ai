@@ -22,7 +22,7 @@ jobs:
         run: |
           echo "Cleaning workspace..."
           rm -rf *
-          git clone --depth 1 ${{ github.repository }} .
+          git clone --depth 1 ${{ github.repository }} .git
 
       # 强制使用最新版 Buildx
       - name: Set up Docker Buildx
