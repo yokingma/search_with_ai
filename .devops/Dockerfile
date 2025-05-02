@@ -1,5 +1,5 @@
 FROM node:20-alpine AS base
-FROM base AS production
+FROM base AS build
 WORKDIR /app
 RUN mkdir -p /app
 RUN echo "Hello, world!" > /app/hello.txt
