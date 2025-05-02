@@ -62,7 +62,7 @@ https://github.com/user-attachments/assets/da5e038d-5e0a-4a6f-bae2-b1a58eee193e
 [Dockerのインストール](https://docs.docker.com/install/).
 
 ```shell
-docker pull docker.cnb.cool/aigc/aisearch
+docker pull sokach0809/aisearch:latest
 ```
 
 > プロジェクトの事前構築イメージ [CNB.cool](https://cnb.cool/aigc/AiSearch)
@@ -70,7 +70,7 @@ docker pull docker.cnb.cool/aigc/aisearch
 1.**コードを取得します。**
 
 ```shell
-git clone https://github.com/yokingma/search_with_ai.git
+git clone https://github.com/kdeyyds/search_with_ai.git
 cd search_with_ai
 ```
 
