@@ -1,9 +1,10 @@
+// store.ts 或定义 useAppStore 的文件
 import { defineStore } from 'pinia';
 import { TSearCategory, TSearchEngine, TSearchMode } from 'src/interface';
 import { ref } from 'vue';
 
 type Theme = 'dark' | 'light';
-type Lan = 'zh' | 'en' | 'ptBR';
+type Lan = 'zh' | 'en' | 'ptBR' | 'ja' | 'zh-TW'; // 添加 'ja' 和 'zh-TW'
 export const useAppStore = defineStore('app', () => {
   const engine = ref<TSearchEngine>('SEARXNG');
   const model = ref('');
