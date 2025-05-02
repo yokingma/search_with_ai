@@ -37,11 +37,19 @@ RUN apk add --no-cache curl && curl -fsS https://dotenvx.sh/ | sh
 
 WORKDIR /app
 
+# 调试 1: 查看 /app 目录内容
+RUN echo "--- Listing /app before COPY ---"
+RUN ls -al /app
+
 # 复制 server 应用的必要文件
 COPY --from=build /apps/server/package.json ./
 COPY --from=build /apps/yarn.lock ./ # 从 /apps 目录复制
 COPY --from=build /apps/server/dist ./dist
 COPY --from=build /apps/server/.env ./
+
+# 调试 2: 查看 /app 目录内容
+RUN echo "--- Listing /app after COPY ---"
+RUN ls -al /app
 
 # 安装 server 应用的生产依赖并清理构建工具
 RUN yarn install --production --frozen-lockfile && \
