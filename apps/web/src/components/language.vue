@@ -36,3 +36,15 @@ const onLanSelect = (val: any) => {
   document.title = t('title');
 };
 </script>
+
+<script lang="ts">
+export default {
+  name: 'LanguageSelect'
+};
+</script>
+
+<template>
+  <t-select v-model="language" :label="t('language')" :placeholder="t('selectLanguage')" @change="onLanSelect">
+    <t-option v-for="(item) in languageList" :key="item.value" :value="item.value" :label="item.name"></t-option>
+  </t-select>
+</template>
