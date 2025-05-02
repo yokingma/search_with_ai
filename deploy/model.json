@@ -91,7 +91,7 @@
   {
     "provider": "azure",
     "type": "openai",
-    "baseURL": "https://<Endpointname>.openai.azure.com/openai/deployments/<your-deploymentname>", #需要手动修改(Need to be manually modified)
+    "baseURL": "https://<Endpointname>.openai.azure.com/openai/deployments/<your-deploymentname>", 
     "models": ["gpt-4", "gpt-35-turbo", "gpt-4o", "dalle3"]
   },
   {
