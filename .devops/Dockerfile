@@ -26,7 +26,7 @@ WORKDIR /app/apps/web
 COPY apps/web/package.json apps/web/yarn.lock apps/web/.yarnrc.yml ./
 
 # 安装前端依赖 (尝试设置 NODE_OPTIONS 增加超时)
-RUN NODE_OPTIONS="--max-http-header-size=8192 --timeout=60000" yarn install --frozen-lockfile
+RUN NODE_OPTIONS="--max-http-header-size=8192" yarn install --frozen-lockfile
 
 # 复制前端代码并构建
 COPY apps/web .
