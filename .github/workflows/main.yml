@@ -17,13 +17,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # 清理工作空间
-      - name: Clean Workspace
-        run: |
-          echo "Cleaning workspace..."
-          rm -rf *
-          git clone --depth 1 ${{ github.repository }} .git
-
       # 强制使用最新版 Buildx
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
