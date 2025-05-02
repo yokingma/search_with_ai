@@ -10,6 +10,10 @@ WORKDIR /apps
 WORKDIR /apps/web
 COPY ../../apps/web/package.json ./
 COPY ../../yarn.lock ./
+
+# 将顶层 yarn.lock 复制到 /apps 目录
+COPY ../../yarn.lock /apps/yarn.lock
+
 RUN yarn install
 
 # 复制 server 应用依赖并安装
@@ -18,12 +22,10 @@ COPY ../../apps/server/package.json ./
 COPY ../../yarn.lock ./
 RUN yarn install
 
-# 构建 web 应用
 WORKDIR /apps/web
 COPY ../../apps/web ./
 RUN yarn run build
 
-# 构建 server 应用
 WORKDIR /apps/server
 COPY ../../apps/server ./
 RUN yarn run build
@@ -37,7 +39,7 @@ WORKDIR /app
 
 # 复制 server 应用的必要文件
 COPY --from=build /apps/server/package.json ./
-COPY --from=build /../../yarn.lock ./ # 注意这里也需要调整
+COPY --from=build /apps/yarn.lock ./ # 从 /apps 目录复制
 COPY --from=build /apps/server/dist ./dist
 COPY --from=build /apps/server/.env ./
 
