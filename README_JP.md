@@ -65,7 +65,6 @@ https://github.com/user-attachments/assets/da5e038d-5e0a-4a6f-bae2-b1a58eee193e
 docker pull sokach0809/aisearch:latest
 ```
 
-> プロジェクトの事前構築イメージ [CNB.cool](https://cnb.cool/aigc/AiSearch)
 
 1.**コードを取得します。**
 
