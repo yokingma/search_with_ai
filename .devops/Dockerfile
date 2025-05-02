@@ -3,10 +3,6 @@
 # ------------------------
 FROM node:20-alpine AS base
 
-# 创建非 root 用户
-RUN addgroup -S appgroup && adduser -S appuser -G appgroup
-USER appuser
-
 # 全局工作目录
 WORKDIR /app
 
@@ -15,14 +11,14 @@ WORKDIR /app
 # ------------------------
 FROM base AS web-builder
 
-# 安装编译工具
-RUN sudo apk add --no-cache python3 make g++
+# 安装编译工具（直接使用 root 权限）
+RUN apk add --no-cache python3 make g++
 
 # 复制前端配置和依赖
 WORKDIR /app/apps/web
 COPY apps/web/package.json apps/web/yarn.lock apps/web/.yarnrc.yml ./
 
-# 安装前端依赖（隔离模式）
+# 安装前端依赖
 RUN yarn install --frozen-lockfile
 
 # 复制前端代码并构建
@@ -34,14 +30,14 @@ RUN yarn build
 # ------------------------
 FROM base AS server-builder
 
-# 安装编译工具
-RUN sudo apk add --no-cache python3 make g++
+# 安装编译工具（直接使用 root 权限）
+RUN apk add --no-cache python3 make g++
 
 # 复制后端配置和依赖
 WORKDIR /app/apps/server
 COPY apps/server/package.json apps/server/yarn.lock apps/server/.yarnrc.yml ./
 
-# 安装后端依赖（隔离模式）
+# 安装后端依赖
 RUN yarn install --frozen-lockfile
 
 # 复制后端代码并构建
@@ -53,8 +49,8 @@ RUN yarn build
 # ------------------------
 FROM base AS production
 
-# 安装运行时依赖
-RUN sudo apk add --no-cache curl && curl -fsS https://dotenvx.sh | sh
+# 安装运行时依赖（直接使用 root 权限）
+RUN apk add --no-cache curl && curl -fsS https://dotenvx.sh | sh
 
 # 复制后端生产依赖
 WORKDIR /app/apps/server
@@ -67,6 +63,10 @@ RUN yarn install --production --frozen-lockfile
 COPY --from=web-builder /app/apps/web/dist ./public
 COPY --from=server-builder /app/apps/server/dist .
 COPY apps/server/.env .
+
+# 创建非 root 用户并切换（安全增强）
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+USER appuser
 
 EXPOSE 3000
 CMD ["yarn", "start"]
