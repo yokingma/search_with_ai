@@ -75,7 +75,7 @@ docker pull docker.cnb.cool/aigc/aisearch
 1.**Get the code.**
 
 ```shell
-git clone https://github.com/yokingma/search_with_ai.git
+git clone https://github.com/kdeyyds/search_with_ai.git
 cd search_with_ai
 ```
 
