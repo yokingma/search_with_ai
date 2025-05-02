@@ -1,4 +1,4 @@
-name: Docker Build and Push to Hub
+name: Docker Build and Push (Verified)
 
 on:
   push:
@@ -10,11 +10,20 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      packages: write  # 关键权限
+      packages: write
+      id-token: write  # 新增关键权限
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      # 强制使用最新版 Buildx
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+        with:
+          version: v0.11.0
+          driver-opts: |
+            image=moby/buildkit:master
 
       - name: Login to Docker Hub
         uses: docker/login-action@v3
@@ -22,14 +31,24 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      # 添加调试信息输出
+      - name: Debug Output
+        run: |
+          echo "Docker Hub User: ${{ secrets.DOCKERHUB_USERNAME }}"
+          echo "Current SHA: ${{ github.sha }}"
+          echo "Tag Name: ${{ github.ref_name }}"
+
       - name: Build and Push
         uses: docker/build-push-action@v5
         with:
           context: .
           file: .devops/Dockerfile
-          platforms: linux/amd64
+          platforms: linux/amd64,linux/arm64
           push: true
           tags: |
             sokach0809/aisearch:latest
             sokach0809/aisearch:${{ github.sha }}
             ${{ startsWith(github.ref, 'refs/tags/') && format('sokach0809/aisearch:{0}', github.ref_name) }}
+          # 禁用缓存以排除干扰
+          cache-from: ""
+          cache-to: ""
