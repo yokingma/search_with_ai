@@ -12,13 +12,11 @@ WORKDIR /apps
 # 复制 web 应用的 package.json 和 yarn.lock 并安装依赖
 WORKDIR /apps/web
 COPY ../apps/web/package.json ./
-COPY ../apps/web/yarn.lock ./
 RUN yarn install
 
 # 复制 server 应用的 package.json 和 yarn.lock 并安装依赖
 WORKDIR /apps/server
 COPY ../apps/server/package.json ./
-COPY ../apps/server/yarn.lock ./
 RUN yarn install
 
 # 复制 web 应用源码并构建
