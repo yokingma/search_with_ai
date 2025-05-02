@@ -16,7 +16,7 @@ const languageList = [
   },
   {
     name: '繁體中文',
-    value: 'zh-TW'
+    value: 'zhTW'
   },
   {
     name: '日本語',
