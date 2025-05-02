@@ -1,46 +1,51 @@
-{
-  "compilerOptions": {
-    "baseUrl": "./",
-    "target": "ES2020",
-    "useDefineForClassFields": true,
-    "module": "ESNext",
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
-    "skipLibCheck": true,
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <meta name="description" content="AI-powered search engine with natural language processing capabilities">
+  
+  <!-- 预连接关键外部资源 -->
+  <link rel="preconnect" href="https://api.example.com">
+  
+  <!-- 现代 favicon 配置 -->
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  
+  <!-- 安全相关 headers -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'">
+  <meta http-equiv="Permissions-Policy" content="interest-cohort=()">
+  
+  <!-- SEO 优化 -->
+  <meta name="keywords" content="AI Search, Natural Language Processing, Intelligent Search">
+  <meta property="og:title" content="Search with AI">
+  <meta property="og:description" content="Next-generation AI-powered search engine">
+  <meta property="og:type" content="website">
+  
+  <title>Search with AI | Intelligent Search Engine</title>
+</head>
+<body>
+  <!-- 渐进增强支持 -->
+  <noscript>
+    <div class="noscript-warning">
+      <h1>JavaScript Required</h1>
+      <p>This application requires JavaScript to function properly.</p>
+    </div>
+  </noscript>
 
-    /* Bundler 模式优化 */
-    "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true,
-    "jsx": "preserve",
-    "jsxImportSource": "vue",
+  <div id="app" role="main" aria-label="Main application content"></div>
 
-    /* 类型检查增强 */
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
-    "forceConsistentCasingInFileNames": true,
-    "allowJs": true,  // 如需支持 JS 文件可保留
-
-    /* 路径映射 */
-    "paths": {
-      "@/*": ["src/*"]
-    }
-  },
-
-  /* 文件包含范围优化 */
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.tsx",
-    "src/**/*.vue",
-    "node_modules/tdesign-vue-next/global.d.ts"
-  ],
-
-  /* 排除构建产物 */
-  "exclude": ["dist", "node_modules"],
-
-  /* 工程引用 */
-  "references": [{ "path": "./tsconfig.node.json" }]
-}
+  <!-- 异步加载主模块 -->
+  <script type="module" src="/src/main.ts" async></script>
+  
+  <!-- 性能监控 -->
+  <script>
+    window.addEventListener('load', function() {
+      const timing = performance.timing;
+      console.log('Page load time:', timing.loadEventEnd - timing.navigationStart);
+    });
+  </script>
+</body>
+</html>
