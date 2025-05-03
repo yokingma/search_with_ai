@@ -38,7 +38,19 @@ jobs:
           echo "Current SHA: ${{ github.sha }}"
           echo "Tag Name: ${{ github.ref_name }}"
 
-      - name: Build and Push
+      - name: Build and Push (Latest and SHA)
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: .devops/Dockerfile
+          platforms: linux/amd64,linux/arm64
+          push: ${{ github.event_name == 'push' }}
+          tags: |
+            sokach0809/aisearch:latest
+            sokach0809/aisearch:${{ github.sha }}
+
+      - name: Build and Push (Tags)
+        if: startsWith(github.ref, 'refs/tags/')
         uses: docker/build-push-action@v5
         with:
           context: .
@@ -46,9 +58,7 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: true
           tags: |
-            sokach0809/aisearch:latest
-            sokach0809/aisearch:${{ github.sha }}
-            ${{ startsWith(github.ref, 'refs/tags/') && format('sokach0809/aisearch:{0}', github.ref_name) }}
+            sokach0809/aisearch:${{ github.ref_name }}
           # 禁用缓存以排除干扰
           cache-from: ""
           cache-to: ""
