@@ -1,4 +1,4 @@
-import { createI18n } from 'vue-i18n';
+import { useI18n } from '@/i18n';
 import zh from './zh';
 import en from './en';
 import ptBR from './ptBR';
