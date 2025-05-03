@@ -6,7 +6,7 @@ defineOptions({
 import { computed } from 'vue';
 import { MessagePlugin } from 'tdesign-vue-next';
 import { useI18n } from 'vue-i18n';
-import { citationMarkdownParse, clipboardCopy } from '../utils';
+import { clipboardCopy } from '../utils';
 import { marked } from 'marked';
 import {
   RiRestartLine,
