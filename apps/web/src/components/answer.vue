@@ -3,7 +3,7 @@ defineOptions({
   name: 'ChatAnswer',
 });
 
-import { ref, computed } from 'vue';
+import { computed } from 'vue';
 import { MessagePlugin } from 'tdesign-vue-next';
 import { useI18n } from 'vue-i18n';
 import { citationMarkdownParse, clipboardCopy } from '../utils';
