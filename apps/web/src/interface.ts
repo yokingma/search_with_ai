@@ -1,17 +1,7 @@
-export interface ICitation {
-  content: string;
-}
-
-export interface IAnswer {
-  accepted: boolean;
-  content: string;
-  citations?: { content: string }[];
-}
-
 export interface IQueryResult {
   related?: string;
   reasoning?: string;
-  answer?: IAnswer;
+  answer?: string;
   contexts?: Record<string, any>[];
   images?: Record<string, any>[];
 }
@@ -21,13 +11,15 @@ export interface ISelectOptions {
   value: string;
 }
 
-export type Role = 'user' | 'assistant';
+export type Role = 'user' | 'assistant'
 
 export interface IMessage {
   role: Role;
   content: string;
   reasoning?: string;
 }
+
+
 
 export enum EDeepResearchProgress {
   Heartbeat = 'heartbeat',
@@ -69,6 +61,6 @@ export interface IResearchProgress {
   report?: string;
 }
 
-export type TSearCategory = 'general' | 'science' | 'images' | 'videos' | 'news';
-export type TSearchMode = 'simple' | 'deep' | 'research';
-export type TSearchEngine = 'GOOGLE' | 'BING' | 'SOGOU' | 'SEARXNG' | 'CHATGLM';
+export type TSearCategory = 'general' | 'science' | 'images' | 'videos' | 'news'
+export type TSearchMode = 'simple' | 'deep' | 'research'
+export type TSearchEngine = 'GOOGLE' | 'BING' | 'SOGOU' | 'SEARXNG' | 'CHATGLM'
