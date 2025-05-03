@@ -71,5 +71,8 @@ export default {
   },
   btn: {
     clear: '履歴をクリア'
-  }
+  },
+  step: 'ステップ', // 推論ステップの番号
+  reasoningProcess: '推論プロセス', // 推論セクションのタイトル
+  loadMore: 'さらに読み込む' // 「さらに読み込む」ボタン (実装した場合)
 };
