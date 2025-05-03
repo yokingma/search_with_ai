@@ -100,14 +100,14 @@ import router from '../../router';
 import { search } from '../../api';
 import { useI18n } from 'vue-i18n';
 import { useAppStore } from '../../store';
-import ContinueChat from './components/chat.vue'; // 假设路径正确
-import ChatInput from './components/input.vue'; // 假设路径正确
-import ChatAnswer from './components/answer.tsx'; // 使用 .tsx 扩展名
+import ContinueChat from './components/chat.vue'; 
+import ChatInput from './components/input.vue'; 
+import ChatAnswer from './components/answer.vue'; 
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { MessagePlugin } from 'tdesign-vue-next';
 import { PageFooter, ChatMedia, RelatedQuery, ChatSources, SearchInputBar, SearchMode, SearCategory } from '../../components'; // 假设路径正确
 import { RiChat3Line, RiBook2Line, RiChat1Fill, RiArrowGoBackLine } from '@remixicon/vue';
-import { IQueryResult, TSearCategory, TSearchMode } from '../../interface'; // 假设路径正确
+import { IQueryResult, TSearCategory, TSearchMode } from '../../interface'; 
 
 const appStore = useAppStore();
 const { t } = useI18n();
