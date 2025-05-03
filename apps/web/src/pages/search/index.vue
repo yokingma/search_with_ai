@@ -18,16 +18,14 @@
         </div>
       </div>
     </div>
-
     <div class="inset-0 flex items-center justify-center">
       <div class="size-full lg:max-w-2xl xl:max-w-4xl">
-        <main class="mt-20">
+        <div class="mt-20">
           <div v-if="!loading" class="flex flex-wrap justify-between gap-2 px-4 py-2 lg:px-0">
             <SearchMode @change="onSearchModeChanged" />
             <SearCategory @change="onSearchCategoryChanged" />
           </div>
-
-          <section class="p-4 lg:p-0">
+          <div class="p-4 lg:p-0">
             <div class="mt-0">
               <div class="flex flex-nowrap items-center gap-2 py-4 text-black dark:text-gray-200">
                 <RiChat3Line />
@@ -41,17 +39,14 @@
                 :loading="loading"
                 @reload="onReload"
               />
-
               <div class="mt-4 flex flex-col gap-2">
                 <div class="text-sm font-bold text-zinc-600 dark:text-gray-300">{{ t('related') }}:</div>
                 <RelatedQuery :related="result?.related" :loading="loading" @select="onSelectQuery" />
               </div>
             </div>
-
             <div v-if="appStore.engine === 'SEARXNG'" class="mt-4">
               <ChatMedia :loading="loading" :sources="result?.images" />
             </div>
-
             <div class="mt-4">
               <div class="flex flex-nowrap items-center gap-2 py-4 text-black dark:text-gray-200">
                 <RiBook2Line />
@@ -59,7 +54,6 @@
               </div>
               <ChatSources :loading="loading" :sources="result?.contexts" />
             </div>
-
             <div class="my-4">
               <div class="flex flex-nowrap items-center gap-2 py-4 text-black dark:text-gray-200">
                 <RiChat1Fill />
@@ -76,13 +70,11 @@
                 @done="onContinueChatDone"
               />
             </div>
-
             <div class="pb-20 pt-10">
               <PageFooter />
             </div>
-          </section>
-        </main>
-
+          </div>
+        </div>
         <div class="fixed inset-x-0 bottom-0 z-50 w-full bg-gradient-to-t from-white to-transparent py-4 dark:from-black">
           <div class="flex w-full items-center justify-center">
             <div class="w-full drop-shadow-2xl lg:max-w-2xl xl:max-w-4xl">
@@ -100,16 +92,16 @@ import router from '../../router';
 import { search } from '../../api';
 import { useI18n } from 'vue-i18n';
 import { useAppStore } from '../../store';
-import ContinueChat from './components/chat.vue'; 
-import ChatInput from './components/input.vue'; 
-import ChatAnswer from '../../components/answer.vue'; 
+import ContinueChat from './components/chat.vue';
+import ChatInput from './components/input.vue';
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { MessagePlugin } from 'tdesign-vue-next';
-import { PageFooter, ChatMedia, RelatedQuery, ChatSources, SearchInputBar, SearchMode, SearCategory } from '../../components'; // 假设路径正确
+import { PageFooter, ChatAnswer, ChatMedia, RelatedQuery, ChatSources, SearchInputBar, SearchMode, SearCategory } from '../../components';
 import { RiChat3Line, RiBook2Line, RiChat1Fill, RiArrowGoBackLine } from '@remixicon/vue';
-import { IQueryResult, TSearCategory, TSearchMode } from '../../interface'; 
+import { IQueryResult, TSearCategory, TSearchMode } from '../../interface';
 
 const appStore = useAppStore();
+
 const { t } = useI18n();
 
 const keyword = computed(() => router.currentRoute.value.query.q ?? '');
@@ -160,7 +152,7 @@ const onSearch = (val: string) => {
     router.currentRoute.value.query.q ??= val;
     querySearch(val);
   }
-};
+}; 
 
 const onContinueChat = (val: string) => {
   question.value = val.trim();
@@ -243,7 +235,7 @@ async function querySearch(val: string | null, reload?: boolean) {
       },
       onError: (err) => {
         console.error('error', err);
-        MessagePlugin.error(`${t('message.queryError')}: ${err.message}`);
+         MessagePlugin.error(`${t('message.queryError')}: ${err.message}`);
         loading.value = false;
       }
     });
