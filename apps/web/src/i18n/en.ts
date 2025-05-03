@@ -71,5 +71,8 @@ export default {
   },
   btn: {
     clear: 'Clear History'
-  }
+  },
+  step: 'Step', // For the step number in the reasoning
+  reasoningProcess: 'Reasoning Process', // Title for the reasoning section
+  loadMore: 'Load More' // If you implemented a "load more" for reasoning steps
 };
