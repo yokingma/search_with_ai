@@ -102,7 +102,7 @@ import { useI18n } from 'vue-i18n';
 import { useAppStore } from '../../store';
 import ContinueChat from './components/chat.vue'; // 假设路径正确
 import ChatInput from './components/input.vue'; // 假设路径正确
-import ChatAnswer from './components/ChatAnswer.tsx'; // 使用 .tsx 扩展名
+import ChatAnswer from import ChatAnswer from './answer.tsx';; // 使用 .tsx 扩展名
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { MessagePlugin } from 'tdesign-vue-next';
 import { PageFooter, ChatMedia, RelatedQuery, ChatSources, SearchInputBar, SearchMode, SearCategory } from '../../components'; // 假设路径正确
