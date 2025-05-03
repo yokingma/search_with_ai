@@ -1,13 +1,14 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import HomePage from "./pages/home.vue";
-import SearchPage from './pages/search/index.vue';
-import DeepResearch from './pages/research/index.vue';
+// import HomePage from "./pages/home.vue"; // 移除直接导入
+// import SearchPage from './pages/search/index.vue'; // 移除直接导入
+// import DeepResearch from './pages/research/index.vue'; // 移除直接导入
 import i18n from './i18n';
+
 const routes = [
   {
     path: '/',
     name: 'Home',
-    component: HomePage,
+    component: () => import('./pages/home.vue'), // 懒加载
     meta: {
       title: 'Home'
     }
@@ -15,7 +16,7 @@ const routes = [
   {
     path: '/search',
     name: 'SearchPage',
-    component: SearchPage,
+    component: () => import('./pages/search/index.vue'), // 懒加载
     meta: {
       title: 'Search'
     }
@@ -30,7 +31,7 @@ const routes = [
       {
         path: ':query',
         name: 'DeepResearch',
-        component: DeepResearch,
+        component: () => import('./pages/research/index.vue'), // 懒加载
         props: true,
         meta: {
           title: 'DeepResearch'

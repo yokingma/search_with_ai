@@ -68,10 +68,9 @@ https://github.com/user-attachments/assets/da5e038d-5e0a-4a6f-bae2-b1a58eee193e
 [安装Docker](https://docs.docker.com/install/).
 
 ```shell
-docker pull docker.cnb.cool/aigc/aisearch
+docker pull sokach0809/aisearch:latest
 ```
 
-> 项目预构建Docker镜像 [CNB.cool](https://cnb.cool/aigc/AiSearch) (国内镜像源 > 制品库)
 
 1、**克隆仓库**
 

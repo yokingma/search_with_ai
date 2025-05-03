@@ -81,5 +81,41 @@
     "type": "openai",
     "baseURL": "http://host.docker.internal:1234/v1",
     "models": ["meta-llama-3.1-8b-instruct"]
+  },
+  {
+    "provider": "xai",
+    "type": "openai",
+    "baseURL": "https://api.x.ai/v1",
+    "models": ["grok-1", "grok-1.5", "grok-2-preview"]
+  },
+  {
+    "provider": "azure",
+    "type": "openai",
+    "baseURL": "https://<Endpointname>.openai.azure.com/openai/deployments/<your-deploymentname>", 
+    "models": ["gpt-4", "gpt-35-turbo", "gpt-4o", "dalle3"]
+  },
+  {
+    "provider": "anthropic",
+    "type": "openai",
+    "baseURL": "https://api.anthropic.com/v1",
+    "models": ["claude-3-opus", "claude-3-sonnet", "claude-2.1"]
+  },
+  {
+    "provider": "huggingface",
+    "type": "openai",
+    "baseURL": "https://api-inference.huggingface.co/v1",
+    "models": ["meta-llama/Meta-Llama-3-70B", "mistralai/Mixtral-8x7B-Instruct-v0.1"]
+  },
+  {
+    "provider": "cohere",
+    "type": "openai",
+    "baseURL": "https://api.cohere.ai/v1",
+    "models": ["command", "command-r", "command-r-plus"]
+  },
+  {
+    "provider": "mistral",
+    "type": "openai",
+    "baseURL": "https://api.mistral.ai/v1",
+    "models": ["mistral-large", "mistral-medium", "mistral-small"]
   }
 ]

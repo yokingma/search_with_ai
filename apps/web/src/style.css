@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Poppins', system-ui, Avenir, Helvetica, Arial, sans-serif; /* 替换为你引入的现代字体 */
   color-scheme: light dark;
 
   font-synthesis: none;
@@ -11,30 +11,30 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  --td-brand-color: #000000;
-  --td-brand-color-active: #111111;
-  --td-brand-color-hover: #666666;
-  --td-brand-color-focus: #333333;
-  --main-bg-color: #ffffff;
-  --main-font-color: #333333;
+  --td-brand-color: #3b82f6; /* 一个柔和的蓝色 */
+  --td-brand-color-active: #2563eb;
+  --td-brand-color-hover: #60a5fa;
+  --td-brand-color-focus: #1d4ed8;
+  --main-bg-color: #f9f9f9; /* 浅灰色背景 */
+  --main-font-color: #374151; /* 深灰色文本 */
 }
 
 :root[theme-mode="light"] {
-  --td-brand-color: #000000;
-  --td-brand-color-active: #111111;
-  --td-brand-color-hover: #666666;
-  --td-brand-color-focus: #f5f5f5;
-  --main-bg-color: #ffffff;
-  --main-font-color: #333333;
+  --td-brand-color: #3b82f6;
+  --td-brand-color-active: #2563eb;
+  --td-brand-color-hover: #60a5fa;
+  --td-brand-color-focus: #dbeafe; /* 更柔和的焦点颜色 */
+  --main-bg-color: #f9f9f9;
+  --main-font-color: #374151;
 }
 
 :root[theme-mode="dark"] {
-  --td-brand-color: #000000;
-  --td-brand-color-active: #111111;
-  --td-brand-color-hover: #666666;
-  --td-brand-color-focus: #333333;
-  --main-bg-color: #000000;
-  --main-font-color: #cccccc;
+  --td-brand-color: #60a5fa; /* 深色模式下稍微亮一点的蓝色 */
+  --td-brand-color-active: #3b82f6;
+  --td-brand-color-hover: #8bcbfd;
+  --td-brand-color-focus: #1d4ed8;
+  --main-bg-color: #1f2937; /* 深灰色背景 */
+  --main-font-color: #d1d5db; /* 浅灰色文本 */
 }
 
 html, body {
@@ -43,26 +43,29 @@ html, body {
   padding: 0;
   margin: 0;
   background-color: var(--main-bg-color);
-  scrollbar-color: #8e9099 transparent;
-  
+  scrollbar-color: #a0aec0 transparent; /* 更柔和的滚动条颜色 */
+
   overflow-x: hidden;
   overflow-y: auto;
 }
 
 html[theme-mode="dark"] {
-  scrollbar-color: #8e9099 transparent;
+  scrollbar-color: #718096 transparent;
 }
 
 html .markdown-body {
   color: var(--main-font-color);
   background-color: transparent;
-  line-height: 26px;
+  line-height: 1.6; /* 稍微增加行高 */
   min-height: auto;
 }
 
 html .markdown-body pre {
-  color: #666666;
-  background-color: #f5f5f5;
+  color: #4a5568; /* 深色文本 */
+  background-color: #edf2f7; /* 浅灰色背景 */
+  border-radius: 0.25rem; /* 添加圆角 */
+  padding: 1rem;
+  overflow-x: auto; /* 如果代码过长，允许横向滚动 */
 }
 
 html[theme-mode="dark"] .markdown-body {
@@ -71,12 +74,21 @@ html[theme-mode="dark"] .markdown-body {
 }
 
 html[theme-mode="dark"] .markdown-body pre {
-  color: #999999;
-  background-color: #222222;
+  color: #e2e8f0; /* 浅色文本 */
+  background-color: #2d3748; /* 深灰色背景 */
+  border-radius: 0.25rem;
+  padding: 1rem;
+  overflow-x: auto;
 }
 
 a {
   text-decoration: none;
+  color: var(--td-brand-color); /* 使用品牌色作为链接颜色 */
+  transition: color 0.2s ease-in-out; /* 添加颜色过渡效果 */
+}
+
+a:hover {
+  color: var(--td-brand-color-hover);
 }
 
 #app {

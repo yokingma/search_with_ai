@@ -11,8 +11,16 @@ const languageList = [
     value: 'en'
   },
   {
-    name: '中文',
+    name: '简体中文',
     value: 'zh'
+  },
+  {
+    name: '繁體中文',
+    value: 'zhTW'
+  },
+  {
+    name: '日本語',
+    value: 'ja'
   },
   {
     name: 'Português BR',

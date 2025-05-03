@@ -1,0 +1,33 @@
+name: Package and Release
+
+on:
+  release:
+    types: [published] # 当你发布一个新的 Release 时触发
+
+jobs:
+  package_and_upload:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # 允许创建 Release 和上传 Assets
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # 获取完整历史，以便正确打包
+
+      - name: Get current tag
+        id: get_tag
+        run: echo "TAG_NAME=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+        shell: bash
+
+      - name: Create ZIP archive
+        run: zip -r ${{ github.repository_owner }}-${{ github.event.repository }}-${{ steps.get_tag.outputs.TAG_NAME }}.zip . -x ".git*" ".github*"
+        
+      - name: Upload ZIP as Release Asset
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ github.event.release.upload_url }} # Release 上传 URL
+          asset_path: ${{ github.workspace }}/${{ github.repository }}-${{ steps.get_tag.outputs.TAG_NAME }}.zip
+          asset_name: ${{ github.repository }}-${{ steps.get_tag.outputs.TAG_NAME }}.zip
+          asset_content_type: application/zip

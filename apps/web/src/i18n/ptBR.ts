@@ -71,5 +71,8 @@ export default {
     },
     btn: {
         clear: 'Limpar histórico'
-    }
+    },
+    step: 'Passo', // Para o número do passo no raciocínio
+    reasoningProcess: 'Processo de Raciocínio', // Título para a seção de raciocínio
+    loadMore: 'Carregar Mais' // Para o botão "Carregar Mais" (se implementado)
 };

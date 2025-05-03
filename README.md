@@ -69,13 +69,13 @@ More details can be found in [DeepResearch discussion](https://github.com/yoking
 [Install Docker](https://docs.docker.com/install/).
 
 ```shell
-docker pull docker.cnb.cool/aigc/aisearch
+docker pull sokach0809/aisearch:latest
 ```
 
 1.**Get the code.**
 
 ```shell
-git clone https://github.com/yokingma/search_with_ai.git
+git clone https://github.com/kdeyyds/open-Aisearch.git
 cd search_with_ai
 ```
 
