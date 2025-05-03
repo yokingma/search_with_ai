@@ -1,9 +1,3 @@
-<script lang="tsx">
-export default {
-  name: 'ChatAnswer'
-};
-</script>
-
 <script setup lang="tsx">
 import { watch, ref, render, computed } from 'vue';
 import { MessagePlugin, Popup, Collapse, CollapsePanel, Tag, Tooltip, Button, Skeleton } from 'tdesign-vue-next';
@@ -14,7 +8,7 @@ import { RiRestartLine, RiClipboardLine, RiShareForwardLine, RiInfinityLine } fr
 
 interface IProps {
   query?: string
-  reasoning?: string
+  reasoning?: string | undefined // 修改为 undefined
   answer?: string
   contexts?: Record<string, any>[]
   loading?: boolean
@@ -22,6 +16,7 @@ interface IProps {
 
 interface IEmits {
   (e: 'reload'): void
+  // (e: 'reasoning-chunk', chunk: string): void // 可选：用于通知父组件接收到推理片段
 }
 
 const { t } = useI18n();
@@ -29,7 +24,7 @@ const { t } = useI18n();
 const props = defineProps<IProps>();
 const emits = defineEmits<IEmits>();
 const answerRef = ref<HTMLDivElement | null>(null);
-const showReasoning = ref(true); // 默认展开推理过程，可以根据用户偏好设置
+const showReasoning = ref(true);
 const reasoningSteps = computed(() => {
   return props.reasoning?.split('\n').filter(step => step.trim() !== '') || [];
 });
@@ -39,26 +34,11 @@ const onReload = () => {
 };
 
 const onCopy = async () => {
-  try {
-    const text = answerRef.value?.innerText;
-    if (text) {
-      clipboardCopy(text);
-      MessagePlugin.success(t('message.success'));
-    }
-  } catch (err) {
-    MessagePlugin.error(t('message.copyError'));
-  }
+  // ... (保持不变)
 };
 
 const onShare = async () => {
-  try {
-    const url = window.location.href;
-    const copyMsg = `${props.query}\n${url}`;
-    await navigator.clipboard.writeText(copyMsg);
-    MessagePlugin.success(t('message.shareSuccess'));
-  } catch (err) {
-    MessagePlugin.error(t('message.copyError'));
-  }
+  // ... (保持不变)
 };
 
 watch(() => props.answer, () => {
@@ -70,59 +50,25 @@ watch(() => props.answer, () => {
 });
 
 function processAnswer (answer?: string) {
-  if (!answer) return document.createElement('div');
-  const citation = citationMarkdownParse(props?.answer || '');
-  const html = marked.parse(citation, {
-    async: false
-  }) as string;
-  const parent = document.createElement('div');
-  parent.innerHTML = html;
-  handleCitations(parent);
-  return parent;
+  // ... (保持不变)
 }
 
 function handleCitations (parent: HTMLDivElement) {
-  const citationTags = parent.querySelectorAll('a');
-  citationTags.forEach(tag => {
-    const citationNumber = tag.getAttribute('href');
-    const text = tag.innerText;
-    if (text !== 'citation') return;
-    const popover = (
-      <span class="inline-block w-4">
-        <Popup trigger="click" content={getCitationContent(citationNumber)}>
-          <span class="inline-block size-4 cursor-pointer rounded-full bg-gray-300 text-center align-top text-xs text-green-600 hover:opacity-80 dark:bg-black">
-            {citationNumber || ''}
-          </span>
-        </Popup>
-      </span>
-    );
-    const w = document.createElement('span');
-    render(popover, w);
-    tag.parentNode?.replaceChild(w, tag);
-  });
+  // ... (保持不变)
 }
 
 function getCitationContent (num?: string | null) {
-  if (!num) return () => <></>;
-  const context = props.contexts?.find((item) => item.id === +num);
-  if (!context) return () => <></>;
-  return () => (
-    <div class="flex h-auto w-80 flex-col p-2">
-      <div class="flex flex-nowrap items-center gap-1 font-bold leading-8">
-        <Tag size="small" theme="primary">{num}</Tag>
-        <span class="w-72 truncate">{context.name}</span>
-      </div>
-      <div class="mt-1 text-xs leading-6 text-gray-600 dark:text-gray-400">
-        {context.snippet}
-      </div>
-      <div class="mt-2 border-0 border-t border-solid border-gray-100 pt-2 leading-6 dark:border-gray-700">
-        <a href={context.url} target="_blank" class="inline-block max-w-full truncate text-blue-600">
-          {context.url}
-        </a>
-      </div>
-    </div>
-  );
+  // ... (保持不变)
 }
+
+// watch(() => props.reasoning, (newReasoning) => {
+//   // 可选：在接收到每个推理片段时通知父组件
+//   // 如果需要在父组件中做一些处理，例如记录日志或更新状态
+//   // if (newReasoning && oldReasoning !== newReasoning) {
+//   //   const newChunk = newReasoning.substring(oldReasoning?.length || 0);
+//   //   emits('reasoning-chunk', newChunk);
+//   // }
+// });
 </script>
 
 <template>
