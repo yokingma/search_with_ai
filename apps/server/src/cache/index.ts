@@ -25,20 +25,4 @@ export async function setToCache(
   mode: TSearchMode = 'simple',
   categories: ESearXNGCategory[] = []
 ): Promise<void> {
-  const hashKey = generateHashKey(key, mode, categories);
-  await memoryCache.set(hashKey, val);
-}
-
-/**
- * Retrieve a cached value by query, mode, and category
- */
-export async function getFromCache(
-  q: string,
-  mode: TSearchMode = 'simple',
-  categories: ESearXNGCategory[] = []
-): Promise<string | undefined> {
-  const hashKey = generateHashKey(q, mode, categories);
-  return await memoryCache.get<string>(hashKey);
-}
-
-export default memoryCache;
+  const hashKey = generateHashKey(key, mode, categor

@@ -15,7 +15,7 @@
         <div class="flex flex-wrap justify-center gap-2">
           <t-tag
             v-for="(item, index) in list"
-            :key="index" shape="round"
+            :key="index" shape="round" 
             variant="outline"
             size="medium"
             class="cursor-pointer hover:opacity-80"
@@ -61,22 +61,12 @@ const quickly: Record<string, string[]> = {
     "O que é LLM?",
     "O que é RAG?",
     "Como utilizar LLM em empresas?"
-  ],
-  ja: [
-    'Ollamaをローカルでデプロイする方法は？',
-    '70bモデルにはどのようなハードウェア構成が必要ですか？',
-    'DeepSeek R1とo3-miniの違いは何ですか？',
-  ],
-  zhTW: [
-    '如何在本地使用 Ollama 部署大型模型？',
-    '70b 模型通常需要什麼樣的硬體配置？',
-    'DeepSeek R1 和 o3-mini 有什麼區別？',
-  ],
+  ]
 };
 
 const list = computed(() => {
   const key = locale.value;
-  return quickly[key] || quickly.en; // 添加默认英语，防止 locale 不匹配
+  return quickly[key];
 });
 
 const search = (val: string) => {
