@@ -3,13 +3,14 @@ import { ModelSelect, SearchEngineSelect, LanguageSelect } from './';
 import { RiSunLine, RiMoonLine } from '@remixicon/vue';
 import { useAppStore } from '../store';
 import { type SwitchValue } from 'tdesign-vue-next';
-import { useI18nComposable } from '@/i18n';
+import { useI18n } from 'vue-i18n';
 
 const appStore = useAppStore();
 
-const { t } = useI18nComposable();
+const { t } = useI18n(); // 调用 useI18n 获取 t 函数
 
 const showSettings = defineModel<boolean>();
+
 
 const onChangeTheme = (val: SwitchValue) => {
   if (val) appStore.updateTheme('dark');
