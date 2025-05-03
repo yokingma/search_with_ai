@@ -22,6 +22,11 @@ jobs:
         with:
           version: v0.11.0
 
+      - name: Clean Docker Cache
+        run: |
+          docker builder prune -f
+          echo "Docker cache cleaned."
+
       - name: Build and Test (Optional)
         run: |
           docker build -t my-app:test -f .devops/Dockerfile .
