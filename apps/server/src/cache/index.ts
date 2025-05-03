@@ -3,26 +3,23 @@ import { createHash } from 'node:crypto';
 import { TSearchMode } from '../interface';
 import { ESearXNGCategory } from '../libs/search/searxng';
 
-// Create a memory cache with 24-hour TTL (in milliseconds)
 const memoryCache = createCache(memoryStore(), {
-  ttl: 1000 * 60 * 60 * 24 // 24 hours
+  ttl: 60 * 1000 * 60 * 24 // ms
 });
 
-/**
- * Generate a unique hash key based on query, mode, and categories
- */
-function generateHashKey(key: string, mode: TSearchMode, categories: ESearXNGCategory[]): string {
+export async function setToCache(key: string, val: string, mode: TSearchMode = 'simple', categories: ESearXNGCategory[] = []) {
+  const hash = createHash('sha256');
   const str = `${key}_${mode}_${categories.join()}`;
-  return createHash('sha256').update(str, 'utf8').digest('hex');
+  const hashKey = hash.update(str, 'utf8').digest('hex');
+  await memoryCache.set(hashKey, val);
 }
 
-/**
- * Cache a value using a hashed key
- */
-export async function setToCache(
-  key: string,
-  val: string,
-  mode: TSearchMode = 'simple',
-  categories: ESearXNGCategory[] = []
-): Promise<void> {
-  const hashKey = generateHashKey(key, mode, categor
+export async function getFromCache(q: string, mode: TSearchMode = 'simple', categories: ESearXNGCategory[] = []) {
+  const hash = createHash('sha256');
+  const str = `${q}_${mode}_${categories.join()}`;
+  const hashKey = hash.update(str, 'utf8').digest('hex');
+  const val = await memoryCache.get<string>(hashKey);
+  return val;
+}
+
+export default memoryCache;
