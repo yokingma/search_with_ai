@@ -3,9 +3,9 @@ export interface ICitation {
 }
 
 export interface IAnswer {
-  accepted: boolean;
-  content: string;
-  citations?: ICitation[];
+  accepted: boolean;
+  content: string;
+  citations?: { content: string }[];
 }
 
 export interface IQueryResult {
