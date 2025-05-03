@@ -75,7 +75,7 @@ docker pull sokach0809/aisearch:latest
 1.**Get the code.**
 
 ```shell
-git clone https://github.com/kdeyyds/search_with_ai.git
+git clone https://github.com/kdeyyds/open-Aisearch.git
 cd search_with_ai
 ```
 
