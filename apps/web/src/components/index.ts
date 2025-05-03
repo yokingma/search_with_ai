@@ -1,4 +1,4 @@
-import ChatAnswer from './answer.tsx';
+import ChatAnswer from './answer.vue';
 import ChatSources from './sources.vue';
 import ChatMedia from './media.vue';
 import PageFooter from './footer.vue';
