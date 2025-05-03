@@ -19,3 +19,4 @@ const i18n = createI18n({
 });
 
 export default i18n;
+export { useI18n }; // 导出 useI18n 供其他组件使用
