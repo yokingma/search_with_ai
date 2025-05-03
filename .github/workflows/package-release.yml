@@ -22,8 +22,8 @@ jobs:
         shell: bash
 
       - name: Create ZIP archive
-        run: zip -r ${{ github.repository }}-${{ steps.get_tag.outputs.TAG_NAME }}.zip . -x ".git*" ".github*"
-
+        run: zip -r ${{ github.repository_owner }}-${{ github.event.repository }}-${{ steps.get_tag.outputs.TAG_NAME }}.zip . -x ".git*" ".github*"
+        
       - name: Upload ZIP as Release Asset
         uses: actions/upload-release-asset@v1
         with:
