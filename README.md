@@ -43,7 +43,7 @@ Repositories: [GitHub](https://github.com/yokingma/search_with_ai) [CNB](https:/
 
 ## About DeepResearch
 
-Support "Deep Research" like OpenAI/Gemini/Perplexity, through search engine, web scraping and LLM to iterate on any topic or question, and generate a comprehensive report. Project reference [deep-research](https://github.com/dzhng/deep-research), thanks to author [dzhng](https://github.com/dzhng).
+Support "Deep Research" like OpenAI/Gemini/Perplexity, through search engine, web scraping and LLM to iterate on any topic or question, and generate a comprehensive report. Project reference [dzhng/deep-research](https://github.com/dzhng/deep-research).
 
 https://github.com/user-attachments/assets/da5e038d-5e0a-4a6f-bae2-b1a58eee193e
 
@@ -62,7 +62,12 @@ https://github.com/user-attachments/assets/da5e038d-5e0a-4a6f-bae2-b1a58eee193e
 5. Recursive exploration leads to deeper exploration base on `step 4`.
 6. Generate a comprehensive report.
 
-More details can be found in [DeepResearch discussion](https://github.com/yokingma/search_with_ai/issues/116).
+> [!NOTE]
+> If you want to integrate DeepResearch capabilities into your own (Node.js) project, we recommend using the following npm package, built on LangGraph, with detailed usage instructions: [DeepResearch](https://github.com/yokingma/deepresearch)
+
+```shell
+npm install deepsearcher
+```
 
 ## Deploy with Docker (recommended)
 
@@ -205,6 +210,16 @@ In the root of the project:
 ```shell
 git pull
 ```
+
+## CDN acceleration and security protection for this project are sponsored by Tencent EdgeOne
+
+<p align="center">
+<img src="https://edgeone.ai/media/34fe3a45-492d-4ea4-ae5d-ea1087ca7b4b.png" width="50%">
+</p>
+
+<p align="center">
+<a href="https://edgeone.ai/?from=github">Best Asian CDN, Edge, and Secure Solutions - Tencent EdgeOne</a>
+</p>
 
 ## License
 

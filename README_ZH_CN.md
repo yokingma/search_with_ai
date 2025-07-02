@@ -39,7 +39,7 @@
 
 ## 关于 DeepResearch
 
-支持类似OpenAI/Gemini/Perplexity的"Deep Research"功能，通过搜索引擎，Web刮削和AI大模型对任何主题或者问题进行迭代，深入研究并生成报告。项目参考了[deep-research](https://github.com/dzhng/deep-research)的实现, 感谢作者[dzhng](https://github.com/dzhng)。
+支持类似OpenAI/Gemini/Perplexity的"Deep Research"功能，通过搜索引擎，Web刮削和AI大模型对任何主题或者问题进行迭代，深入研究并生成报告。项目参考了[dzhng/deep-research](https://github.com/dzhng/deep-research)的实现。
 
 https://github.com/user-attachments/assets/da5e038d-5e0a-4a6f-bae2-b1a58eee193e
 
@@ -58,8 +58,12 @@ https://github.com/user-attachments/assets/da5e038d-5e0a-4a6f-bae2-b1a58eee193e
 5. 基于`步骤4`进行递归探索
 6. 生成全面的报告
 
-详细讨论可以参考[DeepResearch 讨论](https://github.com/yokingma/search_with_ai/issues/116)。
-或者通过文档后面二维码加入微信群交流。
+> [!NOTE]
+> 如果你想在自己的(Node.js)项目中集成DeepResearch的能力，推荐使用下面这个npm包， 基于LangGraph构建，详细使用说明：[DeepResearch](https://github.com/yokingma/deepresearch)
+
+```shell
+npm install deepsearcher
+```
 
 ## 使用 Docker 安装部署
 
