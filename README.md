@@ -212,6 +212,7 @@ git pull
 ```
 
 ## CDN acceleration and security protection for this project are sponsored by Tencent EdgeOne
+EdgeOne offers a long-term free plan with unlimited traffic and requests, covering Mainland China nodes, with no overage charges. Interested friends can click the link below to claim it
 
 <p align="center">
 <img src="https://edgeone.ai/media/34fe3a45-492d-4ea4-ae5d-ea1087ca7b4b.png" width="50%">

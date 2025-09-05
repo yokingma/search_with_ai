@@ -299,17 +299,6 @@ export type TMode = 'simple' | 'deep' | 'research'
 
 - ```GET /api/models``` 获取可用模型列表[只能获得提供了KEY的模型]
 
-## 联系
-
-<div align="center">
-  <img width="320" src="./assets/appreciate.jpg"></img>
-  <div>如果你喜欢这个项目</div>
-</div>
-
-<div align="center">
- <img width="320" src="./assets/wechat.jpg"></img>
- <div>扫码添加助手进群交流</div>
-</div>
 
 ## 许可证
 
