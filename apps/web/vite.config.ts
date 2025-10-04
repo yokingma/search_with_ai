@@ -4,7 +4,7 @@ import AutoImport from 'unplugin-auto-import/vite';
 import Components from 'unplugin-vue-components/vite';
 import vueJsx from '@vitejs/plugin-vue-jsx';
 import path from 'path';
-import { TDesignResolver } from 'unplugin-vue-components/resolvers';
+import { TDesignResolver } from '@tdesign-vue-next/auto-import-resolver';
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
@@ -26,12 +26,17 @@ export default defineConfig(({ mode }) => {
       AutoImport({
         resolvers: [TDesignResolver({
           library: 'vue-next'
-        })],
+        }),
+        TDesignResolver({
+          library: 'chat'
+        })]
       }),
       Components({
         resolvers: [TDesignResolver({
           library: 'vue-next'
-        })],
+        }), TDesignResolver({
+          library: 'chat'
+        })]
       }),
     ],
     resolve: {
@@ -39,5 +44,5 @@ export default defineConfig(({ mode }) => {
         '@': path.resolve(__dirname, './src')
       }
     }
-  }
+  };
 });
