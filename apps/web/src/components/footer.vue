@@ -2,16 +2,11 @@
 import { onMounted, ref } from 'vue';
 import { useAppStore } from '../store';
 import { useI18n } from 'vue-i18n';
-
-type Emit = {
-  (e: 'click'): void;
-};
+import { RiGithubFill } from '@remixicon/vue';
 
 const appStore = useAppStore();
 const { t } = useI18n();
 const model = ref('');
-
-const emits = defineEmits<Emit>();
 
 onMounted(() => {
   const cached = appStore.model;
@@ -26,14 +21,15 @@ export default {
 </script>
 
 <template>
-  <div class="flex w-full flex-col items-center gap-2">
-    <div class="text-center text-xs text-gray-400">
+  <div class="flex w-full flex-col items-center justify-center p-4">
+    <div class="text-center text-xs leading-8 text-gray-400">
       {{ t('warning') }}
     </div>
-    <div class="mt-2 flex items-center gap-2 text-xs text-black dark:text-white">
-      <div class="cursor-pointer" @click="emits('click')">
-        {{ t('search') }}: <t-tag shape="round" size="small">{{ appStore.engine || t('message.noSelect') }}</t-tag>
-      </div>
-    </div>
+    <t-link href="https://github.com/yokingma/search_with_ai" hover="color" target="_blank">
+      <template #prefix-icon>
+        <RiGithubFill size="16px" />
+      </template>
+      Github
+    </t-link>
   </div>
 </template>

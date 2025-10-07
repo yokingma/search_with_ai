@@ -3,6 +3,7 @@ import { ref, onMounted } from 'vue';
 import { ISelectOptions } from '../interface';
 import { useAppStore } from '../store';
 import { useI18n } from 'vue-i18n';
+import { RiFlashlightLine } from '@remixicon/vue';
 const appStore = useAppStore();
 
 const engines = ref<ISelectOptions[]>([]);
@@ -49,7 +50,10 @@ export default {
 </script>
 
 <template>
-  <t-select  v-model="engine" :label="t('search')" :placeholder="t('selectEngine')" @change="onSelect">
+  <t-select v-model="engine" :borderless="true" :auto-width="true" :placeholder="t('selectEngine')" @change="onSelect">
+    <template #prefixIcon>
+      <RiFlashlightLine size="16px" />
+    </template>
     <t-option v-for="item in engines" :key="item.value" :value="item.value" :label="item.name"></t-option>
   </t-select>
 </template>

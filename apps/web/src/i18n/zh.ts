@@ -10,6 +10,7 @@ export default {
   copy: '复制',
   reload: '重新回答',
   share: '分享',
+  history: '历史',
   search: '搜索引擎',
   deepResearch: '深度研究',
   researchGoal: '研究目标',

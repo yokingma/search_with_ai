@@ -17,6 +17,8 @@
   --td-brand-color-focus: #333333;
   --main-bg-color: #ffffff;
   --main-font-color: #333333;
+
+  --td-radius-default: 32px;
 }
 
 :root[theme-mode="light"] {
@@ -77,6 +79,10 @@ html[theme-mode="dark"] .markdown-body pre {
 
 a {
   text-decoration: none;
+}
+
+.t-textarea__inner {
+  border-radius: 3px;
 }
 
 #app {

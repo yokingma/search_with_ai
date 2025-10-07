@@ -1,6 +1,5 @@
 <script setup lang="tsx">
 import { ref } from 'vue';
-import ModelSelect from './models.vue';
 import { SystemSumIcon } from 'tdesign-icons-vue-next';
 import { RiBookLine, RiSendPlaneFill } from '@remixicon/vue';
 import { useI18n } from 'vue-i18n';
@@ -31,7 +30,6 @@ const emits = defineEmits<Emits>();
 
 const { t } = useI18n();
 
-const allowToolTip = ref(false);
 const chatSenderRef = ref(null);
 const inputValue = ref('');
 
@@ -79,13 +77,6 @@ const onSearch = () => {
     </template>
     <template #prefix>
       <div class="flex flex-nowrap gap-2">
-        <t-tooltip
-          v-model="allowToolTip"
-          :content="t('selectModel')"
-          trigger="hover"
-        >
-          <ModelSelect />
-        </t-tooltip>
         <t-button
           class="flex-auto shrink-0 rounded-full bg-white text-black hover:bg-white hover:text-black"
           :class="{ 'active': enabledThinking }"

@@ -1,13 +1,11 @@
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue';
+import { onMounted } from 'vue';
 import { useAppStore } from './store';
 import { useI18n } from 'vue-i18n';
-import { AppSettings, ToolBar } from './components';
 
 const { locale } = useI18n();
 const appStore = useAppStore();
 
-const showSettings = ref(false);
 
 function followSystemLanguage() {
   const lan = window.navigator.language;
@@ -36,8 +34,6 @@ onMounted(() => {
 
 <template>
   <div class="size-full w-full dark:bg-black">
-    <ToolBar @show="showSettings = true" />
-    <AppSettings v-model="showSettings" />
     <router-view />
   </div>
 </template>
