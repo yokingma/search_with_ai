@@ -31,9 +31,6 @@ export default {
       {{ t('warning') }}
     </div>
     <div class="mt-2 flex items-center gap-2 text-xs text-black dark:text-white">
-      <div class="cursor-pointer" @click="emits('click')">{{ t('selectModel') }}: 
-        <t-tag shape="round" size="small">{{ appStore.model || t('message.noSelect') }}</t-tag>
-      </div>
       <div class="cursor-pointer" @click="emits('click')">
         {{ t('search') }}: <t-tag shape="round" size="small">{{ appStore.engine || t('message.noSelect') }}</t-tag>
       </div>

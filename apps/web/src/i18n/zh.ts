@@ -56,7 +56,7 @@ export default {
   },
   category: {
     general: '全网',
-    science: '学术(英文)',
+    science: '学术搜索',
     images: '图片',
     videos: '视频'
   },

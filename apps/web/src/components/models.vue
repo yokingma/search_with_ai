@@ -3,6 +3,11 @@ import { ref, onMounted } from 'vue';
 import { getModels } from '../api';
 import { useAppStore } from '../store';
 import { useI18n } from 'vue-i18n';
+import { RiAiGenerate2 } from '@remixicon/vue';
+
+defineOptions({
+  name: 'ModelSelect'
+});
 
 const appStore = useAppStore();
 const model = ref(appStore.model);
@@ -40,14 +45,23 @@ async function listModels () {
 }
 </script>
 
-<script lang="ts">
-export default {
-  name: 'ModelSelect'
-};
-</script>
-
 <template>
-  <t-select v-model="model" :loading="loading" :label="t('llm')" :placeholder="t('selectModel')" @change="onModelSelect">
-    <t-option v-for="(item, index) in models" :key="index" :value="item" :label="item"></t-option>
-  </t-select>
+  <div class="model-select">
+    <t-select v-model="model" :loading="loading" :placeholder="t('selectModel')" @change="onModelSelect">
+      <template #prefixIcon>
+        <RiAiGenerate2 size="16px" />
+      </template>
+      <t-option v-for="(item, index) in models" :key="index" :value="item" :label="item"></t-option>
+    </t-select>
+  </div>
 </template>
+
+<style lang="less">
+.model-select {
+  display: flex;
+  align-items: center;
+  .t-select .t-input {
+    border-radius: 32px;
+  }
+}
+</style>

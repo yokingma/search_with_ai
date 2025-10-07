@@ -15,7 +15,6 @@ declare module 'vue' {
     Footer: typeof import('./src/components/footer.vue')['default']
     Language: typeof import('./src/components/language.vue')['default']
     Media: typeof import('./src/components/media.vue')['default']
-    Mode: typeof import('./src/components/mode.vue')['default']
     Models: typeof import('./src/components/models.vue')['default']
     Related: typeof import('./src/components/related.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']

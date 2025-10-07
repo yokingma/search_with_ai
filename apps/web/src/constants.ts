@@ -28,18 +28,3 @@ export const SearXNGCategories = [
     displayName: 'category.science'
   }
 ];
-
-export const SearchMode = [
-  {
-    name: 'simple',
-    displayName: 'mode.simple'
-  },
-  {
-    name: 'deep',
-    displayName: 'mode.deep'
-  },
-  {
-    name: 'research',
-    displayName: 'mode.research'
-  }
-];

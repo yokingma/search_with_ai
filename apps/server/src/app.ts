@@ -61,7 +61,9 @@ router.post('/api/deep-research', deepResearchController);
 router.get('/api/models', modelsController);
 
 const server = app.listen(port, () => {
-  logger.info(`[Server is running on port]: ${port}`);
+  const address = server.address();
+  const host = address && typeof address === 'object' ? address.address : 'localhost';
+  logger.info(`[Server is running on] ${host}:${port}`);
 });
 
 server.timeout = 1000 * 60 * 60;
