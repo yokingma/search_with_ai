@@ -14,27 +14,25 @@ export type TSearchEngine = 'GOOGLE' | 'BING' | 'SOGOU' | 'SEARXNG' | 'CHATGLM' 
 export type ChatRoleType = 'user' | 'assistant' | 'system';
 
 export enum Provider {
-  OLLAMA = 'ollama',
-  LMSTUDIO = 'lmstudio',
   OPENAI = 'openai',
-  GOOGLE = 'google',
-  DEEPSEEK = 'deepseek',
-  NVIDIA = 'nvidia',
-  SILICONFLOW = 'siliconflow',
-  ALIYUN = 'aliyun',
-  BAIDU = 'baidu',
-  CHATGLM = 'chatglm',
-  MOONSHOT = 'moonshot',
-  TENCENT = 'tencent',
-  LEPTON = 'lepton',
-  YI = 'yi'
+  ANTHROPIC = 'anthropic',
+  GEMINI = 'gemini',
 }
 
-export interface IProviderModel {
+export interface IModelItemConfig {
+  name: string;
+  alias?: string;
+  description?: string;
+  maxTokens?: number;
+  [x: string]: any;
+}
+
+export interface IProviderItemConfig {
   provider: Provider;
-  type: string;
-  models: string[];
+  type: 'openai' | 'gemini' | 'anthropic';
+  models: IModelItemConfig[];
   baseURL?: string;
+  apiKey?: string;
 }
 
 export interface IChatInputMessage {

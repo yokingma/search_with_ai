@@ -1,12 +1,12 @@
-import { BaseChat } from './base/chat';
+import { BaseChat } from './base';
 import { IChatInputMessage, IStreamHandler, Provider } from '../../interface';
 import { DefaultSystem } from '../utils/constant';
-import { IChatOptions } from './base/openai';
+import { IChatOptions } from './openai';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
-export class GoogleChat implements BaseChat {
+export class GeminiChat implements BaseChat {
   private key?: string;
-  public platform = Provider.GOOGLE;
+  public platform = Provider.GEMINI;
   private genAI?: GoogleGenerativeAI;
   private baseUrl?: string;
 
@@ -79,5 +79,3 @@ export class GoogleChat implements BaseChat {
     });
   }
 }
-
-export const google = new GoogleChat();

@@ -1,14 +1,11 @@
 import Models from '../../model.json';
-import { IProviderModel, Provider } from '../../interface';
-import { BaseOpenAIChat } from './base/openai';
-import { GoogleChat } from './google';
-import { LeptonChat } from './lepton';
-import { getProviderKeys } from '../../config';
+import { IProviderItemConfig, Provider } from '../../interface';
+import { BaseOpenAIChat } from './openai';
+import { GeminiChat } from './gemini';
 
-const models = Models as IProviderModel[];
-const keys = getProviderKeys();
+const models = Models as IProviderItemConfig[];
 
-export function getProvider(provider: Provider, key?: string, baseUrl?: string) {
+export function getProviderClient(provider: Provider, key?: string, baseUrl?: string) {
   const target = models.find(item => {
     return item.provider === provider;
   });
@@ -19,13 +16,12 @@ export function getProvider(provider: Provider, key?: string, baseUrl?: string) 
 
   baseUrl = baseUrl || target.baseURL;
 
+  // api type
   switch (target.type) {
     case 'openai':
       return new BaseOpenAIChat(provider, key, baseUrl);
-    case 'google':
-      return new GoogleChat();
-    case 'lepton':
-      return new LeptonChat();
+    case 'gemini':
+      return new GeminiChat();
     default:
       throw new Error(`Provider ${provider} not supported`);
   }
@@ -37,15 +33,4 @@ export function getInfoByProvider(provider: Provider) {
   });
   if (!model) throw new Error(`Provider ${provider} not found`);
   return model;
-}
-
-export function getChatByProvider(providerName: string) {
-  const model = models.find(item => {
-    return item.provider === providerName;
-  });
-  if (!model) throw new Error(`Provider ${providerName} not found`);
-  const key = keys[model.provider];
-  if (!key) throw new Error(`Provider ${model.provider} key not found`);
-  const provider = getProvider(model.provider, key);
-  return provider.chat.bind(provider);
 }

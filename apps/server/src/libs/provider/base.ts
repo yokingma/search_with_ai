@@ -1,4 +1,4 @@
-import { IChatResponse, IStreamHandler } from '../../../interface';
+import { IChatResponse, IStreamHandler } from '../../interface';
 import { IChatOptions } from './openai';
 
 export abstract class BaseChat {

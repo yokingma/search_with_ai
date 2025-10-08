@@ -1,85 +1,22 @@
 [
   {
-    "provider": "aliyun",
-    "type": "openai",
-    "baseURL": "https://dashscope.aliyuncs.com/compatible-mode/v1",
-    "models": ["qwen-max", "qwen-turbo", "qwen2.5-7b-instruct-1m"]
-  },
-  {
-    "provider": "openai",
-    "type": "openai",
-    "baseURL": "https://api.openai.com/v1",
-    "models": ["o1-preview", "o1-mini", "gpt-4o", "gpt-4o-mini", "gpt-4o-latest", "gpt-4-preview", "gpt-4-turbo", "gpt-4", "gpt-3.5-turbo"]
-  },
-  {
     "provider": "siliconflow",
     "type": "openai",
     "baseURL": "https://api.siliconflow.cn/v1",
-    "models": ["Qwen/Qwen3-Coder-30B-A3B-Instruct"]
-  },
-  {
-    "provider": "baidu",
-    "type": "openai",
-    "baseURL": "https://qianfan.baidubce.com/v2",
-    "models": ["ernie-4.0-8k-latest", "ernie-4.0-8k-preview", "ernie-4.0-turbo-8k", "ernie-lite-8k"]
-  },
-  {
-    "provider": "google",
-    "type": "google",
-    "models": ["gemini-1.5-pro", "gemini-1.5-flash"]
-  },
-  {
-    "provider": "yi",
-    "type": "openai",
-    "baseURL": "https://api.lingyiwanwu.com/v1",
-    "models": ["yi-lightning", "yi-large", "yi-spark"]
-  },
-  {
-    "provider": "moonshot",
-    "type": "openai",
-    "baseURL": "https://api.moonshot.cn/v1",
-    "models": ["moonshot-v1-8k", "moonshot-v1-32k", "moonshot-v1-128k"]
-  },
-  {
-    "provider": "lepton",
-    "type": "lepton",
-    "baseURL": "https://%s.lepton.run/api/v1",
-    "models": ["llama2-7b", "llama2-13b", "llama2-70b", "mixtral-8*7b", "mixtral-8*22b"]
-  },
-  {
-    "provider": "deepseek",
-    "type": "openai",
-    "baseURL": "https://api.deepseek.com/v1",
-    "models": ["deepseek-chat", "deepseek-reasoner"]
-  },
-  {
-    "provider": "nvidia",
-    "type": "openai",
-    "baseURL": "https://integrate.api.nvidia.com/v1",
-    "models": ["deepseek-ai/deepseek-r1", "qwen/qwen2.5-coder-32b-instruct"]
-  },
-  {
-    "provider": "chatglm",
-    "type": "openai",
-    "baseURL": "https://open.bigmodel.cn/api/paas/v4",
-    "models": ["glm-4", "glm-4-plus", "glm-4-air", "glm-4-airx", "glm-4-flash"]
-  },
-  {
-    "provider": "tencent",
-    "type": "openai",
-    "baseURL": "https://api.hunyuan.cloud.tencent.com/v1",
-    "models": ["std", "pro"]
-  },
-  {
-    "provider": "ollama",
-    "type": "openai",
-    "baseURL": "http://localhost:11434/v1",
-    "models": ["llama3.1:8b"]
-  },
-  {
-    "provider": "lmstudio",
-    "type": "openai",
-    "baseURL": "http://localhost:1234/v1",
-    "models": ["meta-llama-3.1-8b-instruct"]
+    "apiKey": "SF-API-KEY",
+    "models": [
+      {
+        "name": "Qwen/Qwen3-30B-A3B",
+        "alias": "Qwen3-30B-A3B",
+        "description": "Qwen3-30B-A3B",
+        "maxTokens": 131072
+      },
+      {
+        "name": "Qwen/Qwen3-8B",
+        "alias": "Qwen3-8B",
+        "description": "Qwen3-8B",
+        "maxTokens": 131072
+      }
+    ]
   }
 ]

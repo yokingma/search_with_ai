@@ -2,10 +2,10 @@ import { TSearchEngine, IChatInputMessage, IStreamHandler, Provider, SearchFunc,
 import { getSearchEngine } from '../search';
 import { DeepQueryPrompt, MoreQuestionsPrompt, RagQueryPrompt, TranslatePrompt } from './prompt';
 import { ESearXNGCategory } from '../../libs/search/searxng';
-import { getChatByProvider } from '../../libs/provider';
+import { getProviderClient } from '../../libs/provider';
 import { jinaUrlsReader } from '../../libs/jina';
 import util from 'util';
-import { IChatOptions } from '../../libs/provider/base/openai';
+import { IChatOptions } from '../../libs/provider/openai';
 import { replaceVariable } from '../../libs/utils';
 
 interface RagOptions {
@@ -30,7 +30,8 @@ export class Rag {
     const { engine = 'SEARXNG', stream = true, model, provider } = params || {};
     if (!model) throw new Error('[RAG] model is required');
     if (!provider) throw new Error('[RAG] provider is required');
-    this.chat = getChatByProvider(provider);
+    const client = getProviderClient(provider);
+    this.chat = client.chat.bind(client);
 
     this.model = model;
     this.stream = stream;
