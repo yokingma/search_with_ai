@@ -10,6 +10,7 @@ export default {
   copy: 'Copy',
   reload: 'Reload',
   share: 'Share',
+  history: 'History',
   search: 'Engine',
   deepResearch: 'Deep Research',
   researchGoal: 'Research Goal',

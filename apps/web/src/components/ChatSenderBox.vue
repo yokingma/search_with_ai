@@ -1,7 +1,7 @@
 <script setup lang="tsx">
 import { ref } from 'vue';
 import { SystemSumIcon } from 'tdesign-icons-vue-next';
-import { RiBookLine, RiSendPlaneFill } from '@remixicon/vue';
+import { RiBookLine, RiSendPlaneFill, RiToolsFill } from '@remixicon/vue';
 import { useI18n } from 'vue-i18n';
 import { InputParams } from './type';
 
@@ -78,7 +78,7 @@ const onSearch = () => {
     <template #prefix>
       <div class="flex flex-nowrap gap-2">
         <t-button
-          class="border-1 flex-auto shrink-0 rounded-full border-zinc-200 dark:border-zinc-500 bg-white text-black dark:bg-zinc-600 dark:text-white"
+          class="flex-auto shrink-0 rounded-full border border-zinc-200 bg-white text-black dark:border-zinc-500 dark:bg-zinc-600 dark:text-white"
           :class="{ 'active': enabledThinking }"
           variant="text"
           @click="checkThinking"
@@ -90,7 +90,7 @@ const onSearch = () => {
         </t-button>
         <t-button
           v-if="showScience"
-          class="border-1 flex-auto shrink-0 rounded-full border-zinc-200 dark:border-zinc-500 bg-white text-black dark:bg-zinc-600 dark:text-white"
+          class="flex-auto shrink-0 rounded-full border border-zinc-200 bg-white text-black dark:border-zinc-500 dark:bg-zinc-600 dark:text-white"
           :class="{ 'active': enabledScience }"
           variant="text"
           @click="checkScience"
@@ -98,6 +98,16 @@ const onSearch = () => {
           <div class="flex flex-nowrap items-center gap-1">
             <RiBookLine size="16px" />
             <span>{{ t('category.science') }}</span>
+          </div>
+        </t-button>
+        <t-button
+          v-if="showScience"
+          class="flex-auto shrink-0 rounded-full border border-zinc-200 bg-white text-black dark:border-zinc-500 dark:bg-zinc-600 dark:text-white"
+          variant="text"
+        >
+          <div class="flex flex-nowrap items-center gap-1">
+            <RiToolsFill size="16px" />
+            <span>MCP</span>
           </div>
         </t-button>
       </div>

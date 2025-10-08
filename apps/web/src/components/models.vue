@@ -9,9 +9,16 @@ defineOptions({
   name: 'ModelSelect'
 });
 
+interface ModelItem {
+  name: string;
+  provider: string;
+  type: string;
+  alias?: string;
+}
+
 const appStore = useAppStore();
 const model = ref(appStore.model);
-const models = ref<string[]>([]);
+const models = ref<ModelItem[]>([]);
 const loading = ref(false);
 
 const { t } = useI18n();
@@ -33,14 +40,18 @@ onMounted(async () => {
 async function listModels () {
   loading.value = true;
   const res = await getModels();
-  const keys = Object.keys(res);
-  const values: string[] = [];
-  keys.forEach((key) => {
-    const vals = res[key] as string[];
-    values.push(...vals.map(i => `${i}`));
-  });
+  const list: ModelItem[] = res?.map((item: Record<string, any>) => {
+    const { provider, type, models = [] } = item;
+    return models.map((model: Record<string, any>) => ({
+      name: model.name,
+      alias: model.alias,
+      provider,
+      type
+    }));
+  }) || []; 
 
-  models.value = values;
+  console.log('Fetched models:', list);
+  models.value = list.flat();
   loading.value = false;
 }
 </script>
@@ -58,7 +69,12 @@ async function listModels () {
       <template #prefixIcon>
         <RiAiGenerate2 size="16px" />
       </template>
-      <t-option v-for="(item, index) in models" :key="index" :value="item" :label="item"></t-option>
+      <t-option v-for="(item, index) in models" :key="index" :value="item.name" :label="item.alias || item.name">
+        <div class="flex items-center gap-1">
+          <span>{{ item.alias || item.name }}</span>
+          <t-tag size="small" shape="mark">{{ item.provider }}</t-tag>
+        </div>
+      </t-option>
     </t-select>
   </div>
 </template>
