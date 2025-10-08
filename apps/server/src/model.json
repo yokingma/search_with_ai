@@ -15,7 +15,7 @@
     "provider": "siliconflow",
     "type": "openai",
     "baseURL": "https://api.siliconflow.cn/v1",
-    "models": ["deepseek-ai/DeepSeek-R1"]
+    "models": ["Qwen/Qwen3-Coder-30B-A3B-Instruct"]
   },
   {
     "provider": "baidu",

@@ -37,7 +37,7 @@ async function listModels () {
   const values: string[] = [];
   keys.forEach((key) => {
     const vals = res[key] as string[];
-    values.push(...vals.map(i => `${key}::${i}`));
+    values.push(...vals.map(i => `${i}`));
   });
 
   models.value = values;
@@ -47,7 +47,14 @@ async function listModels () {
 
 <template>
   <div class="model-select">
-    <t-select v-model="model" :borderless="true" :auto-width="true" :loading="loading" :placeholder="t('selectModel')" @change="onModelSelect">
+    <t-select
+      v-model="model"
+      :borderless="true"
+      :auto-width="true"
+      :loading="loading"
+      :placeholder="t('selectModel')"
+      @change="onModelSelect"
+    >
       <template #prefixIcon>
         <RiAiGenerate2 size="16px" />
       </template>

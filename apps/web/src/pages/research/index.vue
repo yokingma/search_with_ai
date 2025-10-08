@@ -3,7 +3,6 @@ import { onMounted, onUnmounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { RiArrowGoBackLine } from '@remixicon/vue';
 import ResearchReport from './components/report.vue';
-import SearchInputBar from '@/components/searchInputBar.vue';
 import ResearchProgress from './components/progress.vue';
 import { deepResearch } from '@/api';
 import { useAppStore } from '@/store';
@@ -28,7 +27,7 @@ const { t } = useI18n();
 
 const appStore = useAppStore();
 
-const query = ref(props.query);
+// const query = ref(props.query);
 const loading = ref(false);
 
 // research report
@@ -40,23 +39,23 @@ const report = ref<IResearchProgress>({
 
 let abortCtrl: AbortController | null = null;
 
-const onSearch = () => {
-  query.value = query.value.trim();
-  if (query.value !== props.query) {
-    router.replace({ 
-      name: router.currentRoute.value.name, 
-      params: { ...router.currentRoute.value.params, query: query.value } 
-    });
-  }
-  // clear previous report
-  report.value = {
-    time: 0,
-    progress: EDeepResearchProgress.Start,
-    sources: [],
-    report: '',
-  };
-  querySearch(query.value);
-};
+// const onSearch = () => {
+//   query.value = query.value.trim();
+//   if (query.value !== props.query) {
+//     router.replace({ 
+//       name: router.currentRoute.value.name, 
+//       params: { ...router.currentRoute.value.params, query: query.value } 
+//     });
+//   }
+//   // clear previous report
+//   report.value = {
+//     time: 0,
+//     progress: EDeepResearchProgress.Start,
+//     sources: [],
+//     report: '',
+//   };
+//   querySearch(query.value);
+// };
 
 const onBackHome = () => {
   router.push({ name: 'Home' });
@@ -135,9 +134,6 @@ onUnmounted(() => {
   <div class="flex size-full flex-col justify-between">
     <div class="flex w-full shrink-0 grow-0 items-center justify-center border-0 border-b border-solid border-zinc-100 py-2 dark:border-zinc-800">
       <div class="flex w-full flex-row flex-nowrap items-center gap-4 lg:max-w-2xl lg:p-0 xl:max-w-4xl">
-        <div class="grow pl-2">
-          <SearchInputBar v-model="query" :autofocus="false" :loading="loading" @search="onSearch" />
-        </div>
         <div class="shrink-0 grow-0 pr-2">
           <t-tooltip :content="t('back')">
             <t-button shape="circle" theme="default" @click="onBackHome">

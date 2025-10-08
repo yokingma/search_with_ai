@@ -3,9 +3,6 @@
     <div class="fixed inset-x-0 top-0 z-50 w-full border-0 border-b border-solid border-zinc-100 bg-white py-2 dark:border-zinc-700 dark:bg-black">
       <div class="flex w-full items-center justify-center">
         <div class="flex w-full flex-row flex-nowrap items-center gap-4 lg:max-w-2xl lg:p-0 xl:max-w-4xl">
-          <div class="grow pl-2">
-            <SearchInputBar v-model="query" :autofocus="false" :loading="loading" @search="onSearch" />
-          </div>
           <div class="shrink-0 grow-0 pr-2">
             <t-tooltip :content="t('back')">
               <t-button shape="circle" theme="default" @click="onBackHome">
@@ -21,10 +18,6 @@
     <div class="inset-0 flex items-center justify-center">
       <div class="size-full lg:max-w-2xl xl:max-w-4xl">
         <div class="mt-20">
-          <div v-if="!loading" class="flex flex-wrap justify-between gap-2 px-4 py-2 lg:px-0">
-            <SearchMode @change="onSearchModeChanged" />
-            <SearCategory @change="onSearchCategoryChanged" />
-          </div>
           <div class="p-4 lg:p-0">
             <div class="mt-0">
               <div class="flex flex-nowrap items-center gap-2 py-4 text-black dark:text-gray-200">
@@ -96,9 +89,9 @@ import ContinueChat from './components/chat.vue';
 import ChatInput from './components/input.vue';
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { MessagePlugin } from 'tdesign-vue-next';
-import { PageFooter, ChatAnswer, ChatMedia, RelatedQuery, ChatSources, SearchInputBar, SearCategory } from '../../components';
+import { PageFooter, ChatAnswer, ChatMedia, RelatedQuery, ChatSources } from '../../components';
 import { RiChat3Line, RiBook2Line, RiChat1Fill, RiArrowGoBackLine } from '@remixicon/vue';
-import { IQueryResult, TSearCategory, TSearchMode } from '../../interface';
+import { IQueryResult } from '../../interface';
 
 const appStore = useAppStore();
 
@@ -123,36 +116,31 @@ const onBackHome = () => {
   router.push({ name: 'Home' });
 };
 
-const onSearchModeChanged = (mode: TSearchMode) => {
-  if (!query.value) return;
-  if (mode === 'research') {
-    router.push({ name: 'DeepResearch', params: { query: query.value } });
-  } else {
-    querySearch(query.value, false);
-  }
-};
-
-const onSearchCategoryChanged = (category: TSearCategory) => {
-  console.log(category);
-  querySearch(query.value, false);
-};
-
 const onSelectQuery = (val: string) => {
   query.value = val;
   querySearch(val);
   scrollToTop();
 };
 
-const onSearch = (val: string) => {
-  if (!val) return;
-  if (appStore.mode === 'research') {
-    router.push({ name: 'DeepResearch', params: { query: val } });
-  } else {
-    query.value = val;
-    router.currentRoute.value.query.q ??= val;
-    querySearch(val);
-  }
-}; 
+// const onSearchModeChanged = (mode: TSearchMode) => {
+//   if (!query.value) return;
+//   if (mode === 'research') {
+//     router.push({ name: 'DeepResearch', params: { query: query.value } });
+//   } else {
+//     querySearch(query.value, false);
+//   }
+// };
+
+// const onSearch = (val: string) => {
+//   if (!val) return;
+//   if (appStore.mode === 'research') {
+//     router.push({ name: 'DeepResearch', params: { query: val } });
+//   } else {
+//     query.value = val;
+//     router.currentRoute.value.query.q ??= val;
+//     querySearch(val);
+//   }
+// }; 
 
 const onContinueChat = (val: string) => {
   question.value = val.trim();

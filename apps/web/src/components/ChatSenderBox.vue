@@ -78,7 +78,7 @@ const onSearch = () => {
     <template #prefix>
       <div class="flex flex-nowrap gap-2">
         <t-button
-          class="flex-auto shrink-0 rounded-full bg-white text-black hover:bg-white hover:text-black"
+          class="border-1 flex-auto shrink-0 rounded-full border-zinc-200 dark:border-zinc-500 bg-white text-black dark:bg-zinc-600 dark:text-white"
           :class="{ 'active': enabledThinking }"
           variant="text"
           @click="checkThinking"
@@ -90,7 +90,7 @@ const onSearch = () => {
         </t-button>
         <t-button
           v-if="showScience"
-          class="flex-auto shrink-0 rounded-full bg-white text-black hover:bg-white hover:text-black"
+          class="border-1 flex-auto shrink-0 rounded-full border-zinc-200 dark:border-zinc-500 bg-white text-black dark:bg-zinc-600 dark:text-white"
           :class="{ 'active': enabledScience }"
           variant="text"
           @click="checkScience"
@@ -109,9 +109,18 @@ const onSearch = () => {
 .active {
   background-color: black;
   color: white;
+  box-shadow: 0 0 6px rgba(0, 0, 0, .3);
   &:hover {
     background-color: black;
     color: white;
+  }
+}
+[theme-mode="dark"] .active {
+  background-color: white;
+  color: black;
+  &:hover {
+    background-color: white;
+    color: black;
   }
 }
 </style>
