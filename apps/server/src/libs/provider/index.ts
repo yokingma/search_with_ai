@@ -1,11 +1,11 @@
 import Models from '../../model.json';
-import { IProviderItemConfig, Provider } from '../../interface';
+import { IProviderItemConfig } from '../../interface';
 import { BaseOpenAIChat } from './openai';
 import { GeminiChat } from './gemini';
 
 const models = Models as IProviderItemConfig[];
 
-export function getProviderClient(provider: Provider, key?: string, baseUrl?: string) {
+export function getProviderClient(provider: string, key?: string, baseUrl?: string) {
   const target = models.find(item => {
     return item.provider === provider;
   });
@@ -25,12 +25,4 @@ export function getProviderClient(provider: Provider, key?: string, baseUrl?: st
     default:
       throw new Error(`Provider ${provider} not supported`);
   }
-}
-
-export function getInfoByProvider(provider: Provider) {
-  const model = models.find(item => {
-    return item.provider === provider;
-  });
-  if (!model) throw new Error(`Provider ${provider} not found`);
-  return model;
 }

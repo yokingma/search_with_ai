@@ -5,7 +5,7 @@ import {
 } from './libs/provider';
 import { DefaultQuery } from './libs/utils/constant';
 import Models from './model.json';
-import { TSearchEngine, IChatInputMessage, Provider, IProviderItemConfig, IChatResponse } from './interface';
+import { TSearchEngine, IChatInputMessage, IProviderItemConfig, IChatResponse } from './interface';
 import { getFromCache, setToCache } from './cache';
 import { ESearXNGCategory } from './libs/search/searxng';
 // import { DeepResearch, EResearchProgress } from './service/research';
@@ -22,7 +22,7 @@ export const searchController = async (ctx: Context) => {
   const categories: ESearXNGCategory[] = ctx.request.body.categories ?? [];
   const language: string = ctx.request.body.language || 'all';
   // llm provider
-  const provider: Provider = ctx.request.body.provider;
+  const provider: string = ctx.request.body.provider;
   const model: string = ctx.request.body.model;
   const stream = ctx.request.body.stream ?? true;
 
@@ -198,7 +198,7 @@ export const chatStreamController = async (ctx: Context) => {
   const messages: IChatInputMessage[] = ctx.request.body.messages || [];
   const system: string | undefined = ctx.request.body.system;
   const model: string | undefined = ctx.request.body.model;
-  const provider: Provider = ctx.request.body.provider;
+  const provider = ctx.request.body.provider;
 
   if (!model) throw new Error('Model is required');
   if (!provider) throw new Error('Provider is required');
@@ -206,7 +206,12 @@ export const chatStreamController = async (ctx: Context) => {
   ctx.res.setHeader('Content-Type', 'text/event-stream');
   ctx.res.setHeader('Cache-Control', 'no-cache');
   ctx.res.setHeader('Connection', 'keep-alive');
-  const client = getProviderClient(provider);
+  // get baseURL and apiKey
+  const providerInfo = models.find(item => item.provider === provider);
+  if (!providerInfo) throw new Error('Provider not found');
+  const { baseURL, apiKey } = providerInfo;
+
+  const client = getProviderClient(provider, apiKey, baseURL);
   ctx.res.statusCode = 200;
 
   await client?.chat({ messages, model, system }, (data: IChatResponse | null) => {

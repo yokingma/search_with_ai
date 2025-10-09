@@ -1,12 +1,12 @@
 import { BaseChat } from './base';
-import { IChatInputMessage, IStreamHandler, Provider } from '../../interface';
+import { IChatInputMessage, IStreamHandler } from '../../interface';
 import { DefaultSystem } from '../utils/constant';
 import { IChatOptions } from './openai';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
 export class GeminiChat implements BaseChat {
   private key?: string;
-  public platform = Provider.GEMINI;
+  public provider = 'gemini';
   private genAI?: GoogleGenerativeAI;
   private baseUrl?: string;
 

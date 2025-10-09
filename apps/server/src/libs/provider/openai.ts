@@ -1,5 +1,5 @@
 import OpenAI from 'openai';
-import { IChatInputMessage, IChatResponse, IStreamHandler, Provider } from '../../interface';
+import { IChatInputMessage, IChatResponse, IStreamHandler } from '../../interface';
 import { BaseChat } from './base';
 
 export interface IChatOptions {
@@ -11,10 +11,10 @@ export interface IChatOptions {
 
 export class BaseOpenAIChat implements BaseChat {
   private openai: OpenAI | null;
-  public platform: string;
+  public provider: string;
 
-  constructor(platform: Provider, apiKey?: string, baseURL?: string) {
-    this.platform = platform;
+  constructor(provider: string, apiKey?: string, baseURL?: string) {
+    this.provider = provider;
     if (apiKey) {
       this.openai = new OpenAI({
         baseURL,
@@ -28,7 +28,7 @@ export class BaseOpenAIChat implements BaseChat {
 
   async chat(options: IChatOptions, onMessage?: IStreamHandler) {
     if (!this.openai) {
-      throw new Error(`${this.platform} key is not set`);
+      throw new Error(`${this.provider} key is not set`);
     }
     const { model, system, temperature } = options;
     let messages = options.messages;
@@ -83,7 +83,7 @@ export class BaseOpenAIChat implements BaseChat {
   }
 
   async listModels() {
-    if (!this.openai) throw new Error(`${this.platform} Key is Required.`);
+    if (!this.openai) throw new Error(`${this.provider} Key is Required.`);
     const models = await this.openai.models.list();
     return models.data.map((model) => model.id);
   }

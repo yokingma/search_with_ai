@@ -13,12 +13,6 @@ export type TSearchEngine = 'GOOGLE' | 'BING' | 'SOGOU' | 'SEARXNG' | 'CHATGLM' 
 
 export type ChatRoleType = 'user' | 'assistant' | 'system';
 
-export enum Provider {
-  OPENAI = 'openai',
-  ANTHROPIC = 'anthropic',
-  GEMINI = 'gemini',
-}
-
 export interface IModelItemConfig {
   name: string;
   alias?: string;
@@ -28,7 +22,7 @@ export interface IModelItemConfig {
 }
 
 export interface IProviderItemConfig {
-  provider: Provider;
+  provider: string;
   type: 'openai' | 'gemini' | 'anthropic';
   models: IModelItemConfig[];
   baseURL?: string;

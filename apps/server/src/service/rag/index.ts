@@ -2,26 +2,29 @@ import {
   TSearchEngine,
   IChatInputMessage,
   IStreamHandler,
-  Provider,
   SearchFunc,
   // ISearchResponseResult,
-  IChatResponse
+  IChatResponse,
+  IProviderItemConfig
 } from '../../interface';
 import { getSearchEngine } from '../search';
 import { MoreQuestionsPrompt, RagQueryPrompt, TranslatePrompt } from './prompt';
 import { ESearXNGCategory } from '../../libs/search/searxng';
 import { getProviderClient } from '../../libs/provider';
 // import { jinaUrlsReader } from '../../libs/jina';
-import util from 'util';
 import { IChatOptions } from '../../libs/provider/openai';
 import { replaceVariable } from '../../libs/utils';
+import Models from '../../model.json';
+import util from 'util';
 
 interface RagOptions {
   engine?: TSearchEngine
   stream?: boolean
   model?: string
-  provider?: Provider
+  provider?: string
 }
+
+const models = Models as IProviderItemConfig[];
 
 // const CACHE_NAME = 'search_with_ai';
 
@@ -38,7 +41,11 @@ export class Rag {
     const { engine = 'SEARXNG', stream = true, model, provider } = params || {};
     if (!model) throw new Error('[RAG] model is required');
     if (!provider) throw new Error('[RAG] provider is required');
-    const client = getProviderClient(provider);
+    const providerInfo = models.find(item => item.provider === provider);
+    if (!providerInfo) throw new Error(`[RAG] provider ${provider} not found`);
+    const { apiKey, baseURL } = providerInfo;
+    // llm client
+    const client = getProviderClient(provider, apiKey, baseURL);
     this.chat = client.chat.bind(client);
 
     this.model = model;

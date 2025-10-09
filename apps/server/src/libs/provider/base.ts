@@ -2,7 +2,7 @@ import { IChatResponse, IStreamHandler } from '../../interface';
 import { IChatOptions } from './openai';
 
 export abstract class BaseChat {
-  platform: string;
+  provider: string;
 
   abstract chat(
     options: IChatOptions,
