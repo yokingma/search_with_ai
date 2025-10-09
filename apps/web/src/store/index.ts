@@ -1,13 +1,12 @@
+import { IModelItem } from '@/type';
 import { defineStore } from 'pinia';
 import { TSearCategory, TSearchEngine, TSearchMode } from 'src/interface';
 import { ref } from 'vue';
+import { Theme, Lan } from '../type';
 
-type Theme = 'dark' | 'light';
-type Lan = 'zh' | 'en' | 'ptBR';
 export const useAppStore = defineStore('app', () => {
   const engine = ref<TSearchEngine>('SEARXNG');
-  const model = ref('');
-  const provider = ref<string>('');
+  const model = ref<IModelItem>();
   const theme = ref<Theme>();
   const language = ref<Lan>();
   // searxng categories
@@ -15,12 +14,8 @@ export const useAppStore = defineStore('app', () => {
   // search mode
   const mode = ref<TSearchMode>('simple');
 
-  const updateModel = (val: string) => {
-    model.value = val;
-  };
-
-  const updateProvider = (val: string) => {
-    provider.value = val;
+  const updateModel = (item?: IModelItem) => {
+    model.value = item;
   };
 
   const updateEngine = (val: TSearchEngine) => {
@@ -51,14 +46,12 @@ export const useAppStore = defineStore('app', () => {
     language,
     category,
     mode,
-    provider,
     updateModel,
     updateEngine,
     updateTheme,
     updateLanguage,
     updateCategory,
     updateMode,
-    updateProvider
   };
 }, {
   persist: true

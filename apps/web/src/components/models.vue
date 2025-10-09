@@ -4,43 +4,37 @@ import { getModels } from '../api';
 import { useAppStore } from '../store';
 import { useI18n } from 'vue-i18n';
 import { RiAiGenerate2 } from '@remixicon/vue';
+import { IModelItem } from '../type';
 
 defineOptions({
-  name: 'ModelSelect'
+  name: 'ModelSelector'
 });
 
-interface ModelItem {
-  name: string;
-  provider: string;
-  type: string;
-  alias?: string;
-}
-
 const appStore = useAppStore();
-const model = ref(appStore.model);
-const models = ref<ModelItem[]>([]);
+const selectedModel = ref(appStore.model?.name || '');
+const models = ref<IModelItem[]>([]);
 const loading = ref(false);
 
 const { t } = useI18n();
 
-const onModelSelect = (val: any) => {
-  appStore.updateModel(val);
+const onModelSelect = (val: string) => {
+  appStore.updateModel(models.value.find(item => item.name === val));
 };
 
 onMounted(async () => {
   await listModels();
   if (appStore.model) {
-    model.value = appStore.model;
+    selectedModel.value = appStore.model.name;
   } else {
-    model.value = models.value[0];
+    selectedModel.value = models.value[0]?.name || '';
   }
-  appStore.updateModel(model.value);
+  appStore.updateModel(models.value.find(item => item.name === selectedModel.value));
 });
 
 async function listModels () {
   loading.value = true;
   const res = await getModels();
-  const list: ModelItem[] = res?.map((item: Record<string, any>) => {
+  const list: IModelItem[] = res?.map((item: Record<string, any>) => {
     const { provider, type, models = [] } = item;
     return models.map((model: Record<string, any>) => ({
       name: model.name,
@@ -50,7 +44,6 @@ async function listModels () {
     }));
   }) || []; 
 
-  console.log('Fetched models:', list);
   models.value = list.flat();
   loading.value = false;
 }
@@ -59,7 +52,7 @@ async function listModels () {
 <template>
   <div class="model-select">
     <t-select
-      v-model="model"
+      v-model="selectedModel"
       :borderless="true"
       :auto-width="true"
       :loading="loading"

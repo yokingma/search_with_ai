@@ -4,7 +4,7 @@ import { ChatSenderBox } from '@/components';
 import logoUrl from '@/assets/logo.png';
 import { computed } from 'vue';
 import { useAppStore } from '@/store';
-import { InputParams } from '@/components/type';
+import { InputParams } from '@/type';
 
 defineOptions({
   name: 'HomePage'
