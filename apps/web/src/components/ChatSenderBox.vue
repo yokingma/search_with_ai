@@ -3,14 +3,14 @@ import { ref } from 'vue';
 import { SystemSumIcon } from 'tdesign-icons-vue-next';
 import { RiBookLine, RiSendPlaneFill, RiToolsFill } from '@remixicon/vue';
 import { useI18n } from 'vue-i18n';
-import { InputParams } from '../type';
+import { IChatInputParams } from '@/types';
 
 defineOptions({
   name: 'ChatSender'
 });
 
 type Emits = {
-  (e: 'send', val: InputParams): void,
+  (e: 'send', val: IChatInputParams): void,
 }
 
 type Props = {
@@ -33,10 +33,10 @@ const { t } = useI18n();
 const chatSenderRef = ref(null);
 const inputValue = ref('');
 
-const enabledThinking = ref(false);
+const enabledDeepResearch = ref(false);
 const enabledScience = ref(false);
-const checkThinking = () => {
-  enabledThinking.value = !enabledThinking.value;
+const checkDeepResearch = () => {
+  enabledDeepResearch.value = !enabledDeepResearch.value;
 };
 
 const checkScience = () => {
@@ -45,9 +45,9 @@ const checkScience = () => {
 
 const onSearch = () => {
   if (!inputValue.value?.trim()) return;
-  const params: InputParams = {
+  const params: IChatInputParams = {
     value: inputValue.value.trim(),
-    enabledThinking: enabledThinking.value,
+    enabledDeepResearch: enabledDeepResearch.value,
     enabledScience: enabledScience.value
   };
   emits('send', params);
@@ -79,9 +79,9 @@ const onSearch = () => {
       <div class="flex flex-nowrap gap-2">
         <t-button
           class="flex-auto shrink-0 rounded-full border border-zinc-200 bg-white text-black dark:border-zinc-500 dark:bg-zinc-600 dark:text-white"
-          :class="{ 'active': enabledThinking }"
+          :class="{ 'active': enabledDeepResearch }"
           variant="text"
-          @click="checkThinking"
+          @click="checkDeepResearch"
         >
           <div class="flex flex-nowrap items-center gap-1">
             <SystemSumIcon />

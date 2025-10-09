@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import { PageLayout } from './components';
-import HomePage from "./pages/home.vue";
+import HomePage from "./pages/home/index.vue";
 import SearchPage from './pages/search/index.vue';
 import DeepResearch from './pages/research/index.vue';
 import i18n from './i18n';

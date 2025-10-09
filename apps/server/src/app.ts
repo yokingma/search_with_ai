@@ -13,7 +13,6 @@ import {
   // deepResearchController,
   modelsController,
   searchController,
-  sogouSearchController
 } from './controller';
 
 const app = new Koa();
@@ -55,7 +54,6 @@ app.use(router.routes()).use(router.allowedMethods());
 
 // controller
 router.post('/api/search', whiteListMiddleware(), searchController);
-router.post('/api/sogou/search', sogouSearchController);
 router.post('/api/chat', chatStreamController);
 // router.post('/api/deep-research', deepResearchController);
 router.get('/api/models', modelsController);

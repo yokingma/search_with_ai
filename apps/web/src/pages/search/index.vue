@@ -105,14 +105,13 @@ async function querySearch(val: string | null, reload?: boolean) {
   abortCtrl = ctrl;
   try {
     loading.value = true;
-    const { model, engine, mode, category } = appStore;
+    const { model, engine, category } = appStore;
     const provider = model?.provider;
     const modelName = model?.name;
     await search(val, {
       model: modelName,
       provider,
       engine,
-      mode,
       language,
       categories: [category],
       reload,

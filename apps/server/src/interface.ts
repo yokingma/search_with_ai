@@ -66,5 +66,3 @@ export interface ISearchResponseResult {
   engine?: string;
   [key: string]: string | number | undefined;
 }
-
-export type TSearchMode = 'simple' | 'deep' | 'research'

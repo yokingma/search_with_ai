@@ -5,8 +5,7 @@ import {
 } from './libs/provider';
 import { DefaultQuery } from './libs/utils/constant';
 import Models from './model.json';
-import { searchWithSogou } from './service/search';
-import { TSearchEngine, IChatInputMessage, Provider, TSearchMode, IProviderItemConfig, IChatResponse } from './interface';
+import { TSearchEngine, IChatInputMessage, Provider, IProviderItemConfig, IChatResponse } from './interface';
 import { getFromCache, setToCache } from './cache';
 import { ESearXNGCategory } from './libs/search/searxng';
 // import { DeepResearch, EResearchProgress } from './service/research';
@@ -21,7 +20,6 @@ export const searchController = async (ctx: Context) => {
   // search engine
   const engine: TSearchEngine = ctx.request.body.engine;
   const categories: ESearXNGCategory[] = ctx.request.body.categories ?? [];
-  const mode: TSearchMode = ctx.request.body.mode ?? 'simple';
   const language: string = ctx.request.body.language || 'all';
   // llm provider
   const provider: Provider = ctx.request.body.provider;
@@ -35,7 +33,7 @@ export const searchController = async (ctx: Context) => {
 
   // get from cache, skip if enable reload
   if (!reload) {
-    const cached = await getFromCache(q as string, mode, categories);
+    const cached = await getFromCache(q as string, categories);
     if (cached) {
       ctx.body = cached;
       ctx.res.write(cached, 'utf-8');
@@ -59,7 +57,7 @@ export const searchController = async (ctx: Context) => {
 
   let result = '';
 
-  await rag.query(q as string, categories, mode, language, (json: string) => {
+  await rag.query(q as string, categories, language, (json: string) => {
     const eventData = `data:${JSON.stringify({ data: json })}\n\n`;
     result += eventData;
     ctx.res.write(eventData, 'utf-8');
@@ -68,7 +66,7 @@ export const searchController = async (ctx: Context) => {
   ctx.res.end();
   // caching
   if (CACHE_ENABLED === '1') {
-    setToCache(q as string, result, mode, categories);
+    setToCache(q as string, result, categories);
   }
 };
 
@@ -195,12 +193,6 @@ export const searchController = async (ctx: Context) => {
 //     ctx.res.end();
 //   }
 // };
-
-export const sogouSearchController = async (ctx: Context) => {
-  const q = ctx.request.query.q || DefaultQuery;
-  const res = await searchWithSogou(q as string);
-  ctx.body = res;
-};
 
 export const chatStreamController = async (ctx: Context) => {
   const messages: IChatInputMessage[] = ctx.request.body.messages || [];

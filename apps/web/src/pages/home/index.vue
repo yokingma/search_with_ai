@@ -4,7 +4,7 @@ import { ChatSenderBox } from '@/components';
 import logoUrl from '@/assets/logo.png';
 import { computed } from 'vue';
 import { useAppStore } from '@/store';
-import { InputParams } from '@/types';
+import { IChatInputParams } from '@/types';
 import { ROUTE_NAME } from '@/constants';
 
 defineOptions({
@@ -15,26 +15,17 @@ const appStore = useAppStore();
 
 const enableAdvanced = computed(() => appStore.engine === 'SEARXNG');
 
-const search = (params: InputParams) => {
+const search = (params: IChatInputParams) => {
   const { value: val } = params;
   if (!val) {
     return;
   }
-  if (appStore.mode === 'research') {
-    router.push({
-      name: 'DeepResearch',
-      params: {
-        query: val
-      }
-    });
-  } else {
-    router.push({
-      name: 'SearchPage',
-      query: {
-        q: val
-      }
-    });
-  }
+  router.push({
+    name: ROUTE_NAME.SEARCH_PAGE,
+    query: {
+      q: val
+    }
+  });
 };
 </script>
 

@@ -1,9 +1,17 @@
-import { TSearchEngine, IChatInputMessage, IStreamHandler, Provider, SearchFunc, TSearchMode, ISearchResponseResult, IChatResponse } from '../../interface';
+import {
+  TSearchEngine,
+  IChatInputMessage,
+  IStreamHandler,
+  Provider,
+  SearchFunc,
+  // ISearchResponseResult,
+  IChatResponse
+} from '../../interface';
 import { getSearchEngine } from '../search';
-import { DeepQueryPrompt, MoreQuestionsPrompt, RagQueryPrompt, TranslatePrompt } from './prompt';
+import { MoreQuestionsPrompt, RagQueryPrompt, TranslatePrompt } from './prompt';
 import { ESearXNGCategory } from '../../libs/search/searxng';
 import { getProviderClient } from '../../libs/provider';
-import { jinaUrlsReader } from '../../libs/jina';
+// import { jinaUrlsReader } from '../../libs/jina';
 import util from 'util';
 import { IChatOptions } from '../../libs/provider/openai';
 import { replaceVariable } from '../../libs/utils';
@@ -40,7 +48,7 @@ export class Rag {
     this.search = getSearchEngine(engine);
   }
 
-  public async query(query: string, categories = [ESearXNGCategory.GENERAL], mode: TSearchMode = 'simple', language = 'all', onMessage?: (...args: any[]) => void) {
+  public async query(query: string, categories = [ESearXNGCategory.GENERAL], language = 'all', onMessage?: (...args: any[]) => void) {
     let searchQuery = query;
     // rewrite query for [SCIENCE]
     if (categories.includes(ESearXNGCategory.SCIENCE) && this.engine === 'SEARXNG') {
@@ -51,15 +59,15 @@ export class Rag {
     // Parameters supported by searxng: categories.
     const contexts = await this.search(searchQuery, categories, language);
     const REFERENCE_COUNT = process.env.REFERENCE_COUNT || 8;
-    let limitContexts = contexts.slice(0, +REFERENCE_COUNT);
+    const limitContexts = contexts.slice(0, +REFERENCE_COUNT);
 
-    if (mode === 'research') {
-      const fullContexts = await this.getFullSearchResult(limitContexts);
-      limitContexts = limitContexts.map((item, index) => ({
-        ...item,
-        content: fullContexts[index].content || ''
-      }));
-    }
+    // if (mode === 'research') {
+    //   const fullContexts = await this.getFullSearchResult(limitContexts);
+    //   limitContexts = limitContexts.map((item, index) => ({
+    //     ...item,
+    //     content: fullContexts[index].content || ''
+    //   }));
+    // }
 
     let images: Record<string, any>[] = [];
 
@@ -96,7 +104,7 @@ export class Rag {
       onMessage?.(JSON.stringify({ context }));
     }
 
-    await this.getAiAnswer(query, limitContexts, mode, (msg) => {
+    await this.getAiAnswer(query, limitContexts, (msg) => {
       onMessage?.(JSON.stringify(msg));
     });
 
@@ -107,16 +115,16 @@ export class Rag {
     onMessage?.(null, true);
   }
 
-  private async getFullSearchResult(results: ISearchResponseResult[]) {
-    const urls = results.map(item => item.url);
-    const fullContexts = await jinaUrlsReader({ urls });
-    return fullContexts;
-  }
+  // private async getFullSearchResult(results: ISearchResponseResult[]) {
+  //   const urls = results.map(item => item.url);
+  //   const fullContexts = await jinaUrlsReader({ urls });
+  //   return fullContexts;
+  // }
 
   // Gets related questions based on the query and context.
   private async getRelatedQuestions(query: string, contexts: any[], onMessage?: IStreamHandler) {
     try {
-      const { messages } = this.paramsFormatter(query, undefined, contexts, 'related');
+      const { messages } = this.paramsFormatter(query, contexts, 'related');
       const { model } = this;
       if (typeof onMessage === 'function') {
         await this.chat({ messages, model }, onMessage);
@@ -130,10 +138,10 @@ export class Rag {
     }
   }
 
-  private async getAiAnswer(query: string, contexts: any[], mode: TSearchMode = 'simple', onMessage?: IStreamHandler) {
+  private async getAiAnswer(query: string, contexts: any[], onMessage?: IStreamHandler) {
     const { model, stream } = this;
     try {
-      const { messages } = this.paramsFormatter(query, mode, contexts, 'answer');
+      const { messages } = this.paramsFormatter(query, contexts, 'answer');
       if (!stream) {
         const res = await this.chat({ messages, model });
         return res;
@@ -179,7 +187,7 @@ export class Rag {
     }
   }
 
-  private paramsFormatter(query: string, mode: TSearchMode = 'simple', contexts: any[], type: 'answer' | 'related') {
+  private paramsFormatter(query: string, contexts: any[], type: 'answer' | 'related') {
     const context = contexts.map(
       (item, index) => `[[citation:${index + 1}]] ${item.content || item.snippet}`
     ).join('\n\n');
@@ -188,18 +196,8 @@ export class Rag {
 
     const date = new Date().toISOString();
 
-    // deep answer
-    if (mode === 'deep' && type === 'answer') {
-      prompt = replaceVariable(DeepQueryPrompt, { date });
-    }
-
     if (type === 'answer') {
-      if (mode === 'deep') {
-        prompt = replaceVariable(DeepQueryPrompt, { date });
-      }
-      if (mode === 'simple' || mode === 'research') {
-        prompt = replaceVariable(RagQueryPrompt, { date });
-      }
+      prompt = replaceVariable(RagQueryPrompt, { date });
     }
 
     const system = util.format(prompt, context);

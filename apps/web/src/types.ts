@@ -62,15 +62,14 @@ export interface IResearchProgress {
 }
 
 export type TSearCategory = 'general' | 'science' | 'images' | 'videos' | 'news'
-export type TSearchMode = 'simple' | 'deep' | 'research'
 export type TSearchEngine = 'GOOGLE' | 'BING' | 'SOGOU' | 'SEARXNG' | 'CHATGLM'
 
 export type Theme = 'dark' | 'light';
 export type Lan = 'zh' | 'en' | 'ptBR';
 
-export type InputParams = {
+export interface IChatInputParams {
   value: string;
-  enabledThinking?: boolean;
+  enabledDeepResearch?: boolean;
   enabledScience?: boolean;
 }
 
