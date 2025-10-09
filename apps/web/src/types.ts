@@ -64,3 +64,19 @@ export interface IResearchProgress {
 export type TSearCategory = 'general' | 'science' | 'images' | 'videos' | 'news'
 export type TSearchMode = 'simple' | 'deep' | 'research'
 export type TSearchEngine = 'GOOGLE' | 'BING' | 'SOGOU' | 'SEARXNG' | 'CHATGLM'
+
+export type Theme = 'dark' | 'light';
+export type Lan = 'zh' | 'en' | 'ptBR';
+
+export type InputParams = {
+  value: string;
+  enabledThinking?: boolean;
+  enabledScience?: boolean;
+}
+
+export interface IModelItem {
+  name: string;
+  provider: string;
+  type: string;
+  alias?: string;
+}

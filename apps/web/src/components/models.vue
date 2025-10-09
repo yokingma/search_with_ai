@@ -4,7 +4,7 @@ import { getModels } from '../api';
 import { useAppStore } from '../store';
 import { useI18n } from 'vue-i18n';
 import { RiAiGenerate2 } from '@remixicon/vue';
-import { IModelItem } from '../type';
+import { IModelItem } from '@/types';
 
 defineOptions({
   name: 'ModelSelector'

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ISearchProgress } from '@/interface';
+import { ISearchProgress } from '@/types';
 import SearchProgress from './search.vue';
 import { RiSearchLine, RiTimer2Line } from '@remixicon/vue';
 import { useI18n } from 'vue-i18n';

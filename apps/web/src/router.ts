@@ -4,6 +4,7 @@ import HomePage from "./pages/home.vue";
 import SearchPage from './pages/search/index.vue';
 import DeepResearch from './pages/research/index.vue';
 import i18n from './i18n';
+import { ROUTE_NAME } from './constants';
 
 const routes = [
   {
@@ -12,7 +13,7 @@ const routes = [
     children: [
       {
         path: '',
-        name: 'Home',
+        name: ROUTE_NAME.HOME,
         component: HomePage,
         meta: {
           title: 'Home'
@@ -20,14 +21,14 @@ const routes = [
       },
       {
         path: '/search',
-        name: 'SearchPage',
+        name: ROUTE_NAME.SEARCH_PAGE,
         component: SearchPage,
         meta: {
           title: 'Search'
         }
       },
       {
-        path: '/deep-research',
+        path: '/research',
         children: [
           {
             path: '',
@@ -35,7 +36,7 @@ const routes = [
           },
           {
             path: ':query',
-            name: 'DeepResearch',
+            name: ROUTE_NAME.DEEP_RESEARCH,
             component: DeepResearch,
             props: true,
             meta: {

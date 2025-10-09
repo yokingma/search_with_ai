@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import { ISelectOptions } from '../interface';
+import { ISelectOptions } from '../types';
 import { useAppStore } from '../store';
 import { useI18n } from 'vue-i18n';
 import { RiFlashlightLine } from '@remixicon/vue';

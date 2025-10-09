@@ -9,14 +9,15 @@ import { useAppStore } from '@/store';
 import { MessagePlugin } from 'tdesign-vue-next';
 import { useRouter } from 'vue-router';
 import ResearchSource from './components/source.vue';
-import { IResearchProgress, EDeepResearchProgress } from '@/interface';
+import { IResearchProgress, EDeepResearchProgress } from '@/types';
+import { ROUTE_NAME } from '@/constants';
 
 interface IProps {
   query: string;
 }
 
 defineOptions({
-  name: 'DeepResearch'
+  name: ROUTE_NAME.DEEP_RESEARCH
 });
 
 const props = defineProps<IProps>();
@@ -74,8 +75,12 @@ async function querySearch(val: string | null) {
   try {
     loading.value = true;
     const { model, engine } = appStore;
-    const provider = model?.split('::')[0];
-    const modelName = model?.split('::')[1];
+    if (!model) {
+      MessagePlugin.warning(t('message.selectModelFirst'));
+      return;
+    }
+    const provider = model.provider;
+    const modelName = model.name;
     await deepResearch({
       query: val,
       provider,

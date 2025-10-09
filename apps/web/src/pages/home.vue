@@ -4,10 +4,11 @@ import { ChatSenderBox } from '@/components';
 import logoUrl from '@/assets/logo.png';
 import { computed } from 'vue';
 import { useAppStore } from '@/store';
-import { InputParams } from '@/type';
+import { InputParams } from '@/types';
+import { ROUTE_NAME } from '@/constants';
 
 defineOptions({
-  name: 'HomePage'
+  name: ROUTE_NAME.HOME
 });
 
 const appStore = useAppStore();

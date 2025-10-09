@@ -18,6 +18,12 @@ Your answer must be written in the same language as the original question. Pleas
 And here is the first question:
 `;
 
+export const ROUTE_NAME = {
+  HOME: 'Home',
+  SEARCH_PAGE: 'SearchPage',
+  DEEP_RESEARCH: 'DeepResearch'
+};
+
 export const SearXNGCategories = [
   {
     name: 'general',

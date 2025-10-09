@@ -1,8 +1,7 @@
-import { IModelItem } from '@/type';
 import { defineStore } from 'pinia';
-import { TSearCategory, TSearchEngine, TSearchMode } from 'src/interface';
+import { TSearCategory, TSearchEngine, TSearchMode } from '@/types';
 import { ref } from 'vue';
-import { Theme, Lan } from '../type';
+import { Theme, Lan, IModelItem } from '@/types';
 
 export const useAppStore = defineStore('app', () => {
   const engine = ref<TSearchEngine>('SEARXNG');

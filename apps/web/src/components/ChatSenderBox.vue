@@ -3,7 +3,7 @@ import { ref } from 'vue';
 import { SystemSumIcon } from 'tdesign-icons-vue-next';
 import { RiBookLine, RiSendPlaneFill, RiToolsFill } from '@remixicon/vue';
 import { useI18n } from 'vue-i18n';
-import { InputParams } from './type';
+import { InputParams } from '../type';
 
 defineOptions({
   name: 'ChatSender'

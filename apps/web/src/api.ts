@@ -1,5 +1,5 @@
 import { fetchEventData } from 'fetch-sse';
-import { IResearchProgress, IMessage, TSearCategory, TSearchEngine, TSearchMode } from './interface';
+import { IResearchProgress, IMessage, TSearCategory, TSearchEngine, TSearchMode } from './types';
 const BASE_URL = import.meta.env.MODE === 'development' ? 'http://127.0.0.1:3000' : '';
 
 const SEARCH = '/api/search';
