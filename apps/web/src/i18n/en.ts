@@ -1,9 +1,8 @@
 export default {
   title: 'Search with AI',
   theme: 'Theme',
-  ask: 'Me',
-  answer: 'Answer',
-  reasoning: 'Deep Thinking',
+  reasoning: 'Thinking',
+  thinking: 'Thinking...',
   related: 'Related',
   sources: 'Sources',
   media: 'Media',

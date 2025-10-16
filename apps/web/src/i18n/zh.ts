@@ -1,9 +1,8 @@
 export default {
   title: '基于AI的搜索引擎',
   theme: '主题',
-  answer: 'AI回答',
-  reasoning: '深度思考',
-  ask: '问',
+  reasoning: '思考',
+  thinking: '思考中...',
   related: '相关问题',
   sources: '参考资料',
   media: '图片资源',
