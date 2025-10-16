@@ -35,7 +35,7 @@ const search = (params: IChatInputParams) => {
     <div class="flex w-full flex-col gap-8 p-4 sm:-mt-28 lg:max-w-3xl xl:max-w-4xl">
       <div class="flex items-center justify-center gap-4">
         <img :src="logoUrl" class="w-14" />
-        <span class="text-5xl font-bold dark:text-gray-100">Search with AI</span>
+        <span class="text-5xl font-bold dark:text-gray-100">SearchChat</span>
       </div>
       <div class="">
         <ChatSenderBox :autofocus="true" :loading="false" :show-science="enableAdvanced" @send="search" />

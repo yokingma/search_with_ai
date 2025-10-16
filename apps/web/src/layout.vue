@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { PageFooter, PageHeader } from '.';
+import { PageFooter, PageHeader } from './components';
 
 defineOptions({
   name: 'PageLayout',

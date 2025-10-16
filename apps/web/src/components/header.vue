@@ -7,25 +7,32 @@ import SearchEngineSelect from './engine.vue';
 import LanguageSelect from './language.vue';
 import { SwitchValue } from 'tdesign-vue-next';
 import { useAppStore } from '../store';
-
-const appStore = useAppStore();
-const { t } = useI18n();
+import { useRouter } from 'vue-router';
+import { ROUTE_NAME } from '@/constants';
 
 defineOptions({
   name: 'PageHeader',
 });
 
+const appStore = useAppStore();
+const { t } = useI18n();
+const router = useRouter();
+
 const onChangeTheme = (val: SwitchValue) => {
   if (val) appStore.updateTheme('dark');
   else appStore.updateTheme('light');
 };
+
+const backHome = () => {
+  router.push({ name: ROUTE_NAME.HOME });
+};
 </script>
 
 <template>
-  <div class="flex items-center justify-between border-b p-4">
+  <div class="sticky top-0 z-10 flex items-center justify-between border-b bg-white/60 px-4 py-2 backdrop-blur-md dark:bg-gray-800">
     <div class="flex shrink-0 flex-nowrap items-center gap-2">
       <div class="">
-        <img :src="logoUrl" class="w-6" />
+        <img :src="logoUrl" class="w-6 cursor-pointer" @click="backHome" />
       </div>
     </div>
     <div class="flex shrink-0 items-center gap-2">

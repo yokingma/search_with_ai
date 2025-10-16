@@ -9,12 +9,12 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     Answer: typeof import('./src/components/answer.vue')['default']
-    ChatSenderBox: typeof import('./src/components/ChatSenderBox.vue')['default']
+    ChatMessage: typeof import('./src/components/chat/ChatMessage.vue')['default']
+    ChatSenderBox: typeof import('./src/components/chat/ChatSenderBox.vue')['default']
     Engine: typeof import('./src/components/engine.vue')['default']
     Footer: typeof import('./src/components/footer.vue')['default']
     Header: typeof import('./src/components/header.vue')['default']
     Language: typeof import('./src/components/language.vue')['default']
-    Layout: typeof import('./src/components/layout.vue')['default']
     Media: typeof import('./src/components/media.vue')['default']
     Models: typeof import('./src/components/models.vue')['default']
     Related: typeof import('./src/components/related.vue')['default']
@@ -28,7 +28,6 @@ declare module 'vue' {
     TCollapsePanel: typeof import('tdesign-vue-next')['CollapsePanel']
     TImage: typeof import('tdesign-vue-next')['Image']
     TImageViewer: typeof import('tdesign-vue-next')['ImageViewer']
-    TInput: typeof import('tdesign-vue-next')['Input']
     TLink: typeof import('tdesign-vue-next')['Link']
     TLoading: typeof import('tdesign-vue-next')['Loading']
     TOption: typeof import('tdesign-vue-next')['Option']

@@ -3,12 +3,10 @@ import router from '../../router';
 import { search } from '../../api';
 import { useI18n } from 'vue-i18n';
 import { useAppStore } from '../../store';
-import ContinueChat from './components/chat.vue';
-import ChatInput from './components/input.vue';
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { MessagePlugin } from 'tdesign-vue-next';
-import { PageFooter, ChatAnswer, ChatMedia, RelatedQuery, ChatSources } from '../../components';
-import { RiChat3Line, RiBook2Line, RiChat1Fill, RiArrowGoBackLine } from '@remixicon/vue';
+import { ChatAnswer, ChatMedia, RelatedQuery, ChatSources } from '@/components';
+import { RiBook2Line, RiChat1Fill } from '@remixicon/vue';
 import { IQueryResult } from '@/types';
 
 const appStore = useAppStore();
@@ -29,10 +27,6 @@ const result = ref<IQueryResult>({
   contexts: [],
   images: []
 });
-
-const onBackHome = () => {
-  router.push({ name: 'Home' });
-};
 
 const onSelectQuery = (val: string) => {
   query.value = val;
@@ -58,21 +52,7 @@ const onSelectQuery = (val: string) => {
 //     router.currentRoute.value.query.q ??= val;
 //     querySearch(val);
 //   }
-// }; 
-
-const onContinueChat = (val: string) => {
-  question.value = val.trim();
-  scrollToBottom();
-};
-
-const onContinueChatDone = () => {
-  question.value = '';
-  scrollToBottom();
-};
-
-const onAnswering = () => {
-  scrollToBottom();
-};
+// };
 
 const onReload = () => {
   querySearch(query.value, true);
@@ -164,10 +144,6 @@ function clear () {
   question.value = '';
 }
 
-function scrollToBottom() {
-  document.body.scrollTop = document.body.scrollHeight;
-}
-
 function scrollToTop() {
   document.body.scrollTop = 0;
 }
@@ -186,79 +162,38 @@ export default {
 </script>
 
 <template>
-  <div id="search" class="size-full">
-    <div class="fixed inset-x-0 top-0 z-50 w-full border-0 border-b border-solid border-zinc-100 bg-white py-2 dark:border-zinc-700 dark:bg-black">
-      <div class="flex w-full items-center justify-center">
-        <div class="flex w-full flex-row flex-nowrap items-center gap-4 lg:max-w-2xl lg:p-0 xl:max-w-4xl">
-          <div class="shrink-0 grow-0 pr-2">
-            <t-tooltip :content="t('back')">
-              <t-button shape="circle" theme="default" @click="onBackHome">
-                <template #icon>
-                  <RiArrowGoBackLine size="14px" />
-                </template>
-              </t-button>
-            </t-tooltip>
-          </div>
-        </div>
-      </div>
-    </div>
+  <div class="size-full">
     <div class="inset-0 flex items-center justify-center">
       <div class="size-full lg:max-w-2xl xl:max-w-4xl">
-        <div class="mt-20">
-          <div class="p-4 lg:p-0">
-            <div class="mt-0">
-              <div class="flex flex-nowrap items-center gap-2 py-4 text-black dark:text-gray-200">
-                <RiChat3Line />
-                <span class="text-lg font-bold ">{{ t('answer') }}</span>
-              </div>
-              <ChatAnswer
-                :query="query"
-                :answer="result?.answer"
-                :reasoning="result?.reasoning"
-                :contexts="result?.contexts"
-                :loading="loading"
-                @reload="onReload"
-              />
-              <div class="mt-4 flex flex-col gap-2">
-                <div class="text-sm font-bold text-zinc-600 dark:text-gray-300">{{ t('related') }}:</div>
-                <RelatedQuery :related="result?.related" :loading="loading" @select="onSelectQuery" />
-              </div>
-            </div>
-            <div v-if="appStore.engine === 'SEARXNG'" class="mt-4">
-              <ChatMedia :loading="loading" :sources="result?.images" />
-            </div>
-            <div class="mt-4">
-              <div class="flex flex-nowrap items-center gap-2 py-4 text-black dark:text-gray-200">
-                <RiBook2Line />
-                <span class="text-lg font-bold ">{{ t('sources') }}</span>
-              </div>
-              <ChatSources :loading="loading" :sources="result?.contexts" />
-            </div>
-            <div class="my-4">
-              <div class="flex flex-nowrap items-center gap-2 py-4 text-black dark:text-gray-200">
-                <RiChat1Fill />
-                <span class="text-lg font-bold ">{{ t('chat') }}</span>
-              </div>
-              <ContinueChat
-                :contexts="result?.contexts"
-                :reasoning="result?.reasoning"
-                :clear="loading"
-                :query="query"
-                :answer="result?.answer ?? ''"
-                :question="question"
-                @message="onAnswering"
-                @done="onContinueChatDone"
-              />
-            </div>
-            <div class="pb-20 pt-10">
-              <PageFooter />
+        <div class="p-4 lg:p-0">
+          <div class="mt-0">
+            <ChatAnswer
+              :query="query"
+              :answer="result?.answer"
+              :reasoning="result?.reasoning"
+              :contexts="result?.contexts"
+              :loading="loading"
+              @reload="onReload"
+            />
+            <div class="mt-4 flex flex-col gap-2">
+              <div class="text-sm font-bold text-zinc-600 dark:text-gray-300">{{ t('related') }}:</div>
+              <RelatedQuery :related="result?.related" :loading="loading" @select="onSelectQuery" />
             </div>
           </div>
-        </div>
-        <div class="fixed inset-x-0 bottom-0 z-50 w-full bg-gradient-to-t from-white to-transparent py-4 dark:from-black">
-          <div class="flex w-full items-center justify-center">
-            <div class="w-full drop-shadow-2xl lg:max-w-2xl xl:max-w-4xl">
-              <ChatInput :loading="loading" @ask="onContinueChat" />
+          <div v-if="appStore.engine === 'SEARXNG'" class="mt-4">
+            <ChatMedia :loading="loading" :sources="result?.images" />
+          </div>
+          <div class="mt-4">
+            <div class="flex flex-nowrap items-center gap-2 py-4 text-black dark:text-gray-200">
+              <RiBook2Line />
+              <span class="text-lg font-bold ">{{ t('sources') }}</span>
+            </div>
+            <ChatSources :loading="loading" :sources="result?.contexts" />
+          </div>
+          <div class="my-4">
+            <div class="flex flex-nowrap items-center gap-2 py-4 text-black dark:text-gray-200">
+              <RiChat1Fill />
+              <span class="text-lg font-bold ">{{ t('chat') }}</span>
             </div>
           </div>
         </div>

@@ -1,7 +1,6 @@
 import * as VueI18n from 'vue-i18n';
 import zh from './zh';
 import en from './en';
-import ptBR from './ptBR';
 
 const i18n = VueI18n.createI18n({
   legacy: false,
@@ -10,7 +9,6 @@ const i18n = VueI18n.createI18n({
   messages: {
     en,
     zh,
-    ptBR
   },
 });
 

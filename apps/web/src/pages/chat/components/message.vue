@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { IMessage } from '@/types';
+import { IChatMessage } from '@/types';
 import { useI18n } from 'vue-i18n';
 import { marked } from 'marked';
 import { RiRefreshLine } from '@remixicon/vue';
@@ -7,7 +7,7 @@ import { citationMarkdownParse } from '@/utils';
 import { computed } from 'vue';
 
 interface IProps {
-  message: IMessage
+  message: IChatMessage
   enableReload: boolean
 }
 
@@ -20,11 +20,11 @@ const { t } = useI18n();
 const props = defineProps<IProps>();
 
 const parsedReasoning = computed(() => {
-  const { reasoning } = props.message;
-  if (!reasoning) {
+  const { reasoning_content } = props.message;
+  if (!reasoning_content) {
     return '';
   }
-  const md = citationMarkdownParse(reasoning);
+  const md = citationMarkdownParse(reasoning_content);
   return marked.parse(md, {
     async: false
   });
@@ -68,7 +68,7 @@ const parsedContent = computed(() => {
         </t-tooltip>
       </div>
       <div v-else class="rounded-xl  bg-zinc-50 p-4 leading-6 text-zinc-600 dark:bg-zinc-700 dark:text-zinc-200">
-        <template v-if="message.reasoning">
+        <template v-if="message.reasoning_content">
           <div class="mb-2 flex flex-col gap-1">
             <div class="text-xs font-bold text-zinc-800 dark:text-zinc-200">
               {{ t('reasoning') }}

@@ -13,6 +13,7 @@
     "cheerio": "^1.0.0",
     "fetch-sse": "1.1.2",
     "github-markdown-css": "^5.6.1",
+    "localforage": "^1.10.0",
     "marked": "^14.1.2",
     "pinia": "^2.2.2",
     "pinia-plugin-persistedstate": "^3.2.1",

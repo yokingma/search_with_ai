@@ -11,16 +11,6 @@ export interface ISelectOptions {
   value: string;
 }
 
-export type Role = 'user' | 'assistant'
-
-export interface IMessage {
-  role: Role;
-  content: string;
-  reasoning?: string;
-}
-
-
-
 export enum EDeepResearchProgress {
   Heartbeat = 'heartbeat',
   Analyzing = 'analyzing',
@@ -78,4 +68,25 @@ export interface IModelItem {
   provider: string;
   type: string;
   alias?: string;
+}
+
+export type Role = 'user' | 'assistant' | 'system' | 'function';
+export interface IContextImage {
+  url: string
+  uuid: string
+}
+
+interface IAgentProcessedEvent<Event extends string = string, Data extends string | Record<string, any> = string> {
+    title: string;
+    event: Event;
+    data: Data;
+}
+export interface IChatMessage {
+  role: Role
+  reasoning_content?: string
+  reasoning_duration?: number
+  datetime?: string
+  content: string
+  source?: Record<string, any>
+  events?: Array<IAgentProcessedEvent<string, string | Record<string, any>>>
 }
