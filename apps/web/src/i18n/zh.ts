@@ -1,8 +1,9 @@
 export default {
   title: '基于AI的搜索引擎',
   theme: '主题',
-  reasoning: '思考',
-  thinking: '思考中...',
+  reasoning: '思考中...',
+  reasoning_completed: '思考已完成。',
+  reasoning_duration: '已深度思考(用时{duration}秒)',
   related: '相关问题',
   sources: '参考资料',
   media: '图片资源',
@@ -10,10 +11,10 @@ export default {
   reload: '重新回答',
   share: '分享',
   history: '历史',
-  search: '搜索引擎',
+  searchEngine: '搜索引擎',
   deepResearch: '深度研究',
   researchGoal: '研究目标',
-  webSearch: '网络搜索',
+  search: '网络搜索',
   newChat: '新会话',
   sogou: '搜狗',
   chatglm: 'ChatGLM',
@@ -47,12 +48,18 @@ export default {
   },
   message: {
     queryError: '查询出错了',
+    copied: '已复制到剪贴板',
     copyError: '复制失败了',
     noSelect: '暂未选择',
     sourceError: '获取参考资料失败了',
     shareSuccess: '分享链接已复制到剪贴板。',
     noRelated: '没有相关问题或者查询失败了',
-    success: '操作成功了！'
+    success: '操作成功了！',
+    // 新增的占位符示例
+    userGreeting: '你好，{username}！',
+    searchResults: '找到 {count} 个相关结果',
+    timeSpent: '搜索用时 {seconds} 秒',
+    multipleParams: '{username} 在 {date} 进行了 {count} 次搜索'
   },
   category: {
     general: '全网',

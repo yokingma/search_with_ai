@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import { PageLayout } from './components';
 import HomePage from "./pages/home/index.vue";
-import SearchPage from './pages/chat/index.vue';
+import ChatSearchPage from './pages/chat/index.vue';
 import DeepResearch from './pages/research/index.vue';
 import i18n from './i18n';
 import { ROUTE_NAME } from './constants';
@@ -20,11 +20,12 @@ const routes = [
         }
       },
       {
-        path: '/chat',
-        name: ROUTE_NAME.SEARCH_PAGE,
-        component: SearchPage,
+        path: '/chat/:uuid',
+        name: ROUTE_NAME.CHAT_PAGE,
+        component: ChatSearchPage,
+        props: true,
         meta: {
-          title: 'Search Chat'
+          title: 'Chat Search'
         }
       },
       {

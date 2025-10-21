@@ -1,9 +1,3 @@
-<script lang="ts">
-export default {
-  name: 'ChatSources'
-};
-</script>
-
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 
@@ -11,6 +5,11 @@ interface IProps {
   sources?: Record<string, any>[]
   loading: boolean
 }
+
+defineOptions({
+  name: 'ChatSources',
+});
+
 defineProps<IProps>();
 const rowCol = [
   [
@@ -41,11 +40,11 @@ const { t } = useI18n();
         </template>
       </t-alert>
     </div>
-    <div class="mt-4 grid grid-cols-1 gap-2 text-xs text-gray-500 md:grid-cols-2">
+    <div class="grid grid-cols-1 gap-2 text-xs text-gray-500 md:grid-cols-2">
       <div 
         v-for="item in sources"
         :key="item.id"
-        class="relative overflow-hidden rounded-md bg-gray-100 p-2 transition-all hover:opacity-80 xl:p-3 dark:bg-zinc-800"
+        class="relative overflow-hidden rounded-md transition-all hover:opacity-80"
       >
         <t-popup>
           <template #content>
@@ -55,12 +54,12 @@ const { t } = useI18n();
               <a :href="item.url" target="_blank" class="block size-full truncate text-zinc-400">{{ item.url }}</a>
             </div>
           </template>
-          <div class="leading-5">
-            <a :href="item.url" target="_blank" class="absolute block size-full"></a>
-            <div class="truncate break-words text-sm text-black dark:text-gray-400">{{ item.name }}</div>
-            <div class="mt-1 flex items-center gap-1">
-              <t-tag size="small" theme="default">{{ item.id }}</t-tag>
-              <div class="truncate break-words">{{ item.url }}</div>
+          <div class="">
+            <div class="flex flex-nowrap items-center gap-1">
+              <div class="flex h-4 min-w-4 items-center justify-center rounded bg-zinc-200 dark:bg-black">{{ item.id }}</div>
+              <div class="truncate break-words text-xs text-black dark:text-gray-400">
+                {{ item.name }}
+              </div>
             </div>
           </div>
         </t-popup>

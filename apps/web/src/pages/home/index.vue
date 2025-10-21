@@ -4,8 +4,10 @@ import { ChatSenderBox } from '@/components';
 import logoUrl from '@/assets/logo.png';
 import { computed } from 'vue';
 import { useAppStore } from '@/store';
-import { IChatInputParams } from '@/types';
+import { IChatInputParams, IChatMessage } from '@/types';
 import { ROUTE_NAME } from '@/constants';
+import { v4 as uuidv4 } from 'uuid';
+import { saveChat } from '@/storage/chat';
 
 defineOptions({
   name: ROUTE_NAME.HOME
@@ -13,19 +15,25 @@ defineOptions({
 
 const appStore = useAppStore();
 
-const enableAdvanced = computed(() => appStore.engine === 'SEARXNG');
+const enableScience = computed(() => appStore.engine === 'SEARXNG');
 
-const search = (params: IChatInputParams) => {
+const onSend = async (params: IChatInputParams) => {
   const { value: val } = params;
   if (!val) {
     return;
   }
-  router.push({
-    name: ROUTE_NAME.SEARCH_PAGE,
-    query: {
-      q: val
-    }
+  const uuid = uuidv4();
+  const message: IChatMessage = {
+    role: 'user',
+    content: val,
+  };
+  await saveChat(uuid, {
+    title: val.slice(0, 30),
+    uuid,
+    time: new Date().getTime(),
+    messages: [message]
   });
+  router.push({ name: ROUTE_NAME.CHAT_PAGE, params: { uuid } });
 };
 </script>
 
@@ -38,7 +46,7 @@ const search = (params: IChatInputParams) => {
         <span class="text-5xl font-bold dark:text-gray-100">SearchChat</span>
       </div>
       <div class="">
-        <ChatSenderBox :autofocus="true" :loading="false" :show-science="enableAdvanced" @send="search" />
+        <ChatSenderBox :autofocus="true" :loading="false" :show-science="enableScience" @send="onSend" />
       </div>
     </div>
   </div>

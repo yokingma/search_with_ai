@@ -1,8 +1,9 @@
 export default {
   title: 'Search with AI',
   theme: 'Theme',
-  reasoning: 'Thinking',
-  thinking: 'Thinking...',
+  reasoning: 'Thinking...',
+  reasoning_completed: 'Thought process completed.',
+  reasoning_duration: 'Deep thinking completed (took {duration} seconds)',
   related: 'Related',
   sources: 'Sources',
   media: 'Media',
@@ -10,10 +11,10 @@ export default {
   reload: 'Reload',
   share: 'Share',
   history: 'History',
-  search: 'Engine',
+  searchEngine: 'Engine',
   deepResearch: 'Deep Research',
   researchGoal: 'Research Goal',
-  webSearch: 'Web Search',
+  search: 'Web Search',
   newChat: 'New Q&A',
   sogou: 'Sogou',
   chatglm: 'ChatGLM',
@@ -47,12 +48,18 @@ export default {
   },
   message: {
     queryError: 'Query error',
+    copied: 'Copied to clipboard',
     copyError: 'Copy failed',
     noSelect: 'Not selected yet',
     sourceError: 'Failed to obtain information',
     shareSuccess: 'Sharing link copied to clipboard.',
     noRelated: 'No related questions found',
-    success: 'successful!'
+    success: 'successful!',
+    // 新增的占位符示例
+    userGreeting: 'Hello, {username}!',
+    searchResults: 'Found {count} relevant results',
+    timeSpent: 'Search took {seconds} seconds',
+    multipleParams: '{username} performed {count} searches on {date}'
   },
   category: {
     general: 'General',

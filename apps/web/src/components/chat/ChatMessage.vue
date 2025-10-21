@@ -35,7 +35,7 @@ const renderReasoningHeader = (loading: boolean, item: IChatMessage) => {
   if (loading) {
     return <t-chat-loading text={t('thinking')} />;
   }
-  const endText = item.reasoning_duration ? `已深度思考(用时${item.reasoning_duration}秒)` : '已深度思考';
+  const endText = item.source?.reasoning_duration ? `已深度思考(用时${item.source.reasoning_duration}秒)` : '已深度思考';
   return (
     <div style="display:flex;align-items:center">
       <RiCheckboxCircleLine class="mr-1 size-4 text-green-500" />
@@ -63,7 +63,7 @@ const handleOperation = (type: string, options: { e: MouseEvent }) => {
       <template v-if="message.role === 'user'">
         <t-chat-item
           role="user"
-          :datetime="message.datetime"
+          :datetime="message.source?.datetime"
           :content="message.content"
           variant="base"
         ></t-chat-item>
@@ -71,7 +71,7 @@ const handleOperation = (type: string, options: { e: MouseEvent }) => {
       <template v-else>
         <t-chat-item
           role="assistant"
-          :datetime="message.datetime"
+          :datetime="message.source?.datetime"
           :content="message.content"
           :text-loading="typing"
           variant="outline"

@@ -81,12 +81,17 @@ interface IAgentProcessedEvent<Event extends string = string, Data extends strin
     event: Event;
     data: Data;
 }
+
+interface IChatSource {
+  datetime?: string;
+  reasoning_duration?: number;
+  [x: string]: any;
+}
+
 export interface IChatMessage {
   role: Role
   reasoning_content?: string
-  reasoning_duration?: number
-  datetime?: string
   content: string
-  source?: Record<string, any>
+  source?: IChatSource
   events?: Array<IAgentProcessedEvent<string, string | Record<string, any>>>
 }

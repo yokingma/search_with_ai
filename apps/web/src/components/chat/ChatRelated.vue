@@ -1,9 +1,3 @@
-<script lang="ts">
-export default {
-  name: 'RelatedQuery'
-};
-</script>
-
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -16,6 +10,10 @@ interface IProps {
 type Emits = {
   (e: 'select', query: string): void
 }
+
+defineOptions({
+  name: 'ChatRelated',
+});
 
 const { t } = useI18n();
 
@@ -36,14 +34,19 @@ const relatedArr = computed(() => {
     <t-skeleton animation="flashed" :row-col="[3]" :loading="loading && !relatedArr.length"></t-skeleton>
     <template v-if="relatedArr?.length">
       <div class="grid grid-cols-1 gap-2 md:grid-cols-3">
-        <div
+        <t-tag
           v-for="(item, index) in relatedArr"
           :key="index"
-          class="cursor-pointer rounded-md border border-solid border-gray-200 bg-gray-100 p-2 transition-all hover:border-zinc-400 dark:border-zinc-700 dark:bg-zinc-900"
+          shape="square"
+          theme="default"
+          variant="light"
+          max-width="full"
           @click="onSelect(item)"
         >
-          <span class="text-sm text-zinc-600 dark:text-zinc-400">{{ item }}</span>
-        </div>
+          <template #content>
+            <div class="cursor-pointer truncate transition-all hover:opacity-60">{{ item }}</div>
+          </template>
+        </t-tag>
       </div>
     </template>
     <t-alert v-if="!relatedArr?.length && !loading" theme="info" :message="t('message.noRelated')" />

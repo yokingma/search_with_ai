@@ -3,22 +3,30 @@ import router from '../../router';
 import { search } from '../../api';
 import { useI18n } from 'vue-i18n';
 import { useAppStore } from '../../store';
-import { computed, onMounted, onUnmounted, ref } from 'vue';
+import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
 import { MessagePlugin } from 'tdesign-vue-next';
-import { ChatAnswer, ChatMedia, RelatedQuery, ChatSources } from '@/components';
-import { RiBook2Line, RiChat1Fill } from '@remixicon/vue';
-import { IQueryResult } from '@/types';
+import { ChatAnswer, ChatMedia  } from '@/components';
+import { getChat, updateChat, IChatRecord, store } from '@/storage/chat';
+import { IChatMessage, IQueryResult } from '@/types';
+import { ROUTE_NAME } from '@/constants';
+import { useScrollToBottom } from '@/utils/useScroll';
 
 const appStore = useAppStore();
 
 const { t } = useI18n();
 
-const keyword = computed(() => router.currentRoute.value.query.q ?? '');
-const query = ref<string>('');
-const question = ref<string>('');
+// chat id(uuid)
+const uuid = computed(() => router.currentRoute.value.params.uuid as string);
+
+const query = ref<string>();
+const isAnswering = ref(false);
 const loading = ref(false);
 
 let abortCtrl: AbortController | null = null;
+
+const messages = ref<IChatMessage[]>([]);
+
+const scrollWrapper = ref<HTMLElement | null>(null);
 
 const result = ref<IQueryResult>({
   related: '',
@@ -30,8 +38,7 @@ const result = ref<IQueryResult>({
 
 const onSelectQuery = (val: string) => {
   query.value = val;
-  querySearch(val);
-  scrollToTop();
+  sendMessage(val);
 };
 
 // const onSearchModeChanged = (mode: TSearchMode) => {
@@ -54,27 +61,40 @@ const onSelectQuery = (val: string) => {
 //   }
 // };
 
-const onReload = () => {
-  querySearch(query.value, true);
-};
+watch(() => uuid.value, async (val) => {
+  if (!val) return;
+  const res = await getChat(val as string);
+  messages.value = [...(res?.messages ?? [])];
+  // first message
+  if (messages.value.length === 1 && isAnswering.value === false) {
+    const message = messages.value[0];
+    messages.value = [];
+    await sendMessage(message.content);
+    clearUserQuery();
+  }
+  nextTick(() => {
+    useScrollToBottom({ target: scrollWrapper.value });
+  });
+});
 
 onMounted(() => {
-  if (!keyword.value) {
-    router.push({ name: 'Home' });
+  if (!uuid.value) {
+    router.push({ name: ROUTE_NAME.HOME });
     return;
   }
-  query.value = keyword.value as string;
-  querySearch(query.value);
+  initChat();
 });
 
 onUnmounted(() => {
   abortCtrl?.abort();
+  abortCtrl = null;
+  loading.value = false;
+  isAnswering.value = false;
 });
 
-async function querySearch(val: string | null, reload?: boolean) {
+async function sendMessage(val: string | null, reload?: boolean) {
   if (!val) return;
   clear();
-  replaceQueryParam('q', val);
   if (abortCtrl) {
     abortCtrl.abort();
     abortCtrl = null;
@@ -141,17 +161,27 @@ function clear () {
     contexts: [],
     images: []
   };
-  question.value = '';
 }
 
-function scrollToTop() {
-  document.body.scrollTop = 0;
+async function initChat () {
+  if (isAnswering.value) return;
+  if (!uuid.value) return;
+  const res = await getChat(uuid.value);
+  if (!res?.messages?.length) {
+    return router.push({ name: ROUTE_NAME.HOME });
+  }
+  // first message
+  if (res.messages.length === 1) {
+    await sendMessage(res.messages[0].content);
+    clearUserQuery();
+  } else {
+    // load history messages
+    messages.value.push(...res.messages);
+  }
 }
 
-function replaceQueryParam(name: string, val: string) {
-  const url = new URL(location.href);
-  url.searchParams.set(name, val);
-  history.replaceState({}, '', url.toString());
+function clearUserQuery () {
+  if (query.value) query.value = undefined;
 }
 </script>
 
@@ -162,39 +192,21 @@ export default {
 </script>
 
 <template>
-  <div class="size-full">
+  <div ref="scrollWrapper" class="size-full">
     <div class="inset-0 flex items-center justify-center">
       <div class="size-full lg:max-w-2xl xl:max-w-4xl">
         <div class="p-4 lg:p-0">
           <div class="mt-0">
             <ChatAnswer
-              :query="query"
               :answer="result?.answer"
               :reasoning="result?.reasoning"
               :contexts="result?.contexts"
               :loading="loading"
-              @reload="onReload"
+              :related="result?.related"
             />
-            <div class="mt-4 flex flex-col gap-2">
-              <div class="text-sm font-bold text-zinc-600 dark:text-gray-300">{{ t('related') }}:</div>
-              <RelatedQuery :related="result?.related" :loading="loading" @select="onSelectQuery" />
-            </div>
           </div>
           <div v-if="appStore.engine === 'SEARXNG'" class="mt-4">
             <ChatMedia :loading="loading" :sources="result?.images" />
-          </div>
-          <div class="mt-4">
-            <div class="flex flex-nowrap items-center gap-2 py-4 text-black dark:text-gray-200">
-              <RiBook2Line />
-              <span class="text-lg font-bold ">{{ t('sources') }}</span>
-            </div>
-            <ChatSources :loading="loading" :sources="result?.contexts" />
-          </div>
-          <div class="my-4">
-            <div class="flex flex-nowrap items-center gap-2 py-4 text-black dark:text-gray-200">
-              <RiChat1Fill />
-              <span class="text-lg font-bold ">{{ t('chat') }}</span>
-            </div>
           </div>
         </div>
       </div>
