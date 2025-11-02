@@ -5,14 +5,13 @@ import cors from '@koa/cors';
 import serve from 'koa-static';
 import { bodyParser } from '@koa/bodyparser';
 import { whiteListMiddleware } from './middleware';
-import { getConfig } from './config';
-import { logger } from './logger';
+import { getConfig } from './utils/config';
+import { logger } from './utils';
 import history from 'koa2-connect-history-api-fallback';
 import {
-  chatStreamController,
   // deepResearchController,
   modelsController,
-  searchController,
+  searchChatController,
 } from './controller';
 
 const app = new Koa();
@@ -43,7 +42,7 @@ app.use(async (ctx, next) => {
   try {
     await next();
   } catch(err) {
-    console.error('[server error]', err);
+    logger.error('Server Error:', err);
     ctx.res.statusCode = 422;
     ctx.body = err;
   }
@@ -52,9 +51,7 @@ app.use(async (ctx, next) => {
 // router
 app.use(router.routes()).use(router.allowedMethods());
 
-// controller
-router.post('/api/search', whiteListMiddleware(), searchController);
-router.post('/api/chat', chatStreamController);
+router.post('/api/chat', whiteListMiddleware(), searchChatController);
 // router.post('/api/deep-research', deepResearchController);
 router.get('/api/models', modelsController);
 

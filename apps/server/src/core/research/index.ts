@@ -5,11 +5,11 @@ import {
   createOpenAICompatible,
   type OpenAICompatibleProviderSettings
 } from '@ai-sdk/openai-compatible';
-import { jinaUrlsReader } from '../../libs/jina';
+import { jinaUrlsReader } from '../../core/jina';
 import { getSearchEngine } from '../search';
 import { TSearchEngine } from '../../interface';
-import { logger } from '../../logger';
-import { retryAsync } from '../../libs/utils';
+import { logger } from '../../utils/logger';
+import { retryAsync } from '../../core/utils';
 
 export enum EResearchProgress {
   Heartbeat = 'heartbeat',

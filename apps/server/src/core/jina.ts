@@ -1,6 +1,6 @@
-import { getConfig } from '../config';
-import { httpRequest } from './utils';
-import { logger } from '../logger';
+import { getConfig } from '../utils/config';
+import { httpRequest } from '../utils';
+import { logger } from '../utils/logger';
 
 export interface IJinaReaderOptions {
   urls: string[];

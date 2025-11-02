@@ -1,73 +1,83 @@
 import { Context } from 'koa';
-import { Rag } from './service/rag';
-import {
-  getProviderClient
-} from './libs/provider';
-import { DefaultQuery } from './libs/utils/constant';
+import { SearchChat } from './core/agent';
 import Models from './model.json';
-import { TSearchEngine, IChatInputMessage, IProviderItemConfig, IChatResponse } from './interface';
-import { getFromCache, setToCache } from './cache';
-import { ESearXNGCategory } from './libs/search/searxng';
+import { IProviderItemConfig, IChatInputMessage } from './interface';
+import { ESearXNGCategory, TSearchEngine } from './core/search';
+import Joi from 'joi';
 // import { DeepResearch, EResearchProgress } from './service/research';
-
-const CACHE_ENABLED = process.env.CACHE_ENABLE;
 
 const models = Models as IProviderItemConfig[];
 
-export const searchController = async (ctx: Context) => {
-  const q = ctx.request.query.q || DefaultQuery;
-  const reload: boolean = ctx.request.body.reload ?? false;
-  // search engine
-  const engine: TSearchEngine = ctx.request.body.engine;
-  const categories: ESearXNGCategory[] = ctx.request.body.categories ?? [];
-  const language: string = ctx.request.body.language || 'all';
-  // llm provider
-  const provider: string = ctx.request.body.provider;
-  const model: string = ctx.request.body.model;
-  const stream = ctx.request.body.stream ?? true;
+interface ISearchChatRequest {
+  messages: IChatInputMessage[];
+  engine: TSearchEngine;
+  categories?: ESearXNGCategory[];
+  language?: string;
+  provider: string;
+  model: string;
+}
+
+const searchChatSchema = Joi.object<ISearchChatRequest>({
+  messages: Joi.array().items(Joi.object({
+    role: Joi.string().valid('user', 'assistant', 'system').required(),
+    content: Joi.string().required(),
+  })),
+  engine: Joi.string().required(),
+  categories: Joi.array().items(Joi.string()).optional(),
+  language: Joi.string().optional().default('all'),
+  provider: Joi.string().required(),
+  model: Joi.string().required(),
+});
+
+/**
+ * Get available models
+ */
+export const modelsController = async (ctx: Context) => {
+  const getModels = models.filter(item => item.models && item.models.length > 0);
+  ctx.body = getModels.map(item => ({
+    ...item,
+    apiKey: '<API_KEY>',
+  }));
+};
+
+/**
+ * Search and Chat controller
+ */
+export const searchChatController = async (ctx: Context) => {
+  const body = ctx.request.body;
+  const { error, value } = searchChatSchema.validate(body);
+  if (error) {
+    ctx.status = 400;
+    ctx.body = { error: error.details[0].message };
+    return;
+  }
 
   ctx.res.setHeader('Content-Type', 'text/event-stream');
   ctx.res.setHeader('Cache-Control', 'no-cache');
   ctx.res.setHeader('Connection', 'keep-alive');
   ctx.res.statusCode = 200;
 
-  // get from cache, skip if enable reload
-  if (!reload) {
-    const cached = await getFromCache(q as string, categories);
-    if (cached) {
-      ctx.body = cached;
-      ctx.res.write(cached, 'utf-8');
-      ctx.res.end();
-      return;
-    }
-  }
+  const { messages, engine, categories, language, provider, model } = value;
 
-  const rag = new Rag({
-    stream,
+  console.log(messages, engine, categories, language, provider, model);
+
+  const searchChat = new SearchChat({
     model,
     engine,
     provider
   });
 
-  if (!stream) {
-    const res = await rag.query(q as string);
-    ctx.body = res;
-    return;
-  }
-
-  let result = '';
-
-  await rag.query(q as string, categories, language, (json: string) => {
-    const eventData = `data:${JSON.stringify({ data: json })}\n\n`;
-    result += eventData;
+  await searchChat.chat({
+    messages,
+    searchOptions: { categories, language }
+  }, (response, done) => {
+    if (done) return;
+    const eventData = `data:${JSON.stringify({ data: response })}\n\n`;
     ctx.res.write(eventData, 'utf-8');
   });
   ctx.res.write('[DONE] \n\n');
   ctx.res.end();
-  // caching
-  if (CACHE_ENABLED === '1') {
-    setToCache(q as string, result, categories);
-  }
+
 };
 
 // export const deepResearchController = async (ctx: Context) => {
@@ -193,39 +203,3 @@ export const searchController = async (ctx: Context) => {
 //     ctx.res.end();
 //   }
 // };
-
-export const chatStreamController = async (ctx: Context) => {
-  const messages: IChatInputMessage[] = ctx.request.body.messages || [];
-  const system: string | undefined = ctx.request.body.system;
-  const model: string | undefined = ctx.request.body.model;
-  const provider = ctx.request.body.provider;
-
-  if (!model) throw new Error('Model is required');
-  if (!provider) throw new Error('Provider is required');
-
-  ctx.res.setHeader('Content-Type', 'text/event-stream');
-  ctx.res.setHeader('Cache-Control', 'no-cache');
-  ctx.res.setHeader('Connection', 'keep-alive');
-  // get baseURL and apiKey
-  const providerInfo = models.find(item => item.provider === provider);
-  if (!providerInfo) throw new Error('Provider not found');
-  const { baseURL, apiKey } = providerInfo;
-
-  const client = getProviderClient(provider, apiKey, baseURL);
-  ctx.res.statusCode = 200;
-
-  await client?.chat({ messages, model, system }, (data: IChatResponse | null) => {
-    const eventData = `data: ${JSON.stringify({ data })}\n\n`;
-    ctx.res.write(eventData);
-  });
-  ctx.res.write('[DONE] \n\n');
-  ctx.res.end();
-};
-
-export const modelsController = async (ctx: Context) => {
-  const getModels = models.filter(item => item.models && item.models.length > 0);
-  ctx.body = getModels.map(item => ({
-    ...item,
-    apiKey: '<API_KEY>',
-  }));
-};

@@ -7,10 +7,6 @@ export interface RequestConfig {
   method?: RequestInit['method']
 }
 
-export type SearchFunc = (...args: any[]) => Promise<ISearchResponseResult[]>;
-
-export type TSearchEngine = 'GOOGLE' | 'BING' | 'SOGOU' | 'SEARXNG' | 'CHATGLM' | 'TAVILY';
-
 export type ChatRoleType = 'user' | 'assistant' | 'system';
 
 export interface IModelItemConfig {
@@ -45,18 +41,5 @@ export interface IChatResponse {
 
 
 export interface IStreamHandler {
-  (response: IChatResponse | null, done?: boolean): void
-}
-
-// search engine result
-export interface ISearchResponseResult {
-  id?: number;
-  name: string;
-  url: string;
-  snippet: string;
-  thumbnail?: string;
-  img?: string;
-  source?: string;
-  engine?: string;
-  [key: string]: string | number | undefined;
+  (response: IChatResponse | Record<string, any> | string | null, done?: boolean): void
 }

@@ -1,6 +1,5 @@
 import { BaseChat } from './base';
 import { IChatInputMessage, IStreamHandler } from '../../interface';
-import { DefaultSystem } from '../utils/constant';
 import { IChatOptions } from './openai';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
@@ -25,7 +24,7 @@ export class GeminiChat implements BaseChat {
     if (!this.genAI) {
       throw new Error('Google AI: Key is Required.');
     }
-    const { messages, system = DefaultSystem, model } = options;
+    const { messages, system = 'You are a helpful assistant.', model } = options;
     const userMessage = messages.pop();
     if (!userMessage?.content) {
       throw new Error('Google AI: User message is Required.');

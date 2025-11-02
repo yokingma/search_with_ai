@@ -4,6 +4,8 @@
  * 利用glm-4-flash 免费模型，免费web-search 实现免费搜索
  * @reference https://bigmodel.cn/dev/api/search-tool/web-search-pro
  */
+import { logger } from '../../../utils/logger';
+import { ISearchResponseResult, SearchFunc } from './types';
 
 const BASE_URL = 'https://open.bigmodel.cn/api/paas/v4';
 const KEY = process.env.GLM_KEY;
@@ -19,7 +21,7 @@ export interface IWebSearchResult {
   [x: string]: any;
 }
 
-export async function webSearch(query: string): Promise<IWebSearchResult[]> {
+async function webSearch(query: string): Promise<IWebSearchResult[]> {
   const tools = [
     {
       type: 'web_search',
@@ -61,7 +63,7 @@ export async function webSearch(query: string): Promise<IWebSearchResult[]> {
   }
 }
 
-export async function webSearchPro(query: string): Promise<IWebSearchResult[]> {
+async function webSearchPro(query: string): Promise<IWebSearchResult[]> {
   const tool = 'web-search-pro';
   const msg = [
     {
@@ -93,3 +95,31 @@ export async function webSearchPro(query: string): Promise<IWebSearchResult[]> {
     return [];
   }
 }
+
+const chatglmSearch: SearchFunc = async (query: string, enablePro: boolean = false) => {
+  if (!query.trim()) {
+    throw new Error('Query cannot be empty');
+  }
+
+  try {
+    const list = enablePro ? await webSearchPro(query) : await webSearch(query);
+
+    const results: ISearchResponseResult[] = list.map((item, index) => {
+      return {
+        id: index + 1,
+        name: item.title,
+        url: item.link,
+        snippet: item.content,
+        icon: item.icon,
+        media: item.media,
+      };
+    });
+
+    return results;
+  } catch (err) {
+    logger.error('ChatGLM Search Error:', err);
+    throw err;
+  }
+};
+
+export default chatglmSearch;

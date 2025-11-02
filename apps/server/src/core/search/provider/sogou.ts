@@ -1,5 +1,7 @@
 import * as cheerio from 'cheerio';
-import { httpRequest } from '../utils';
+import { httpRequest } from '../../../utils';
+import { ISearchResponseResult, SearchFunc } from './types';
+import { logger } from '../../../utils/logger';
 
 const EndPoints = {
   WEB: 'https://www.sogou.com/web',
@@ -15,7 +17,7 @@ const SELECTOR = {
   related: '#main .vrwrap.middle-better-hintBox .hint-mid'
 };
 
-export class Sogou {
+class Sogou {
   private query: string;
   private $: cheerio.CheerioAPI;
 
@@ -102,3 +104,30 @@ export class Sogou {
     return matches?.[1] || '';
   }
 }
+
+const searchWithSogou: SearchFunc = async (query: string) => {
+  if (!query.trim()) {
+    throw new Error('Query cannot be empty');
+  }
+
+  try {
+    const sogou = new Sogou(query);
+    await sogou.init();
+    const list = await sogou.getResults();
+
+    const results: ISearchResponseResult[] = list.map((item, index) => {
+      return {
+        id: index + 1,
+        ...item,
+        url: item.url || '',
+      };
+    });
+
+    return results;
+  } catch (err) {
+    logger.error('Sogou Search Error:', err);
+    throw err;
+  }
+};
+
+export default searchWithSogou;

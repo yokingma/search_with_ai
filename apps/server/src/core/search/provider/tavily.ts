@@ -1,5 +1,5 @@
 import { tavily, TavilyClient, TavilySearchOptions } from '@tavily/core';
-import { ISearchResponseResult } from '../../interface';
+import { ISearchResponseResult, SearchFunc } from './types';
 
 export type SearchDepth = 'basic' | 'advanced';
 
@@ -9,7 +9,7 @@ export type SearchTimeRange = 'year' | 'month' | 'week' | 'day' | 'y' | 'm' | 'w
 
 let tvly: TavilyClient | null = null;
 
-export async function tavilySearch(query: string, options: TavilySearchOptions) {
+async function tavilySearch(query: string, options: TavilySearchOptions) {
   if (process.env.TAVILY_KEY && !tvly) {
     tvly = tavily({
       apiKey: process.env.TAVILY_KEY,
@@ -30,3 +30,22 @@ export async function tavilySearch(query: string, options: TavilySearchOptions) 
   })) as ISearchResponseResult[];
   return results;
 }
+
+const searchWithTavily: SearchFunc = async (query: string) => {
+  if (!query.trim()) {
+    throw new Error('Query cannot be empty');
+  }
+  const count = process.env.REFERENCE_COUNT || 8;
+  const results = await tavilySearch(
+    query,
+    {
+      topic: 'general',
+      timeRange: 'year',
+      searchDepth: 'basic',
+      maxResults: +count,
+    }
+  );
+  return results;
+};
+
+export default searchWithTavily;

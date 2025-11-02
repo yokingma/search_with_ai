@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
     "target": "ES2019",
-    "module": "CommonJS",
+    "module": "Node16",
+    "moduleResolution": "node16",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "inlineSourceMap":true,

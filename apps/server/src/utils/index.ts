@@ -1,6 +1,9 @@
 import url from 'url';
-import { logger } from '../../logger';
-import { RequestConfig } from '../../interface';
+import { logger } from './logger';
+import { RequestConfig } from '../interface';
+
+export { logger } from './logger';
+export { getConfig } from './config';
 
 export const httpRequest = async (config: RequestConfig) => {
   const { endpoint, timeout = 10 * 60 * 1000, query, headers, data, method = 'GET' } = config;
@@ -18,7 +21,6 @@ export const httpRequest = async (config: RequestConfig) => {
   clearTimeout(id);
   return res;
 };
-
 
 
 // Retry mechanism for network requests
@@ -51,6 +53,10 @@ export function strIsLink(str?: string) {
     return true;
   return false;
 }
+
+export const getCurrentDate = () => {
+  return new Date().toISOString().split('T')[0];
+};
 
 /**
  * replace the variable in the string with the value
