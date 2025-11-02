@@ -51,7 +51,7 @@ const onSearch = () => {
     enabledScience: enabledScience.value
   };
   emits('send', params);
-  console.log('send message', params);
+  inputValue.value = '';
 };
 </script>
 
@@ -68,7 +68,6 @@ const onSearch = () => {
     @send="onSearch"
   >
     <template #suffix>
-      <!-- 监听键盘回车发送事件需要在sender组件监听 -->
       <t-button theme="default" shape="circle" variant="text" size="large" @click="onSearch">
         <template #icon>
           <RiSendPlaneFill class="text-2xl" />

@@ -40,7 +40,6 @@ const renderReasoningContent = (reasoningContent: string) => <t-chat-content con
   <t-chat-reasoning
     v-if="reasoning?.length"
     v-model="collapsed"
-    class="chat-reasoning"
     expand-icon-placement="right"
     :collapse-panel-props="{
       header: renderReasoningHeader(loading, duration),
@@ -51,7 +50,14 @@ const renderReasoningContent = (reasoningContent: string) => <t-chat-content con
 </template>
 
 <style lang="less" scoped>
-.chat-reasoning {
-  --td-comp-margin-l: 0px;
+:deep(.t-collapse-panel) {
+  margin-left: 0px;
+}
+:deep(.t-chat__text__assistant) {
+  p {
+    line-height: 22px!important;
+    margin-bottom: 6px!important;
+    opacity: 0.6;
+  }
 }
 </style>

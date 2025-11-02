@@ -1,10 +1,4 @@
-export interface IQueryResult {
-  related?: string;
-  reasoning?: string;
-  answer?: string;
-  contexts?: Record<string, any>[];
-  images?: Record<string, any>[];
-}
+import { InjectionKey, Ref } from "vue";
 
 export interface ISelectOptions {
   name: string;
@@ -85,13 +79,19 @@ interface IAgentProcessedEvent<Event extends string = string, Data extends strin
 interface IChatSource {
   datetime?: string;
   reasoning_duration?: number;
+  contexts?: Record<string, any>[];
+  images?: Record<string, any>[];
   [x: string]: any;
 }
 
 export interface IChatMessage {
   role: Role
-  reasoning_content?: string
   content: string
+  reasoning_content?: string
   source?: IChatSource
   events?: Array<IAgentProcessedEvent<string, string | Record<string, any>>>
 }
+
+export const scrollWrapperKey = Symbol('scrollWrapper') as InjectionKey<{
+  scrollWrapper: Ref<HTMLElement | null>
+}>;

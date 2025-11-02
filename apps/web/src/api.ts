@@ -1,8 +1,7 @@
 import { fetchEventData } from 'fetch-sse';
-import { IResearchProgress, IMessage, TSearCategory, TSearchEngine, TSearchMode } from './types';
+import { IResearchProgress, IChatMessage, TSearCategory, TSearchEngine } from './types';
 const BASE_URL = import.meta.env.MODE === 'development' ? 'http://127.0.0.1:3000' : '';
 
-const SEARCH = '/api/search';
 const MODEL = '/api/models';
 const CHAT = '/api/chat';
 const DEEP_RESEARCH = '/api/deep-research';
@@ -14,7 +13,6 @@ export interface IQueryOptions {
   provider?: string
   engine?: string | null
   system?: string
-  mode?: TSearchMode
   language?: string
   categories?: TSearCategory[]
   reload?: boolean
@@ -36,24 +34,19 @@ export interface IDeepResearchOptions {
   onProgress?: (data: IResearchProgress) => void
 }
 
-export async function search(q: string, options: IQueryOptions) {
-  const { ctrl, stream = true, model, provider, engine, reload = false, mode, categories, language, onMessage, onOpen, onClose, onError } = options;
-  const query = new URLSearchParams({
-    q
-  });
-  const url = `${BASE_URL}${SEARCH}?${query.toString()}`;
+export async function search(messages: IChatMessage[], options: IQueryOptions) {
+  const { ctrl, model, provider, engine, categories, language, onMessage, onOpen, onClose, onError } = options;
+  const url = `${BASE_URL}${CHAT}`;
   await fetchEventData(url, {
     method: 'POST',
     signal: ctrl?.signal,
     data: {
-      stream,
+      messages,
       model,
       provider,
-      mode,
       language,
       categories,
-      engine,
-      reload
+      engine
     },
     headers: {
       'Content-Type': 'application/json'
@@ -65,7 +58,7 @@ export async function search(q: string, options: IQueryOptions) {
       try {
         if (e?.data) {
           const data = JSON.parse(e.data);
-          onMessage(JSON.parse(data.data || '{}'));
+          onMessage(data.data);
         }
       } catch (err) {
         onError?.(err);
@@ -76,7 +69,7 @@ export async function search(q: string, options: IQueryOptions) {
   });
 }
 
-export async function chat(messages: IMessage[], options: IQueryOptions) {
+export async function chat(messages: IChatMessage[], options: IQueryOptions) {
   const url = `${BASE_URL}${CHAT}`;
   const { ctrl, model, system, provider, onMessage, onError } = options;
   await fetchEventData(url, {

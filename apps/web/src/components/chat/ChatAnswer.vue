@@ -1,18 +1,16 @@
 <script setup lang="tsx">
-import { watch, ref, render, computed } from 'vue';
+import { watch, ref, render, computed, onMounted } from 'vue';
 import { MessagePlugin, Popup } from 'tdesign-vue-next';
 import { citationMarkdownParse, clipboardCopy } from '../../utils';
 import { RiRestartLine, RiClipboardLine, RiSearch2Line } from '@remixicon/vue';
 import ChatReason from './ChatReason.vue';
-import ChatRelated from './ChatRelated.vue';
 import ChatSources from './ChatSource.vue';
 import { marked } from 'marked';
 import { useI18n } from 'vue-i18n';
 
 interface IProps {
   reasoning?: string
-  answer?: string
-  related?: string
+  content?: string
   duration?: number
   reasoningDuration?: number
   contexts?: Record<string, any>[]
@@ -34,8 +32,7 @@ const collapsed = ref(true);
 
 const props = withDefaults(defineProps<IProps>(), {
   reasoning: '',
-  answer: '',
-  related: '',
+  content: '',
   contexts: () =>[],
   duration: 0,
   reasoningDuration: 10,
@@ -43,12 +40,6 @@ const props = withDefaults(defineProps<IProps>(), {
 });
 const emits = defineEmits<IEmits>();
 const answerRef = ref<HTMLDivElement | null>(null);
-
-// html string
-// const answerParse = computed(() => {
-//   processAnswer(props.answer)
-//   return
-// })
 
 const reasoningHtml = computed(() => {
   const reasoning = props.reasoning;
@@ -78,25 +69,30 @@ const handleOperation = (type: string) => {
     emits('reload');
   }
   if (type === 'copy') {
-    if (!props.answer) return;
-    clipboardCopy(props.answer);
+    if (!props.content) return;
+    clipboardCopy(props.content);
     MessagePlugin.success(t('message.copied'));
   }
 };
 
-const onSelectRelated = (val: string) => {
-  emits('selectedRelated', val);
-};
+watch(() => props.content, () => {
+  const parent = processAnswer(props.content);
+  if (!answerRef.value) return;
+  answerRef.value.innerHTML = '';
+  answerRef.value.append(parent);
+});
 
-watch(() => props.answer, () => {
-  const parent = processAnswer(props.answer);
-  answerRef.value!.innerHTML = '';
-  answerRef.value?.append(parent);
+onMounted(() => {
+  const parent = processAnswer(props.content);
+  if (answerRef.value) {
+    answerRef.value.innerHTML = '';
+    answerRef.value.append(parent);
+  }
 });
 
 function processAnswer (answer?: string) {
   if (!answer) return '';
-  const citation = citationMarkdownParse(props?.answer || '');
+  const citation = citationMarkdownParse(answer || '');
   const html = marked.parse(citation, {
     async: false
   });
@@ -149,62 +145,70 @@ function getCitationContent (num?: string | null) {
 </script>
 
 <template>
-  <div class="h-auto w-full text-base leading-7 text-zinc-600 dark:text-gray-200">
-    <t-chat-item role="assistant">
-      <template #content>
-        <t-skeleton theme="paragraph" animation="flashed" :loading="!answer && !reasoning"></t-skeleton>
-        <div class="flex flex-col gap-2 rounded-md bg-zinc-100 p-2 dark:bg-zinc-800">
-          <div class="flex flex-nowrap items-center gap-2">
-            <RiSearch2Line size="14px" class="text-green-600" />
-            <span class="font-extrabold">{{ t('search') }}</span>
-          </div>
-          <ChatSources :loading="loading ?? false" :sources="contexts" />
+  <t-chat-item role="assistant">
+    <template #content>
+      <div v-if="!content && !reasoning" class="mt-4 rounded-md border border-solid border-gray-100 dark:border-gray-700">
+        <t-skeleton theme="paragraph" animation="flashed"></t-skeleton>
+      </div>
+      <div class="mb-4">
+        <ChatReason
+          v-if="reasoning?.length"
+          :reasoning="reasoningHtml"
+          :loading="loading ?? false"
+          :collapsed="collapsed"
+          :duration="reasoningDuration"
+        />
+      </div>
+      <div
+        ref="answerRef"
+        class="markdown-body box-border h-auto w-full dark:bg-zinc-800"
+      />
+      <div v-if="contexts?.length && !loading" class="flex flex-col gap-2 rounded-md bg-zinc-50 p-2 dark:bg-zinc-800">
+        <div class="flex flex-nowrap items-center gap-2">
+          <RiSearch2Line size="14px" class="text-green-600" />
+          <span class="font-extrabold">{{ t('search') }}</span>
         </div>
-        <div class="mb-4">
-          <ChatReason
-            v-if="reasoning?.length"
-            :reasoning="reasoningHtml"
-            :loading="loading ?? false"
-            :collapsed="collapsed"
-            :duration="reasoningDuration"
-          />
+        <ChatSources :sources="contexts" />
+      </div>
+      <div v-if="!loading" class="mt-4 flex w-full flex-row gap-2">
+        <div class="flex flex-nowrap gap-2">
+          <t-button
+            size="small"
+            theme="default"
+            shape="circle"
+            variant="outline"
+            @click="handleOperation('reload')"
+          >
+            <div class="flex flex-nowrap items-center gap-1">
+              <RiRestartLine size="14px" />
+            </div>
+          </t-button>
+          <t-button
+            size="small"
+            theme="default"
+            shape="circle"
+            variant="outline"
+            @click="handleOperation('copy')"
+          >
+            <div class="flex flex-nowrap items-center gap-1">
+              <RiClipboardLine size="14px" />
+            </div>
+          </t-button>
         </div>
-        <div ref="answerRef" class="markdown-body h-auto w-full dark:bg-zinc-800" />
-        <div v-if="!loading" class="flex w-full flex-row justify-between gap-2">
-          <div class="">
-            <t-tag v-if="duration" variant="outline" theme="default">
-              {{ duration }}s
-            </t-tag>
-          </div>
-          <div class="flex flex-nowrap gap-2">
-            <t-button
-              size="small"
-              theme="default"
-              shape="circle"
-              variant="outline"
-              @click="handleOperation('reload')"
-            >
-              <div class="flex flex-nowrap items-center gap-1">
-                <RiRestartLine size="14px" />
-              </div>
-            </t-button>
-            <t-button
-              size="small"
-              theme="default"
-              shape="circle"
-              variant="outline"
-              @click="handleOperation('copy')"
-            >
-              <div class="flex flex-nowrap items-center gap-1">
-                <RiClipboardLine size="14px" />
-              </div>
-            </t-button>
-          </div>
+        <div class="">
+          <t-tag v-if="duration" variant="outline" theme="default">
+            {{ duration }}s
+          </t-tag>
         </div>
-        <div class="mt-4">
-          <ChatRelated v-if="related?.length" :loading="loading" :related="related" @select="onSelectRelated" />
-        </div>
-      </template>
-    </t-chat-item>
-  </div>
+      </div>
+    </template>
+  </t-chat-item>
 </template>
+
+<style lang="less" scoped>
+:deep(.t-chat__detail) {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+</style>

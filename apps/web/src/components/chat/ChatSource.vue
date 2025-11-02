@@ -3,7 +3,6 @@ import { useI18n } from 'vue-i18n';
 
 interface IProps {
   sources?: Record<string, any>[]
-  loading: boolean
 }
 
 defineOptions({
@@ -11,34 +10,13 @@ defineOptions({
 });
 
 defineProps<IProps>();
-const rowCol = [
-  [
-    { width: '32%', height: '42px', borderRadius: '6px' },
-    { width: '32%', height: '42px', borderRadius: '6px' },
-    { width: '32%', height: '42px', borderRadius: '6px' },
-  ],
-  [
-    { width: '32%', height: '42px', borderRadius: '6px' },
-    { width: '32%', height: '42px', borderRadius: '6px' },
-    { width: '32%', height: '42px', borderRadius: '6px' },
-  ],
-  [
-    { width: '32%', height: '42px', borderRadius: '6px' },
-    { width: '32%', height: '42px', borderRadius: '6px' },
-    { width: '32%', height: '42px', borderRadius: '6px' },
-  ]
-];
 const { t } = useI18n();
 </script>
 
 <template>
   <div class="w-full">
-    <t-skeleton :row-col="rowCol" animation="flashed" :loading="!sources?.length && loading"></t-skeleton>
-    <div v-if="sources?.length === 0 && !loading" class="">
-      <t-alert theme="info" :message="t('message.sourceError')" close>
-        <template #operation>
-        </template>
-      </t-alert>
+    <div class="flex items-center justify-center">
+      <t-alert v-if="sources?.length === 0" theme="info" :message="t('message.sourceError')" />
     </div>
     <div class="grid grid-cols-1 gap-2 text-xs text-gray-500 md:grid-cols-2">
       <div 

@@ -29,7 +29,7 @@ const backHome = () => {
 </script>
 
 <template>
-  <div class="sticky top-0 z-10 flex items-center justify-between border-b bg-white/60 px-4 py-2 backdrop-blur-md dark:bg-black">
+  <div class="flex items-center justify-between border-b bg-white/60 px-4 py-2 backdrop-blur-md dark:bg-black">
     <div class="flex shrink-0 flex-nowrap items-center gap-2">
       <div class="">
         <img :src="logoUrl" class="w-6 cursor-pointer" @click="backHome" />

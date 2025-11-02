@@ -1,4 +1,4 @@
-import ChatAnswer from './chat/ChatAnswer.vue';
+import ChatMessage from './chat/ChatMessage.vue';
 import ChatSources from './chat/ChatSource.vue';
 import ChatMedia from './media.vue';
 import ChatSenderBox from './chat/ChatSenderBox.vue';
@@ -14,7 +14,7 @@ import SearchEngineSelect from './engine.vue';
 import LanguageSelect from './language.vue';
 
 export {
-  ChatAnswer,
+  ChatMessage,
   ChatSources,
   ChatMedia,
   ChatSenderBox,

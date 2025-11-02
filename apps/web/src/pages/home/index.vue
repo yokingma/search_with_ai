@@ -1,6 +1,6 @@
 <script setup lang="tsx">
 import router from '@/router';
-import { ChatSenderBox } from '@/components';
+import { ChatSenderBox, PageFooter } from '@/components';
 import logoUrl from '@/assets/logo.png';
 import { computed } from 'vue';
 import { useAppStore } from '@/store';
@@ -39,7 +39,7 @@ const onSend = async (params: IChatInputParams) => {
 
 
 <template>
-  <div id="home" class="flex size-full items-center justify-center dark:bg-black">
+  <div id="home" class="flex size-full flex-col items-center justify-center dark:bg-black">
     <div class="flex w-full flex-col gap-8 p-4 sm:-mt-28 lg:max-w-3xl xl:max-w-4xl">
       <div class="flex items-center justify-center gap-4">
         <img :src="logoUrl" class="w-14" />
@@ -48,6 +48,9 @@ const onSend = async (params: IChatInputParams) => {
       <div class="">
         <ChatSenderBox :autofocus="true" :loading="false" :show-science="enableScience" @send="onSend" />
       </div>
+    </div>
+    <div class="absolute bottom-2 w-full">
+      <PageFooter />
     </div>
   </div>
 </template>

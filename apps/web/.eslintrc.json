@@ -9,7 +9,6 @@
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:vue/vue3-recommended",
-    "plugin:vue/essential",
     "plugin:tailwindcss/recommended",
     "prettier"
   ],

@@ -3,181 +3,189 @@ import router from '../../router';
 import { search } from '../../api';
 import { useI18n } from 'vue-i18n';
 import { useAppStore } from '../../store';
-import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
+import { inject, nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
 import { MessagePlugin } from 'tdesign-vue-next';
-import { ChatAnswer, ChatMedia  } from '@/components';
-import { getChat, updateChat, IChatRecord, store } from '@/storage/chat';
-import { IChatMessage, IQueryResult } from '@/types';
+import { ChatMessage, ChatSenderBox  } from '@/components';
+import { getChat, updateChat, IChatRecord } from '@/storage/chat';
+import { IChatInputParams, IChatMessage } from '@/types';
 import { ROUTE_NAME } from '@/constants';
 import { useScrollToBottom } from '@/utils/useScroll';
+import { scrollWrapperKey } from '@/types';
 
+interface IProps {
+  // chat uuid
+  uuid: string
+}
+
+const props = defineProps<IProps>();
 const appStore = useAppStore();
 
 const { t } = useI18n();
 
-// chat id(uuid)
-const uuid = computed(() => router.currentRoute.value.params.uuid as string);
+const injectScrollWrapper = inject(scrollWrapperKey);
+const scrollWrapper = injectScrollWrapper?.scrollWrapper;
 
 const query = ref<string>();
-const isAnswering = ref(false);
 const loading = ref(false);
+const autoScroll = ref(true);
 
 let abortCtrl: AbortController | null = null;
 
 const messages = ref<IChatMessage[]>([]);
 
-const scrollWrapper = ref<HTMLElement | null>(null);
-
-const result = ref<IQueryResult>({
-  related: '',
-  reasoning: '',
-  answer: '',
-  contexts: [],
-  images: []
-});
-
-const onSelectQuery = (val: string) => {
-  query.value = val;
-  sendMessage(val);
+const onChat = (params: IChatInputParams) => {
+  const { value } = params;
+  if (!value.trim()) return MessagePlugin.warning('请输入对话问题');
+  sendMessage({
+    role: 'user',
+    content: value,
+  });
 };
 
-// const onSearchModeChanged = (mode: TSearchMode) => {
-//   if (!query.value) return;
-//   if (mode === 'research') {
-//     router.push({ name: 'DeepResearch', params: { query: query.value } });
-//   } else {
-//     querySearch(query.value, false);
-//   }
-// };
+const onReload = (index: number) => {
+  // user message before index
+  const prevMessage = messages.value[index - 1];
+  if (prevMessage) {
+    // slice messages after index
+    messages.value = messages.value.slice(0, index - 1);
+    sendMessage(prevMessage);
+  }
+};
 
-// const onSearch = (val: string) => {
-//   if (!val) return;
-//   if (appStore.mode === 'research') {
-//     router.push({ name: 'DeepResearch', params: { query: val } });
-//   } else {
-//     query.value = val;
-//     router.currentRoute.value.query.q ??= val;
-//     querySearch(val);
-//   }
-// };
-
-watch(() => uuid.value, async (val) => {
+watch(() => props.uuid, async (val) => {
   if (!val) return;
   const res = await getChat(val as string);
   messages.value = [...(res?.messages ?? [])];
   // first message
-  if (messages.value.length === 1 && isAnswering.value === false) {
+  if (messages.value.length === 1 && loading.value === false) {
     const message = messages.value[0];
     messages.value = [];
-    await sendMessage(message.content);
+    await sendMessage(message);
     clearUserQuery();
   }
   nextTick(() => {
-    useScrollToBottom({ target: scrollWrapper.value });
+    useScrollToBottom({ target: scrollWrapper?.value });
   });
 });
 
-onMounted(() => {
-  if (!uuid.value) {
+onMounted(async () => {
+  if (!props.uuid) {
     router.push({ name: ROUTE_NAME.HOME });
     return;
   }
-  initChat();
+  await initChat();
+  // Listen for manual scroll control
+  scrollWrapper?.value?.addEventListener('scroll', () => {
+    if (!scrollWrapper.value) return;
+    const { scrollTop, scrollHeight, clientHeight } = scrollWrapper.value;
+    if (scrollHeight - scrollTop - clientHeight > 100) {
+      autoScroll.value = false;
+    } else {
+      autoScroll.value = true;
+    }
+  });
 });
 
 onUnmounted(() => {
   abortCtrl?.abort();
   abortCtrl = null;
   loading.value = false;
-  isAnswering.value = false;
 });
 
-async function sendMessage(val: string | null, reload?: boolean) {
-  if (!val) return;
-  clear();
-  if (abortCtrl) {
-    abortCtrl.abort();
-    abortCtrl = null;
-  }
+async function sendMessage(message: IChatMessage) {
+  if (loading.value) return MessagePlugin.info('正在回答中，请稍后...');
+  if (!appStore.model) return MessagePlugin.info('请先选择AI模型~');
+  
+  abortCtrl = new AbortController();
+  loading.value = true;
 
   const language = appStore.language === 'en' ? 'all' : 'zh';
-  const ctrl = new AbortController();
-  abortCtrl = ctrl;
+
+  // push user message
+  messages.value.push(message);
+
+  const queryMessages = messages.value.map(msg => ({
+    role: msg.role,
+    content: msg.content,
+  }));
+
+  // push empty assistant message
+  messages.value.push({
+    role: 'assistant',
+    content: '',
+    reasoning_content: '',
+    source: {
+      images: [],
+      contexts: []
+    }
+  });
+  const curMessage: IChatMessage = messages.value[messages.value.length - 1];
+
+  // scroll to bottom
+  nextTick(() => {
+    autoScroll.value && useScrollToBottom({ target: scrollWrapper?.value });
+  });
   try {
     loading.value = true;
     const { model, engine, category } = appStore;
     const provider = model?.provider;
     const modelName = model?.name;
-    await search(val, {
+    await search(queryMessages, {
       model: modelName,
       provider,
       engine,
       language,
       categories: [category],
-      reload,
-      ctrl,
+      ctrl: abortCtrl,
       onMessage: (data: any) => {
         if (data?.context) {
-          result.value.contexts?.push(data.context);
+          curMessage.source?.contexts?.push(data.context);
         }
         if (data?.image) {
-          result.value.images?.push(data.image);
+          curMessage.source?.images?.push(data.image);
         }
         if (data?.content) {
-          result.value.answer += data.content;
+          curMessage.content += data.content;
         }
         if (data?.reasoningContent) {
-          result.value.reasoning += data.reasoningContent;
+          curMessage.reasoning_content += data.reasoningContent;
         }
-        if (data?.related) {
-          result.value.related += data.related;
-        }
+        nextTick(() => {
+          autoScroll.value && useScrollToBottom({ target: scrollWrapper?.value, ms: 2000 });
+        });
       },
-      onClose: () => {
-        console.log('closed');
-        abortCtrl = null;
-        loading.value = false;
-      },
-      onError: (err) => {
-        console.error('error', err);
-         MessagePlugin.error(`${t('message.queryError')}: ${err.message}`);
-        loading.value = false;
-      }
     });
-  } catch(err) {
-    ctrl.abort();
+    loading.value = false;
+    await updateChat(props.uuid, {
+      messages: messages.value,
+    } as IChatRecord);
     abortCtrl = null;
-    console.log(err);
+  } catch(err) {
+    abortCtrl?.abort();
+    abortCtrl = null;
     loading.value = false;
     MessagePlugin.error(t('message.queryError'));
   }
 }
 
-function clear () {
-  result.value = {
-    related: '',
-    reasoning: '',
-    answer: '',
-    contexts: [],
-    images: []
-  };
-}
-
 async function initChat () {
-  if (isAnswering.value) return;
-  if (!uuid.value) return;
-  const res = await getChat(uuid.value);
+  if (loading.value) return;
+  if (!props.uuid) return;
+  const res = await getChat(props.uuid);
   if (!res?.messages?.length) {
     return router.push({ name: ROUTE_NAME.HOME });
   }
   // first message
   if (res.messages.length === 1) {
-    await sendMessage(res.messages[0].content);
+    await sendMessage(res.messages[0]);
     clearUserQuery();
   } else {
     // load history messages
     messages.value.push(...res.messages);
   }
+  nextTick(() => {
+    useScrollToBottom({ target: scrollWrapper?.value });
+  });
 }
 
 function clearUserQuery () {
@@ -192,24 +200,25 @@ export default {
 </script>
 
 <template>
-  <div ref="scrollWrapper" class="size-full">
-    <div class="inset-0 flex items-center justify-center">
-      <div class="size-full lg:max-w-2xl xl:max-w-4xl">
-        <div class="p-4 lg:p-0">
-          <div class="mt-0">
-            <ChatAnswer
-              :answer="result?.answer"
-              :reasoning="result?.reasoning"
-              :contexts="result?.contexts"
-              :loading="loading"
-              :related="result?.related"
-            />
-          </div>
-          <div v-if="appStore.engine === 'SEARXNG'" class="mt-4">
-            <ChatMedia :loading="loading" :sources="result?.images" />
-          </div>
-        </div>
-      </div>
+  <div class="relative flex size-full flex-col items-center justify-center">
+    <div class="box-border w-full grow p-2 lg:p-0">
+      <t-chat :clear-history="false" layout="both" :reverse="false">
+        <template v-for="(msg, index) in messages" :key="index">
+          <ChatMessage
+            :avatar="false"
+            :typing="loading && messages.length === index + 1"
+            :message="msg"
+            @reload="onReload(index)"
+          />
+        </template>
+      </t-chat>
+    </div>
+    <div class="sticky bottom-0 box-border w-full shrink-0 grow-0 pb-2 pl-2 lg:pl-0">
+      <ChatSenderBox
+        :loading="loading"
+        :autofocus="false"
+        @send="onChat"
+      />
     </div>
   </div>
 </template>
