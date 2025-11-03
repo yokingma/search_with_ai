@@ -64,7 +64,7 @@ async function loadHistory () {
   <div class="flex size-full flex-nowrap">
     <div class="flex w-72 shrink-0 flex-col border-r border-solid border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-black">
       <div class="relative flex grow flex-col justify-between overflow-y-auto">
-        <div class="sticky top-0 z-50 flex shrink-0 flex-col bg-zinc-50 p-4">
+        <div class="sticky top-0 z-50 flex shrink-0 flex-col bg-zinc-50 p-4 dark:bg-black">
           <img :src="logoUrl" class="w-8 cursor-pointer" @click="backHome" />
           <div class="mt-4 flex flex-col gap-4 border-b border-zinc-200 pb-4 dark:border-zinc-700">
             <div class="flex cursor-pointer items-center gap-2 rounded-lg p-2 transition-all hover:bg-zinc-200 dark:hover:bg-zinc-800" @click="backHome">

@@ -93,7 +93,7 @@ const onClickHistory = (uuid: string) => {
               @click="onClickHistory(item.uuid)"
             >
               <div class="relative flex size-full items-center justify-between">
-                <span v-if="selected === item.uuid" class="absolute left-0 z-10 block h-4 w-0.5 rounded-lg bg-black"></span>
+                <span v-if="selected === item.uuid" class="absolute left-0 z-10 block h-4 w-0.5 rounded-lg bg-black dark:bg-zinc-50"></span>
                 <div class="flex grow flex-nowrap">
                   <span
                     class="w-full max-w-44 truncate px-2 py-1 text-sm text-black transition-all dark:text-white"
