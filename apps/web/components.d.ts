@@ -36,8 +36,6 @@ declare module 'vue' {
     TImageViewer: typeof import('tdesign-vue-next')['ImageViewer']
     TLink: typeof import('tdesign-vue-next')['Link']
     TLoading: typeof import('tdesign-vue-next')['Loading']
-    TMenu: typeof import('tdesign-vue-next')['Menu']
-    TMenuItem: typeof import('tdesign-vue-next')['MenuItem']
     TOption: typeof import('tdesign-vue-next')['Option']
     TPopup: typeof import('tdesign-vue-next')['Popup']
     TSelect: typeof import('tdesign-vue-next')['Select']

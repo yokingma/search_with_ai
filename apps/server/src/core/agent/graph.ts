@@ -194,8 +194,6 @@ export class SearchGraph {
       ]
     });
 
-    console.log('Query Rewriting Result:', result);
-
     return {
       query: result.structuredResponse.query,
       rationale: result.structuredResponse.rationale,

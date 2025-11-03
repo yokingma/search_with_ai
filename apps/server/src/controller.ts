@@ -59,8 +59,6 @@ export const searchChatController = async (ctx: Context) => {
 
   const { messages, engine, categories, language, provider, model } = value;
 
-  console.log(messages, engine, categories, language, provider, model);
-
   const searchChat = new SearchChat({
     model,
     engine,
