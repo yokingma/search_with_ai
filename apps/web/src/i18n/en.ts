@@ -61,6 +61,7 @@ export default {
   tips: {
     deleteHistoryHeader: 'Delete Chat History',
     deleteHistoryBody: 'Are you sure you want to clear this chat history? This action cannot be undone.',
+    chatPlaceholder: 'Type your message here...',
   },
   category: {
     general: 'General',
