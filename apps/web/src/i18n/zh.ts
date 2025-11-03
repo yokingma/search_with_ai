@@ -10,12 +10,14 @@ export default {
   copy: '复制',
   reload: '重新回答',
   share: '分享',
+  delete: '删除',
+  cancel: '取消',
   history: '历史',
   searchEngine: '搜索引擎',
   deepResearch: '深度研究',
   researchGoal: '研究目标',
   search: '网络搜索',
-  newChat: '新会话',
+  newChat: '新聊天',
   sogou: '搜狗',
   chatglm: 'ChatGLM',
   bing: '必应搜索',
@@ -55,26 +57,17 @@ export default {
     shareSuccess: '分享链接已复制到剪贴板。',
     noRelated: '没有相关问题或者查询失败了',
     success: '操作成功了！',
-    // 新增的占位符示例
-    userGreeting: '你好，{username}！',
-    searchResults: '找到 {count} 个相关结果',
-    timeSpent: '搜索用时 {seconds} 秒',
-    multipleParams: '{username} 在 {date} 进行了 {count} 次搜索'
+  },
+  tips: {
+    deleteHistoryHeader: '删除聊天记录',
+    deleteHistoryBody: '您确定要清空此聊天记录吗？此操作无法撤销。',
+    chatPlaceholder: '请输入您的问题...',
   },
   category: {
     general: '全网',
     science: '学术搜索',
     images: '图片',
     videos: '视频'
-  },
-  mode: {
-    simple: '简洁',
-    deep: '深入',
-    research: '研究'
-  },
-  tips: {
-    search: '您可以问我任何问题',
-    continue: '基于当前上下文继续追问'
   },
   btn: {
     clear: '清空记录'

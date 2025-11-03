@@ -18,7 +18,7 @@ const { t } = useI18n();
     <div class="flex items-center justify-center">
       <t-alert v-if="sources?.length === 0" theme="info" :message="t('message.sourceError')" />
     </div>
-    <div class="grid grid-cols-1 gap-2 text-xs text-gray-500 md:grid-cols-2">
+    <div class="grid grid-cols-1 gap-2 text-xs md:grid-cols-2">
       <div 
         v-for="item in sources"
         :key="item.id"

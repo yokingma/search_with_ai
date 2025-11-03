@@ -163,12 +163,14 @@ function getCitationContent (num?: string | null) {
         ref="answerRef"
         class="markdown-body box-border h-auto w-full dark:bg-zinc-800"
       />
-      <div v-if="contexts?.length && !loading" class="flex flex-col gap-2 rounded-md bg-zinc-50 p-2 dark:bg-zinc-800">
-        <div class="flex flex-nowrap items-center gap-2">
+      <div v-if="contexts?.length && !loading" class="flex flex-col gap-2 overflow-hidden rounded-xl border border-zinc-200 dark:border-zinc-700">
+        <div class="flex flex-nowrap items-center gap-2 border-b border-zinc-200 bg-zinc-100 p-2 dark:border-zinc-700 dark:bg-zinc-900">
           <RiSearch2Line size="14px" class="text-green-600" />
           <span class="font-extrabold">{{ t('search') }}</span>
         </div>
-        <ChatSources :sources="contexts" />
+        <div class="p-4">
+          <ChatSources :sources="contexts" />
+        </div>
       </div>
       <div v-if="!loading" class="mt-4 flex w-full flex-row gap-2">
         <div class="flex flex-nowrap gap-2">

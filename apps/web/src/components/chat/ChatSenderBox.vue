@@ -60,7 +60,7 @@ const onSearch = () => {
     ref="chatSenderRef"
     v-model="inputValue"
     :textarea-props="{
-      placeholder:  t('tips.search'),
+      placeholder:  t('tips.chatPlaceholder'),
       maxlength: limit,
       autofocus: autofocus,
     }"

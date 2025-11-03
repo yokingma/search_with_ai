@@ -1213,12 +1213,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@remixicon/vue@npm:^4.1.0":
-  version: 4.6.0
-  resolution: "@remixicon/vue@npm:4.6.0"
+"@remixicon/vue@npm:^4.7.0":
+  version: 4.7.0
+  resolution: "@remixicon/vue@npm:4.7.0"
   peerDependencies:
     vue: ">= 3"
-  checksum: 38b65b4c43b3375cd3e6d0b4f0b30b4c3ea55c65156698d8b1212e0c0bc6bfb1b6066def02a0de7e9cbf4ba52cac9145b3a19d612de854dd6e662c7b46d8a757
+  checksum: 942f72135e31c96266966e338b0d5204c45e09405a10f90e4f6deac00df68dcf07f48372d480902e2cbc30a9cd5fb5d94cc6f9b089b89d943074da8423bfad0a
   languageName: node
   linkType: hard
 
@@ -9423,7 +9423,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "web@workspace:apps/web"
   dependencies:
-    "@remixicon/vue": ^4.1.0
+    "@remixicon/vue": ^4.7.0
     "@tdesign-vue-next/auto-import-resolver": ^0.1.2
     "@tdesign-vue-next/chat": ^0.4.6
     "@typescript-eslint/eslint-plugin": ^7.0.2

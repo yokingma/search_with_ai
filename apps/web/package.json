@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@remixicon/vue": "^4.1.0",
+    "@remixicon/vue": "^4.7.0",
     "@vueuse/core": "^13.9.0",
     "cheerio": "^1.0.0",
     "fetch-sse": "1.1.2",

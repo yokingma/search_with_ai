@@ -10,12 +10,14 @@ export default {
   copy: 'Copy',
   reload: 'Reload',
   share: 'Share',
+  delete: 'Delete',
+  cancel: 'Cancel',
   history: 'History',
   searchEngine: 'Engine',
   deepResearch: 'Deep Research',
   researchGoal: 'Research Goal',
   search: 'Web Search',
-  newChat: 'New Q&A',
+  newChat: 'New chat',
   sogou: 'Sogou',
   chatglm: 'ChatGLM',
   bing: 'Bing',
@@ -55,26 +57,16 @@ export default {
     shareSuccess: 'Sharing link copied to clipboard.',
     noRelated: 'No related questions found',
     success: 'successful!',
-    // 新增的占位符示例
-    userGreeting: 'Hello, {username}!',
-    searchResults: 'Found {count} relevant results',
-    timeSpent: 'Search took {seconds} seconds',
-    multipleParams: '{username} performed {count} searches on {date}'
+  },
+  tips: {
+    deleteHistoryHeader: 'Delete Chat History',
+    deleteHistoryBody: 'Are you sure you want to clear this chat history? This action cannot be undone.',
   },
   category: {
     general: 'General',
     science: 'Science',
     images: 'Images',
     videos: 'Videos'
-  },
-  mode: {
-    simple: 'Simple',
-    deep: 'Deep',
-    research: 'Research'
-  },
-  tips: {
-    search: 'Ask a question.',
-    continue: 'Continue to ask based on the current context.'
   },
   btn: {
     clear: 'Clear history'
