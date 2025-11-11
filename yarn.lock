@@ -3117,6 +3117,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"commander@npm:^8.3.0":
+  version: 8.3.0
+  resolution: "commander@npm:8.3.0"
+  checksum: 0f82321821fc27b83bd409510bb9deeebcfa799ff0bf5d102128b500b7af22872c0c92cb6a0ebc5a4cf19c6b550fba9cedfa7329d18c6442a625f851377bacf0
+  languageName: node
+  linkType: hard
+
 "concat-map@npm:0.0.1":
   version: 0.0.1
   resolution: "concat-map@npm:0.0.1"
@@ -5853,6 +5860,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"katex@npm:^0.16.25":
+  version: 0.16.25
+  resolution: "katex@npm:0.16.25"
+  dependencies:
+    commander: ^8.3.0
+  bin:
+    katex: cli.js
+  checksum: 6c73ffd33018c42656bf220889e30738f84a1e00a0e22300ffbabd559880bb3dad33fd3b5e5fcf62addd79c1b31f7c75fcfa6cc8684de6175ce5e30248cff607
+  languageName: node
+  linkType: hard
+
 "keygrip@npm:~1.1.0":
   version: 1.1.0
   resolution: "keygrip@npm:1.1.0"
@@ -6265,6 +6283,15 @@ __metadata:
   peerDependencies:
     marked: ">=4 <17"
   checksum: 18548e5220706c1a9effdee3a80421d6b3adad7d8140236accbd01aa648c4c269d788edb2ea1f3be1bfc6cb81d87737b2dc5084cba9589440132bb3bb7573d06
+  languageName: node
+  linkType: hard
+
+"marked-highlight@npm:^2.2.3":
+  version: 2.2.3
+  resolution: "marked-highlight@npm:2.2.3"
+  peerDependencies:
+    marked: ">=4 <18"
+  checksum: bc432c76f43375346ee21cf98e0ecfb2d1ff67d31d3bd091006755fc590fa79fd132eecd66718161e45e7c3b51bd4a3cc7795adbbac97d6672c0a02d1555d052
   languageName: node
   linkType: hard
 
@@ -9439,9 +9466,11 @@ __metadata:
     eslint-plugin-vue: ^9.22.0
     fetch-sse: 1.1.2
     github-markdown-css: ^5.6.1
+    katex: ^0.16.25
     less: ^4.4.1
     localforage: ^1.10.0
     marked: ^14.1.2
+    marked-highlight: ^2.2.3
     pinia: ^2.2.2
     pinia-plugin-persistedstate: ^3.2.1
     postcss: ^8.4.35

@@ -12,7 +12,7 @@ import { logger, replaceVariable } from '../../utils';
 import { StandardResponsePrompt } from './prompt';
 import { getCurrentDate } from './utils';
 import Models from '../../model.json';
-import { SearchGraph } from './graph';
+import { SearchGraph, EGraphEvent } from './graph';
 import { SearcherFunction, SearchResultItem } from './types';
 import { HumanMessage } from 'langchain';
 
@@ -90,29 +90,51 @@ export class SearchChat {
       const graph = this.searchGraph.compile();
       const langchainMessages = messages.map(msg => new HumanMessage(msg.content));
 
-      const result = await graph.invoke(
+      const chunks = await graph.stream(
         { messages: langchainMessages },
-        { configurable: { numberOfQueries: 2, count: 10 } } as any
+        {
+          configurable: {
+            numberOfQueries: 2,
+            count: 10
+          },
+          streamMode: 'updates'
+        }
       );
+      let shouldSearch = false;
+
+
+      for await (const chunk of chunks) {
+        const res = chunk as any;
+        if (res.intentAnalysis) {
+          shouldSearch = res.intentAnalysis?.shouldSearch;
+        }
+        if (res.rewriteQuery) {
+          const md = '```text\n' + res.rewriteQuery.rationale + '\n```\n\n';
+          onMessage?.({ content: md });
+        }
+        if (res.search) {
+          const result: SearchResultItem[] = res.search.searchResults || [];
+          contexts = result.map((item, index) => ({
+            id: index + 1,
+            name: item.title,
+            content: item.content,
+            snippet: item.content,
+            url: item.url || '',
+            score: item.score,
+            raw: item.raw
+          }));
+          onMessage?.({ event: EGraphEvent.Search, searchResults: contexts });
+        }
+      }
 
       // If no search needed, respond directly
-      if (!result.shouldSearch) {
+      if (!shouldSearch) {
         await this.createChat({ messages, model }, (msg) => {
           onMessage?.(msg);
         });
         onMessage?.(null, true);
         return;
       }
-
-      contexts = result.searchResults.map((item: SearchResultItem, index) => ({
-        id: index + 1,
-        name: item.title,
-        content: item.content,
-        snippet: item.content,
-        url: item.url || '',
-        score: item.score,
-        raw: item.raw
-      }));
 
     } catch (error) {
       logger.error('SearchGraph Error:', error);

@@ -33,6 +33,13 @@ const StateAnnotation = Annotation.Root({
   rationale: Annotation<string>(),
 });
 
+export type GraphResult = typeof StateAnnotation.State;
+export enum EGraphEvent {
+  IntentAnalysis = 'intentAnalysis',
+  RewriteQuery = 'rewriteQuery',
+  Search = 'search',
+}
+
 // LangGraph运行时的配置
 const ConfigurationSchema = z.object({
   numberOfQueries: z
@@ -92,36 +99,36 @@ export class SearchGraph {
   compile() {
     const workflow = new StateGraph(StateAnnotation, ConfigurationSchema);
 
-    workflow.addNode('intentAnalysis', this.intentAnalysis.bind(this));
-    workflow.addNode('rewriteQuery', this.rewriteQuery.bind(this));
-    workflow.addNode('search', this.search.bind(this));
+    workflow.addNode(EGraphEvent.IntentAnalysis, this.intentAnalysis.bind(this));
+    workflow.addNode(EGraphEvent.RewriteQuery, this.rewriteQuery.bind(this));
+    workflow.addNode(EGraphEvent.Search, this.search.bind(this));
 
     // Start to intent analysis
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    workflow.addEdge(START, 'intentAnalysis');
+    workflow.addEdge(START, EGraphEvent.IntentAnalysis);
 
     // Conditional branch for intent analysis
     workflow.addConditionalEdges(
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      'intentAnalysis',
+      EGraphEvent.IntentAnalysis,
       this.routeToSearch.bind(this),
-      ['rewriteQuery', END]
+      [EGraphEvent.RewriteQuery, END]
     );
 
     // Conditional branch after query rewriting, used for parallel searches
     workflow.addConditionalEdges(
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      'rewriteQuery',
+      EGraphEvent.RewriteQuery,
       this.continueToSearch.bind(this),
-      ['search', END]
+      [EGraphEvent.Search, END]
     );
 
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    workflow.addEdge('search', END);
+    workflow.addEdge(EGraphEvent.Search, END);
 
     return workflow.compile({ name: 'WebSearch' });
   }
@@ -164,7 +171,7 @@ export class SearchGraph {
    * Routing function to determine whether to continue searching
    */
   routeToSearch(state: typeof StateAnnotation.State): string {
-    return state.shouldSearch ? 'rewriteQuery' : END;
+    return state.shouldSearch ? EGraphEvent.RewriteQuery : END;
   }
 
   /**
@@ -237,6 +244,6 @@ export class SearchGraph {
    * Conditional routing function
    */
   continueToSearch(state: typeof StateAnnotation.State) {
-    return state.query.length > 0 ? 'search' : END;
+    return state.query.length > 0 ? EGraphEvent.Search : END;
   }
 }

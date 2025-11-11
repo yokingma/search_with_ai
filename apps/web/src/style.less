@@ -37,6 +37,11 @@
   --td-brand-color-focus: #333333;
   --main-bg-color: #000000;
   --main-font-color: #cccccc;
+
+  ::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: rgba(255, 255, 255, .1) !important;
+  }
 }
 
 html, body {
@@ -51,51 +56,67 @@ html, body {
   overflow-y: auto;
 }
 
-html[theme-mode="dark"] {
+:root[theme-mode="dark"] {
   scrollbar-color: #8e9099 transparent;
 }
 
-html .markdown-body {
-  color: var(--main-font-color);
-  background-color: transparent;
-  line-height: 26px;
-  min-height: auto;
-}
+.markdown-body {
+  box-sizing: border-box;
+  max-width: 100%;
+  margin: 0 auto;
 
-html .markdown-body hr {
-  background-color: #f5f5f5;
-}
+  pre {
+    background-color: #f5f5f5!important;
+    border: 1px solid #e5e5e5;
+    border-radius: 0.75rem!important;
+    &>code.language-text {
+      white-space: pre-wrap!important;
+      word-wrap: break-word!important;
+      overflow-wrap: break-word!important;
+    }
+  }
 
-html .markdown-body pre {
-  color: #666666;
-  background-color: #f5f5f5;
-}
+  hr {
+    background-color: #f5f5f5;
+  }
 
-html[theme-mode="dark"] .markdown-body {
-  color: var(--main-font-color);
-  background-color: transparent;
-}
 
-html[theme-mode="dark"] .markdown-body pre {
-  color: #999999;
-  background-color: #222222;
-}
+  :root[theme-mode="dark"] & {
+    color: var(--main-font-color);
+    background-color: transparent;
 
-html[theme-mode="dark"] .markdown-body hr {
-  background-color: rgba(229, 229, 229, 0.1);
-}
+    pre {
+      background-color: #111111!important;
+      border: 1px solid rgba(229, 229, 229, 0.1)!important;
 
-html[theme-mode="dark"] .markdown-body table tr {
-  background-color: rgba(229, 229, 229, 0.2);
-  border-top: 1px solid rgba(229, 229, 229, 0.1);
-}
+      .hljs {
+        color: #999999;
+      }
 
-html[theme-mode="dark"] .markdown-body table tr:nth-child(2n) {
-  background-color: rgba(229, 229, 229, 0.1);
-}
+      ::selection {
+        background-color: #333333;
+      }
+    }
 
-html[theme-mode="dark"] .markdown-body table th, html[theme-mode="dark"] .markdown-body table td {
-  border: 1px solid rgba(229, 229, 229, 0.1);
+    hr {
+      background-color: rgba(229, 229, 229, 0.1);
+    }
+
+    table {
+      tr {
+        background-color: rgba(229, 229, 229, 0.2);
+        border-top: 1px solid rgba(229, 229, 229, 0.1);
+
+        &:nth-child(2n) {
+          background-color: rgba(229, 229, 229, 0.1);
+        }
+      }
+
+      th, td {
+        border: 1px solid rgba(229, 229, 229, 0.1);
+      }
+    }
+  }
 }
 
 a {

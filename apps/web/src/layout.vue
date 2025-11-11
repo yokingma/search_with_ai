@@ -39,7 +39,7 @@ const onSelectChat = (uuid: string) => {
 const onRemoveItem = async (uuid: string) => {
   await removeChat(uuid);
   await loadHistory();
-  MessagePlugin.success(t('success'));
+  MessagePlugin.success(t('message.success'));
   router.push({ name: ROUTE_NAME.HOME });
 };
 

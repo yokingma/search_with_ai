@@ -92,6 +92,13 @@ export interface IChatMessage {
   events?: Array<IAgentProcessedEvent<string, string | Record<string, any>>>
 }
 
+// SearchGraph types
+export enum EGraphEvent {
+  IntentAnalysis = 'intentAnalysis',
+  RewriteQuery = 'rewriteQuery',
+  Search = 'search'
+}
+
 export const scrollWrapperKey = Symbol('scrollWrapper') as InjectionKey<{
   scrollWrapper: Ref<HTMLElement | null>
 }>;

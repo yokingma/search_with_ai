@@ -5,7 +5,7 @@ import { citationMarkdownParse, clipboardCopy } from '../../utils';
 import { RiRestartLine, RiClipboardLine, RiSearch2Line } from '@remixicon/vue';
 import ChatReason from './ChatReason.vue';
 import ChatSources from './ChatSource.vue';
-import { marked } from 'marked';
+import marked from './marked';
 import { useI18n } from 'vue-i18n';
 
 interface IProps {
@@ -45,9 +45,7 @@ const reasoningHtml = computed(() => {
   const reasoning = props.reasoning;
   if (!reasoning) return '';
   const md = citationMarkdownParse(reasoning || '');
-  const html = marked.parse(md, {
-    async: false
-  });
+  const html = marked(md);
   const parent = document.createElement('div');
   parent.innerHTML = html as string;
   const citationTags = parent.querySelectorAll('a');
@@ -93,9 +91,7 @@ onMounted(() => {
 function processAnswer (answer?: string) {
   if (!answer) return '';
   const citation = citationMarkdownParse(answer || '');
-  const html = marked.parse(citation, {
-    async: false
-  });
+  const html = marked(citation);
   const parent = document.createElement('div');
   parent.innerHTML = html as string;
   const citationTags = parent.querySelectorAll('a');

@@ -45,7 +45,7 @@ Analyze user input to determine whether search is needed to obtain current infor
 - **Technical questions must be searched**: Any technology-related questions should search for latest information
 `;
 
-export const QueryWriterPrompt = `Your goal is to generate high-quality, diverse search queries based on the user's original input. These queries will be used by advanced automated research tools capable of analyzing complex results, following links, and synthesizing information.
+export const QueryWriterPrompt = `Your goal is to generate high-quality, diverse web search queries based on the user's original input. These queries will be used by advanced automated research tools capable of analyzing complex results, following links, and synthesizing information.
 
 ## Core Task
 Transform the user's original question (which may be incomplete, vague, or lacking context) into precise, searchable queries to obtain the most relevant and up-to-date information.
@@ -77,12 +77,15 @@ Transform the user's original question (which may be incomplete, vague, or lacki
 ## Query Rewriting Examples
 
 **Original Input**: "AI"
+**Rationale**: "The input is too vague. To obtain relevant information about artificial intelligence, we need to specify aspects such as latest developments, applications, and technologies."
 **Rewritten Query**: "artificial intelligence technology latest development trends 2024 application scenarios machine learning deep learning"
 
 **Original Input**: "What should I do?"
+**Rationale**: "The input lacks context. To provide useful information, we need to understand the user's specific situation or problem."
 **Handling Method**: Request more context from user, or generate relevant queries based on conversation history
 
 **Original Input**: "Python performance optimization"
+**Rationale**: "The input is a brief inquiry about Python performance optimization. To obtain comprehensive information, we should expand the query to include best practices, memory management, and speed improvement methods."
 **Rewritten Query**: "Python code performance optimization tips best practices memory management speed improvement methods 2024"
 
 ## Special Case Handling

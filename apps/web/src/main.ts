@@ -4,7 +4,7 @@ import { createPinia } from 'pinia';
 import i18n from './i18n';
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate';
 import App from './App.vue';
-import './style.css';
+import './style.less';
 import 'tdesign-vue-next/es/style/index.css';
 import 'github-markdown-css/github-markdown-light.css';
 
