@@ -15,6 +15,13 @@ import { SearcherFunction, SearchResultItem } from './types';
 import { replaceVariable } from '../../utils';
 import * as z from 'zod';
 
+class GraphError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'GraphError';
+  }
+}
+
 const StateAnnotation = Annotation.Root({
   messages: Annotation<BaseMessageLike[]>({
     reducer: addMessages,
@@ -141,13 +148,16 @@ export class SearchGraph {
       { role: 'user', content: `${ShouldSearchPrompt}\nUser input: ${topic}\n` }
     ];
 
-    const result = await agent.invoke({
-      messages: userMessage,
-    });
-
-    return {
-      shouldSearch: result.structuredResponse.should_search,
-    };
+    try {
+      const result = await agent.invoke({
+        messages: userMessage,
+      });
+      return {
+        shouldSearch: result.structuredResponse.should_search,
+      };
+    } catch (error) {
+      throw new GraphError(`Intent analysis failed: ${error}`);
+    }
   }
 
   /**
@@ -170,34 +180,38 @@ export class SearchGraph {
     const topic = getResearchTopic(messages);
     const currentDate = getCurrentDate();
 
-    const agent = createAgent({
-      model: this.client,
-      tools: [],
-      responseFormat: toolStrategy(RewriteOutputSchema, {
-        toolMessageContent: `I will generate ${numberOfQueries} search queries based on your input.`,
-      }),
-    });
+    try {
+      const agent = createAgent({
+        model: this.client,
+        tools: [],
+        responseFormat: toolStrategy(RewriteOutputSchema, {
+          toolMessageContent: `I will generate ${numberOfQueries} search queries based on your input.`,
+        }),
+      });
 
-    const prompt = replaceVariable(
-      QueryWriterPrompt,
-      {
-        user_input: topic,
-        number_queries: numberOfQueries,
-        current_date: currentDate,
-      }
-    );
+      const prompt = replaceVariable(
+        QueryWriterPrompt,
+        {
+          user_input: topic,
+          number_queries: numberOfQueries,
+          current_date: currentDate,
+        }
+      );
 
 
-    const result = await agent.invoke({
-      messages: [
-        { role: 'user', content: prompt }
-      ]
-    });
+      const result = await agent.invoke({
+        messages: [
+          { role: 'user', content: prompt }
+        ]
+      });
 
-    return {
-      query: result.structuredResponse.query,
-      rationale: result.structuredResponse.rationale,
-    };
+      return {
+        query: result.structuredResponse.query,
+        rationale: result.structuredResponse.rationale,
+      };
+    } catch (error) {
+      throw new GraphError(`Query rewriting failed: ${error}`);
+    }
   }
 
   async search(

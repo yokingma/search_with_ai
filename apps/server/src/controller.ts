@@ -59,23 +59,28 @@ export const searchChatController = async (ctx: Context) => {
 
   const { messages, engine, categories, language, provider, model } = value;
 
-  const searchChat = new SearchChat({
-    model,
-    engine,
-    provider
-  });
+  try {
+    const searchChat = new SearchChat({
+      model,
+      engine,
+      provider
+    });
 
-  await searchChat.chat({
-    messages,
-    searchOptions: { categories, language }
-  }, (response, done) => {
-    if (done) return;
-    const eventData = `data:${JSON.stringify({ data: response })}\n\n`;
-    ctx.res.write(eventData, 'utf-8');
-  });
-  ctx.res.write('[DONE] \n\n');
-  ctx.res.end();
-
+    await searchChat.chat({
+      messages,
+      searchOptions: { categories, language }
+    }, (response, done) => {
+      if (done) return;
+      const eventData = `data:${JSON.stringify({ data: response })}\n\n`;
+      ctx.res.write(eventData, 'utf-8');
+    });
+    ctx.res.write('[DONE] \n\n');
+    ctx.res.end();
+  } catch (error) {
+    const msg = error instanceof Error ? error.message : 'Internal Server Error';
+    ctx.body = { error: msg };
+    ctx.status = 500;
+  }
 };
 
 // export const deepResearchController = async (ctx: Context) => {

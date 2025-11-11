@@ -83,18 +83,18 @@ export class SearchChat {
     const { model } = this;
     const { messages, searchOptions } = options;
     const { language = 'all' } = searchOptions || {};
-
-    // Use SearchGraph for intelligent search workflow
-    const graph = this.searchGraph.compile();
-    const langchainMessages = messages.map(msg => new HumanMessage(msg.content));
-
     let contexts: ISearchResponseResult[] = [];
 
     try {
+      // Use SearchGraph for intelligent search workflow
+      const graph = this.searchGraph.compile();
+      const langchainMessages = messages.map(msg => new HumanMessage(msg.content));
+
       const result = await graph.invoke(
         { messages: langchainMessages },
         { configurable: { numberOfQueries: 2, count: 10 } } as any
       );
+
       // If no search needed, respond directly
       if (!result.shouldSearch) {
         await this.createChat({ messages, model }, (msg) => {

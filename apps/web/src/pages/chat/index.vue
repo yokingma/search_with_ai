@@ -154,6 +154,10 @@ async function sendMessage(message: IChatMessage) {
           autoScroll.value && useScrollToBottom({ target: scrollWrapper?.value, ms: 2000 });
         });
       },
+      onError: (errMsg: any) => {
+        const msg = errMsg?.toString() || 'Error';
+        curMessage.content += `${msg}`;
+      }
     });
     loading.value = false;
     await updateChat(props.uuid, {
