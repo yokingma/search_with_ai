@@ -50,6 +50,7 @@ export default {
   },
   message: {
     queryError: 'Query error',
+    queryStopped: 'Query stopped',
     copied: 'Copied to clipboard',
     copyError: 'Copy failed',
     noSelect: 'Not selected yet',

@@ -10,6 +10,7 @@ defineOptions({
 });
 
 type Emits = {
+  (e: 'stop'): void,
   (e: 'send', val: IChatInputParams): void,
 }
 
@@ -53,6 +54,10 @@ const onSearch = () => {
   emits('send', params);
   inputValue.value = '';
 };
+
+const onStop = () => {
+  emits('stop');
+};
 </script>
 
 <template>
@@ -66,13 +71,10 @@ const onSearch = () => {
     }"
     :loading="loading"
     @send="onSearch"
+    @stop="onStop"
   >
-    <template #suffix>
-      <t-button theme="default" shape="circle" variant="text" size="large" @click="onSearch">
-        <template #icon>
-          <RiSendPlaneFill class="text-2xl" />
-        </template>
-      </t-button>
+    <template #suffix="{ renderPresets }">
+      <component :is="renderPresets([])" />
     </template>
     <template #prefix>
       <div class="flex flex-nowrap gap-2">

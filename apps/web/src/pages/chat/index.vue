@@ -52,6 +52,15 @@ const onReload = (index: number) => {
   }
 };
 
+const onStop = () => {
+  if (abortCtrl) {
+    abortCtrl.abort();
+    abortCtrl = null;
+    loading.value = false;
+    MessagePlugin.info(t('message.queryStopped'));
+  }
+};
+
 watch(() => props.uuid, async (val) => {
   if (!val) return;
   const res = await getChat(val as string);
@@ -222,6 +231,7 @@ export default {
         :loading="loading"
         :autofocus="false"
         @send="onChat"
+        @stop="onStop"
       />
     </div>
   </div>

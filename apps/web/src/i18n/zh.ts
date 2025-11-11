@@ -50,6 +50,7 @@ export default {
   },
   message: {
     queryError: '查询出错了',
+    queryStopped: '查询已停止',
     copied: '已复制到剪贴板',
     copyError: '复制失败了',
     noSelect: '暂未选择',
