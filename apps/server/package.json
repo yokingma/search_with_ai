@@ -15,11 +15,13 @@
   },
   "dependencies": {
     "@ai-sdk/openai-compatible": "^1.0.24",
+    "@anthropic-ai/sdk": "^0.68.0",
     "@dotenvx/dotenvx": "^0.24.0",
     "@google/generative-ai": "^0.21.0",
     "@koa/bodyparser": "^5.1.0",
     "@koa/cors": "^5.0.0",
     "@koa/router": "^12.0.1",
+    "@langchain/anthropic": "^1.0.0",
     "@langchain/classic": "^1.0.1",
     "@langchain/core": "^1.0.2",
     "@langchain/langgraph": "^1.0.1",

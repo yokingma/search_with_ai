@@ -7,6 +7,8 @@ import {
 } from '@langchain/langgraph';
 import type { BaseMessageLike } from '@langchain/core/messages';
 import { ChatOpenAI, ClientOptions } from '@langchain/openai';
+import { AnthropicInput, ChatAnthropic } from '@langchain/anthropic';
+import { BaseChatModelParams } from '@langchain/core/language_models/chat_models';
 import { createAgent, toolStrategy } from 'langchain';
 import { getCurrentDate, getResearchTopic } from './utils';
 import { QueryWriterPrompt, ShouldSearchPrompt } from './prompt';
@@ -14,6 +16,17 @@ import { RunnableConfig } from '@langchain/core/runnables';
 import { SearcherFunction, SearchResultItem } from './types';
 import { replaceVariable } from '../../utils';
 import * as z from 'zod';
+
+export interface GraphClientOptions extends ClientOptions {
+  apiKey?: string;
+  type?: 'openai' | 'anthropic';
+}
+export type GraphResult = typeof StateAnnotation.State;
+export enum EGraphEvent {
+  IntentAnalysis = 'intentAnalysis',
+  RewriteQuery = 'rewriteQuery',
+  Search = 'search',
+}
 
 class GraphError extends Error {
   constructor(message: string) {
@@ -32,13 +45,6 @@ const StateAnnotation = Annotation.Root({
   shouldSearch: Annotation<boolean>(),
   rationale: Annotation<string>(),
 });
-
-export type GraphResult = typeof StateAnnotation.State;
-export enum EGraphEvent {
-  IntentAnalysis = 'intentAnalysis',
-  RewriteQuery = 'rewriteQuery',
-  Search = 'search',
-}
 
 // LangGraph运行时的配置
 const ConfigurationSchema = z.object({
@@ -71,7 +77,7 @@ export type Configuration = z.infer<typeof ConfigurationSchema>;
 export type RewriteOutput = z.infer<typeof RewriteOutputSchema>;
 
 export class SearchGraph {
-  private client: ChatOpenAI;
+  private client: ChatOpenAI | ChatAnthropic;
   private searcher: SearcherFunction;
 
   /**
@@ -80,10 +86,23 @@ export class SearchGraph {
    */
   constructor(
     { model, searcher }: { model: string; searcher: SearcherFunction },
-    options: ClientOptions & { apiKey?: string }
+    options: GraphClientOptions
   ) {
-    const { apiKey = 'empty', baseURL, ...rest } = options;
+    const { apiKey = 'empty', baseURL, type = 'openai', ...rest } = options;
     this.searcher = searcher;
+    if (type === 'anthropic') {
+      const options: AnthropicInput & BaseChatModelParams = {
+        model,
+        temperature: 0,
+        anthropicApiKey: apiKey,
+        ...rest,
+      };
+      if (baseURL) {
+        options.anthropicApiUrl = baseURL;
+      }
+      this.client = new ChatAnthropic(options);
+      return;
+    }
     this.client = new ChatOpenAI({
       model,
       temperature: 0,
@@ -163,6 +182,7 @@ export class SearchGraph {
         shouldSearch: result.structuredResponse.should_search,
       };
     } catch (error) {
+      console.log('Intent analysis error:', error);
       throw new GraphError(`Intent analysis failed: ${error}`);
     }
   }
