@@ -107,9 +107,10 @@ html, body {
     bottom: 0;
     left: 0;
     right: 0;
-    height: 30px;
-    background: linear-gradient(transparent, white);
+    height: 80px;
+    background: linear-gradient(transparent 0%, rgba(255,255,255,0.8) 60%, white 100%);
     pointer-events: none;
+    border-bottom: 2px solid #e5e5e5;
   }
 
   .code-block-container.collapsible.collapsed .code-block-body::after {
@@ -117,13 +118,13 @@ html, body {
   }
 
   .code-block-toggle {
-    background: none;
-    border: none;
     cursor: pointer;
     padding: 4px;
     display: flex;
     align-items: center;
-
+    background: none;
+    border: 1px solid #e5e5e5;
+    border-radius: 0.25rem;
     svg {
       width: 16px;
       height: 16px;
@@ -168,12 +169,16 @@ html, body {
       }
     }
 
-    .code-block-toggle svg {
-      color: #cccccc;
+    .code-block-toggle {
+      border: 1px solid #333333;
+      svg {
+        color: #999999;
+      }
     }
 
     .code-block-container.collapsible .code-block-body::after {
-      background: linear-gradient(transparent, #111111);
+      background: linear-gradient(transparent 0%, rgba(17,17,17,0.8) 60%, #111111 100%);
+      border-bottom: 2px solid #333333;
     }
 
     pre {
