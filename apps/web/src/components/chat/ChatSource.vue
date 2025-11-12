@@ -29,15 +29,15 @@ const { t } = useI18n();
             <div class="flex w-80 flex-col gap-2 p-2">
               <div class="text-lg font-bold leading-7">{{ item.name }}</div>
               <div class="leading-6 text-zinc-400">{{ item.snippet }}</div>
-              <a :href="item.url" target="_blank" class="block size-full truncate text-zinc-400">{{ item.url }}</a>
+              <a :href="item.url" target="_blank" class="block size-full truncate text-blue-500 hover:underline">{{ item.url }}</a>
             </div>
           </template>
           <div class="">
             <div class="flex flex-nowrap items-center gap-1">
               <div class="flex h-4 min-w-4 items-center justify-center rounded bg-zinc-200 dark:bg-black">{{ item.id }}</div>
-              <div class="truncate break-words text-xs text-black dark:text-gray-400">
+              <a :href="item.url" target="_blank" class="truncate break-words text-xs text-black hover:underline dark:text-gray-400">
                 {{ item.name }}
-              </div>
+              </a>
             </div>
           </div>
         </t-popup>

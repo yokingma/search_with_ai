@@ -131,7 +131,7 @@ function getCitationContent (num?: string | null) {
         {context.snippet}
       </div>
       <div class="mt-2 border-0 border-t border-solid border-gray-100 pt-2 leading-6 dark:border-gray-700">
-        <a href={context.url} target="_blank" class="inline-block max-w-full truncate text-black dark:text-white">
+        <a href={context.url} target="_blank" class="inline-block max-w-full truncate text-blue-500 hover:underline">
           {context.url}
         </a>
       </div>
