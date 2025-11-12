@@ -1,11 +1,11 @@
 <script setup lang="tsx">
-import { watch, ref, render, computed, onMounted } from 'vue';
+import { watch, ref, render, computed, onMounted, onUnmounted } from 'vue';
 import { MessagePlugin, Popup } from 'tdesign-vue-next';
 import { citationMarkdownParse, clipboardCopy } from '../../utils';
 import { RiRestartLine, RiClipboardLine, RiSearch2Line } from '@remixicon/vue';
 import ChatReason from './ChatReason.vue';
 import ChatSources from './ChatSource.vue';
-import marked from '@/libs/marked';
+import marked, { initCodeBlocks } from '@/libs/marked';
 import { useI18n } from 'vue-i18n';
 
 interface IProps {
@@ -41,6 +41,21 @@ const props = withDefaults(defineProps<IProps>(), {
 const emits = defineEmits<IEmits>();
 const answerRef = ref<HTMLDivElement | null>(null);
 
+// RAF render
+let rafId: number | null = null;
+const debounceRender = (content: string) => {
+  if (rafId) cancelAnimationFrame(rafId);
+  rafId = requestAnimationFrame(() => {
+    const needRenderPopover = props.loading === false && props.content.length > 0;
+    const parent = processAnswer(content, needRenderPopover);
+    if (!answerRef.value) return;
+    answerRef.value.innerHTML = '';
+    answerRef.value.append(parent);
+    // 同步初始化代码块，避免二次渲染
+    initCodeBlocks();
+  });
+};
+
 const reasoningHtml = computed(() => {
   const reasoning = props.reasoning;
   if (!reasoning) return '';
@@ -74,21 +89,18 @@ const handleOperation = (type: string) => {
 };
 
 watch(() => props.content, () => {
-  const parent = processAnswer(props.content);
-  if (!answerRef.value) return;
-  answerRef.value.innerHTML = '';
-  answerRef.value.append(parent);
+  debounceRender(props.content);
 });
 
 onMounted(() => {
-  const parent = processAnswer(props.content);
-  if (answerRef.value) {
-    answerRef.value.innerHTML = '';
-    answerRef.value.append(parent);
-  }
+  debounceRender(props.content);
 });
 
-function processAnswer (answer?: string) {
+onUnmounted(() => {
+  if (rafId) cancelAnimationFrame(rafId);
+});
+
+function processAnswer (answer?: string, renderPopover = false) {
   if (!answer) return '';
   const citation = citationMarkdownParse(answer || '');
   const html = marked(citation);
@@ -99,19 +111,26 @@ function processAnswer (answer?: string) {
     const citationNumber = tag.getAttribute('href');
     const text = tag.innerText;
     if (text !== 'citation') return;
-    // popover
-    const popover = (
-      <span class="inline-block w-4">
-        <Popup trigger="hover" content={getCitationContent(citationNumber)}>
-          <span class="inline-block h-4 min-w-4 cursor-pointer rounded bg-black text-center align-top text-xs text-white hover:opacity-80 dark:bg-zinc-600">
-            {citationNumber || ''}
-          </span>
-        </Popup>
+    let citationEle = (
+      <span class="inline-block h-4 min-w-4 cursor-pointer rounded bg-black text-center align-top text-xs text-white hover:opacity-80 dark:bg-zinc-600">
+        {citationNumber || ''}
       </span>
     );
+    if (renderPopover) {
+      // popover
+      citationEle = (
+        <span class="inline-block w-4">
+          <Popup trigger="hover" content={getCitationContent(citationNumber)}>
+            <span class="inline-block h-4 min-w-4 cursor-pointer rounded bg-black text-center align-top text-xs text-white hover:opacity-80 dark:bg-zinc-600">
+              {citationNumber || ''}
+            </span>
+          </Popup>
+        </span>
+      );
+    }
     // wrapper
     const w = document.createElement('span');
-    render(popover, w);
+    render(citationEle, w);
     tag.parentNode?.replaceChild(w, tag);
   });
   return parent;

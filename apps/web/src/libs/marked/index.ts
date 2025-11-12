@@ -68,11 +68,9 @@ const initCodeBlocks = () => {
   });
 };
 
+export { initCodeBlocks };
+
 export default (text: string, async = false): string | Promise<string> => {
   const result = marked.parse(text, { async });
-
-  // Delay initialization to ensure the DOM is rendered
-  setTimeout(initCodeBlocks, 0);
-
   return result;
 };
