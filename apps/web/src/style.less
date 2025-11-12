@@ -76,6 +76,9 @@ html, body {
       padding: 0.5rem 1rem;
       border-bottom: 1px solid #e5e5e5;
       font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       .code-block-icon {
         display: inline-block;
         width: 0.5rem;
@@ -85,6 +88,52 @@ html, body {
         border-radius: 50%;
       }
     }
+  }
+
+  // Styles for collapsible code blocks
+  .code-block-container.collapsible .code-block-body {
+    max-height: 240px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .code-block-container.collapsible.collapsed .code-block-body {
+    max-height: none;
+  }
+
+  .code-block-container.collapsible .code-block-body::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 30px;
+    background: linear-gradient(transparent, white);
+    pointer-events: none;
+  }
+
+  .code-block-container.collapsible.collapsed .code-block-body::after {
+    display: none;
+  }
+
+  .code-block-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+
+    svg {
+      width: 16px;
+      height: 16px;
+      color: #666666;
+    }
+  }
+
+  .code-block-container:not(.collapsed) .expand-icon,
+  .code-block-container.collapsed .collapse-icon {
+    display: none;
   }
 
   pre {
@@ -117,6 +166,14 @@ html, body {
         padding: 0.5rem 1rem;
         border-bottom: 1px solid #333333;
       }
+    }
+
+    .code-block-toggle svg {
+      color: #cccccc;
+    }
+
+    .code-block-container.collapsible .code-block-body::after {
+      background: linear-gradient(transparent, #111111);
     }
 
     pre {

@@ -8,11 +8,11 @@ const appStore = useAppStore();
 const language = ref(appStore.language);
 const languageList = [
   {
-    name: 'En',
+    name: 'English',
     value: 'en'
   },
   {
-    name: '中文',
+    name: '简体中文',
     value: 'zh'
   }
 ];
