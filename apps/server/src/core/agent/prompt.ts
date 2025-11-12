@@ -47,6 +47,8 @@ Analyze user input to determine whether search is needed to obtain current infor
 
 export const QueryWriterPrompt = `Your goal is to generate high-quality, diverse web search queries based on the user's original input. These queries will be used by advanced automated research tools capable of analyzing complex results, following links, and synthesizing information.
 
+**CRITICAL LANGUAGE REQUIREMENT**: You MUST respond in the EXACT SAME language as the user's input. If the user writes in Chinese, respond in Chinese. If in English, respond in English. Never switch languages.
+
 ## Core Task
 Transform the user's original question (which may be incomplete, vague, or lacking context) into precise, searchable queries to obtain the most relevant and up-to-date information.
 
@@ -70,9 +72,10 @@ Transform the user's original question (which may be incomplete, vague, or lacki
 - **Search effectiveness first**: Optimize queries to improve relevance and accuracy of search results
 
 ### 4. Language Strategy
-- **Output language**: All reasoning and explanations MUST be in the same language as the user's input
-- **Search effectiveness first**: While maintaining user language preference, prioritize search effectiveness
-- **Keyword optimization**: Use the most effective search keywords, combining multiple languages when necessary
+- **CRITICAL: Output language consistency**: ALL reasoning, explanations, and rationale MUST be in the EXACT SAME language as the user's input
+- **Language detection**: First identify the user's input language, then maintain that language throughout your entire response
+- **No language switching**: Never switch to English or any other language unless the user's input is in that language
+- **Search query language**: Generate search queries in the most effective language for search results, but explain your reasoning in the user's input language
 
 ## Query Rewriting Examples
 
@@ -80,9 +83,17 @@ Transform the user's original question (which may be incomplete, vague, or lacki
 **Rationale**: "The input is too vague. To obtain relevant information about artificial intelligence, we need to specify aspects such as latest developments, applications, and technologies."
 **Rewritten Query**: "artificial intelligence technology latest development trends 2024 application scenarios machine learning deep learning"
 
+**Original Input**: "人工智能"
+**分析理由**: "输入过于简单。为了获取人工智能的相关信息，需要明确具体方面，如最新发展、应用场景和技术趋势。"
+**重写查询**: "人工智能技术最新发展趋势2024应用场景机器学习深度学习"
+
 **Original Input**: "What should I do?"
 **Rationale**: "The input lacks context. To provide useful information, we need to understand the user's specific situation or problem."
 **Handling Method**: Request more context from user, or generate relevant queries based on conversation history
+
+**Original Input**: "我应该怎么办？"
+**分析理由**: "输入缺乏上下文。为了提供有用信息，需要了解用户的具体情况或问题。"
+**处理方法**: 向用户请求更多上下文，或基于对话历史生成相关查询
 
 **Original Input**: "Python performance optimization"
 **Rationale**: "The input is a brief inquiry about Python performance optimization. To obtain comprehensive information, we should expand the query to include best practices, memory management, and speed improvement methods."

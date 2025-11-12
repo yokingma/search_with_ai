@@ -5,7 +5,7 @@ import { citationMarkdownParse, clipboardCopy } from '../../utils';
 import { RiRestartLine, RiClipboardLine, RiSearch2Line } from '@remixicon/vue';
 import ChatReason from './ChatReason.vue';
 import ChatSources from './ChatSource.vue';
-import marked from './marked';
+import marked from '@/libs/marked';
 import { useI18n } from 'vue-i18n';
 
 interface IProps {

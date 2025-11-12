@@ -102,14 +102,14 @@ export class SearchChat {
       );
       let shouldSearch = false;
 
-
       for await (const chunk of chunks) {
         const res = chunk as any;
         if (res.intentAnalysis) {
           shouldSearch = res.intentAnalysis?.shouldSearch;
         }
         if (res.rewriteQuery) {
-          const md = '```text\n' + res.rewriteQuery.rationale + '\n```\n\n';
+          onMessage?.({ content: res.rewriteQuery.rationale + '\n\n' });
+          const md = '```Web Search\n' + res.rewriteQuery.query.join(', ') + '\n```\n\n';
           onMessage?.({ content: md });
         }
         if (res.search) {
@@ -123,6 +123,10 @@ export class SearchChat {
             score: item.score,
             raw: item.raw
           }));
+          const md = '```Search Results (' + contexts.length + ')\n' +
+            contexts.map(c => c.id + '. ' + c.name.slice(0, 80)).join('\n') +
+            '\n```\n\n';
+          onMessage?.({ content: md });
           onMessage?.({ event: EGraphEvent.Search, searchResults: contexts });
         }
       }
