@@ -69,12 +69,23 @@ function blockKatex (options: KatexOptions): TokenizerAndRendererExtension {
       return src.indexOf('$$');
     },
     tokenizer (src: string, _tokens) {
-      const match = src.match(/^\$\$+\n([^$]+?)\n\$\$/);
-      if (match !== null) {
+      // Match multiline block formulas: $$\n...\n$$
+      const multilineMatch = src.match(/^\$\$+\n([^$]+?)\n\$\$/);
+      if (multilineMatch !== null) {
         return {
           type: 'blockKatex',
-          raw: match[0],
-          text: match[1].trim()
+          raw: multilineMatch[0],
+          text: multilineMatch[1].trim()
+        };
+      }
+
+      // Match single-line block formulas: $$ ... $$
+      const singlelineMatch = src.match(/^\$\$+([^$\n]+?)\$\$/);
+      if (singlelineMatch !== null) {
+        return {
+          type: 'blockKatex',
+          raw: singlelineMatch[0],
+          text: singlelineMatch[1].trim()
         };
       }
     },

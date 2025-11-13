@@ -1,11 +1,30 @@
-version: "3.7"
-
 services:
-  search:
-    container_name: aisearch
+  search_chat:
+    container_name: search_chat
     image: docker.cnb.cool/aigc/aisearch
+    environment:
+      # Server Configuration
+      - PORT=3000
+
+      # Search Engine API Keys (configure as needed)
+      - BING_SEARCH_KEY=
+      - GOOGLE_SEARCH_KEY=
+      - GOOGLE_SEARCH_ID=
+      - TAVILY_KEY=
+
+      # Web Content Extraction (optional)
+      - JINA_KEY=
+
+      # SearXNG Configuration (included by default, ready to use)
+      - SEARXNG_HOSTNAME=http://searxng:8080
+      - SEARXNG_SAFE=0
+      - SEARXNG_LANGUAGE=
+      - SEARXNG_ENGINES=bing,google
+      - SEARXNG_IMAGES_ENGINES=bing,google
+
+      # Domain Whitelist (optional)
+      - WHITELIST_DOMAINS=
     volumes:
-      - ./.env.docker:/app/.env
       - ./model.json:/app/dist/model.json
     ports:
       - "3000:3000"

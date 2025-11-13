@@ -1,5 +1,5 @@
 export default {
-  title: 'Search with AI',
+  title: 'Search Chat with AI',
   theme: 'Theme',
   reasoning: 'Thinking...',
   reasoning_completed: 'Thought process completed.',

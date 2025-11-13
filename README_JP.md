@@ -1,218 +1,331 @@
 <a name="top"></a>
-<br>
-# Open AI Search (DeepResearch 対応)
-<p align="center">
-  LLMを使用して会話ベースの検索を構築し、DeepResearch / DeepSeek R1をサポートします。
-</p>
-<p align="center">
-  <a href="https://isou.chat/">ライブデモ</a>
-</p>
-
-<p align="center">
-  <a href="https://github.com/yokingma/search_with_ai/stargazers"><img src="https://img.shields.io/github/stars/yokingma/search_with_ai" alt="Github Stars"></a>
-  <a href="https://github.com/yokingma/search_with_ai/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-purple" alt="License"></a>
-  <a href="https://github.com/yokingma/search_with_ai/issues/new"><img src="https://img.shields.io/badge/Report a bug-Github-%231F80C0" alt="Report a bug"></a>
-  <a href="https://github.com/yokingma/search_with_ai/discussions/new?category=q-a"><img src="https://img.shields.io/badge/Ask a question-Github-%231F80C0" alt="Ask a question"></a>
-</p>
-
-[English](./README.md) [中文](./README_ZH_CN.md) **日本語**
 
 <div align="center">
- <img src="./assets/screenshot.jpg"></img>
+
+# 🔍 AI Search Chat
+
+**AI大言語モデルベースの対話型検索エンジン**
+
+*マルチモデル・検索エンジン統合 | リアルタイム対話検索 | Deep Research 深度研究対応*
+
+[![GitHub Stars](https://img.shields.io/github/stars/yokingma/search_with_ai?style=for-the-badge&logo=github)](https://github.com/yokingma/search_with_ai/stargazers)
+[![License](https://img.shields.io/badge/license-MIT-purple?style=for-the-badge)](https://github.com/yokingma/search_with_ai/blob/main/LICENSE)
+[![Live Demo](https://img.shields.io/badge/🌐_Live_Demo-isou.chat-blue?style=for-the-badge)](https://isou.chat/)
+
+[English](./README.md) | [中文](./README_ZH_CN.md) | **日本語**
+
 </div>
 
-リポジトリ: [GitHub](https://github.com/yokingma/search_with_ai) [CNB](https://cnb.cool/isou/AiSearch)
+---
 
-## 機能
+<div align="center">
+ <img src="./assets/screenshot_cn.png" alt="AI Search Chat インターフェース" style="border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);"></img>
+</div>
 
-* 🔍 **新機能:** 類似OpenAI/Gemini/Perplexityの"**Deep Research**"機能をサポート。
-* LLMのサポート: OpenAI, Google, Lepton, DeepSeek(R1), SiliconFlow, AliYun, Baidu, ChatGLM, Moonshot, Tencent, Lepton, Yi, その他...
-* Ollama, [LMStudio](https://github.com/lmstudio-ai/lms)のサポート
-* 検索エンジンのサポート: Bing, Google, [Tavily](https://tavily.com/), [SearXNG](https://github.com/searxng/searxng)
-* カスタマイズ可能な美しいUIインターフェース
-* ライト&ダークモード, モバイルのサポート
-* i18nのサポート
-* コンテキストを使用したQ&Aの継続
-* 結果のキャッシュ、強制リロードのサポート
-* 画像検索のサポート
+## 🌟 プロジェクト概要
 
-## DeepResearchについて
+AI Search Chat は、現代的なAI大言語モデルベースの対話型検索エンジンです。
 
-OpenAI/Gemini/Perplexityに類似した「Deep Research」機能をサポートし、検索エンジン、Webスクレイピング、AIモデルを使用してあらゆるトピックや質問に対して反復的に深く調査し、包括的なレポートを生成します。このプロジェクトは[dzhng/deep-research](https://github.com/dzhng/deep-research)の実装を参考にしています。
+🎯 **主要機能**：
+- [x] 🤖 **マルチモデル対応** - OpenAI、Anthropic、Gemini互換API対応
+- [x] 🔍 **複数検索エンジン** - Bing、Google、SearXNG等の多様な検索ソース対応
+- [x] 💬 **対話型検索** - マルチターンチャット式検索
+- [x] ⏰ **対話履歴** - ブラウザ内対話履歴キャッシュ（IndexedDB/LocalStorage）
+- [ ] 🧠 **Deep Research モード** - （TODO）深度研究機能のリファクタリング
+- [ ] 🔌 **MCP対応** - （TODO）外部MCPサービス接続対応
+- [ ] 🖼️ **画像検索** - （TODO）画像・動画検索対応
+- [ ] 📂 **ファイル解析** - （TODO）ドキュメントアップロード・内容抽出対応
 
-https://github.com/user-attachments/assets/da5e038d-5e0a-4a6f-bae2-b1a58eee193e
+## ✨ コア機能
 
-**注意:**
+### 🧠 Deep Research 深度研究
+- **インテリジェント研究モード** - 深度研究機能
+- **反復的探索** - LangChain + LangGraphベースのワークフロー編成
+- **包括的レポート生成** - 構造化された研究レポートの自動生成
 
-- **警告:** 大量のトークンを消費します。
-- AIインターフェースが`Function Calling`をサポートする必要があります。
-- 使用JINA.aiを抽出するWebページの内容(キーを設定する必要はありません、無料の制限: 20RPM)。
+### 🤖 AIモデル対応
 
-**ワークフロー:**
+- OpenAI API互換
+- Google Gemini API互換
+- Anthropic API互換
 
-1. ユーザークエリの分析
-2. 研究方向を絞り込むためのフォローアップ質問の生成
-3. 検索クエリの生成と実行
-4. 検索結果の処理と分析
-5. `ステップ4`に基づく再帰的な探索
-6. 包括的なレポートの生成
+### 🔍 マルチ検索エンジン統合
 
-> [!NOTE]
-> 自分の(Node.js)プロジェクトにDeepResearchの機能を統合したい場合は、以下のnpmパッケージの使用をお勧めします。LangGraphベースで構築されており、詳細な使用説明はこちら：[DeepResearch](https://github.com/yokingma/deepresearch)
+- **SearXNG** - オープンソース統合検索、API Key不要
+- **Bing Search** - Microsoft公式検索API
+- **Google Search** - 複数のAPIアクセス方式対応
+- **Tavily** - LLM最適化検索エンジン
+- **ChatGLM Web Search** - 智谱AI無料検索プラグイン
 
-```shell
+### 🎨 モダンなインターフェース体験
+
+- **レスポンシブデザイン** - デスクトップ・モバイル完全対応
+- **ダーク/ライトテーマ** - システムテーマ自動切替対応
+- **国際化対応** - 多言語インターフェース（i18n）
+- **リアルタイムストリーミング** - タイプライター効果の回答表示
+- **コンテキスト対話** - マルチターン対話・履歴記録対応
+
+## 🔬 Deep Research 深度研究モード
+
+Deep Research モードは、AI駆動の反復的検索・分析により、あらゆるトピックに対して包括的で深度のある研究レポートを生成します。
+
+### 📹 機能デモ
+
+Todo
+
+### 📦 独立使用
+
+Node.jsプロジェクトにDeep Research機能を統合したい場合：
+
+```bash
 npm install deepsearcher
 ```
 
-## Dockerでのデプロイ (推奨)
+詳細ドキュメント：[DeepResearch NPMパッケージ](https://github.com/yokingma/deepresearch)
 
-[Dockerのインストール](https://docs.docker.com/install/).
+## 🐳 クイックデプロイ（Docker推奨）
 
-```shell
-docker pull docker.cnb.cool/aigc/aisearch
+### 📋 事前準備
+
+- [Docker](https://docs.docker.com/install/) と Docker Compose のインストール
+- AIモデルAPI Key の準備（`model.json`で設定）
+- オプション：検索エンジンAPI Key の設定（`docker-compose.yaml`で設定）
+- 関連サービスへのネットワークアクセス確保（SearXNGはGoogleアクセスが必要）
+
+### 🚀 ワンクリックデプロイ
+
+#### 1. [docker-compose.yaml](./deploy/docker-compose.yaml) ファイルの作成
+[deploy/docker-compose.yaml](./deploy/docker-compose.yaml) ファイルを参照してください。
+
+#### 2. 環境変数の設定
+
+`docker-compose.yaml` ファイルを編集し、`search_chat` サービスの対応する環境変数を修正：
+
+```yaml
+services:
+  search_chat:
+    container_name: search_chat
+    image: docker.cnb.cool/aigc/aisearch:latest
+    environment:
+      # サーバー設定
+      - PORT=3000
+
+      # 検索エンジン API Keys（必要に応じて設定）
+      - BING_SEARCH_KEY=your_bing_key
+      - GOOGLE_SEARCH_KEY=your_google_key
+      - GOOGLE_SEARCH_ID=your_google_cse_id
+      - TAVILY_KEY=your_tavily_key
+
+      # Webコンテンツ抽出（オプション）
+      - JINA_KEY=your_jina_key
+
+      # SearXNG設定（デフォルト含有、すぐに使用可能）
+      - SEARXNG_HOSTNAME=http://searxng:8080
+      - SEARXNG_SAFE=0
+      - SEARXNG_LANGUAGE=ja
+      - SEARXNG_ENGINES=bing,google
+      - SEARXNG_IMAGES_ENGINES=bing,google
+
+      # ドメインホワイトリスト（オプション）
+      - WHITELIST_DOMAINS=
+    volumes:
+      - ./model.json:/app/dist/model.json
+    ports:
+      - "3000:3000"
+    restart: always
 ```
 
-> プロジェクトの事前構築イメージ [CNB.cool](https://cnb.cool/aigc/AiSearch)
+#### 3. AIモデル設定（必須）
 
-1.**コードを取得します。**
-
-```shell
-git clone https://github.com/yokingma/search_with_ai.git
-cd search_with_ai
-```
-
-2.**編集** [.env.docker](https://github.com/yokingma/search_with_ai/blob/main/.env) **ファイル。** ```deploy```ディレクトリ内。
-
-> .env.dockerファイルを変更した場合、Dockerコンテナを再起動するだけで変更が反映されます。
-
-少なくとも1つのKEYを設定する必要があります。
-
-```shell
-...
-# OpenAI KEY
-OPENAI_KEY=#your key
-
-# Searxngのホスト名。
-SEARXNG_HOSTNAME=http://searxng:8080
-```
-
-3.**[model.json](https://github.com/yokingma/search_with_ai/blob/main/deploy/model.json) ファイルを編集します。** [オプション]
+docker-compose.yamlと同じディレクトリに [model.json](./deploy/model.json) ファイルを作成・編集し、AIモデルとAPI Keyを設定：
 
 ```json
-{
-  "provider": "openai",
-  "type": "openai",
-  "baseURL": "https://api.openai.com/v1",
-  "models": ["o1-preview", "o1-mini", "gpt-4o", "gpt-4o-mini"]
-}
+[
+  {
+    "provider": "openai",
+    "type": "openai",
+    "baseURL": "https://api.openai.com/v1",
+    "apiKey": "sk-your-openai-api-key",
+    "models": [
+      {
+        "name": "gpt-4o-mini",
+        "alias": "GPT-4o Mini",
+        "description": "OpenAI GPT-4o Mini モデル",
+        "maxTokens": 262144
+      }
+    ]
+  }
+]
 ```
 
-4.**docker-composeで実行します。**
+#### 4. サービス開始
 
-```shell
+```bash
 docker compose up -d
 ```
 
-その後、<http://localhost:3000>にアクセスします。
+#### 5. アプリケーションアクセス
 
-5.**更新**
+ブラウザで [http://localhost:3000](http://localhost:3000) にアクセス
 
-- Docker DesktopまたはDocker CLIを使用して古いイメージを削除します（必要に応じて）
-- ```docker compose down```を実行します。
-- ```docker compose up -d```を実行します。
+### 🔄 デプロイ更新
 
-## 検索エンジン
+```bash
+# サービス停止
+docker compose down
 
-内蔵の検索エンジン: Bing, Google, SearXNG
+# 最新イメージ取得
+docker pull docker.cnb.cool/aigc/aisearch
 
-#### SearXNG (無料、キー不要)
-
-[SearXNG](https://github.com/searxng/searxng)を[searxng-docker](https://github.com/searxng/searxng-docker)でインストールします。
-> SearXNGは、さまざまな検索サービスやデータベースから結果を集約する無料のインターネットメタ検索エンジンです。このサービスはユーザーを追跡したりプロファイルを作成したりしないため、オンラインで匿名性を求めるユーザーに保護を提供します。さらに、SearXNGはTorを介してオンライン匿名性を実現することもできます。
-
-SearxNGをインストールすると、デフォルトでアクティブな出力形式はHTML形式のみです。APIを使用するには、json形式を有効にする必要があります。これを行うには、settings.ymlファイルに次の行を追加します。
-
-```yaml
-search:
-    formats:
-        - html
-        - json
+# 再起動
+docker compose up -d
 ```
 
-そして、リミッターをfalseに設定します。
+## 🔍 検索エンジン設定
 
-```yaml
-server:
-   limiter: false # デフォルトはtrue
-```
+プロジェクトは複数の検索エンジンをサポートしており、ニーズに応じて適切な検索ソースを選択できます。SearXNG検索エンジンの使用を推奨します。
 
-.envファイルでホストを設定することもできます。
+### 🆓 SearXNG (推奨 - 無料オープンソース)
 
-```shell
-# SEARXNG_HOSTNAME=<host>
-```
+**利点**：完全無料、API Key不要、複数検索ソースの統合、プライバシー保護
 
-#### Bing検索
+SearXNGは、複数の検索サービスの結果を統合し、ユーザーを追跡しないオープンソースのメタ検索エンジンです。Dockerデプロイに内蔵されており、すぐに使用できます。
 
-Bing Web Search APIを使用するには、[このリンク](https://www.microsoft.com/en-us/bing/apis/bing-web-search-api)にアクセスしてBingのサブスクリプションキーを取得してください。
-> Bing Search APIは有料ですが、月に1000回の無料呼び出し枠があります。
+**設定オプション**：
+- `SEARXNG_ENGINES`: 検索エンジンの設定 (デフォルト: bing,google)
+- `SEARXNG_LANGUAGE`: 検索言語 (zh=中国語, en-US=英語, all=全て)
+- `SEARXNG_SAFE`: セーフサーチレベル (0=オフ, 1=中程度, 2=厳格)
 
-#### Google検索
+## 💻 ローカル開発
 
-Google検索には、[SearchApi](https://www.searchapi.io/)のSearchApi Google Search API、[Serper](https://www.serper.dev/)のSerper Google Search API、またはGoogleの[Programmable Search Engine](https://developers.google.com/custom-search)の3つのオプションがあります。
+### 📋 環境要件
 
-#### ChatGLM Web Search
+- **Node.js** >= 20
+- **パッケージマネージャー** yarn@3.5.1
+- **ビルドツール** Turborepo
 
-[2024/09/17] Zhipu AIのChatGLM Web Searchプラグインが追加され、中国語の検索エンジンとして使用されます。
-> Zhipu AIのglm-flashは現在無料であり、そのWeb Searchプラグインも無料です。これら2つを基に、ChatGLMが無料の中国語検索エンジンとして追加されました。
-
-#### Jina Reader URL API
-
-[2024/11/24] [Jina](https://jina.ai/) Reader URL APIが追加され、完全なウェブコンテンツの抽出がサポートされました。
-WEBページで[研究]オプションモードを選択した場合、Jina APIが呼び出され、ウェブページの全文内容をAIのコンテキスト参考資料として抽出します。JINA_KEYを設定する必要があります。
-
-```shell
-# JINA API KEY
-JINA_KEY=#your key
-```
-
-## セットアップ
-
-> Node.js >= 20
-> Turborepo
-> PackageManager: yarn@3.5.1
-
-* **ディレクトリ構造**
+### 🏗️ プロジェクト構成
 
 ```text
-apps/
-  | server: サーバー
-  | web: フロントエンド
-deploy/
-  | docker-compose.yaml: dockerデプロイファイル
-  | .env.docker: サーバー設定ファイル
-  | model.json: サーバーモデル設定ファイル
-  ...
+search_with_ai/
+├── apps/
+│   ├── server/          # バックエンドサービス (Koa + TypeScript)
+│   │   ├── src/
+│   │   │   ├── app.ts           # アプリケーションエントリ
+│   │   │   ├── controller.ts    # ルートコントローラー
+│   │   │   ├── interface.ts     # 型定義
+│   │   │   └── model.json       # モデル設定
+│   │   └── package.json
+│   └── web/             # フロントエンドアプリケーション (Vue 3 + TypeScript)
+│       ├── src/
+│       │   ├── pages/           # ページコンポーネント
+│       │   ├── stores/          # Pinia状態管理
+│       │   └── components/      # 共通コンポーネント
+│       └── package.json
+├── deploy/              # デプロイ設定
+│   ├── docker-compose.yaml
+│   ├── .env.docker
+│   └── model.json
+└── package.json         # ルートディレクトリ設定
 ```
 
-* **開発&ビルド**
-プロジェクトのルートで:
+### 🚀 開発ワークフロー
 
-```shell
+#### 1. 依存関係のインストール
+
+```bash
+# プロジェクトのクローン
+git clone https://github.com/yokingma/search_with_ai.git
+cd search_with_ai
+
+# 依存関係のインストール (ルートで実行、全サブプロジェクトの依存関係を自動インストール)
+yarn install
+```
+
+#### 2. 環境設定
+
+サーバー環境設定をコピー・編集：
+
+```bash
+# 環境設定テンプレートのコピー
+cp apps/server/.env apps/server/.env.local
+
+# 設定ファイルの編集
+vim apps/server/.env.local
+```
+
+#### 3. 開発サービスの開始
+
+```bash
+# フロントエンド・バックエンド開発サーバーを同時起動
+yarn dev
+
+# またはTurborepoコマンドを使用
 turbo dev
-# or
+```
+
+アクセスURL：
+
+- フロントエンド: [http://localhost:5173](http://localhost:5173)
+- バックエンド: [http://localhost:3000](http://localhost:3000)
+
+#### 4. 本番版のビルド
+
+```bash
+# 全アプリケーションのビルド
+yarn build
+
+# または
 turbo build
 ```
 
-* **更新**
-プロジェクトのルートで:
+### 🔧 開発ツール
 
-```shell
-git pull
-```
+#### バックエンド技術スタック
 
-## ライセンス
+- **フレームワーク**: Koa.js + TypeScript
+- **AI統合**: LangChain + LangGraph
+- **検索エンジン**: マルチエンジンアダプターパターン
 
-このリポジトリのソースコードは、[MITライセンス](LICENSE)の下で公開されています。
+#### フロントエンド技術スタック
+
+- **フレームワーク**: Vue 3 + Composition API
+- **ビルド**: Vite + TypeScript
+- **UIライブラリ**: TDesign Vue Next
+- **状態管理**: Pinia + 永続化
+- **スタイリング**: Tailwind CSS + Less
+
+## 🤝 貢献
+
+プロジェクトへの貢献を歓迎します！以下の手順に従ってください：
+
+1. **プロジェクトをFork** してGitHubアカウントに追加
+2. **機能ブランチを作成** `git checkout -b feature/amazing-feature`
+3. **変更をコミット** `git commit -m 'Add amazing feature'`
+4. **ブランチをプッシュ** `git push origin feature/amazing-feature`
+5. **Pull Requestを作成**
+
+### 🐛 問題報告
+
+- [GitHub Issues](https://github.com/yokingma/search_with_ai/issues) - バグ報告や機能リクエスト
+- [GitHub Discussions](https://github.com/yokingma/search_with_ai/discussions) - 技術討論とQ&A
+
+## 📄 ライセンス
+
+このプロジェクトは[MITライセンス](LICENSE)の下で公開されています。
+
+## 🙏 謝辞
+
+- [SearXNG](https://github.com/searxng/searxng) - オープンソース検索エンジン
+- [LangChain](https://github.com/langchain-ai/langchain) - AIアプリケーション開発フレームワーク
+- [Tencent EdgeOne](https://edgeone.ai/?from=github) - CDN加速サポート
+
+---
+
+<div align="center">
+
+**⭐ このプロジェクトが役に立った場合は、Starをお願いします！**
 
 [🚀トップに戻る](#top)
+
+</div>

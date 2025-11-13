@@ -34,11 +34,16 @@ git checkout -b feature/your-feature-name
 - Ensure that your changes follow the existing code style.
 - Write or update unit tests where applicable.
 
-### 5. Run Tests
-- Make sure to run the tests to verify your changes didn’t break anything. Run:
+### 5. Verify Your Changes
+
+- Make sure to check TypeScript types and lint your code:
 
 ```shell
-yarn test
+# Check TypeScript types (server)
+cd apps/server && yarn check-types
+
+# Build the project to verify everything compiles
+yarn build
 ```
 
 ### 6. Commit Your Changes
@@ -79,23 +84,61 @@ Ensure that you have the following installed:
 yarn install
 ```
 
-#### 2. Build the Project
+#### 2. Environment Setup
 
-- Build both the server and web components:
-
-```shell
-yarn run build
-```
-
-#### 3. Start the Project
-
-- Run the project locally:
+- Copy the environment file and configure your settings:
 
 ```shell
-yarn run start
+cp apps/server/.env apps/server/.env.local
 ```
 
-- The app should now be accessible at `http://localhost:3000`.
+- Edit `apps/server/.env.local` and add at least one LLM provider key:
+
+```shell
+# Required: At least one LLM provider
+OPENAI_KEY=your_openai_key
+# or
+DEEPSEEK_KEY=your_deepseek_key
+# or other supported providers
+
+# Optional: Search engines (SearXNG works without API key)
+SEARXNG_HOSTNAME=http://localhost:8080
+BING_SEARCH_KEY=your_bing_key
+```
+
+#### 3. Development Mode
+
+- Start both server and web in development mode:
+
+```shell
+yarn dev
+```
+
+- Or start individual applications:
+
+```shell
+# Server only (port 3000)
+cd apps/server && yarn dev
+
+# Web only (port 5173)
+cd apps/web && yarn dev
+```
+
+#### 4. Production Build
+
+- Build both applications:
+
+```shell
+yarn build
+```
+
+- Start in production mode:
+
+```shell
+cd apps/server && yarn start
+```
+
+- The app will be accessible at `http://localhost:3000`.
 
 ### Docker Deployment
 
@@ -108,16 +151,22 @@ To pull the latest changes from the main repository, run:
 ```shell
 git pull
 yarn install
-cd web && yarn install && yarn run build
+yarn build
 ```
 
-### Writing Tests
+### Monorepo Structure
 
-Tests are essential for maintaining the quality and stability of the project. If you’re adding new functionality, ensure that your contribution includes appropriate test coverage. You can run the test suite with:
+This project uses Turborepo for monorepo management:
 
-```shell
-yarn test
-```
+- **Root**: Contains Turborepo configuration and workspace setup
+- **apps/server**: Node.js/Koa backend with TypeScript
+- **apps/web**: Vue.js frontend with TypeScript and Vite
+
+Key Turborepo commands:
+
+- `yarn dev` - Start all apps in development mode
+- `yarn build` - Build all applications
+- Individual app commands work from their respective directories
 
 ---
 
@@ -125,21 +174,78 @@ yarn test
 
 To maintain consistency across the project, please follow these coding conventions:
 
-- Use **camelCase** for JavaScript variables and function names.
-- Use **PascalCase** for component names in Vue3.
-- Write **descriptive commit messages**.
-- Keep your changes **concise and focused** on a single feature or fix.
-- Add **comments** where necessary to explain complex code logic.
+### Code Formatting
+
+- **ESLint** and **Prettier** are configured for both server and web applications
+- Run linting before committing:
+
+```shell
+# Server linting
+cd apps/server && npx eslint src/
+
+# Web linting
+cd apps/web && npx eslint src/
+```
+
+### Naming Conventions
+
+- Use **camelCase** for JavaScript variables and function names
+- Use **PascalCase** for Vue component names
+- Use **kebab-case** for file names and directories
+- Write **descriptive commit messages** following conventional commits format
+
+### Code Quality
+
+- Keep your changes **concise and focused** on a single feature or fix
+- Add **comments** where necessary to explain complex code logic
+- Ensure TypeScript types are properly defined
+- Follow existing patterns in the codebase
+
+---
+
+## Troubleshooting
+
+### Common Issues
+
+**Port conflicts:**
+
+- Server runs on port 3000, web dev server on 5173
+- Check if ports are already in use: `lsof -i :3000` or `lsof -i :5173`
+
+**Environment variables:**
+
+- Ensure `.env.local` file exists in `apps/server/`
+- At least one LLM provider key must be configured
+- Check the [model.json](apps/server/src/model.json) file for supported providers
+
+**Build errors:**
+
+- Run `yarn install` in root directory first
+- Check TypeScript errors: `cd apps/server && yarn check-types`
+- Clear node_modules and reinstall if needed
+
+**Docker issues:**
+
+- Ensure Docker and Docker Compose are installed
+- Check the [deploy directory](deploy/) for Docker configuration
 
 ---
 
 ## Reporting Bugs & Suggesting Features
 
 ### 1. Reporting Bugs
-If you encounter any bugs or issues with the project, please open an issue [here](https://github.com/yokingma/search_with_ai/issues/new). Provide as much detail as possible, including steps to reproduce the issue and any relevant screenshots.
+
+If you encounter any bugs or issues with the project, please open an issue [here](https://github.com/yokingma/search_with_ai/issues/new). Provide as much detail as possible, including:
+
+- Steps to reproduce the issue
+- Expected vs actual behavior
+- Environment details (OS, Node.js version, etc.)
+- Relevant screenshots or error messages
+- Configuration details (anonymized)
 
 ### 2. Suggesting Features
-We welcome new feature ideas! If you’d like to suggest a feature, feel free to start a discussion [here](https://github.com/yokingma/search_with_ai/discussions/new?category=q-a).
+
+We welcome new feature ideas! If you'd like to suggest a feature, feel free to start a discussion [here](https://github.com/yokingma/search_with_ai/discussions/new?category=q-a).
 
 ---
 

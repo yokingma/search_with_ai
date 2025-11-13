@@ -1,85 +1,30 @@
 [
   {
-    "provider": "aliyun",
-    "type": "openai",
-    "baseURL": "https://dashscope.aliyuncs.com/compatible-mode/v1",
-    "models": ["qwen-max", "qwen-max-0428", "qwen-turbo", "qwen-plus"]
-  },
-  {
     "provider": "openai",
     "type": "openai",
     "baseURL": "https://api.openai.com/v1",
-    "models": ["o1-preview", "o1-mini", "gpt-4o", "gpt-4o-mini", "gpt-4o-latest", "gpt-4-preview", "gpt-4-turbo", "gpt-4", "gpt-3.5-turbo"]
+    "apiKey": "sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+    "models": [
+      {
+        "name": "gpt-4o-mini",
+        "alias": "gpt-4o",
+        "description": "gpt-4o-mini",
+        "maxTokens": 262144
+      }
+    ]
   },
   {
-    "provider": "siliconflow",
-    "type": "openai",
-    "baseURL": "https://api.siliconflow.cn/v1",
-    "models": ["deepseek-ai/DeepSeek-R1"]
-  },
-  {
-    "provider": "baidu",
-    "type": "openai",
-    "baseURL": "https://qianfan.baidubce.com/v2",
-    "models": ["ERNIE-4.0-8K-Latest", "ERNIE-4.0-8K-Preview", "ERNIE-4.0-Turbo-8K", "ERNIE-Lite-8K"]
-  },
-  {
-    "provider": "google",
-    "type": "google",
-    "models": ["gemini-1.5-pro", "gemini-1.5-flash"]
-  },
-  {
-    "provider": "yi",
-    "type": "openai",
-    "baseURL": "https://api.lingyiwanwu.com/v1",
-    "models": ["yi-lightning", "yi-large", "yi-spark"]
-  },
-  {
-    "provider": "moonshot",
-    "type": "openai",
-    "baseURL": "https://api.moonshot.cn/v1",
-    "models": ["moonshot-v1-8k", "moonshot-v1-32k", "moonshot-v1-128k"]
-  },
-  {
-    "provider": "lepton",
-    "type": "lepton",
-    "baseURL": "https://%s.lepton.run/api/v1",
-    "models": ["llama2-7b", "llama2-13b", "llama2-70b", "mixtral-8*7b", "mixtral-8*22b"]
-  },
-  {
-    "provider": "deepseek",
-    "type": "openai",
-    "baseURL": "https://api.deepseek.com/v1",
-    "models": ["deepseek-chat", "deepseek-reasoner"]
-  },
-  {
-    "provider": "chatglm",
-    "type": "openai",
-    "baseURL": "https://open.bigmodel.cn/api/paas/v4",
-    "models": ["glm-4", "glm-4-plus", "glm-4-air", "glm-4-airx", "glm-4-flash"]
-  },
-  {
-    "provider": "tencent",
-    "type": "openai",
-    "baseURL": "https://api.hunyuan.cloud.tencent.com/v1",
-    "models": ["std", "pro"]
-  },
-  {
-    "provider": "nvidia",
-    "type": "openai",
-    "baseURL": "https://integrate.api.nvidia.com/v1",
-    "models": ["deepseek-ai/deepseek-r1", "qwen/qwen2.5-coder-32b-instruct"]
-  },
-  {
-    "provider": "ollama",
-    "type": "openai",
-    "baseURL": "http://host.docker.internal:11434/v1",
-    "models": ["llama3.1:8b"]
-  },
-  {
-    "provider": "lmstudio",
-    "type": "openai",
-    "baseURL": "http://host.docker.internal:1234/v1",
-    "models": ["meta-llama-3.1-8b-instruct"]
+    "provider": "Anthropic",
+    "type": "anthropic",
+    "baseURL": "https://api.anthropic.com/v1",
+    "apiKey": "sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+    "models": [
+      {
+        "name": "claude-sonnet-4-5",
+        "alias": "Claude-Sonnet-4.5",
+        "description": "Claude-Sonnet-4.5",
+        "maxTokens": 131072
+      }
+    ]
   }
 ]

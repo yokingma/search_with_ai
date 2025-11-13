@@ -88,7 +88,7 @@ const handleOperation = (type: string) => {
 };
 
 watch(() => props.content, () => {
-  debounceRender(props.content, false);
+  debounceRender(props.content, !props.loading);
 });
 
 // 完成时重新渲染，启用 Popup

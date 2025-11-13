@@ -1,307 +1,359 @@
 <a name="top"></a>
-# Open AI Search (支持 DeepResearch)
-
-<br>
-<p align="center">
-  基于AI大语言模型的搜索引擎，支持DeepResearch生成详细报告，支持DeepSeek R1深度思考。基于Node.js&Vue3。适合新手入门AI大模型开发参考:)，文档后有交流群二维码。
-</p>
-<p align="center">
-  <a href="https://isou.chat/">Live Demo</a>
-</p>
-
-<p align="center">
-  <a href="https://github.com/yokingma/search_with_ai/stargazers"><img src="https://img.shields.io/github/stars/yokingma/search_with_ai" alt="Github Stars"></a>
-  <a href="https://github.com/yokingma/search_with_ai/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-purple" alt="License"></a>
-  <a href="https://github.com/yokingma/search_with_ai/issues/new"><img src="https://img.shields.io/badge/Report a bug-Github-%231F80C0" alt="Report a bug"></a>
-  <a href="https://github.com/yokingma/search_with_ai/discussions/new?category=q-a"><img src="https://img.shields.io/badge/Ask a question-Github-%231F80C0" alt="Ask a question"></a>
-</p>
-
-[English](./README.md) **中文** [日本語](./README_JP.md)
 
 <div align="center">
- <img src="./assets/screenshot_cn.jpg"></img>
+
+# 🔍 AI Search Chat
+
+**基于AI大语言模型的对话式搜索引擎**
+
+*多模型、搜索引擎集成  | 实时对话式搜索 | 支持 Deep Research 深度研究*
+
+[![GitHub Stars](https://img.shields.io/github/stars/yokingma/search_with_ai?style=for-the-badge&logo=github)](https://github.com/yokingma/search_with_ai/stargazers)
+[![License](https://img.shields.io/badge/license-MIT-purple?style=for-the-badge)](https://github.com/yokingma/search_with_ai/blob/main/LICENSE)
+[![Live Demo](https://img.shields.io/badge/🌐_Live_Demo-isou.chat-blue?style=for-the-badge)](https://isou.chat/)
+
+[English](./README.md) | **中文** | [日本語](./README_JP.md)
+
 </div>
 
-仓库地址：[GitHub仓库](https://github.com/yokingma/search_with_ai) [腾讯CNB](https://cnb.cool/isou/AiSearch)
+---
 
-## 功能说明
+<div align="center">
+ <img src="./assets/screenshot_cn.png" alt="AI Search Chat 界面截图" style="border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);"></img>
+</div>
 
-* 🔍 **新增：** 支持类似OpenAI/Gemini/Perplexity的"**Deep Research**"功能。
-* 内置主流的LLM接口支持，如OpenAI、Google、DeepSeek(R1)、SiliconFlow、腾讯混元、通译千问、百度、Lepton、零一万物、月之暗面等。
-* 支持本地大模型（基于Ollama、lmStudio）。
-* 内置搜索引擎支持，如Bing、Sogou、Google、[Tavily](https://tavily.com/)、[SearXNG](https://github.com/searxng/searxng), 支持ChatGLM Web搜索插件 [作为搜索引擎, 目前免费]。
-* 简洁的搜索对话Web界面，支持暗色模式、移动端。
-* 支持搜索引擎切换、AI模型切换。
-* 支持多语言（i18n）。
-* 支持根据上下文结果继续问答。
-* 支持回答结果缓存（可以强制刷新）。
-* 支持图片搜索。
+## 🌟 项目简介
 
-## 关于 DeepResearch
+AI Search Chat 是一个基于现代 AI 大语言模型的对话式搜索引擎。
 
-支持类似OpenAI/Gemini/Perplexity的"Deep Research"功能，通过搜索引擎，Web刮削和AI大模型对任何主题或者问题进行迭代，深入研究并生成报告。项目参考了[dzhng/deep-research](https://github.com/dzhng/deep-research)的实现。
+🎯 **核心特色**：
+- [x] 🤖 **多模型支持** - 支持OpenAI、Anthropic、Gemini兼容的API
+- [x] 🔍 **多搜索引擎** - 支持 Bing、Google、SearXNG 等多种搜索源
+- [x] 💬 **对话式搜索** - 支持多轮聊天式的搜索
+- [x] ⏰ **对话历史记录** - 历史对话记录缓存在浏览器中（基于IndexedDB/LocalStorage）
+- [ ] 🧠 **Deep Research 模式** - (TODO) 重构深度研究功能
+- [ ] 🔌 **MCP支持** - (TODO) 支持接入外部各类MCP服务
+- [ ] 🖼️ **图片搜索** - (TODO) 支持图片或者视频搜索
+- [ ] 📂 **文件解析** - (TODO) 支持上传文档并提取内容
 
-https://github.com/user-attachments/assets/da5e038d-5e0a-4a6f-bae2-b1a58eee193e
+## ✨ 核心功能
 
-**注意:**
+### 🧠 Deep Research 深度研究
+- **智能研究模式** - 深度研究功能
+- **迭代式探索** - 基于 LangChain + LangGraph 的工作流编排
+- **全面报告生成** - 自动生成结构化的研究报告
 
-- **警告:** 消耗大量Tokens.
-- 需要AI接口支持`Function Calling`.
-- 使用JINA.ai提取网页内容(可以不配置KEY, 免费限速: 20RPM).
+### 🤖 AI 模型支持
 
-**工作流程:**
+- OpenAI API兼容
+- Google Gemini API兼容
+- Anthropic API兼容
 
-1. 分析用户查询
-2. 生成跟进问题以细化研究方向
-3. 生成并执行搜索查询
-4. 处理和分析搜索结果
-5. 基于`步骤4`进行递归探索
-6. 生成全面的报告
+### 🔍 多搜索引擎集成
 
-> [!NOTE]
-> 如果你想在自己的(Node.js)项目中集成DeepResearch的能力，推荐使用下面这个npm包， 基于LangGraph构建，详细使用说明：[DeepResearch](https://github.com/yokingma/deepresearch)
+- **SearXNG** - 开源聚合搜索，无需 API Key
+- **Bing Search** - 微软官方搜索 API
+- **Google Search** - 支持多种 API 接入方式
+- **Tavily** - 专为 LLM 优化的搜索引擎
+- **ChatGLM Web Search** - 智谱 AI 免费搜索插件
 
-```shell
+### 🎨 现代化界面体验
+
+- **响应式设计** - 完美适配桌面端和移动端
+- **深色/浅色主题** - 支持系统主题自动切换
+- **国际化支持** - 多语言界面 (i18n)
+- **实时流式输出** - 打字机效果的回答展示
+- **上下文对话** - 支持多轮对话和历史记录
+
+## 🔬 Deep Research 深度研究模式
+
+Deep Research 模式通过 AI 驱动的迭代式搜索和分析，为任何主题生成全面深入的研究报告。
+
+### 📹 功能演示
+
+Todo
+
+### 📦 独立使用
+
+如果你想在自己的 Node.js 项目中集成 Deep Research 能力：
+
+```bash
 npm install deepsearcher
 ```
 
-## 使用 Docker 安装部署
+详细文档：[DeepResearch NPM 包](https://github.com/yokingma/deepresearch)
 
-**注意：使用SearXNG搜索引擎请确保你的网络能正常访问到Google**
+## 🐳 快速部署 (推荐 Docker)
 
-[安装Docker](https://docs.docker.com/install/).
+### 📋 部署前准备
 
-```shell
-docker pull docker.cnb.cool/aigc/aisearch
+- [安装 Docker](https://docs.docker.com/install/) 和 Docker Compose
+- 准备 AI 模型 API Key (在 `model.json` 中配置)
+- 可选：配置搜索引擎 API Key (在 `.env.docker` 中配置)
+- 确保主机网络能访问相关服务 (SearXNG 需要访问 Google等)
+
+### 🚀 一键部署
+
+#### 1. 创建 [docker-compose.yaml](./deploy/docker-compose.yaml) 文件
+请参考 [deploy/docker-compose.yaml](./deploy/docker-compose.yaml)文件。
+
+#### 2. 配置环境变量
+
+编辑 `docker-compose.yaml` 文件，在 `search_chat` 服务中修改相应的环境变量：
+
+```yaml
+services:
+  search_chat:
+    container_name: search_chat
+    image: docker.cnb.cool/aigc/aisearch:latest
+    environment:
+      # 服务器配置
+      - PORT=3000
+
+      # 搜索引擎 API Keys (根据需要配置)
+      - BING_SEARCH_KEY=your_bing_key
+      - GOOGLE_SEARCH_KEY=your_google_key
+      - GOOGLE_SEARCH_ID=your_google_cse_id
+      - TAVILY_KEY=your_tavily_key
+
+      # 网页内容提取 (可选)
+      - JINA_KEY=your_jina_key
+
+      # SearXNG 配置 (默认已包含，开箱即用)
+      - SEARXNG_HOSTNAME=http://searxng:8080
+      - SEARXNG_SAFE=0
+      - SEARXNG_LANGUAGE=zh
+      - SEARXNG_ENGINES=bing,google
+      - SEARXNG_IMAGES_ENGINES=bing,google
+
+      # 域名白名单 (可选)
+      - WHITELIST_DOMAINS=
+    volumes:
+      - ./model.json:/app/dist/model.json
+    ports:
+      - "3000:3000"
+    restart: always
 ```
 
-> 项目预构建Docker镜像 [CNB.cool](https://cnb.cool/aigc/AiSearch) (国内镜像源 > 制品库)
+#### 3. 配置 AI 模型 (必需)
 
-1、**克隆仓库**
-
-```shell
-git clone https://github.com/yokingma/search_with_ai.git
-cd search_with_ai
-```
-
-2、**编辑** [.env.docker](https://github.com/yokingma/search_with_ai/blob/main/.env) 文件位于```deploy```目录下
-
-在此处配置你的KEY[如 OpenAI、Google、DeepSeek、阿里云 ]即可。
-> 如果修改了.env.docker文件，只需要重启Docker容器即可生效。
-
-```shell
-# 示例
-# openai KEY, docker compose 默认带了FreeGPT35，如果你没有自己的Key, 这里保持默认
-OPENAI_KEY=#your key
-...
-# docker compose 部署默认带了SearXNG聚合搜索, 默认不需要修改
-SEARXNG_HOSTNAME=http://searxng:8080
-```
-
-3、[可选] 如果需要修改`BaseUrl`、`模型名称`, 请修改[model.json](https://github.com/yokingma/search_with_ai/blob/main/deploy/model.json)文件。
+在docker-compose.yaml同级目录下创建&编辑 [model.json](./deploy/model.json) 文件，配置 AI 模型和 API Keys：
 
 ```json
-{
-  "provider": "openai",
-  "type": "openai",
-  "baseURL": "https://api.openai.com/v1",
-  "models": ["o1-preview", "o1-mini", "gpt-4o", "gpt-4o-mini"]
-}
+[
+  {
+    "provider": "openai",
+    "type": "openai",
+    "baseURL": "https://api.openai.com/v1",
+    "apiKey": "sk-your-openai-api-key",
+    "models": [
+      {
+        "name": "gpt-4o-mini",
+        "alias": "GPT-4o Mini",
+        "description": "OpenAI GPT-4o Mini 模型",
+        "maxTokens": 262144
+      },
+      {
+        "name": "gpt-4o",
+        "alias": "GPT-4o",
+        "description": "OpenAI GPT-4o 模型",
+        "maxTokens": 262144
+      }
+    ]
+  },
+  {
+    "provider": "anthropic",
+    "type": "anthropic",
+    "baseURL": "https://api.anthropic.com/v1",
+    "apiKey": "sk-your-anthropic-api-key",
+    "models": [
+      {
+        "name": "claude-sonnet-4-5",
+        "alias": "Claude Sonnet 4.5",
+        "description": "Anthropic Claude Sonnet 4.5",
+        "maxTokens": 131072
+      }
+    ]
+  }
+]
 ```
 
-4、在```deploy```目录下运行：
+**配置说明**：
+- `provider`: 模型提供商名称
+- `type`: API 类型 (openai/anthropic/google 等)
+- `baseURL`: API 基础地址
+- `apiKey`: 你的 API Key
+- `models`: 模型列表，包含名称、别名、描述和最大 Token 数
 
-```shell
-# 默认包含了 SearXNG 服务
+#### 4. 启动服务
+
+```bash
+cd deploy
 docker compose up -d
 ```
 
-浏览器访问 <http://localhost:3000>
+#### 5. 访问应用
 
-5、 **更新**
+打开浏览器访问：[http://localhost:3000](http://localhost:3000)
 
-- 手动删除旧版本的镜像（如果需要）
-- 执行 ```docker compose down```
-- 执行 ```docker compose up -d```
+### 🔄 更新部署
 
-## 搜索引擎配置
+```bash
+# 停止服务
+docker compose down
 
-内置了搜索引擎服务：Bing、Sogou、Google、SearXNG。
+# 拉取最新镜像
+docker pull docker.cnb.cool/aigc/aisearch
 
-#### 推荐使用SearXNG (免费开源，不需要KEY)
-
-安装 [SearXNG](https://github.com/searxng/searxng) ，推荐用Docker部署 [searxng-docker](https://github.com/searxng/searxng-docker)
-> SearXNG 是一款免费的互联网元搜索引擎，它集合了来自多个搜索服务和数据库的结果。该服务不会追踪或构建其用户档案，为寻求在线匿名性的用户提供保护。此外，SearXNG 还可通过 Tor 网络来实现在线匿名访问。
-
-安装 SearXNG 时，默认情况下唯一处于激活状态的输出格式是 HTML 格式。若要使用 API，您需要启用 json 格式。可以通过在 settings.yml 文件中添加以下行来实现：
-
-```yaml
-search:
-    formats:
-        - html
-        - json
+# 重新启动
+docker compose up -d
 ```
 
-并且需要设置limiter为false:
+## 🔍 搜索引擎配置
 
-```yaml
-server:
-   limiter: false # default is true
-```
+项目支持多种搜索引擎，可根据需求选择合适的搜索源，推荐使用SearXNG搜索引擎。
 
-也可以设置SEARXNG_HOSTNAME (编辑.env文件):
+### 🆓 SearXNG (推荐 - 免费开源)
 
-```shell
-# SEARXNG_HOSTNAME=<host>
-```
+**优势**：完全免费、无需 API Key、聚合多个搜索源、保护隐私
 
-#### Bing搜索
+SearXNG 是开源的元搜索引擎，聚合多个搜索服务结果，不追踪用户。Docker 部署已内置，开箱即用。
 
-如果要使用必应搜索，需要注册并订阅[Bing搜索服务](https://www.microsoft.com/en-us/bing/apis/bing-web-search-api)，获取必应订阅密钥(key)。
+**配置选项**：
+- `SEARXNG_ENGINES`: 设置搜索引擎 (默认: bing,google)
+- `SEARXNG_LANGUAGE`: 搜索语言 (zh=中文, en-US=英文, all=全部)
+- `SEARXNG_SAFE`: 安全搜索级别 (0=关闭, 1=中等, 2=严格)
 
-> Bing搜索接口是收费的，但是每月有1000次免费调用额度。
+## 💻 本地开发
 
-#### Google搜索
+### 📋 环境要求
 
-如果要使用谷歌搜索引擎， 需要[注册谷歌搜索API服务](https://developers.google.com/custom-search)，每天有100次免费搜索额度。
+- **Node.js** >= 20
+- **包管理器** yarn@3.5.1
+- **构建工具** Turborepo
 
-#### Sogou搜索
-
-内置的Sogou搜索并非直接调用API实现，只是通过简单的网页爬取获取搜索结果。
-> 内置的Sogou搜索本地测试用（只是简单的网页爬取），**会触发人机验证**，遇到不返回参考资料的情况可以手动打开sogou.com随便搜索关键词，根据提示手动验证一下解除。
-
-#### ChatGLM Web Search插件
-[2024/09/17] 新增智谱AI的ChatGLM Web Search插件，作为中文搜索引擎使用。
-> 智谱AI的glm-flash目前免费，其Web Search插件目前也是免费，基于结合这两者新增了ChatGLM作为免费的中文搜索引擎。
-
-#### Jina Reader URL API
-[2024/11/24] 新增[Jina](https://jina.ai/) Reader URL API，支持完整的网页内容抓取。
-WEB页面选择[研究]选项模式的时候会调用Jina API抓取网页的全文内容作为AI的上下文参考资料，需要配置JINA_KEY：
-
-```shell
-# JINA API KEY
-JINA_KEY=#your key
-```
-
-## 部署&开发
-
-> Node.js >= 20
-> Turborepo
-> PackageManager: yarn@3.5.1
-
-* **项目结构**
+### 🏗️ 项目架构
 
 ```text
-apps/
-  | server: 服务端
-  | web: 前端
-deploy/
-  | docker-compose.yaml: docker部署文件
-  | .env.docker: 服务端参数配置文件
-  | model.json: 服务端模型配置文件
-  ...
+search_with_ai/
+├── apps/
+│   ├── server/          # 后端服务 (Koa + TypeScript)
+│   │   ├── src/
+│   │   │   ├── app.ts           # 应用入口
+│   │   │   ├── controller.ts    # 路由控制器
+│   │   │   ├── interface.ts     # 类型定义
+│   │   │   └── model.json       # 模型配置
+│   │   └── package.json
+│   └── web/             # 前端应用 (Vue 3 + TypeScript)
+│       ├── src/
+│       │   ├── pages/           # 页面组件
+│       │   ├── stores/          # Pinia 状态管理
+│       │   └── components/      # 通用组件
+│       └── package.json
+├── deploy/              # 部署配置
+│   ├── docker-compose.yaml
+│   ├── .env.docker
+│   └── model.json
+└── package.json         # 根目录配置
 ```
 
-* **开发&构建**
-在项目根目录中执行:
+### 🚀 开发流程
 
-```shell
+#### 1. 安装依赖
+
+```bash
+# 克隆项目
+git clone https://github.com/yokingma/search_with_ai.git
+cd search_with_ai
+
+# 安装依赖 (根目录执行，会自动安装所有子项目依赖)
+yarn install
+```
+
+#### 2. 配置环境
+
+复制并编辑服务端环境配置：
+
+```bash
+# 复制环境配置模板
+cp apps/server/.env apps/server/.env.local
+
+# 编辑配置文件
+vim apps/server/.env.local
+```
+
+#### 3. 启动开发服务
+
+```bash
+# 同时启动前后端开发服务器
+yarn dev
+
+# 或使用 Turborepo 命令
 turbo dev
-# or
+```
+
+访问地址：
+
+- 前端：[http://localhost:5173](http://localhost:5173)
+- 后端：[http://localhost:3000](http://localhost:3000)
+
+#### 4. 构建生产版本
+
+```bash
+# 构建所有应用
+yarn build
+
+# 或
 turbo build
 ```
 
-* **更新**
-在项目根目录执行
+### 🔧 开发工具
 
-```shell
-git pull
-```
+#### 后端技术栈
 
-## API
+- **框架**：Koa.js + TypeScript
+- **AI 集成**：LangChain + LangGraph
+- **搜索引擎**：多引擎适配器模式
 
-项目前后端分离， 如果你需要使用API服务，也可以单独部署后端服务。
+#### 前端技术栈
 
-HOST: <http://localhost:3000>
+- **框架**：Vue 3 + Composition API
+- **构建**：Vite + TypeScript
+- **UI 库**：TDesign Vue Next
+- **状态管理**：Pinia + 持久化
+- **样式**：Tailwind CSS + Less
 
-- ```POST /api/search```  AI搜索
+## 🤝 贡献指南
 
-```json
-// 请求参数 Request body
-{
-  "q": "今日新闻", // [必填]搜索关键词
-  "model": "qwen-max", // [必填]模型名称
-  "provider": "ollama", // [必选]大模型服务[], 如ollama、lmstudio、openai、deepseek等
-  "engine": "bing", // [必填]搜索引擎，默认bing
+欢迎参与项目[贡献](./CONTRIBUTION.md)！请遵循以下步骤：
 
-  "stream": true, // [可选]是否流式输出，默认true
-  "reload": false, // [可选]是否强制刷新缓存，默认false
-  "categories": [], // [可选]SearXNG搜索引擎分类，默认[]
-  "mode": "simple", // [可选]搜索模式，type TMode = "simple" | "deep" | "research"
-  "language": "all", // [可选]SearXNG搜索引擎语言
-}
-```
+1. **Fork 项目** 到你的 GitHub 账户
+2. **创建功能分支** `git checkout -b feature/amazing-feature`
+3. **提交更改** `git commit -m 'Add amazing feature'`
+4. **推送分支** `git push origin feature/amazing-feature`
+5. **创建 Pull Request**
 
-**[stream = false] 非流式输出**
+### 🐛 问题反馈
 
-```json
-// 响应参数 Response body
-{
-  "reasoningContent": "text", // AI推理过程[如果有]
-  "content": "text", // AI回答答案
-  "contexts": [], // 上下文搜索结果
-  "related": [], // 相关搜索问题
-  "images": [], // 图片搜索结果
-}
-```
+- [GitHub Issues](https://github.com/yokingma/search_with_ai/issues) - 报告 Bug 或功能请求
+- [GitHub Discussions](https://github.com/yokingma/search_with_ai/discussions) - 技术讨论和问答
 
-**[stream = true] 流式输出**
+## 📄 开源协议
 
-```text
-data: {"data": { "reasoningContent": "..." } }\n\n
-data: {"data": { "answer": "I" } }\n\n
-data: {"data": { "answer": "'m " } }\n\n
-data: {"data": { "answer": "a robot" } }\n\n
-data: {"data": { "image": {...} } }\n\n
-data: {"data": { "image": {...} } }\n\n
-data: {"data": { "context": {...} } }\n\n
-data: {"data": { "context": {...} } }\n\n
-data: {"data": { "related": {...} } }\n\n
-data: {"data": { "related": {...} } }\n\n
-```
+本项目基于 [MIT License](LICENSE) 开源协议。
 
-参数类型说明
+## 🙏 致谢
 
-```ts
-// 搜索引擎支持类型
-export enum ESearchEngine {
-  GOOGLE = 'GOOGLE',
-  BING = 'BING',
-  SOGOU = 'SOGOU',
-  SEARXNG = 'SEARXNG',
-  CHATGLM = 'CHATGLM'
-}
+- [SearXNG](https://github.com/searxng/searxng) - 开源搜索引擎
+- [LangChain](https://github.com/langchain-ai/langchain) - AI 应用开发框架
+- [Tencent EdgeOne](https://edgeone.ai/?from=github) - CDN 加速支持
 
-// SearXNG搜索引擎分类
-export enum ESearXNGCategory {
-  SCIENCE = 'science',
-  IT = 'it',
-  GENERAL = 'general',
-  IMAGES = 'images',
-  VIDEOS = 'videos',
-  NEWS = 'news',
-  MUSIC = 'music'
-}
+---
 
-// 搜索模式
-export type TMode = 'simple' | 'deep' | 'research'
-```
+<div align="center">
 
-- ```GET /api/models``` 获取可用模型列表[只能获得提供了KEY的模型]
+**⭐ 如果这个项目对你有帮助，请给个 Star 支持一下！**
 
+[🚀 回到顶部](#top)
 
-## 许可证
-
-此存储库的源代码在[MIT许可证](LICENSE)下提供。
-
-[🚀回到顶部](#top)
+</div>

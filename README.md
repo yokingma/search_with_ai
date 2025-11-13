@@ -1,229 +1,358 @@
 <a name="top"></a>
-# Open AI Search (Support Deep Research)
-
-<br>
-<p align="center">
-  Build your conversation-based search with LLM, support DeepResearch / DeepSeek R1.
-</p>
-<p align="center">
-  <a href="https://isou.chat/">Live Demo</a>
-</p>
-
-<p align="center">
-  <a href="https://github.com/yokingma/search_with_ai/stargazers"><img src="https://img.shields.io/github/stars/yokingma/search_with_ai" alt="Github Stars"></a>
-  <a href="https://github.com/yokingma/search_with_ai/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-purple" alt="License"></a>
-  <a href="https://github.com/yokingma/search_with_ai/issues/new"><img src="https://img.shields.io/badge/Report a bug-Github-%231F80C0" alt="Report a bug"></a>
-  <a href="https://github.com/yokingma/search_with_ai/discussions/new?category=q-a"><img src="https://img.shields.io/badge/Ask a question-Github-%231F80C0" alt="Ask a question"></a>
-</p>
 
 <div align="center">
+
+# 🔍 AI Search Chat
+
+**AI-powered conversational search engine**
+
+*Multi-model integration | Real-time conversational search | Deep Research support*
+
+[![GitHub Stars](https://img.shields.io/github/stars/yokingma/search_with_ai?style=for-the-badge&logo=github)](https://github.com/yokingma/search_with_ai/stargazers)
+[![License](https://img.shields.io/badge/license-MIT-purple?style=for-the-badge)](https://github.com/yokingma/search_with_ai/blob/main/LICENSE)
+[![Live Demo](https://img.shields.io/badge/🌐_Live_Demo-isou.chat-blue?style=for-the-badge)](https://isou.chat/)
 
 **English** | [中文](./README_ZH_CN.md) | [日本語](./README_JP.md)
 
 </div>
 
+---
+
 <div align="center">
- <img src="./assets/screenshot.jpg"></img>
+ <img src="./assets/screenshot_cn.png" alt="AI Search Chat Interface" style="border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);"></img>
 </div>
 
-Repositories: [GitHub](https://github.com/yokingma/search_with_ai) [CNB](https://cnb.cool/isou/AiSearch)
+## 🌟 Project Overview
 
-## Features
+AI Search Chat is a modern AI-powered conversational search engine built with **Turborepo monorepo architecture**, integrating **Node.js + Koa** backend and **Vue 3 + TypeScript** frontend.
 
-* 🔍 **New!** Support "**Deep Research**" like OpenAI/Gemini/Perplexity.
-* Built-in support for LLM: OpenAI, Google, Lepton, DeepSeek(R1), SiliconFlow, AliYun, Baidu, ChatGLM, Moonshot, Tencent, Lepton, Yi and more.
-* Support Ollama, [LMStudio](https://github.com/lmstudio-ai/lms)
-* Built-in support for search engine: Bing, Google, [Tavily](https://tavily.com/), [SearXNG](https://github.com/searxng/searxng)
-* Customizable pretty UI interface
-* Support light&dark mode/mobile
-* Support i18n
-* Support Continue Q&A with contexts.
-* Support Cache results, Force reload.
-* Support images search.
+🎯 **Key Features**:
+- [x] 🤖 **Multi-model Support** - Compatible with OpenAI, Anthropic, Gemini APIs
+- [x] 🔍 **Multiple Search Engines** - Support for Bing, Google, SearXNG and more
+- [x] 💬 **Conversational Search** - Multi-turn chat-based search experience
+- [x] ⏰ **Chat History** - Conversation history cached in browser (IndexedDB/LocalStorage)
+- [ ] 🧠 **Deep Research Mode** - (TODO) Refactoring deep research functionality
+- [ ] 🔌 **MCP Support** - (TODO) Support for external MCP services
+- [ ] 🖼️ **Image Search** - (TODO) Support for image and video search
+- [ ] 📂 **File Parsing** - (TODO) Support for document upload and content extraction
 
-## About DeepResearch
+## ✨ Core Features
 
-Support "Deep Research" like OpenAI/Gemini/Perplexity, through search engine, web scraping and LLM to iterate on any topic or question, and generate a comprehensive report. Project reference [dzhng/deep-research](https://github.com/dzhng/deep-research).
+### 🧠 Deep Research
+- **Intelligent Research Mode** - Deep research functionality
+- **Iterative Exploration** - Workflow orchestration based on LangChain + LangGraph
+- **Comprehensive Report Generation** - Automatically generate structured research reports
 
-https://github.com/user-attachments/assets/da5e038d-5e0a-4a6f-bae2-b1a58eee193e
+### 🤖 AI Model Support
 
-**Note:**
+- OpenAI API compatible
+- Google Gemini API compatible
+- Anthropic API compatible
 
-- **Warning:** It will cost a lot of Tokens.
-- Need to support `Function Calling`.
-- Use JINA.ai to extract web page content (No need to configure KEY, limited: 20RPM).
+### 🔍 Multi-Search Engine Integration
 
-**Workflow:**
+- **SearXNG** - Open source aggregated search, no API key required
+- **Bing Search** - Microsoft official search API
+- **Google Search** - Multiple API access methods supported
+- **Tavily** - Search engine optimized for LLM
+- **ChatGLM Web Search** - Zhipu AI free search plugin
 
-1. Analyze user's query.
-2. Generate follow-up questions to refine the research direction.
-3. Generate and execute search queries.
-4. Process and analyze search results.
-5. Recursive exploration leads to deeper exploration base on `step 4`.
-6. Generate a comprehensive report.
+### 🎨 Modern Interface Experience
 
-> [!NOTE]
-> If you want to integrate DeepResearch capabilities into your own (Node.js) project, we recommend using the following npm package, built on LangGraph, with detailed usage instructions: [DeepResearch](https://github.com/yokingma/deepresearch)
+- **Responsive Design** - Perfect adaptation for desktop and mobile
+- **Dark/Light Theme** - Support for automatic system theme switching
+- **Internationalization** - Multi-language interface (i18n)
+- **Real-time Streaming** - Typewriter effect answer display
+- **Contextual Conversation** - Support for multi-turn dialogue and history
 
-```shell
+## 🔬 Deep Research Mode
+
+Deep Research mode uses AI-driven iterative search and analysis to generate comprehensive and in-depth research reports on any topic.
+
+### 📹 Feature Demo
+
+Todo
+
+### 📦 Standalone Usage
+
+If you want to integrate Deep Research capabilities into your own Node.js project:
+
+```bash
 npm install deepsearcher
 ```
 
-## Deploy with Docker (recommended)
+Documentation: [DeepResearch NPM Package](https://github.com/yokingma/deepresearch)
 
-[Install Docker](https://docs.docker.com/install/).
+## 🐳 Quick Deployment (Recommended Docker)
 
-```shell
-docker pull docker.cnb.cool/aigc/aisearch
+### 📋 Prerequisites
+
+- [Install Docker](https://docs.docker.com/install/) and Docker Compose
+- Prepare AI model API keys (configure in `model.json`)
+- Optional: Configure search engine API keys (in `docker-compose.yaml`)
+- Ensure network access to required services (SearXNG needs Google access)
+
+### 🚀 One-Click Deployment
+
+#### 1. Create [docker-compose.yaml](./deploy/docker-compose.yaml) file
+Please refer to the [deploy/docker-compose.yaml](./deploy/docker-compose.yaml) file.
+
+#### 2. Configure Environment Variables
+
+Edit the `docker-compose.yaml` file and modify the corresponding environment variables in the `search_chat` service:
+
+```yaml
+services:
+  search_chat:
+    container_name: search_chat
+    image: docker.cnb.cool/aigc/aisearch:latest
+    environment:
+      # Server Configuration
+      - PORT=3000
+
+      # Search Engine API Keys (configure as needed)
+      - BING_SEARCH_KEY=your_bing_key
+      - GOOGLE_SEARCH_KEY=your_google_key
+      - GOOGLE_SEARCH_ID=your_google_cse_id
+      - TAVILY_KEY=your_tavily_key
+
+      # Web Content Extraction (optional)
+      - JINA_KEY=your_jina_key
+
+      # SearXNG Configuration (included by default, ready to use)
+      - SEARXNG_HOSTNAME=http://searxng:8080
+      - SEARXNG_SAFE=0
+      - SEARXNG_LANGUAGE=en
+      - SEARXNG_ENGINES=bing,google
+      - SEARXNG_IMAGES_ENGINES=bing,google
+
+      # Domain Whitelist (optional)
+      - WHITELIST_DOMAINS=
+    volumes:
+      - ./model.json:/app/dist/model.json
+    ports:
+      - "3000:3000"
+    restart: always
 ```
 
-1.**Get the code.**
+#### 3. Configure AI Models (Required)
 
-```shell
-git clone https://github.com/yokingma/search_with_ai.git
-cd search_with_ai
-```
-
-2.**Edit** [.env.docker](https://github.com/yokingma/search_with_ai/blob/main/.env) **file.** in ```deploy``` directory.
-
-> After modifying the .env.docker file, restart the Docker container to apply changes.
-
-You must set at least one KEY.
-
-```shell
-...
-# OpenAI's key
-OPENAI_KEY=#your key
-
-# Searxng hostname.
-SEARXNG_HOSTNAME=http://searxng:8080
-```
-
-3.**Edit** [model.json](https://github.com/yokingma/search_with_ai/blob/main/deploy/model.json) **file.** [Optional]
+Create and edit the [model.json](./deploy/model.json) file in the same directory as docker-compose.yaml to configure AI models and API keys:
 
 ```json
-{
-  "provider": "openai",
-  "type": "openai",
-  "baseURL": "https://api.openai.com/v1",
-  "models": ["o1-preview", "o1-mini", "gpt-4o", "gpt-4o-mini"]
-}
+[
+  {
+    "provider": "openai",
+    "type": "openai",
+    "baseURL": "https://api.openai.com/v1",
+    "apiKey": "sk-your-openai-api-key",
+    "models": [
+      {
+        "name": "gpt-4o-mini",
+        "alias": "GPT-4o Mini",
+        "description": "OpenAI GPT-4o Mini model",
+        "maxTokens": 262144
+      },
+      {
+        "name": "gpt-4o",
+        "alias": "GPT-4o",
+        "description": "OpenAI GPT-4o model",
+        "maxTokens": 262144
+      }
+    ]
+  },
+  {
+    "provider": "anthropic",
+    "type": "anthropic",
+    "baseURL": "https://api.anthropic.com/v1",
+    "apiKey": "sk-your-anthropic-api-key",
+    "models": [
+      {
+        "name": "claude-sonnet-4-5",
+        "alias": "Claude Sonnet 4.5",
+        "description": "Anthropic Claude Sonnet 4.5",
+        "maxTokens": 131072
+      }
+    ]
+  }
+]
 ```
 
-4.**Run with Docker Compose.**
+**Configuration Description**:
+- `provider`: Model provider name
+- `type`: API type (openai/anthropic/google etc.)
+- `baseURL`: API base URL
+- `apiKey`: Your API key
+- `models`: Model list with name, alias, description and max tokens
 
-```shell
+#### 4. Start Services
+
+```bash
 docker compose up -d
 ```
 
-Then visit <http://localhost:3000>
+#### 5. Access Application
 
-5.**Update**
+Open your browser and visit: [http://localhost:3000](http://localhost:3000)
 
-* Delete old images.
-* Run ```docker compose down```
-* Run ```docker compose up -d```
+### 🔄 Update Deployment
 
-## Search Engine
+```bash
+# Stop services
+docker compose down
 
-Built-in support for search engine: SearXNG, Bing, Google, Tavily, etc.
+# Pull latest image
+docker pull docker.cnb.cool/aigc/aisearch
 
-#### SearXNG (Free, No Key required)
-
-Install [SearXNG](https://github.com/searxng/searxng) with [searxng-docker](https://github.com/searxng/searxng-docker)
-
-Make sure to activate the json format to use the API. This can be done by adding the following line to the settings.yml file:
-
-```yaml
-search:
-    formats:
-        - html
-        - json
+# Restart
+docker compose up -d
 ```
 
-And set limiter to false:
+## 🔍 Search Engine Configuration
 
-```yaml
-server:
-   limiter: false # default is true
-```
+The project supports multiple search engines. Choose the appropriate search source based on your needs. SearXNG is recommended.
 
-`apps/server/.env`:
+### 🆓 SearXNG (Recommended - Free & Open Source)
 
-```shell
-# SEARXNG_HOSTNAME=<host>
-```
+**Advantages**: Completely free, no API key required, aggregates multiple search sources, protects privacy
 
-#### Bing Search
+SearXNG is an open-source metasearch engine that aggregates results from multiple search services without tracking users. Built into Docker deployment, ready to use out of the box.
 
-To use the Bing Web Search API, please visit [this link](https://www.microsoft.com/en-us/bing/apis/bing-web-search-api) to obtain your Bing subscription key.
+**Configuration Options**:
+- `SEARXNG_ENGINES`: Set search engines (default: bing,google)
+- `SEARXNG_LANGUAGE`: Search language (zh=Chinese, en-US=English, all=all)
+- `SEARXNG_SAFE`: Safe search level (0=off, 1=moderate, 2=strict)
 
-#### Google Search
+## 💻 Local Development
 
-You have three options for Google Search: you can use the SearchApi Google Search API from [SearchApi](https://www.searchapi.io/), [Serper](https://www.serper.dev/) Google Search API from Serper, or opt for the [Programmable Search Engine](https://developers.google.com/custom-search) provided by Google.
+### 📋 Requirements
 
-#### Tavily Search
+- **Node.js** >= 20
+- **Package Manager** yarn@3.5.1
+- **Build Tool** Turborepo
 
-[Tavily](https://tavily.com/) is a search engine optimized for LLMs.
-
-#### Jina Reader URL API
-
-[Jina](https://jina.ai/) Reader URL API, supporting full web content extraction. used in [DeepResearch] mode.
-JINA KEY is optional (limited to 20RPM).
-
-```shell
-# JINA API KEY
-JINA_KEY=#your key
-```
-
-## Deploy & Development
-
-* Node.js >= 20
-* Turborepo
-* PackageManager: yarn@3.5.1
-
-* **Directory Structure**
+### 🏗️ Project Architecture
 
 ```text
-apps/
-  | server # backend
-  | web # frontend
-deploy/
-  | docker-compose.yaml # docker deployment file
-  | .env.docker # backend configuration file
-  | model.json # backend model configuration file
-  ...
+search_with_ai/
+├── apps/
+│   ├── server/          # Backend service (Koa + TypeScript)
+│   │   ├── src/
+│   │   │   ├── app.ts           # Application entry
+│   │   │   ├── controller.ts    # Route controllers
+│   │   │   ├── interface.ts     # Type definitions
+│   │   │   └── model.json       # Model configuration
+│   │   └── package.json
+│   └── web/             # Frontend application (Vue 3 + TypeScript)
+│       ├── src/
+│       │   ├── pages/           # Page components
+│       │   ├── stores/          # Pinia state management
+│       │   └── components/      # Common components
+│       └── package.json
+├── deploy/              # Deployment configuration
+│   ├── docker-compose.yaml
+│   ├── .env.docker
+│   └── model.json
+└── package.json         # Root configuration
 ```
 
-* **Development & Build**
-In the root of the project:
+### 🚀 Development Workflow
 
-```shell
+#### 1. Install Dependencies
+
+```bash
+# Clone project
+git clone https://github.com/yokingma/search_with_ai.git
+cd search_with_ai
+
+# Install dependencies (run in root, will install all sub-project dependencies)
+yarn install
+```
+
+#### 2. Configure Environment
+
+Copy and edit server environment configuration:
+
+```bash
+# Copy environment configuration template
+cp apps/server/.env apps/server/.env.local
+
+# Edit configuration file
+vim apps/server/.env.local
+```
+
+#### 3. Start Development Services
+
+```bash
+# Start both frontend and backend development servers
+yarn dev
+
+# Or use Turborepo command
 turbo dev
-# or
+```
+
+Access URLs:
+
+- Frontend: [http://localhost:5173](http://localhost:5173)
+- Backend: [http://localhost:3000](http://localhost:3000)
+
+#### 4. Build Production Version
+
+```bash
+# Build all applications
+yarn build
+
+# Or
 turbo build
 ```
 
-* **Update**
-In the root of the project:
+### 🔧 Development Tools
 
-```shell
-git pull
-```
+#### Backend Tech Stack
 
-## CDN acceleration and security protection for this project are sponsored by Tencent EdgeOne
-EdgeOne offers a long-term free plan with unlimited traffic and requests, covering Mainland China nodes, with no overage charges. Interested friends can click the link below to claim it
+- **Framework**: Koa.js + TypeScript
+- **AI Integration**: LangChain + LangGraph
+- **Search Engines**: Multi-engine adapter pattern
 
-<p align="center">
-<img src="https://edgeone.ai/media/34fe3a45-492d-4ea4-ae5d-ea1087ca7b4b.png" width="50%">
-</p>
+#### Frontend Tech Stack
 
-<p align="center">
-<a href="https://edgeone.ai/?from=github">Best Asian CDN, Edge, and Secure Solutions - Tencent EdgeOne</a>
-</p>
+- **Framework**: Vue 3 + Composition API
+- **Build**: Vite + TypeScript
+- **UI Library**: TDesign Vue Next
+- **State Management**: Pinia + persistence
+- **Styling**: Tailwind CSS + Less
 
-## License
+## 🤝 Contributing
 
-This repository's source code is available under the [MIT License](LICENSE).
+Welcome to contribute to the project! Please follow these steps:
 
-[🚀Back to top](#top)
+1. **Fork the project** to your GitHub account
+2. **Create a feature branch** `git checkout -b feature/amazing-feature`
+3. **Commit your changes** `git commit -m 'Add amazing feature'`
+4. **Push the branch** `git push origin feature/amazing-feature`
+5. **Create a Pull Request**
+
+### 🐛 Issue Reporting
+
+- [GitHub Issues](https://github.com/yokingma/search_with_ai/issues) - Report bugs or feature requests
+- [GitHub Discussions](https://github.com/yokingma/search_with_ai/discussions) - Technical discussions and Q&A
+
+## 📄 License
+
+This project is licensed under the [MIT License](LICENSE).
+
+## 🙏 Acknowledgments
+
+- [SearXNG](https://github.com/searxng/searxng) - Open source search engine
+- [LangChain](https://github.com/langchain-ai/langchain) - AI application development framework
+- [Tencent EdgeOne](https://edgeone.ai/?from=github) - CDN acceleration support
+
+---
+
+<div align="center">
+
+**⭐ If this project helps you, please give it a Star!**
+
+[🚀 Back to top](#top)
+
+</div>
