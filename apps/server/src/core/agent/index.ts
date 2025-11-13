@@ -145,11 +145,12 @@ export class SearchChat {
       throw error;
     }
 
+    const userRawQuery = messages[messages.length - 1]?.content || '';
+
     // Image search (keep original logic)
     let images: Record<string, any>[] = [];
     if (this.engine === 'SEARXNG') {
-      const searchQuery = messages[0]?.content || '';
-      const res = await this.search(searchQuery, [ESearXNGCategory.IMAGES], language);
+      const res = await this.search(userRawQuery, [ESearXNGCategory.IMAGES], language);
       const engines = process.env.SEARXNG_IMAGES_ENGINES ? process.env.SEARXNG_IMAGES_ENGINES.split(',') : [];
 
       images = res.filter(item => {
@@ -168,8 +169,7 @@ export class SearchChat {
       onMessage?.({ context });
     }
 
-    const searchQuery = messages[0]?.content || '';
-    const { messages: extendedMessages } = this.extendUserMessage(searchQuery, contexts);
+    const { messages: extendedMessages } = this.extendUserMessage(userRawQuery, contexts);
 
     await this.createChat({ messages: extendedMessages, model }, (msg) => {
       onMessage?.(msg);
