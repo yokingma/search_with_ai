@@ -1,26 +1,36 @@
 <script setup lang="ts">
 import { computed, onMounted, provide, ref, watch } from 'vue';
-import { RiExternalLinkLine, RiGithubLine, RiPencilAi2Line } from '@remixicon/vue';
+import { RiGithubLine, RiHistoryLine, RiPencilAi2Line, RiSidebarFoldLine, RiSidebarUnfoldLine } from '@remixicon/vue';
 import { PageHeader, ChatHistory } from './components';
 import { scrollWrapperKey } from '@/types';
-import logoUrl from '@/assets/logo.png';
 import { ROUTE_NAME } from '@/constants';
 import { useRouter } from 'vue-router';
 import { IChatRecord, listChat, removeChat } from '@/storage/chat';
 import { MessagePlugin } from 'tdesign-vue-next';
 import { useI18n } from 'vue-i18n';
+import { useAppStore } from './store';
+import { useWindowSize } from '@vueuse/core';
+import logoUrl from '@/assets/logo.png';
 
 defineOptions({
   name: 'PageLayout',
 });
 
+const { width } = useWindowSize();
+
 const { t } = useI18n();
+const appStore = useAppStore();
+const theme = computed(() => appStore.theme);
+const collapsed = ref(false);
+const curMenu = ref('');
 
 const router = useRouter();
 const scrollWrapper = ref<HTMLElement | null>(null);
 const histories = ref<IChatRecord[]>([]);
 const curHistory = ref<string>();
 const count = ref(0);
+
+const showHistoryModal = ref(false);
 
 provide(scrollWrapperKey, {
   scrollWrapper
@@ -33,6 +43,7 @@ const backHome = () => {
 const cur = computed(() => router.currentRoute.value.params.uuid);
 
 const onSelectChat = (uuid: string) => {
+  showHistoryModal.value = false;
   router.push({ name: ROUTE_NAME.CHAT_PAGE, params: { uuid } });
 };
 
@@ -48,6 +59,15 @@ watch(() => cur.value, async () => {
   await loadHistory();
 });
 
+watch(() => width.value, () => {
+  if (width.value < 640) {
+    collapsed.value = true;
+  }
+  if (width.value >= 1024) {
+    collapsed.value = false;
+  }
+}, { immediate: true });
+
 onMounted(async () => {
   curHistory.value = cur.value as string;
   loadHistory();
@@ -62,32 +82,60 @@ async function loadHistory () {
 
 <template>
   <div class="flex size-full flex-nowrap">
-    <div class="flex w-72 shrink-0 flex-col border-r border-solid border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-black">
-      <div class="relative flex grow flex-col justify-between overflow-y-auto">
-        <div class="sticky top-0 z-50 flex shrink-0 flex-col bg-zinc-50 p-4 dark:bg-black">
+    <div class="flex shrink-0 flex-col border-r border-solid border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-black">
+      <t-menu
+        v-model="curMenu"
+        width="288px"
+        :theme="theme"
+        :collapsed="collapsed"
+        @change="() => { curMenu = ''; }"
+      >
+        <template #logo>
           <img :src="logoUrl" class="w-8 cursor-pointer" @click="backHome" />
-          <div class="mt-4 flex flex-col gap-4 border-b border-zinc-200 pb-4 dark:border-zinc-700">
-            <div class="flex cursor-pointer items-center gap-2 rounded-lg p-2 transition-all hover:bg-zinc-200 dark:hover:bg-zinc-800" @click="backHome">
-              <RiPencilAi2Line class="text-zinc-600" size="16px" />
-              <span class="dark:text-white">{{ t('newChat') }}</span>
+        </template>
+        <t-menu-item value="chat" @click="backHome">
+          <template #icon>
+            <RiPencilAi2Line class="text-zinc-600" size="16px" />
+          </template>
+          <span class="px-2 font-bold">{{ t('newChat') }}</span>
+        </t-menu-item>
+        <div class="mt-4">
+          <t-divider />
+        </div>
+        <t-menu-item v-if="collapsed" @click="showHistoryModal = !showHistoryModal">
+          <template #icon>
+            <RiHistoryLine size="16px" />
+          </template>
+          <span class="px-2 font-bold">{{ t('history') }} ({{ count }})</span>
+        </t-menu-item>
+        <div class="flex grow flex-col justify-between gap-4 overflow-hidden">
+          <div class="grow overflow-hidden">
+            <div v-if="!collapsed" class="size-full overflow-y-auto overflow-x-hidden">
+              <ChatHistory v-model="curHistory" :list="histories" @select="onSelectChat" @remove="onRemoveItem" />
             </div>
           </div>
+          <div class="shrink-0 px-4">
+            <t-tooltip content="Github" placement="right">
+              <t-link href="https://github.com/yokingma/search_with_ai" hover="color" target="_blank">
+                <template #prefix-icon>
+                  <RiGithubLine size="18px" />
+                </template>
+                <span v-if="!collapsed" class="font-bold">Github</span>
+              </t-link>
+            </t-tooltip>
+          </div>
         </div>
-        <div class="flex grow p-4">
-          <ChatHistory v-model="curHistory" :list="histories" @select="onSelectChat" @remove="onRemoveItem" />
-        </div>
-      </div>
-      <div class="shrink-0 p-4">
-        <t-link href="https://github.com/yokingma/search_with_ai" hover="color" target="_blank">
-          <template #prefix-icon>
-            <RiGithubLine size="16px" />
-          </template>
-          <template #suffix-icon>
-            <RiExternalLinkLine size="14px" class="opacity-60" />
-          </template>
-          Github
-        </t-link>
-      </div>
+        <template #operations>
+          <t-tooltip :content="collapsed ? t('expand') : t('collapse')" placement="right">
+            <t-button variant="text" shape="square" @click="() => { collapsed = !collapsed; }">
+              <template #icon>
+                <RiSidebarFoldLine v-if="!collapsed" size="18px" />
+                <RiSidebarUnfoldLine v-else size="18px" />
+              </template>
+            </t-button>
+          </t-tooltip>
+        </template>
+      </t-menu>
     </div>
     <div ref="scrollWrapper" class="flex grow flex-col overflow-y-auto overflow-x-hidden">
       <div class="sticky top-0 z-10 shrink-0">
@@ -99,5 +147,24 @@ async function loadHistory () {
         </div>
       </div>
     </div>
+    <t-dialog v-if="collapsed" v-model:visible="showHistoryModal" :footer="false" :header="t('history')">
+      <ChatHistory v-model="curHistory" :list="histories" @select="onSelectChat" @remove="onRemoveItem" />
+    </t-dialog>
   </div>
 </template>
+
+<style lang="less" scoped>
+:deep(.t-menu) {
+  display: flex;
+  flex-direction: column;
+}
+:deep(.t-menu__logo) {
+  border-bottom: none!important;
+}
+:deep(.t-menu__item) {
+  border-radius: 0.5rem;
+}
+:deep(.t-dialog--default) {
+  padding: 1rem;
+}
+</style>

@@ -5,10 +5,13 @@ import { useAppStore } from '../store';
 import { useI18n } from 'vue-i18n';
 import { RiAiGenerate2 } from '@remixicon/vue';
 import { IModelItem } from '@/types';
+import { useWindowSize } from '@vueuse/core';
 
 defineOptions({
   name: 'ModelSelector'
 });
+
+const { width } = useWindowSize();
 
 const appStore = useAppStore();
 const selectedModel = ref(appStore.model?.name || '');
@@ -50,7 +53,7 @@ async function listModels () {
 </script>
 
 <template>
-  <div class="model-select">
+  <div class="flex items-center">
     <t-select
       v-model="selectedModel"
       :borderless="true"
@@ -62,7 +65,12 @@ async function listModels () {
       <template #prefixIcon>
         <RiAiGenerate2 size="16px" />
       </template>
-      <t-option v-for="(item, index) in models" :key="index" :value="item.name" :label="item.alias || item.name">
+      <t-option
+        v-for="(item, index) in models"
+        :key="index"
+        :value="item.name"
+        :label="(item.alias || item.name).slice(0, width > 640 ? 50 : 4)"
+      >
         <div class="flex items-center gap-1">
           <span>{{ item.alias || item.name }}</span>
           <t-tag size="small" shape="mark">{{ item.provider }}</t-tag>
@@ -72,12 +80,8 @@ async function listModels () {
   </div>
 </template>
 
-<style lang="less">
-.model-select {
-  display: flex;
-  align-items: center;
-  .t-select .t-input {
-    border-radius: 32px;
-  }
+<style lang="less" scoped>
+:deep(.t-select .t-input) {
+  border-radius: 32px;
 }
 </style>

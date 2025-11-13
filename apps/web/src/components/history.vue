@@ -77,9 +77,9 @@ const onClickHistory = (uuid: string) => {
 </script>
 
 <template>
-  <div class="relative flex size-full flex-col justify-between">
+  <div class="relative box-border flex size-full flex-col justify-between">
     <div class="flex grow">
-      <div class="size-full max-h-full overflow-y-auto pb-4">
+      <div class="box-border size-full max-h-full pb-4">
         <div v-if="!list.length" class="flex size-full items-center justify-center">
           <span class="text-zinc-400"></span>
         </div>
@@ -92,7 +92,7 @@ const onClickHistory = (uuid: string) => {
               :class="{ 'bg-zinc-200 dark:bg-zinc-800': selected === item.uuid }"
               @click="onClickHistory(item.uuid)"
             >
-              <div class="relative flex size-full items-center justify-between">
+              <div class="relative box-border flex size-full items-center justify-between pl-2">
                 <span v-if="selected === item.uuid" class="absolute left-0 z-10 block h-4 w-0.5 rounded-lg bg-black dark:bg-zinc-50"></span>
                 <div class="flex grow flex-nowrap">
                   <span

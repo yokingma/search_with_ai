@@ -40,15 +40,17 @@ const onSend = async (params: IChatInputParams) => {
 <template>
   <div id="home" class="flex size-full flex-col items-center justify-center dark:bg-black">
     <div class="box-border flex w-full flex-col gap-8 p-4 sm:-mt-28 lg:max-w-3xl xl:max-w-4xl">
-      <div class="flex items-center justify-center gap-4">
-        <img :src="logoUrl" class="w-14" />
-        <span class="text-5xl font-bold dark:text-gray-100">SearchChat</span>
+      <div class="flex items-center justify-center gap-2 lg:gap-4">
+        <img :src="logoUrl" class="w-10 lg:w-14" />
+        <t-badge count="AI" color="#000000" :offset="[-10, 4]" >
+          <span class="text-3xl font-bold lg:text-5xl dark:text-gray-100">SearchChat</span>
+        </t-badge>
       </div>
       <div class="">
         <ChatSenderBox :autofocus="true" :loading="false" :show-science="enableScience" @send="onSend" />
       </div>
     </div>
-    <div class="absolute bottom-2 w-full">
+    <div class="absolute bottom-2">
       <PageFooter />
     </div>
   </div>

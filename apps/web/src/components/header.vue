@@ -5,6 +5,7 @@ import SearchEngineSelect from './engine.vue';
 import LanguageSelect from './language.vue';
 import { SwitchValue } from 'tdesign-vue-next';
 import { useAppStore } from '../store';
+import { useWindowSize } from '@vueuse/core';
 
 
 
@@ -12,6 +13,7 @@ defineOptions({
   name: 'PageHeader',
 });
 
+const { width } = useWindowSize();
 const appStore = useAppStore();
 
 
@@ -31,10 +33,10 @@ const onChangeTheme = (val: SwitchValue) => {
       <div class="">
         <SearchEngineSelect />
       </div>
-      <div class="">
+      <div v-if="width > 600" class="">
         <LanguageSelect />
       </div>
-      <div class="flex flex-row gap-2">
+      <div v-if="width > 600" class="flex flex-row gap-2">
         <t-switch class="w-12" size="large" :default-value="appStore.theme === 'dark'" @change="onChangeTheme">
           <template #label="slotProps">
             <template v-if="slotProps.value">

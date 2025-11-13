@@ -10,7 +10,7 @@ export const citationMarkdownParse = (text: string) => {
 };
 
 /**
- * 复制文本到剪贴板
+ * Copy text to clipboard
  * @param text
  */
 export function clipboardCopy(text: string) {

@@ -3,6 +3,9 @@ import { ref } from 'vue';
 import { useAppStore } from '../store';
 import { useI18n } from 'vue-i18n';
 import { RiGlobalLine } from '@remixicon/vue';
+import { useWindowSize } from '@vueuse/core';
+
+const { width } = useWindowSize();
 
 const appStore = useAppStore();
 const language = ref(appStore.language);
@@ -37,6 +40,13 @@ export default {
     <template #prefixIcon>
       <RiGlobalLine size="16px" />
     </template>
-    <t-option v-for="(item) in languageList" :key="item.value" :value="item.value" :label="item.name"></t-option>
+    <t-option
+      v-for="(item) in languageList"
+      :key="item.value"
+      :value="item.value"
+      :label="item.name.slice(0, width > 640 ? 50 : 2)"
+    >
+      {{ item.name }}
+    </t-option>
   </t-select>
 </template>

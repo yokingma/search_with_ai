@@ -36,6 +36,8 @@ export default {
   selectProvider: '选择服务端',
   provider: '服务方',
   enableLocalModel: '启用本地大模型',
+  expand: '展开',
+  collapse: '收起',
   warning: '搜索生成的内容由AI大模型和搜索引擎生成，内容不代表我们的态度或观点，仅供研究学习用途。',
   progress: {
     start: '开始分析',

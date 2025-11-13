@@ -1,7 +1,7 @@
 <script setup lang="tsx">
 import { ref } from 'vue';
 import { SystemSumIcon } from 'tdesign-icons-vue-next';
-import { RiBookLine, RiSendPlaneFill, RiToolsFill } from '@remixicon/vue';
+import { RiBookLine, RiToolsFill } from '@remixicon/vue';
 import { useI18n } from 'vue-i18n';
 import { IChatInputParams } from '@/types';
 
@@ -117,6 +117,9 @@ const onStop = () => {
 </template>
 
 <style scoped lang="less">
+:deep(.t-chat-sender__textarea) {
+  background-color: #f8f8f8;
+}
 .active {
   background-color: black;
   color: white;
@@ -126,11 +129,14 @@ const onStop = () => {
     color: white;
   }
 }
-[theme-mode="dark"] .active {
+:global(:root[theme-mode="dark"] .t-chat-sender__textarea) {
+  background-color: #000000;
+}
+:global(:root[theme-mode="dark"] .active) {
   background-color: white;
   color: black;
   &:hover {
-    background-color: white;
+    background-color: #cccccc;
     color: black;
   }
 }
