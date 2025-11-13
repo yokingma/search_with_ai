@@ -43,15 +43,14 @@ const answerRef = ref<HTMLDivElement | null>(null);
 
 // RAF render
 let rafId: number | null = null;
-const debounceRender = (content: string) => {
+const debounceRender = (content: string, renderPopover = false) => {
   if (rafId) cancelAnimationFrame(rafId);
   rafId = requestAnimationFrame(() => {
-    const needRenderPopover = props.loading === false && props.content.length > 0;
-    const parent = processAnswer(content, needRenderPopover);
+    const parent = processAnswer(content, renderPopover);
     if (!answerRef.value) return;
     answerRef.value.innerHTML = '';
     answerRef.value.append(parent);
-    // 同步初始化代码块，避免二次渲染
+    // Synchronize initialization of code blocks to avoid re-rendering
     initCodeBlocks();
   });
 };
@@ -89,11 +88,18 @@ const handleOperation = (type: string) => {
 };
 
 watch(() => props.content, () => {
-  debounceRender(props.content);
+  debounceRender(props.content, false);
+});
+
+// 完成时重新渲染，启用 Popup
+watch(() => props.loading, () => {
+  if (!props.loading && props.content) {
+    debounceRender(props.content, true);
+  }
 });
 
 onMounted(() => {
-  debounceRender(props.content);
+  debounceRender(props.content, true);
 });
 
 onUnmounted(() => {

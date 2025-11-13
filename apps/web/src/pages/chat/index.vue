@@ -173,6 +173,11 @@ async function sendMessage(message: IChatMessage) {
       messages: messages.value,
     } as IChatRecord);
     abortCtrl = null;
+    setTimeout(() => {
+      nextTick(() => {
+        autoScroll.value && useScrollToBottom({ target: scrollWrapper?.value });
+      });
+    }, 100);
   } catch(err) {
     abortCtrl?.abort();
     abortCtrl = null;
