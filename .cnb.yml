@@ -1,11 +1,11 @@
-main:
+v1.2.0-alpha.1:
   push:
     - runner:
         tags: cnb:arch:amd64
       services:
         - docker
       env:
-        IMAGE_TAG: ${CNB_DOCKER_REGISTRY}/${CNB_REPO_SLUG_LOWERCASE}:latest-linux-amd64
+        IMAGE_TAG: ${CNB_DOCKER_REGISTRY}/${CNB_REPO_SLUG_LOWERCASE}:v1.2.0-alpha-linux-amd64
       stages:
         - name: docker login
           script: docker login -u ${CNB_TOKEN_USER_NAME} -p "${CNB_TOKEN}" ${CNB_DOCKER_REGISTRY}
@@ -23,7 +23,7 @@ main:
       services:
         - docker
       env:
-        IMAGE_TAG: ${CNB_DOCKER_REGISTRY}/${CNB_REPO_SLUG_LOWERCASE}:latest-linux-arm64
+        IMAGE_TAG: ${CNB_DOCKER_REGISTRY}/${CNB_REPO_SLUG_LOWERCASE}:v1.2.0-alpha-linux-arm64
       stages:
         - name: docker login
           script: docker login -u ${CNB_TOKEN_USER_NAME} -p "${CNB_TOKEN}" ${CNB_DOCKER_REGISTRY}
@@ -39,7 +39,7 @@ main:
     - services:
         - docker
       env:
-        IMAGE_TAG: ${CNB_DOCKER_REGISTRY}/${CNB_REPO_SLUG_LOWERCASE}:latest
+        IMAGE_TAG: ${CNB_DOCKER_REGISTRY}/${CNB_REPO_SLUG_LOWERCASE}:v1.2.0-alpha
       stages:
         - name: await the amd64
           type: cnb:await
