@@ -1,4 +1,4 @@
-v1.2.0-alpha.1:
+v1.2.0-alpha:
   push:
     - runner:
         tags: cnb:arch:amd64
