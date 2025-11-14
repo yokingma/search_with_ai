@@ -2,9 +2,11 @@ import { fetchEventData } from 'fetch-sse';
 import { IResearchProgress, IChatMessage, TSearCategory, TSearchEngine } from './types';
 const BASE_URL = import.meta.env.MODE === 'development' ? 'http://127.0.0.1:3000' : '';
 
-const MODEL = '/api/models';
-const CHAT = '/api/chat';
-const DEEP_RESEARCH = '/api/deep-research';
+const URLS = {
+  MODEL: '/api/models',
+  CHAT: '/api/chat',
+  ENGINE: '/api/engines',
+};
 
 export interface IQueryOptions {
   ctrl?: AbortController
@@ -34,9 +36,9 @@ export interface IDeepResearchOptions {
   onProgress?: (data: IResearchProgress) => void
 }
 
-export async function search(messages: IChatMessage[], options: IQueryOptions) {
+export async function chat(messages: IChatMessage[], options: IQueryOptions) {
   const { ctrl, model, provider, engine, categories, language, onMessage, onOpen, onClose, onError } = options;
-  const url = `${BASE_URL}${CHAT}`;
+  const url = `${BASE_URL}${URLS.CHAT}`;
   await fetchEventData(url, {
     method: 'POST',
     signal: ctrl?.signal,
@@ -69,63 +71,12 @@ export async function search(messages: IChatMessage[], options: IQueryOptions) {
   });
 }
 
-export async function chat(messages: IChatMessage[], options: IQueryOptions) {
-  const url = `${BASE_URL}${CHAT}`;
-  const { ctrl, model, system, provider, onMessage, onError } = options;
-  await fetchEventData(url, {
-    method: 'POST',
-    signal: ctrl?.signal,
-    data: {
-      model,
-      system,
-      provider,
-      messages
-    },
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    onMessage: (e) => {
-      try {
-        if (e?.data) {
-          const data = JSON.parse(e.data);
-          onMessage(data.data);
-        }
-      } catch (err) {
-        onError?.(err);
-      }
-    },
-  });
-}
-
-export async function deepResearch(options: IDeepResearchOptions) {
-  const url = `${BASE_URL}${DEEP_RESEARCH}`;
-  const { query, ctrl, provider, model, searchEngine, depth = 2, breadth = 2, reportModel, onProgress } = options;
-  await fetchEventData(url, {
-    method: 'POST',
-    signal: ctrl?.signal,
-    data: {
-      query,
-      provider,
-      model,
-      searchEngine,
-      depth,
-      breadth,
-      reportModel
-    },
-    onMessage: (e) => {
-      try {
-        if (e?.data) {
-          const data: IResearchProgress = JSON.parse(e.data);
-          onProgress?.(data);
-        }
-      } catch (err) {
-        console.error('[deepResearch]', err);
-      }
-    },
-  });
-}
-
 export async function getModels() {
-  const res = await fetch(`${BASE_URL}${MODEL}`);
+  const res = await fetch(`${BASE_URL}${URLS.MODEL}`);
+  return res.json();
+}
+
+export async function getEngines() {
+  const res = await fetch(`${BASE_URL}${URLS.ENGINE}`);
   return res.json();
 }

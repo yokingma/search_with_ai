@@ -2,7 +2,6 @@ import { createRouter, createWebHistory } from 'vue-router';
 import { PageLayout } from './components';
 import HomePage from "./pages/home/index.vue";
 import ChatSearchPage from './pages/chat/index.vue';
-import DeepResearch from './pages/research/index.vue';
 import i18n from './i18n';
 import { ROUTE_NAME } from './constants';
 
@@ -28,24 +27,6 @@ const routes = [
           title: 'Chat Search'
         }
       },
-      {
-        path: '/research',
-        children: [
-          {
-            path: '',
-            redirect: '/'
-          },
-          {
-            path: ':query',
-            name: ROUTE_NAME.DEEP_RESEARCH,
-            component: DeepResearch,
-            props: true,
-            meta: {
-              title: 'DeepResearch'
-            }
-          }
-        ]
-      }
     ],
   }
 ];

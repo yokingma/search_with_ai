@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import router from '../../router';
-import { search } from '../../api';
+import { chat } from '../../api';
 import { useI18n } from 'vue-i18n';
 import { useAppStore } from '../../store';
 import { inject, nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
@@ -139,7 +139,7 @@ async function sendMessage(message: IChatMessage) {
     const { model, engine, category } = appStore;
     const provider = model?.provider;
     const modelName = model?.name;
-    await search(queryMessages, {
+    await chat(queryMessages, {
       model: modelName,
       provider,
       engine,

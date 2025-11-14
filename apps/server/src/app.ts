@@ -9,6 +9,7 @@ import { getConfig } from './utils/config';
 import { logger } from './utils';
 import history from 'koa2-connect-history-api-fallback';
 import {
+  enginesController,
   // deepResearchController,
   modelsController,
   searchChatController,
@@ -54,6 +55,7 @@ app.use(router.routes()).use(router.allowedMethods());
 router.post('/api/chat', whiteListMiddleware(), searchChatController);
 // router.post('/api/deep-research', deepResearchController);
 router.get('/api/models', modelsController);
+router.get('/api/engines', enginesController);
 
 const server = app.listen(port, () => {
   const address = server.address();

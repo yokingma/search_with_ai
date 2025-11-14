@@ -4,6 +4,7 @@ import Models from './model.json';
 import { IProviderItemConfig, IChatInputMessage } from './interface';
 import { ESearXNGCategory, TSearchEngine } from './core/search';
 import Joi from 'joi';
+import { getConfig } from './utils';
 // import { DeepResearch, EResearchProgress } from './service/research';
 
 const models = Models as IProviderItemConfig[];
@@ -38,6 +39,29 @@ export const modelsController = async (ctx: Context) => {
     ...item,
     apiKey: '<API_KEY>',
   }));
+};
+
+/**
+ * Get available search engines
+ */
+export const enginesController = async (ctx: Context) => {
+  const googleKey = getConfig('GOOGLE_SEARCH_KEY');
+  const tavilyKey = getConfig('TAVILY_KEY');
+  const zhipuKey = getConfig('ZHIPU_KEY');
+  const bingKey = getConfig('BING_SEARCH_KEY');
+  const availableEngines: { code: TSearchEngine; name: string }[] = [];
+  if (googleKey) availableEngines.push({ code: 'GOOGLE', name: 'Google' });
+  if (bingKey) availableEngines.push({ code: 'BING', name: 'Bing' });
+  if (tavilyKey) availableEngines.push({ code: 'TAVILY', name: 'Tavily' });
+  if (zhipuKey) availableEngines.push({ code: 'ZHIPU', name: 'Zhipu' });
+  const SEARXNG_URL = getConfig('SEARXNG_HOSTNAME');
+  if (SEARXNG_URL) availableEngines.push({ code: 'SEARXNG', name: 'SearXNG' });
+  // Sogou are always available
+  availableEngines.push({ code: 'SOGOU', name: 'Sogou' });
+  ctx.body = {
+    count: availableEngines.length,
+    list: availableEngines,
+  };
 };
 
 /**
