@@ -24,8 +24,8 @@ onMounted(() => {
       value: 'TAVILY'
     },
     {
-      name: t('chatglm'),
-      value: 'CHATGLM'
+      name: t('zhipu'),
+      value: 'ZHIPU'
     },
     {
       name: t('google'),

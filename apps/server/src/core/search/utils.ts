@@ -1,4 +1,4 @@
-import { googleSearch, bingSearch, tavilySearch, chatglmSearch, sogouSearch, searxngSearch } from '.';
+import { googleSearch, bingSearch, tavilySearch, zhipuSearch, sogouSearch, searxngSearch } from '.';
 import { TSearchEngine } from './provider/types';
 
 export function getSearchEngine(engine: TSearchEngine) {
@@ -11,8 +11,8 @@ export function getSearchEngine(engine: TSearchEngine) {
       return sogouSearch;
     case 'SEARXNG':
       return searxngSearch;
-    case 'CHATGLM':
-      return chatglmSearch;
+    case 'ZHIPU':
+      return zhipuSearch;
     case 'TAVILY':
       return tavilySearch;
     default:

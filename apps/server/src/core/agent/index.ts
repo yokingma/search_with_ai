@@ -123,7 +123,8 @@ export class SearchChat {
             score: item.score,
             raw: item.raw
           }));
-          const md = '```Search Results (' + contexts.length + ')\n' +
+          let md = 'No search results found.\n\n';
+          if (contexts.length > 0) md = '```Search Results (' + contexts.length + ')\n' +
             contexts.map(c => c.id + '. ' + c.name.slice(0, 80)).join('\n') +
             '\n```\n\n';
           onMessage?.({ content: md });

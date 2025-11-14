@@ -19,7 +19,7 @@ export default {
   search: 'Web Search',
   newChat: 'New chat',
   sogou: 'Sogou',
-  chatglm: 'ChatGLM',
+  zhipu: 'Zhipu',
   bing: 'Bing',
   google: 'Google',
   searxng: 'SearXNG',

@@ -3,5 +3,5 @@ export { default as googleSearch } from './provider/google';
 export { default as tavilySearch } from './provider/tavily';
 export { default as sogouSearch } from './provider/sogou';
 export { default as bingSearch } from './provider/bing';
-export { default as chatglmSearch } from './provider/chatglm';
+export { zhipuSearch } from './provider/zhipu';
 export * from './provider/types';

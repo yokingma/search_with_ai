@@ -19,7 +19,7 @@ export default {
   search: '网络搜索',
   newChat: '新聊天',
   sogou: '搜狗',
-  chatglm: 'ChatGLM',
+  zhipu: '智谱',
   bing: '必应搜索',
   google: '谷歌搜索',
   searxng: 'SearXNG',
