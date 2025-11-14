@@ -8,9 +8,12 @@
 
 *多模型、搜索引擎集成  | 实时对话式搜索 | 支持 Deep Research 深度研究*
 
-[![GitHub Stars](https://img.shields.io/github/stars/yokingma/search_with_ai?style=for-the-badge&logo=github)](https://github.com/yokingma/search_with_ai/stargazers)
-[![License](https://img.shields.io/badge/license-MIT-purple?style=for-the-badge)](https://github.com/yokingma/search_with_ai/blob/main/LICENSE)
-[![Live Demo](https://img.shields.io/badge/🌐_Live_Demo-isou.chat-blue?style=for-the-badge)](https://isou.chat/)
+<p align="center">
+  <a href="https://github.com/yokingma/search_with_ai/stargazers"><img src="https://img.shields.io/github/stars/yokingma/search_with_ai" alt="Github Stars"></a>
+  <a href="https://github.com/yokingma/search_with_ai/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-purple" alt="License"></a>
+  <a href="https://github.com/yokingma/search_with_ai/issues/new"><img src="https://img.shields.io/badge/Report a bug-Github-%231F80C0" alt="Report a bug"></a>
+  <a href="https://github.com/yokingma/search_with_ai/discussions/new?category=q-a"><img src="https://img.shields.io/badge/Ask a question-Github-%231F80C0" alt="Ask a question"></a>
+</p>
 
 [English](./README.md) | **中文** | [日本語](./README_JP.md)
 
@@ -105,7 +108,7 @@ npm install deepsearcher
 services:
   search_chat:
     container_name: search_chat
-    image: docker.cnb.cool/aigc/aisearch:latest
+    image: docker.cnb.cool/aigc/aisearch:v1.2.0-alpha
     environment:
       # 服务器配置
       - PORT=3000
@@ -115,6 +118,7 @@ services:
       - GOOGLE_SEARCH_KEY=your_google_key
       - GOOGLE_SEARCH_ID=your_google_cse_id
       - TAVILY_KEY=your_tavily_key
+      - ZHIPU_KEY=your_zhipu_key
 
       # 网页内容提取 (可选)
       - JINA_KEY=your_jina_key
