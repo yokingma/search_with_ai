@@ -6,6 +6,7 @@ import { useI18n } from 'vue-i18n';
 import { RiAiGenerate2 } from '@remixicon/vue';
 import { IModelItem } from '@/types';
 import { useWindowSize } from '@vueuse/core';
+import type { SelectOption, SelectValue } from 'tdesign-vue-next';
 
 defineOptions({
   name: 'ModelSelector'
@@ -20,7 +21,7 @@ const loading = ref(false);
 
 const { t } = useI18n();
 
-const onModelSelect = (val: string) => {
+const onModelSelect = (val: SelectValue<SelectOption>) => {
   appStore.updateModel(models.value.find(item => item.name === val));
 };
 
