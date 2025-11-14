@@ -28,7 +28,7 @@ const { t } = useI18n();
           <template #content>
             <div class="flex w-80 flex-col gap-2 p-2">
               <div class="text-lg font-bold leading-7">{{ item.name }}</div>
-              <div class="leading-6 text-zinc-400">{{ item.snippet }}</div>
+              <div class="leading-6 text-zinc-400">{{ item.snippet.slice(0, 180) + '...' }}</div>
               <a :href="item.url" target="_blank" class="block size-full truncate text-blue-500 hover:underline">{{ item.url }}</a>
             </div>
           </template>
