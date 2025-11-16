@@ -109,6 +109,7 @@ export class SearchChat {
         }
         if (res.rewriteQuery) {
           onMessage?.({ content: res.rewriteQuery.rationale + '\n\n' });
+          if (!res.rewriteQuery.query || res.rewriteQuery.query.length === 0) continue;
           const md = '```Web Search\n' + res.rewriteQuery.query.join(', ') + '\n```\n\n';
           onMessage?.({ content: md });
         }
