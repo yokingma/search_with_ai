@@ -155,7 +155,8 @@ services:
         "name": "gpt-4o-mini",
         "alias": "GPT-4o Mini",
         "description": "OpenAI GPT-4o Mini 模型",
-        "maxTokens": 262144
+        "maxTokens": 262144,
+        "intentAnalysis": true
       },
       {
         "name": "gpt-4o",
@@ -181,6 +182,8 @@ services:
   }
 ]
 ```
+
+其中设定为 `intentAnalysis: true` 的模型会被用来进行搜索意图分析、搜索问题重写，建议此处可以设定为较小尺寸的模型以提高回答速度。
 
 **配置说明**：
 - `provider`: 模型提供商名称
@@ -227,6 +230,16 @@ SearXNG 是开源的元搜索引擎，聚合多个搜索服务结果，不追踪
 - `SEARXNG_ENGINES`: 设置搜索引擎 (默认: bing,google)
 - `SEARXNG_LANGUAGE`: 搜索语言 (zh=中文, en-US=英文, all=全部)
 - `SEARXNG_SAFE`: 安全搜索级别 (0=关闭, 1=中等, 2=严格)
+
+**[!重要]**
+
+确保激活json格式以使用API。可以通过在`searxng/settings.yml`文件中添加以下行来完成：
+```yaml
+search:
+    formats:
+        - html
+        - json
+```
 
 ## 💻 本地开发
 

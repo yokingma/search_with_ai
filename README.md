@@ -155,7 +155,8 @@ Create and edit the [model.json](./deploy/model.json) file in the same directory
         "name": "gpt-4o-mini",
         "alias": "GPT-4o Mini",
         "description": "OpenAI GPT-4o Mini model",
-        "maxTokens": 262144
+        "maxTokens": 262144,
+        "intentAnalysis": true
       },
       {
         "name": "gpt-4o",
@@ -181,6 +182,8 @@ Create and edit the [model.json](./deploy/model.json) file in the same directory
   }
 ]
 ```
+
+Models with `intentAnalysis: true` will be used for search intent analysis and query rewriting. It's recommended to set smaller models here to improve response speed.
 
 **Configuration Description**:
 - `provider`: Model provider name
@@ -226,6 +229,16 @@ SearXNG is an open-source metasearch engine that aggregates results from multipl
 - `SEARXNG_ENGINES`: Set search engines (default: bing,google)
 - `SEARXNG_LANGUAGE`: Search language (zh=Chinese, en-US=English, all=all)
 - `SEARXNG_SAFE`: Safe search level (0=off, 1=moderate, 2=strict)
+
+**[!IMPORTANT]**
+
+Make sure to activate the json format to use the API. This can be done by adding the following line to the `searxng/settings.yml` file:
+```yaml
+search:
+    formats:
+        - html
+        - json
+```
 
 ## 💻 Local Development
 

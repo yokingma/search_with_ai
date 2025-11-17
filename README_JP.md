@@ -155,12 +155,21 @@ docker-compose.yamlと同じディレクトリに [model.json](./deploy/model.js
         "name": "gpt-4o-mini",
         "alias": "GPT-4o Mini",
         "description": "OpenAI GPT-4o Mini モデル",
+        "maxTokens": 262144,
+        "intentAnalysis": true
+      },
+      {
+        "name": "gpt-4o",
+        "alias": "GPT-4o",
+        "description": "OpenAI GPT-4o モデル",
         "maxTokens": 262144
       }
     ]
   }
 ]
 ```
+
+`intentAnalysis: true`に設定されたモデルは、検索意図分析とクエリ書き換えに使用されます。応答速度を向上させるため、ここでは小さなモデルを設定することをお勧めします。
 
 #### 4. サービス開始
 
@@ -199,6 +208,16 @@ SearXNGは、複数の検索サービスの結果を統合し、ユーザーを�
 - `SEARXNG_ENGINES`: 検索エンジンの設定 (デフォルト: bing,google)
 - `SEARXNG_LANGUAGE`: 検索言語 (zh=中国語, en-US=英語, all=全て)
 - `SEARXNG_SAFE`: セーフサーチレベル (0=オフ, 1=中程度, 2=厳格)
+
+**[!重要]**
+
+APIを使用するためにjson形式を有効にしてください。これは`searxng/settings.yml`ファイルに以下の行を追加することで実行できます：
+```yaml
+search:
+    formats:
+        - html
+        - json
+```
 
 ## 💻 ローカル開発
 
