@@ -67,8 +67,12 @@ export default {
     chatPlaceholder: '请输入您的问题...',
   },
   category: {
-    general: '全网',
+    general: '综合',
     science: '学术搜索',
+    news: '新闻',
+    it: 'IT技术',
+    files: '文件',
+    social_media: '社交媒体',
     images: '图片',
     videos: '视频'
   },

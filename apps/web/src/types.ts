@@ -45,7 +45,7 @@ export interface IResearchProgress {
   report?: string;
 }
 
-export type TSearCategory = 'general' | 'science' | 'images' | 'videos' | 'news'
+export type TSearCategory = 'general' | 'science' | 'images' | 'videos' | 'news' | 'it' | 'music' | 'social media' | 'files';
 export type TSearchEngine = 'GOOGLE' | 'BING' | 'SOGOU' | 'SEARXNG' | 'ZHIPU' | 'TAVILY';
 
 export type Theme = 'dark' | 'light';

@@ -69,6 +69,10 @@ export default {
   category: {
     general: 'General',
     science: 'Science',
+    news: 'News',
+    it: 'IT',
+    files: 'Files',
+    social_media: 'Social Media',
     images: 'Images',
     videos: 'Videos'
   },

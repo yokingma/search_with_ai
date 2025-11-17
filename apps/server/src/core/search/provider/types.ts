@@ -30,5 +30,7 @@ export enum ESearXNGCategory {
   IMAGES = 'images',
   VIDEOS = 'videos',
   NEWS = 'news',
-  MUSIC = 'music'
+  MUSIC = 'music',
+  SOCIAL_MEDIA = 'social media',
+  FILES = 'files',
 }

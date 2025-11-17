@@ -1,7 +1,7 @@
 <script setup lang="tsx">
 import { ref } from 'vue';
 import { SystemSumIcon } from 'tdesign-icons-vue-next';
-import { RiBookLine, RiToolsFill } from '@remixicon/vue';
+import { RiToolsFill } from '@remixicon/vue';
 import { useI18n } from 'vue-i18n';
 import { IChatInputParams } from '@/types';
 
@@ -35,13 +35,8 @@ const chatSenderRef = ref(null);
 const inputValue = ref('');
 
 const enabledDeepResearch = ref(false);
-const enabledScience = ref(false);
 const checkDeepResearch = () => {
   enabledDeepResearch.value = !enabledDeepResearch.value;
-};
-
-const checkScience = () => {
-  enabledScience.value = !enabledScience.value;
 };
 
 const onSearch = () => {
@@ -49,7 +44,6 @@ const onSearch = () => {
   const params: IChatInputParams = {
     value: inputValue.value.trim(),
     enabledDeepResearch: enabledDeepResearch.value,
-    enabledScience: enabledScience.value
   };
   emits('send', params);
   inputValue.value = '';
@@ -90,19 +84,7 @@ const onStop = () => {
           </div>
         </t-button>
         <t-button
-          v-if="showScience"
-          class="flex-auto shrink-0 rounded-full border border-zinc-200 bg-white text-black dark:border-zinc-500 dark:bg-zinc-600 dark:text-white"
-          :class="{ 'active': enabledScience }"
-          variant="text"
-          @click="checkScience"
-        >
-          <div class="flex flex-nowrap items-center gap-1">
-            <RiBookLine size="16px" />
-            <span>{{ t('category.science') }}</span>
-          </div>
-        </t-button>
-        <t-button
-          v-if="showScience"
+          v-if="false"
           class="flex-auto shrink-0 rounded-full border border-zinc-200 bg-white text-black dark:border-zinc-500 dark:bg-zinc-600 dark:text-white"
           variant="text"
         >

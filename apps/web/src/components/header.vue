@@ -6,8 +6,7 @@ import LanguageSelect from './language.vue';
 import { SwitchValue } from 'tdesign-vue-next';
 import { useAppStore } from '../store';
 import { useWindowSize } from '@vueuse/core';
-
-
+import SearxngSelect from './category.vue';
 
 defineOptions({
   name: 'PageHeader',
@@ -30,8 +29,9 @@ const onChangeTheme = (val: SwitchValue) => {
       <ModelSelect />
     </div>
     <div class="flex shrink-0 items-center gap-2">
-      <div class="">
+      <div class="flex flex-row gap-1">
         <SearchEngineSelect />
+        <SearxngSelect v-if="appStore.engine === 'SEARXNG'" />
       </div>
       <div v-if="width > 600" class="">
         <LanguageSelect />

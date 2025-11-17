@@ -4,7 +4,7 @@ import {
   IChatResponse,
   IProviderItemConfig
 } from '../../interface';
-import { ESearXNGCategory, ISearchResponseResult, SearchFunc, TSearchEngine } from '../search';
+import { ESearXNGCategory, ISearchResponseResult, ISearXNGOptions, SearchFunc, TSearchEngine } from '../search';
 import { getProviderClient } from '../llm';
 import { IChatOptions } from '../llm/openai';
 import { getSearchEngine } from '../search/utils';
@@ -38,8 +38,9 @@ export class SearchChat {
   private search: SearchFunc;
   private createChat: (options: IChatOptions, onMessage?: IStreamHandler) => Promise<IChatResponse>;
   private model: string;
-  private engine: TSearchEngine;
-  private searchGraph: SearchGraph;
+  // private engine: TSearchEngine;
+  private apiKey?: string;
+  private baseURL?: string;
 
   constructor(params?: ISearchChatOptions) {
     const { engine = 'SEARXNG', model, provider } = params || {};
@@ -48,26 +49,22 @@ export class SearchChat {
     const providerInfo = models.find(item => item.provider === provider);
     if (!providerInfo) throw new Error(`[RAG] provider ${provider} not found`);
     const { apiKey, baseURL } = providerInfo;
+    this.apiKey = apiKey;
+    this.baseURL = baseURL;
 
     const client = getProviderClient(provider, apiKey, baseURL);
     this.createChat = client.chat.bind(client);
     this.model = model;
-    this.engine = engine;
+    // this.engine = engine;
     this.search = getSearchEngine(engine);
-
-    // Initialize SearchGraph with searcher adapter
-    this.searchGraph = new SearchGraph(
-      { model, searcher: this.createSearcher() },
-      { apiKey: apiKey || '', baseURL }
-    );
   }
 
   /**
    * Create a SearcherFunction adapter for SearchGraph
    */
-  private createSearcher(): SearcherFunction {
+  private createSearcher(options?: Partial<ISearXNGOptions>): SearcherFunction {
     return async ({ query, count }) => {
-      const results = await this.search(query, [ESearXNGCategory.GENERAL], 'all');
+      const results = await this.search(query, options);
       return results.slice(0, count).map((item, index) => ({
         id: index,
         title: String(item.name || ''),
@@ -82,12 +79,21 @@ export class SearchChat {
   public async chat(options: IChatParams, onMessage?: IStreamHandler) {
     const { model } = this;
     const { messages, searchOptions } = options;
-    const { language = 'all' } = searchOptions || {};
+    const { language = 'all', categories = [ESearXNGCategory.GENERAL] } = searchOptions || {};
     let contexts: ISearchResponseResult[] = [];
 
     try {
+      // Initialize SearchGraph with searcher adapter
+      const { apiKey, baseURL } = this;
+      const searchGraph = new SearchGraph(
+        { model, searcher: this.createSearcher({
+          categories,
+          language
+        }) },
+        { apiKey: apiKey || '', baseURL }
+      );
       // Use SearchGraph for intelligent search workflow
-      const graph = this.searchGraph.compile();
+      const graph = searchGraph.compile();
       const langchainMessages = messages.map(msg => new HumanMessage(msg.content));
 
       const chunks = await graph.stream(
@@ -150,22 +156,22 @@ export class SearchChat {
     const userRawQuery = messages[messages.length - 1]?.content || '';
 
     // Image search (keep original logic)
-    let images: Record<string, any>[] = [];
-    if (this.engine === 'SEARXNG') {
-      const res = await this.search(userRawQuery, [ESearXNGCategory.IMAGES], language);
-      const engines = process.env.SEARXNG_IMAGES_ENGINES ? process.env.SEARXNG_IMAGES_ENGINES.split(',') : [];
+    // let images: Record<string, any>[] = [];
+    // if (this.engine === 'SEARXNG') {
+    //   const res = await this.search(userRawQuery, categories, language);
+    //   const engines = process.env.SEARXNG_IMAGES_ENGINES ? process.env.SEARXNG_IMAGES_ENGINES.split(',') : [];
 
-      images = res.filter(item => {
-        if (!item.thumbnail) return false;
-        if (engines.length > 0)
-          return engines.some(engine => item.engine?.includes(engine));
-        return item.engine?.includes('bing') || item.engine?.includes('google');
-      });
-    }
+    //   images = res.filter(item => {
+    //     if (!item.thumbnail) return false;
+    //     if (engines.length > 0)
+    //       return engines.some(engine => item.engine?.includes(engine));
+    //     return item.engine?.includes('bing') || item.engine?.includes('google');
+    //   });
+    // }
 
-    for (const image of images) {
-      onMessage?.({ image });
-    }
+    // for (const image of images) {
+    //   onMessage?.({ image });
+    // }
 
     for (const context of contexts) {
       onMessage?.({ context });

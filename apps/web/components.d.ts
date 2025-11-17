@@ -8,6 +8,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    Category: typeof import('./src/components/category.vue')['default']
     ChatAnswer: typeof import('./src/components/chat/ChatAnswer.vue')['default']
     ChatEvent: typeof import('./src/components/chat/ChatEvent.vue')['default']
     ChatMessage: typeof import('./src/components/chat/ChatMessage.vue')['default']
@@ -39,7 +40,6 @@ declare module 'vue' {
     TImage: typeof import('tdesign-vue-next')['Image']
     TImageViewer: typeof import('tdesign-vue-next')['ImageViewer']
     TLink: typeof import('tdesign-vue-next')['Link']
-    TLoading: typeof import('tdesign-vue-next')['Loading']
     TMenu: typeof import('tdesign-vue-next')['Menu']
     TMenuItem: typeof import('tdesign-vue-next')['MenuItem']
     TOption: typeof import('tdesign-vue-next')['Option']

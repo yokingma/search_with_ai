@@ -7,7 +7,7 @@ const URL = process.env.SEARXNG_HOSTNAME || 'http://localhost:8080';
 
 const search: SearchFunc = async (params: ISearXNGOptions) => {
   try {
-    const { q, pageno = 1, categories = [ESearXNGCategory.GENERAL], engines = '', language = 'all' } = params;
+    const { q, pageno = 1, categories = [ESearXNGCategory.GENERAL], engines = '', language = 'auto' } = params;
     console.log('searxng language', language);
     const safesearch = process.env.SEARXNG_SAFE ?? 0;
     const res = await httpRequest({
@@ -46,19 +46,20 @@ const search: SearchFunc = async (params: ISearXNGOptions) => {
 
 const searchWithSearXNG: SearchFunc = async (
   query: string,
-  categories?: ESearXNGCategory[],
-  language = 'all'
+  options?: Partial<ISearXNGOptions>
 ) => {
   if (!query.trim()) {
     throw new Error('Query cannot be empty');
   }
 
-  language = getConfig('SEARXNG_LANGUAGE', language);
+  const { categories = [ESearXNGCategory.GENERAL] } = options || {};
+  let { language = 'auto' } = options || {};
+
   const defaultEngines = getConfig('SEARXNG_ENGINES', '').split(',');
   const engines = defaultEngines.map(item => item.trim());
 
   // Scientific search only supports English, so set to all.
-  if (categories?.includes(ESearXNGCategory.SCIENCE)) language = 'all';
+  if (categories?.includes(ESearXNGCategory.SCIENCE)) language = 'auto';
 
   try {
     const res = await retryAsync(() => search({

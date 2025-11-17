@@ -11,6 +11,7 @@ import RelatedQuery from './chat/ChatRelated.vue';
 import ModelSelect from './models.vue';
 import SearchEngineSelect from './engine.vue';
 import LanguageSelect from './language.vue';
+import SearxngSelect from './category.vue';
 
 import ChatHistory from './history.vue';
 
@@ -23,6 +24,7 @@ export {
   ModelSelect,
   LanguageSelect,
   SearchEngineSelect,
+  SearxngSelect,
   PageLayout,
   PageFooter,
   PageHeader,

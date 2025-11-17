@@ -34,7 +34,7 @@ let abortCtrl: AbortController | null = null;
 const messages = ref<IChatMessage[]>([]);
 
 const onChat = (params: IChatInputParams) => {
-  const { value } = params;
+  const { value, enabledDeepResearch, enabledScience } = params;
   if (!value.trim()) return MessagePlugin.warning('请输入对话问题');
   sendMessage({
     role: 'user',
