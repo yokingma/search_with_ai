@@ -77,22 +77,31 @@ export type Configuration = z.infer<typeof ConfigurationSchema>;
 export type RewriteOutput = z.infer<typeof RewriteOutputSchema>;
 
 export class SearchGraph {
-  private client: ChatOpenAI | ChatAnthropic;
+  private options: GraphClientOptions;
   private searcher: SearcherFunction;
+  private intentModel?: string;
+  private model: string;
 
   /**
    * @param model 意图识别和问题重写的model
    * @param options 兼容OpenAI SDK的配置（KEY & BaseURL）
    */
   constructor(
-    { model, searcher }: { model: string; searcher: SearcherFunction },
+    { model, intentModel, searcher }: { model: string; intentModel?: string; searcher: SearcherFunction },
     options: GraphClientOptions
   ) {
-    const { apiKey = 'empty', baseURL, type = 'openai', ...rest } = options;
+    this.options = options;
+    this.intentModel = intentModel;
+    this.model = model;
     this.searcher = searcher;
+  }
+
+  createClient(model?: string) {
+    const { apiKey, type, baseURL, ...rest } = this.options;
+    const { model: defaultModel } = this;
     if (type === 'anthropic') {
       const options: AnthropicInput & BaseChatModelParams = {
-        model,
+        model: model ?? defaultModel,
         temperature: 0,
         anthropicApiKey: apiKey,
         ...rest,
@@ -100,11 +109,10 @@ export class SearchGraph {
       if (baseURL) {
         options.anthropicApiUrl = baseURL;
       }
-      this.client = new ChatAnthropic(options);
-      return;
+      return new ChatAnthropic(options);
     }
-    this.client = new ChatOpenAI({
-      model,
+    return new ChatOpenAI({
+      model: model ?? defaultModel,
       temperature: 0,
       openAIApiKey: apiKey,
       configuration: {
@@ -158,12 +166,13 @@ export class SearchGraph {
   async intentAnalysis(
     state: typeof StateAnnotation.State
   ): Promise<Partial<typeof StateAnnotation.State>> {
+    const { intentModel } = this;
     const { messages } = state;
     const userInput = messages[messages.length - 1];
     const topic = getResearchTopic([userInput]);
-
+    const client = this.createClient(intentModel);
     const agent = createAgent({
-      model: this.client,
+      model: client,
       tools: [],
       responseFormat: toolStrategy(ShouldContinueOutputSchema, {
         toolMessageContent: 'Decide whether to search the web based on the user input.',
@@ -201,6 +210,7 @@ export class SearchGraph {
     state: typeof StateAnnotation.State,
     config: RunnableConfig<Configuration>
   ): Promise<Partial<typeof StateAnnotation.State>> {
+    const { intentModel } = this;
     const messages = state.messages;
     const { numberOfQueries = 3 } = config.configurable ?? {};
 
@@ -208,8 +218,9 @@ export class SearchGraph {
     const currentDate = getCurrentDate();
 
     try {
+      const client = this.createClient(intentModel);
       const agent = createAgent({
-        model: this.client,
+        model: client,
         tools: [],
         responseFormat: toolStrategy(RewriteOutputSchema, {
           toolMessageContent: `I will generate ${numberOfQueries} search queries based on your input.`,

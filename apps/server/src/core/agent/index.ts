@@ -19,6 +19,7 @@ import { HumanMessage } from 'langchain';
 interface ISearchChatOptions {
   engine?: TSearchEngine
   model?: string
+  intentModel?: string
   provider?: string
 }
 
@@ -38,23 +39,24 @@ export class SearchChat {
   private search: SearchFunc;
   private createChat: (options: IChatOptions, onMessage?: IStreamHandler) => Promise<IChatResponse>;
   private model: string;
+  private intentModel?: string;
   // private engine: TSearchEngine;
   private apiKey?: string;
   private baseURL?: string;
 
   constructor(params?: ISearchChatOptions) {
-    const { engine = 'SEARXNG', model, provider } = params || {};
+    const { engine = 'SEARXNG', model, intentModel, provider } = params || {};
     if (!model) throw new Error('[RAG] model is required');
     if (!provider) throw new Error('[RAG] provider is required');
     const providerInfo = models.find(item => item.provider === provider);
     if (!providerInfo) throw new Error(`[RAG] provider ${provider} not found`);
     const { apiKey, baseURL } = providerInfo;
-    this.apiKey = apiKey;
-    this.baseURL = baseURL;
-
     const client = getProviderClient(provider, apiKey, baseURL);
     this.createChat = client.chat.bind(client);
     this.model = model;
+    this.intentModel = intentModel;
+    this.apiKey = apiKey;
+    this.baseURL = baseURL;
     // this.engine = engine;
     this.search = getSearchEngine(engine);
   }
@@ -77,16 +79,16 @@ export class SearchChat {
   }
 
   public async chat(options: IChatParams, onMessage?: IStreamHandler) {
-    const { model } = this;
+    const { model, intentModel } = this;
     const { messages, searchOptions } = options;
-    const { language = 'all', categories = [ESearXNGCategory.GENERAL] } = searchOptions || {};
+    const { language = 'auto', categories = [ESearXNGCategory.GENERAL] } = searchOptions || {};
     let contexts: ISearchResponseResult[] = [];
 
     try {
       // Initialize SearchGraph with searcher adapter
       const { apiKey, baseURL } = this;
       const searchGraph = new SearchGraph(
-        { model, searcher: this.createSearcher({
+        { model, intentModel, searcher: this.createSearcher({
           categories,
           language
         }) },

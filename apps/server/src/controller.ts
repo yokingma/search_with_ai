@@ -50,12 +50,12 @@ export const enginesController = async (ctx: Context) => {
   const zhipuKey = getConfig('ZHIPU_KEY');
   const bingKey = getConfig('BING_SEARCH_KEY');
   const availableEngines: { code: TSearchEngine; name: string }[] = [];
+  const SEARXNG_URL = getConfig('SEARXNG_HOSTNAME');
+  if (SEARXNG_URL) availableEngines.push({ code: 'SEARXNG', name: 'SearXNG' });
   if (googleKey) availableEngines.push({ code: 'GOOGLE', name: 'Google' });
   if (bingKey) availableEngines.push({ code: 'BING', name: 'Bing' });
   if (tavilyKey) availableEngines.push({ code: 'TAVILY', name: 'Tavily' });
   if (zhipuKey) availableEngines.push({ code: 'ZHIPU', name: 'Zhipu' });
-  const SEARXNG_URL = getConfig('SEARXNG_HOSTNAME');
-  if (SEARXNG_URL) availableEngines.push({ code: 'SEARXNG', name: 'SearXNG' });
   // Sogou are always available
   availableEngines.push({ code: 'SOGOU', name: 'Sogou' });
   ctx.body = {
@@ -83,9 +83,14 @@ export const searchChatController = async (ctx: Context) => {
 
   const { messages, engine, categories, language, provider, model } = value;
 
+  // get intent model from config
+  const providerConfig = models.find(item => item.provider === provider);
+  const intentModel = providerConfig?.models.find(m => m.intentAnalysis === true)?.name;
+
   try {
     const searchChat = new SearchChat({
       model,
+      intentModel, // Use the same model for intent analysis
       engine,
       provider
     });

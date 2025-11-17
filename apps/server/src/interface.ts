@@ -14,6 +14,7 @@ export interface IModelItemConfig {
   alias?: string;
   description?: string;
   maxTokens?: number;
+  intentAnalysis?: boolean;
   [x: string]: any;
 }
 
