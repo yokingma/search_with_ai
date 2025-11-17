@@ -67,7 +67,7 @@ Transform the user's original question (which may be incomplete, vague, or lacki
 - **Avoid duplication**: Do not generate similar or overlapping queries
 
 ### 3. Query Optimization Requirements
-- **Timeliness guarantee**: Ensure queries can retrieve the latest information, current date is {{current_date}}
+- **Timeliness guarantee**: Ensure queries can retrieve the latest information, **TODAY IS {{current_date}}**
 - **Professional enhancement**: Use professional terminology and industry keywords
 - **Search effectiveness first**: Optimize queries to improve relevance and accuracy of search results
 
