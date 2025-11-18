@@ -25,6 +25,8 @@ interface ISearchChatOptions {
 
 interface IChatParams {
   messages: IChatInputMessage[]
+  systemPrompt?: string
+  temperature?: number
   searchOptions?: {
     categories?: ESearXNGCategory[]
     language?: string
@@ -80,7 +82,7 @@ export class SearchChat {
 
   public async chat(options: IChatParams, onMessage?: IStreamHandler) {
     const { model, intentModel } = this;
-    const { messages, searchOptions } = options;
+    const { messages, systemPrompt, temperature, searchOptions } = options;
     const { language = 'auto', categories = [ESearXNGCategory.GENERAL] } = searchOptions || {};
     let contexts: ISearchResponseResult[] = [];
 
@@ -143,7 +145,12 @@ export class SearchChat {
 
       // If no search needed, respond directly
       if (!shouldSearch) {
-        await this.createChat({ messages, model }, (msg) => {
+        await this.createChat({
+          messages,
+          model,
+          temperature,
+          system: systemPrompt
+        }, (msg) => {
           onMessage?.(msg);
         });
         onMessage?.(null, true);
@@ -181,7 +188,12 @@ export class SearchChat {
 
     const { messages: extendedMessages } = this.extendUserMessage(userRawQuery, contexts);
 
-    await this.createChat({ messages: extendedMessages, model }, (msg) => {
+    await this.createChat({
+      messages: extendedMessages,
+      model,
+      temperature,
+      system: systemPrompt
+    }, (msg) => {
       onMessage?.(msg);
     });
 

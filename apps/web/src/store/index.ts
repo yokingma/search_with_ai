@@ -10,6 +10,9 @@ export const useAppStore = defineStore('app', () => {
   const language = ref<Lan>();
   // searxng categories
   const category = ref<TSearCategory>('general');
+  // llm
+  const systemPrompt = ref<string>('You are a helpful assistant that helps the user to search the web effectively.');
+  const temperature = ref(0.6);
 
   const updateModel = (item?: IModelItem) => {
     model.value = item;
@@ -32,6 +35,13 @@ export const useAppStore = defineStore('app', () => {
     category.value = val;
   };
 
+  const updateSystemPrompt = (val: string) => {
+    systemPrompt.value = val;
+  };
+
+  const updateTemperature = (val: number) => {
+    temperature.value = val;
+  };
 
   return {
     engine,
@@ -39,11 +49,15 @@ export const useAppStore = defineStore('app', () => {
     theme,
     language,
     category,
+    systemPrompt,
+    temperature,
     updateModel,
     updateEngine,
     updateTheme,
     updateLanguage,
     updateCategory,
+    updateSystemPrompt,
+    updateTemperature,
   };
 }, {
   persist: true

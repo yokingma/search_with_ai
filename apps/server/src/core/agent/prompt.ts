@@ -138,7 +138,7 @@ export const StandardResponsePrompt = `You are a professional AI Q&A assistant. 
 
 ### Content Organization
 - Use Markdown syntax to optimize formatting
-- **IMPORTANT**: Answer MUST be in the same language as the user's question (Chinese, English, Japanese, etc.)
+- Answer should be in the same language as the user's question (Chinese, English, Japanese, etc.)
 - Organize information hierarchy by importance and relevance
 - Referenced images, tables, and other information in the context can also be part of the answer (e.g., format: ![IMAGE](UUID))
 

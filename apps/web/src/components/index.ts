@@ -15,6 +15,8 @@ import SearxngSelect from './category.vue';
 
 import ChatHistory from './history.vue';
 
+import SystemSettings from './settings.vue';
+
 export {
   ChatMessage,
   ChatSources,
@@ -29,4 +31,5 @@ export {
   PageFooter,
   PageHeader,
   ChatHistory,
+  SystemSettings,
 };

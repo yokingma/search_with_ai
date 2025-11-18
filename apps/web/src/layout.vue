@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, provide, ref, watch } from 'vue';
-import { RiGithubLine, RiHistoryLine, RiPencilAi2Line, RiSidebarFoldLine, RiSidebarUnfoldLine } from '@remixicon/vue';
-import { PageHeader, ChatHistory } from './components';
+import { RiGithubLine, RiHistoryLine, RiPencilAi2Line, RiSettings6Line, RiSidebarFoldLine, RiSidebarUnfoldLine } from '@remixicon/vue';
+import { PageHeader, ChatHistory, SystemSettings } from './components';
 import { scrollWrapperKey } from '@/types';
 import { ROUTE_NAME } from '@/constants';
 import { useRouter } from 'vue-router';
@@ -31,6 +31,7 @@ const curHistory = ref<string>();
 const count = ref(0);
 
 const showHistoryModal = ref(false);
+const showSystemSettings = ref(false);
 
 provide(scrollWrapperKey, {
   scrollWrapper
@@ -88,7 +89,6 @@ async function loadHistory () {
         width="288px"
         :theme="theme"
         :collapsed="collapsed"
-        @change="() => { curMenu = ''; }"
       >
         <template #logo>
           <img :src="logoUrl" class="w-8 cursor-pointer" @click="backHome" />
@@ -126,14 +126,22 @@ async function loadHistory () {
           </div>
         </div>
         <template #operations>
-          <t-tooltip :content="collapsed ? t('expand') : t('collapse')" placement="right">
-            <t-button variant="text" shape="square" @click="() => { collapsed = !collapsed; }">
-              <template #icon>
-                <RiSidebarFoldLine v-if="!collapsed" size="18px" />
-                <RiSidebarUnfoldLine v-else size="18px" />
-              </template>
-            </t-button>
-          </t-tooltip>
+          <div class="flex cursor-pointer items-center gap-2 rounded-lg p-2 hover:bg-zinc-100 dark:hover:bg-zinc-800" @click="() => { collapsed = !collapsed; }">
+            <t-tooltip :content="collapsed ? t('expand') : t('collapse')" placement="right">
+              <RiSidebarFoldLine v-if="!collapsed" size="18px" />
+              <RiSidebarUnfoldLine v-else size="18px" />
+            </t-tooltip>
+            <span v-if="!collapsed">{{ collapsed ? t('expand') : t('collapse') }}</span>
+          </div>
+          <div
+            class="flex cursor-pointer items-center gap-2 rounded-lg p-2 hover:bg-zinc-100 dark:hover:bg-zinc-800"
+            @click="showSystemSettings = !showSystemSettings"
+          >
+            <t-tooltip :content="t('settings')" placement="right">
+              <RiSettings6Line size="18px" />
+            </t-tooltip>
+            <span v-if="!collapsed">{{ t('settings') }}</span>
+          </div>
         </template>
       </t-menu>
     </div>
@@ -149,6 +157,13 @@ async function loadHistory () {
     </div>
     <t-dialog v-if="collapsed" v-model:visible="showHistoryModal" :footer="false" :header="t('history')">
       <ChatHistory v-model="curHistory" :list="histories" @select="onSelectChat" @remove="onRemoveItem" />
+    </t-dialog>
+    <t-dialog
+      v-model:visible="showSystemSettings"
+      :footer="false"
+      :header="t('settings')"
+    >
+      <SystemSettings />
     </t-dialog>
   </div>
 </template>

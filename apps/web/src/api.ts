@@ -14,10 +14,10 @@ export interface IQueryOptions {
   model?: string | null
   provider?: string
   engine?: string | null
-  system?: string
+  systemPrompt?: string
+  temperature?: number
   language?: string
   categories?: TSearCategory[]
-  reload?: boolean
   onMessage: (data: Record<string, any>) => void
   onOpen?: () => void
   onClose?: () => void
@@ -37,7 +37,7 @@ export interface IDeepResearchOptions {
 }
 
 export async function chat(messages: IChatMessage[], options: IQueryOptions) {
-  const { ctrl, model, provider, engine, categories, language, onMessage, onOpen, onClose, onError } = options;
+  const { ctrl, model, provider, engine, categories, language, systemPrompt, temperature, onMessage, onOpen, onClose, onError } = options;
   const url = `${BASE_URL}${URLS.CHAT}`;
   await fetchEventData(url, {
     method: 'POST',
@@ -48,7 +48,9 @@ export async function chat(messages: IChatMessage[], options: IQueryOptions) {
       provider,
       language,
       categories,
-      engine
+      engine,
+      systemPrompt,
+      temperature
     },
     headers: {
       'Content-Type': 'application/json'

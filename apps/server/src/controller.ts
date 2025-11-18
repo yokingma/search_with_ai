@@ -14,6 +14,8 @@ interface ISearchChatRequest {
   engine: TSearchEngine;
   categories?: ESearXNGCategory[];
   language?: string;
+  systemPrompt?: string;
+  temperature?: number;
   provider: string;
   model: string;
 }
@@ -27,6 +29,8 @@ const searchChatSchema = Joi.object<ISearchChatRequest>({
   categories: Joi.array().items(Joi.string()).optional(),
   language: Joi.string().optional().default('all'),
   provider: Joi.string().required(),
+  systemPrompt: Joi.string().optional(),
+  temperature: Joi.number().optional().default(0.6),
   model: Joi.string().required(),
 });
 
@@ -81,7 +85,7 @@ export const searchChatController = async (ctx: Context) => {
   ctx.res.setHeader('Connection', 'keep-alive');
   ctx.res.statusCode = 200;
 
-  const { messages, engine, categories, language, provider, model } = value;
+  const { messages, engine, categories, language, provider, model, temperature, systemPrompt } = value;
 
   // get intent model from config
   const providerConfig = models.find(item => item.provider === provider);
@@ -96,6 +100,8 @@ export const searchChatController = async (ctx: Context) => {
     });
 
     await searchChat.chat({
+      systemPrompt,
+      temperature,
       messages,
       searchOptions: { categories, language }
     }, (response, done) => {

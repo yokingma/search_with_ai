@@ -102,13 +102,12 @@ onUnmounted(() => {
 });
 
 async function sendMessage(message: IChatMessage) {
+  const { language, systemPrompt, model, category, engine, temperature } = appStore;
   if (loading.value) return MessagePlugin.info('正在回答中，请稍后...');
-  if (!appStore.model) return MessagePlugin.info('请先选择AI模型~');
+  if (!model) return MessagePlugin.info('请先选择AI模型~');
   
   abortCtrl = new AbortController();
   loading.value = true;
-
-  const language = appStore.language === 'en' ? 'all' : 'zh';
 
   // push user message
   messages.value.push(message);
@@ -136,7 +135,6 @@ async function sendMessage(message: IChatMessage) {
   });
   try {
     loading.value = true;
-    const { model, engine, category } = appStore;
     const provider = model?.provider;
     const modelName = model?.name;
     await chat(queryMessages, {
@@ -145,6 +143,8 @@ async function sendMessage(message: IChatMessage) {
       engine,
       language,
       categories: [category],
+      systemPrompt,
+      temperature,
       ctrl: abortCtrl,
       onMessage: (data: any) => {
         if (data?.context) {

@@ -25,6 +25,7 @@ declare module 'vue' {
     Models: typeof import('./src/components/models.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    Settings: typeof import('./src/components/settings.vue')['default']
     TAlert: typeof import('tdesign-vue-next')['Alert']
     TBadge: typeof import('tdesign-vue-next')['Badge']
     TButton: typeof import('tdesign-vue-next')['Button']
@@ -37,6 +38,8 @@ declare module 'vue' {
     TDialog: typeof import('tdesign-vue-next')['Dialog']
     TDivider: typeof import('tdesign-vue-next')['Divider']
     TDropdown: typeof import('tdesign-vue-next')['Dropdown']
+    TForm: typeof import('tdesign-vue-next')['Form']
+    TFormItem: typeof import('tdesign-vue-next')['FormItem']
     TImage: typeof import('tdesign-vue-next')['Image']
     TImageViewer: typeof import('tdesign-vue-next')['ImageViewer']
     TLink: typeof import('tdesign-vue-next')['Link']
@@ -46,8 +49,10 @@ declare module 'vue' {
     TPopup: typeof import('tdesign-vue-next')['Popup']
     TSelect: typeof import('tdesign-vue-next')['Select']
     TSkeleton: typeof import('tdesign-vue-next')['Skeleton']
+    TSlider: typeof import('tdesign-vue-next')['Slider']
     TSwitch: typeof import('tdesign-vue-next')['Switch']
     TTag: typeof import('tdesign-vue-next')['Tag']
+    TTextarea: typeof import('tdesign-vue-next')['Textarea']
     TTooltip: typeof import('tdesign-vue-next')['Tooltip']
   }
 }
