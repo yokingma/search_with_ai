@@ -1,7 +1,7 @@
 {
   "name": "search_with_ai",
   "description": "ai search with node.js",
-  "version": "1.2.0-alpha.3",
+  "version": "1.2.0-alpha.4",
   "workspaces": [
     "apps/*"
   ],
