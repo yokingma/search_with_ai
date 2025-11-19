@@ -19,13 +19,14 @@ export function getProviderClient(provider: string, key?: string, baseUrl?: stri
 
   // api type
   switch (target.type) {
-    case 'openai':
-      return new BaseOpenAIChat(provider, key, baseUrl);
     case 'gemini':
-      return new GeminiChat();
+      return new GeminiChat(key, baseUrl);
     case 'anthropic':
       return new BaseAnthropicChat(provider, key, baseUrl);
+    case 'vertexai':
+      return new GeminiChat(key, baseUrl, true);
+    case 'openai':
     default:
-      throw new Error(`Provider ${provider} not supported`);
+      return new BaseOpenAIChat(provider, key, baseUrl);
   }
 }

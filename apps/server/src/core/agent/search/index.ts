@@ -2,7 +2,8 @@ import {
   IChatInputMessage,
   IStreamHandler,
   IChatResponse,
-  IProviderItemConfig
+  IProviderItemConfig,
+  ProviderType
 } from '../../../interface.js';
 import { ESearXNGCategory, ISearchResponseResult, ISearXNGOptions, SearchFunc, TSearchEngine } from '../../search/index.js';
 import { getProviderClient } from '../../llm/index.js';
@@ -45,6 +46,7 @@ export class SearchChat {
   // private engine: TSearchEngine;
   private apiKey?: string;
   private baseURL?: string;
+  private apiType?: ProviderType;
 
   constructor(params?: ISearchChatOptions) {
     const { engine = 'SEARXNG', model, intentModel, provider } = params || {};
@@ -59,6 +61,7 @@ export class SearchChat {
     this.intentModel = intentModel;
     this.apiKey = apiKey;
     this.baseURL = baseURL;
+    this.apiType = providerInfo.type;
     // this.engine = engine;
     this.search = getSearchEngine(engine);
   }
@@ -89,13 +92,18 @@ export class SearchChat {
     try {
       // Initialize SearchGraph with searcher adapter
       const { apiKey, baseURL } = this;
-      const searchGraph = new SearchGraph(
-        { model, intentModel, searcher: this.createSearcher({
+      const searchGraph = new SearchGraph({
+        model,
+        intentModel,
+        searcher: this.createSearcher({
           categories,
           language
-        }) },
-        { apiKey: apiKey || '', baseURL }
-      );
+        })
+      }, {
+        type: this.apiType,
+        apiKey: apiKey || '',
+        baseURL
+      });
       // Use SearchGraph for intelligent search workflow
       const graph = searchGraph.compile();
       const langchainMessages = messages.map(msg => new HumanMessage(msg.content));

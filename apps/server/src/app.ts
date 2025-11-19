@@ -25,7 +25,7 @@ app.use(historyApiFallback({
 }));
 
 // static path
-const staticPath = path.join(__dirname, '../web/dist');
+const staticPath = path.join(import.meta.dirname, '../web/dist');
 app.use(serve(staticPath, {
   gzip: true,
   index: 'index.html'

@@ -18,9 +18,11 @@ export interface IModelItemConfig {
   [x: string]: any;
 }
 
+export type ProviderType = 'openai' | 'anthropic' | 'gemini' | 'vertexai';
+
 export interface IProviderItemConfig {
   provider: string;
-  type: 'openai' | 'gemini' | 'anthropic';
+  type: ProviderType;
   models: IModelItemConfig[];
   baseURL?: string;
   apiKey?: string;

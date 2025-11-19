@@ -1,19 +1,23 @@
 import { BaseChat } from './base.js';
 import { IChatInputMessage, IStreamHandler } from '../../interface.js';
 import { IChatOptions } from './openai.js';
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import { GoogleGenAI } from '@google/genai';
 
 export class GeminiChat implements BaseChat {
   private key?: string;
   public provider = 'gemini';
-  private genAI?: GoogleGenerativeAI;
+  private client?: GoogleGenAI;
   private baseUrl?: string;
 
-  constructor() {
-    this.key = process.env.GOOGLE_KEY;
-    this.baseUrl = process.env.GOOGLE_PROXY_URL;
+  constructor(key?: string, baseUrl?: string, vertexai = false) {
+    this.key = key;
+    this.baseUrl = baseUrl;
     if (this.key) {
-      this.genAI = new GoogleGenerativeAI(this.key);
+      this.client = new GoogleGenAI({
+        vertexai,
+        apiKey: this.key,
+        ...(this.baseUrl && { baseUrl: this.baseUrl })
+      });
     }
   }
 
@@ -21,43 +25,32 @@ export class GeminiChat implements BaseChat {
     options: IChatOptions,
     onMessage?: IStreamHandler
   ) {
-    if (!this.genAI) {
+    if (!this.client) {
       throw new Error('Google AI: Key is Required.');
     }
-    const { messages, system = 'You are a helpful assistant.', model } = options;
-    const userMessage = messages.pop();
-    if (!userMessage?.content) {
-      throw new Error('Google AI: User message is Required.');
-    }
-    const msgs = this.transformMessage(messages);
-    const modelChat = this.genAI.getGenerativeModel({
+    const { messages, temperature, system = 'You are a helpful assistant.', model } = options;
+
+    const history = this.transformMessage(messages);
+    const response = await this.client.models.generateContentStream({
       model,
-      systemInstruction: system
-    }, {
-      baseUrl: this.baseUrl
-    });
-    const chat = modelChat.startChat({
-      history: msgs,
-    });
-    if (typeof onMessage === 'function') {
-      // stream
-      let content = '';
-      const result = await chat.sendMessageStream(userMessage.content);
-      for await (const chunk of result.stream) {
-        content += chunk.text();
-        onMessage({
-          content: chunk.text()
-        }, false);
+      contents: history,
+      config: {
+        systemInstruction: system,
+        temperature
       }
-      onMessage(null, true);
-      return {
-        content
-      };
+    });
+
+    let content = '';
+
+    for await (const chunk of response) {
+      const text = chunk.text;
+      if (typeof onMessage === 'function') {
+        onMessage({ content: text }, false);
+      }
+      content += text;
     }
-    const result = await chat.sendMessage(userMessage.content);
-    return {
-      content: result.response.text()
-    };
+
+    return { content };
   }
 
   public async listModels() {
@@ -65,16 +58,9 @@ export class GeminiChat implements BaseChat {
   }
 
   private transformMessage(messages: IChatInputMessage[]) {
-    return messages.map(msg => {
-      const role = msg.role === 'assistant' ? 'model' : 'user';
-      return {
-        role,
-        parts: [
-          {
-            text: msg.content,
-          },
-        ],
-      };
-    });
+    return messages.map(msg => ({
+      role: msg.role === 'assistant' ? 'model' : 'user',
+      parts: [{ text: msg.content }]
+    }));
   }
 }

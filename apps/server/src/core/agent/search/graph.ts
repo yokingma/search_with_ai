@@ -8,6 +8,8 @@ import {
 import type { BaseMessageLike } from '@langchain/core/messages';
 import { ChatOpenAI, ClientOptions } from '@langchain/openai';
 import { AnthropicInput, ChatAnthropic } from '@langchain/anthropic';
+import { ChatGoogleGenerativeAI } from '@langchain/google-genai';
+import { ChatVertexAI } from '@langchain/google-vertexai';
 import { BaseChatModelParams } from '@langchain/core/language_models/chat_models';
 import { createAgent, toolStrategy } from 'langchain';
 import { getCurrentDate, getResearchTopic } from '../utils.js';
@@ -19,7 +21,8 @@ import * as z from 'zod';
 
 export interface GraphClientOptions extends ClientOptions {
   apiKey?: string;
-  type?: 'openai' | 'anthropic';
+  type?: 'openai' | 'anthropic' | 'gemini' | 'vertexai';
+  temperature?: number;
 }
 export type GraphResult = typeof StateAnnotation.State;
 export enum EGraphEvent {
@@ -97,30 +100,51 @@ export class SearchGraph {
   }
 
   createClient(model?: string) {
-    const { apiKey, type, baseURL, ...rest } = this.options;
+    const { apiKey, type, baseURL, temperature = 0, ...rest } = this.options;
     const { model: defaultModel } = this;
-    if (type === 'anthropic') {
-      const options: AnthropicInput & BaseChatModelParams = {
-        model: model ?? defaultModel,
-        temperature: 0,
-        anthropicApiKey: apiKey,
-        ...rest,
-      };
-      if (baseURL) {
-        options.anthropicApiUrl = baseURL;
+    switch (type) {
+      case 'anthropic': {
+        // Gemini model via OpenAI-compatible API
+        const options: AnthropicInput & BaseChatModelParams = {
+          model: model ?? defaultModel,
+          temperature,
+          anthropicApiKey: apiKey,
+          ...rest,
+        };
+        if (baseURL) {
+          options.anthropicApiUrl = baseURL;
+        }
+        return new ChatAnthropic(options);
       }
-      return new ChatAnthropic(options);
+      case 'gemini':
+        // Gemini model via OpenAI-compatible API
+        return new ChatGoogleGenerativeAI({
+          model: model ?? defaultModel,
+          temperature,
+          apiKey,
+          baseUrl: baseURL || undefined,
+          ...rest,
+        });
+      case 'vertexai':
+        return new ChatVertexAI({
+          model: model ?? defaultModel,
+          temperature,
+          apiKey,
+          ...rest,
+        });
+      case 'openai':
+      default:
+        return new ChatOpenAI({
+          model: model ?? defaultModel,
+          temperature,
+          openAIApiKey: apiKey,
+          configuration: {
+            apiKey,
+            baseURL,
+            ...rest,
+          }
+        });
     }
-    return new ChatOpenAI({
-      model: model ?? defaultModel,
-      temperature: 0,
-      openAIApiKey: apiKey,
-      configuration: {
-        apiKey,
-        baseURL,
-        ...rest,
-      },
-    });
   }
 
   compile() {
