@@ -1,4 +1,4 @@
-import Models from '../../model.json';
+import Models from '../../model.json' with { type: 'json' };
 import { IProviderItemConfig } from '../../interface.js';
 import { BaseOpenAIChat } from './openai.js';
 import { GeminiChat } from './gemini.js';

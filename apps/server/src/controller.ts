@@ -1,6 +1,6 @@
 import { Context } from 'koa';
 import { SearchChat } from './core/agent/index.js';
-import Models from './model.json';
+import Models from './model.json' with { type: 'json' };
 import { IProviderItemConfig, IChatInputMessage } from './interface.js';
 import { ESearXNGCategory, TSearchEngine } from './core/search/index.js';
 import Joi from 'joi';

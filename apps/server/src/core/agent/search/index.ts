@@ -12,7 +12,7 @@ import { getSearchEngine } from '../../search/utils.js';
 import { logger, replaceVariable } from '../../../utils/index.js';
 import { StandardResponsePrompt } from './prompt.js';
 import { getCurrentDate } from '../utils.js';
-import Models from '../../../model.json';
+import Models from '../../../model.json' with { type: 'json' };
 import { SearchGraph, EGraphEvent } from './graph.js';
 import { SearcherFunction, SearchResultItem } from '../types.js';
 import { HumanMessage } from 'langchain';
