@@ -1,9 +1,9 @@
 import url from 'url';
-import { logger } from './logger';
-import { RequestConfig } from '../interface';
+import { logger } from './logger.js';
+import { RequestConfig } from '../interface.js';
 
-export { logger } from './logger';
-export { getConfig } from './config';
+export { logger } from './logger.js';
+export { getConfig } from './config.js';
 
 export const httpRequest = async (config: RequestConfig) => {
   const { endpoint, timeout = 10 * 60 * 1000, query, headers, data, method = 'GET' } = config;

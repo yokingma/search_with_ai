@@ -1,6 +1,6 @@
 import OpenAI from 'openai';
-import { IChatInputMessage, IChatResponse, IStreamHandler } from '../../interface';
-import { BaseChat } from './base';
+import { IChatInputMessage, IChatResponse, IStreamHandler } from '../../interface.js';
+import { BaseChat } from './base.js';
 
 export interface IChatOptions {
   messages: IChatInputMessage[];

@@ -10,11 +10,11 @@ import { ChatOpenAI, ClientOptions } from '@langchain/openai';
 import { AnthropicInput, ChatAnthropic } from '@langchain/anthropic';
 import { BaseChatModelParams } from '@langchain/core/language_models/chat_models';
 import { createAgent, toolStrategy } from 'langchain';
-import { getCurrentDate, getResearchTopic } from './utils';
-import { QueryWriterPrompt, ShouldSearchPrompt } from './prompt';
+import { getCurrentDate, getResearchTopic } from '../utils.js';
+import { QueryWriterPrompt, ShouldSearchPrompt } from './prompt.js';
 import { RunnableConfig } from '@langchain/core/runnables';
-import { SearcherFunction, SearchResultItem } from './types';
-import { replaceVariable } from '../../utils';
+import { SearcherFunction, SearchResultItem } from '../types.js';
+import { replaceVariable } from '../../../utils/index.js';
 import * as z from 'zod';
 
 export interface GraphClientOptions extends ClientOptions {

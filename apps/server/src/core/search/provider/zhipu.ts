@@ -3,8 +3,8 @@
  * @reference https://bigmodel.cn/dev/api/search-tool/web-search
  */
 
-import { getConfig } from '../../../utils';
-import { SearchFunc } from './types';
+import { getConfig } from '../../../utils/index.js';
+import { SearchFunc } from './types.js';
 
 const BaseUrl = 'https://open.bigmodel.cn/api/paas/v4/web_search';
 

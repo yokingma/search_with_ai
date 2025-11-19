@@ -1,7 +1,5 @@
-import { getConfig } from '../../../utils/config';
-import { logger } from '../../../utils/logger';
-import { httpRequest } from '../../../utils';
-import { ISearchResponseResult, SearchFunc } from './types';
+import { logger, httpRequest, getConfig } from '../../../utils/index.js';
+import { ISearchResponseResult, SearchFunc } from './types.js';
 
 const GOOGLE_SEARCH_ENDPOINT = 'https://www.googleapis.com/customsearch/v1';
 const TIMEOUT = 20000;

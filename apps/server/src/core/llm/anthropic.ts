@@ -1,6 +1,6 @@
 import Anthropic from '@anthropic-ai/sdk';
-import { IChatInputMessage, IChatResponse, IStreamHandler } from '../../interface';
-import { BaseChat } from './base';
+import { IChatInputMessage, IChatResponse, IStreamHandler } from '../../interface.js';
+import { BaseChat } from './base.js';
 
 export interface IChatOptions {
   messages: IChatInputMessage[];

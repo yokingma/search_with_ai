@@ -1,8 +1,8 @@
 import Models from '../../model.json';
-import { IProviderItemConfig } from '../../interface';
-import { BaseOpenAIChat } from './openai';
-import { GeminiChat } from './gemini';
-import { BaseAnthropicChat } from './anthropic';
+import { IProviderItemConfig } from '../../interface.js';
+import { BaseOpenAIChat } from './openai.js';
+import { GeminiChat } from './gemini.js';
+import { BaseAnthropicChat } from './anthropic.js';
 
 const models = Models as IProviderItemConfig[];
 

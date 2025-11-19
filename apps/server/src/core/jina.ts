@@ -1,7 +1,4 @@
-import { getConfig } from '../utils/config';
-import { httpRequest } from '../utils';
-import { logger } from '../utils/logger';
-
+import { getConfig, httpRequest, logger } from '../utils/index.js';
 export interface IJinaReaderOptions {
   urls: string[];
   batchSize?: number;

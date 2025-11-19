@@ -4,23 +4,22 @@ import Router from '@koa/router';
 import cors from '@koa/cors';
 import serve from 'koa-static';
 import { bodyParser } from '@koa/bodyparser';
-import { whiteListMiddleware } from './middleware';
-import { getConfig } from './utils/config';
-import { logger } from './utils';
-import history from 'koa2-connect-history-api-fallback';
+import { whiteListMiddleware } from './middleware.js';
+import { getConfig, logger } from './utils/index.js';
+import { historyApiFallback } from 'koa2-connect-history-api-fallback';
 import {
   enginesController,
   // deepResearchController,
   modelsController,
   searchChatController,
-} from './controller';
+} from './controller.js';
 
 const app = new Koa();
 const router = new Router();
 
 const port = Number(getConfig('PORT', '3000'));
 
-app.use(history({
+app.use(historyApiFallback({
   index: '/index.html',
   whiteList: ['/api']
 }));

@@ -1,7 +1,5 @@
-import { ISearchResponseResult, SearchFunc } from './types';
-import { logger } from '../../../utils/logger';
-import { httpRequest } from '../../../utils';
-import { getConfig } from '../../../utils/config';
+import { ISearchResponseResult, SearchFunc } from './types.js';
+import { logger, httpRequest, getConfig } from '../../../utils/index.js';
 
 const BING_SEARCH_V7_ENDPOINT = 'https://api.bing.microsoft.com/v7.0/search';
 const TIMEOUT = 20000;

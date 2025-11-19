@@ -1,5 +1,5 @@
-import { googleSearch, bingSearch, tavilySearch, zhipuSearch, sogouSearch, searxngSearch } from '.';
-import { TSearchEngine } from './provider/types';
+import { googleSearch, bingSearch, tavilySearch, zhipuSearch, sogouSearch, searxngSearch } from './index.js';
+import { TSearchEngine } from './provider/types.js';
 
 export function getSearchEngine(engine: TSearchEngine) {
   switch (engine) {

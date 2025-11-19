@@ -1,5 +1,5 @@
-import { IChatResponse, IStreamHandler } from '../../interface';
-import { IChatOptions } from './openai';
+import { IChatResponse, IStreamHandler } from '../../interface.js';
+import { IChatOptions } from './openai.js';
 
 export abstract class BaseChat {
   provider: string;

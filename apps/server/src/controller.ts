@@ -1,10 +1,10 @@
 import { Context } from 'koa';
-import { SearchChat } from './core/agent';
+import { SearchChat } from './core/agent/index.js';
 import Models from './model.json';
-import { IProviderItemConfig, IChatInputMessage } from './interface';
-import { ESearXNGCategory, TSearchEngine } from './core/search';
+import { IProviderItemConfig, IChatInputMessage } from './interface.js';
+import { ESearXNGCategory, TSearchEngine } from './core/search/index.js';
 import Joi from 'joi';
-import { getConfig } from './utils';
+import { getConfig } from './utils/index.js';
 // import { DeepResearch, EResearchProgress } from './service/research';
 
 const models = Models as IProviderItemConfig[];
@@ -18,6 +18,7 @@ interface ISearchChatRequest {
   temperature?: number;
   provider: string;
   model: string;
+  enabledDeepResearch?: boolean;
 }
 
 const searchChatSchema = Joi.object<ISearchChatRequest>({
@@ -32,6 +33,7 @@ const searchChatSchema = Joi.object<ISearchChatRequest>({
   systemPrompt: Joi.string().optional(),
   temperature: Joi.number().optional().default(0.6),
   model: Joi.string().required(),
+  enabledDeepResearch: Joi.boolean().optional().default(false),
 });
 
 /**

@@ -1,6 +1,6 @@
-import { BaseChat } from './base';
-import { IChatInputMessage, IStreamHandler } from '../../interface';
-import { IChatOptions } from './openai';
+import { BaseChat } from './base.js';
+import { IChatInputMessage, IStreamHandler } from '../../interface.js';
+import { IChatOptions } from './openai.js';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
 export class GeminiChat implements BaseChat {

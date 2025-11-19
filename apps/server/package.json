@@ -3,6 +3,7 @@
   "main": "./dist/app.js",
   "author": "zac_ma",
   "license": "MIT",
+  "type": "module",
   "engines": {
     "node": ">=20"
   },
@@ -30,6 +31,7 @@
     "ai": "^5.0.82",
     "cache-manager": "^5.4.0",
     "cheerio": "^1.0.0",
+    "deepsearcher": "^0.1.2",
     "dotenv": "^16.4.5",
     "fetch-sse": "^1.1.1",
     "joi": "^18.0.1",

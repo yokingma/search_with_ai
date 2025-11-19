@@ -1,5 +1,5 @@
 import { tavily, TavilyClient, TavilySearchOptions } from '@tavily/core';
-import { ISearchResponseResult, SearchFunc } from './types';
+import { ISearchResponseResult, SearchFunc } from './types.js';
 
 export type SearchDepth = 'basic' | 'advanced';
 

@@ -1,7 +1,6 @@
-import { httpRequest, retryAsync } from '../../../utils';
-import { getConfig } from '../../../utils/config';
-import { ESearXNGCategory, ISearXNGOptions, SearchFunc } from './types';
-import { logger } from '../../../utils/logger';
+import { logger, httpRequest, getConfig, retryAsync } from '../../../utils/index.js';
+import { ESearXNGCategory, ISearXNGOptions, SearchFunc } from './types.js';
+
 
 const URL = process.env.SEARXNG_HOSTNAME || 'http://localhost:8080';
 

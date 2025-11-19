@@ -1,7 +1,6 @@
 import * as cheerio from 'cheerio';
-import { httpRequest } from '../../../utils';
-import { ISearchResponseResult, SearchFunc } from './types';
-import { logger } from '../../../utils/logger';
+import { logger, httpRequest } from '../../../utils/index.js';
+import { ISearchResponseResult, SearchFunc } from './types.js';
 
 const EndPoints = {
   WEB: 'https://www.sogou.com/web',
