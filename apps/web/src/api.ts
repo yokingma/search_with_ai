@@ -17,7 +17,8 @@ export interface IQueryOptions {
   systemPrompt?: string
   temperature?: number
   language?: string
-  categories?: TSearCategory[]
+  categories?: TSearCategory[],
+  enabledDeepResearch?: boolean
   onMessage: (data: Record<string, any>) => void
   onOpen?: () => void
   onClose?: () => void
@@ -37,20 +38,16 @@ export interface IDeepResearchOptions {
 }
 
 export async function chat(messages: IChatMessage[], options: IQueryOptions) {
-  const { ctrl, model, provider, engine, categories, language, systemPrompt, temperature, onMessage, onOpen, onClose, onError } = options;
+  const {
+    ctrl, onMessage, onOpen, onClose, onError, ...resetData
+  } = options;
   const url = `${BASE_URL}${URLS.CHAT}`;
   await fetchEventData(url, {
     method: 'POST',
     signal: ctrl?.signal,
     data: {
       messages,
-      model,
-      provider,
-      language,
-      categories,
-      engine,
-      systemPrompt,
-      temperature
+      ...resetData
     },
     headers: {
       'Content-Type': 'application/json'

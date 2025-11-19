@@ -102,7 +102,7 @@ onUnmounted(() => {
 });
 
 async function sendMessage(message: IChatMessage) {
-  const { language, systemPrompt, model, category, engine, temperature } = appStore;
+  const { language, systemPrompt, model, category, engine, temperature, enabledDeepResearch } = appStore;
   if (loading.value) return MessagePlugin.info('正在回答中，请稍后...');
   if (!model) return MessagePlugin.info('请先选择AI模型~');
   
@@ -145,6 +145,7 @@ async function sendMessage(message: IChatMessage) {
       categories: [category],
       systemPrompt,
       temperature,
+      enabledDeepResearch,
       ctrl: abortCtrl,
       onMessage: (data: any) => {
         if (data?.context) {

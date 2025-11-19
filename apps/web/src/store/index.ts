@@ -8,6 +8,7 @@ export const useAppStore = defineStore('app', () => {
   const model = ref<IModelItem>();
   const theme = ref<Theme>();
   const language = ref<Lan>();
+  const enabledDeepResearch = ref<boolean>(false);
   // searxng categories
   const category = ref<TSearCategory>('general');
   // llm
@@ -43,6 +44,10 @@ export const useAppStore = defineStore('app', () => {
     temperature.value = val;
   };
 
+  const updateEnabledDeepResearch = (val: boolean) => {
+    enabledDeepResearch.value = val;
+  };
+
   return {
     engine,
     model,
@@ -51,6 +56,8 @@ export const useAppStore = defineStore('app', () => {
     category,
     systemPrompt,
     temperature,
+    enabledDeepResearch,
+    updateEnabledDeepResearch,
     updateModel,
     updateEngine,
     updateTheme,

@@ -1,9 +1,10 @@
 <script setup lang="tsx">
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { SystemSumIcon } from 'tdesign-icons-vue-next';
 import { RiToolsFill } from '@remixicon/vue';
 import { useI18n } from 'vue-i18n';
 import { IChatInputParams } from '@/types';
+import { useAppStore } from '@/store';
 
 defineOptions({
   name: 'ChatSender'
@@ -27,14 +28,21 @@ withDefaults(defineProps<Props>(), {
   autofocus: false
 });
 
+const appStore = useAppStore();
 const emits = defineEmits<Emits>();
 
 const { t } = useI18n();
 
+const enabledDeepResearch = computed({
+  get: () => appStore.enabledDeepResearch,
+  set: (val: boolean) => {
+    appStore.updateEnabledDeepResearch(val);
+  }
+});
+
 const chatSenderRef = ref(null);
 const inputValue = ref('');
 
-const enabledDeepResearch = ref(false);
 const checkDeepResearch = () => {
   enabledDeepResearch.value = !enabledDeepResearch.value;
 };
