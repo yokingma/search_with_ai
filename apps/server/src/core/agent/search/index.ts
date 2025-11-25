@@ -15,7 +15,7 @@ import { getCurrentDate } from '../utils.js';
 import Models from '../../../model.json' with { type: 'json' };
 import { SearchGraph, EGraphEvent } from './graph.js';
 import { SearcherFunction, SearchResultItem } from '../types.js';
-import { HumanMessage } from 'langchain';
+import { AIMessage, HumanMessage } from 'langchain';
 
 interface ISearchChatOptions {
   engine?: TSearchEngine
@@ -106,7 +106,14 @@ export class SearchChat {
       });
       // Use SearchGraph for intelligent search workflow
       const graph = searchGraph.compile();
-      const langchainMessages = messages.map(msg => new HumanMessage(msg.content));
+      const langchainMessages = messages.map(msg => {
+        if (msg.role === 'user') {
+          return new HumanMessage(msg.content);
+        } else if (msg.role === 'assistant') {
+          return new AIMessage(msg.content);
+        }
+        return new HumanMessage(msg.content); // Fallback for system or other roles
+      });
 
       const chunks = await graph.stream(
         { messages: langchainMessages },
