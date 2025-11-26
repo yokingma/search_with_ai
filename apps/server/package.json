@@ -33,7 +33,7 @@
     "ai": "^5.0.82",
     "cache-manager": "^5.4.0",
     "cheerio": "^1.0.0",
-    "deepsearcher": "^0.2.0",
+    "deepsearcher": "workspace:*",
     "dotenv": "^16.4.5",
     "fetch-sse": "^1.1.1",
     "joi": "^18.0.1",

@@ -1,0 +1,66 @@
+{
+  "name": "deepsearcher",
+  "version": "0.2.0",
+  "description": "DeepResearch Agent with LangGraph, use any llm and web search to build your own deep research agent",
+  "packageManager": "yarn@3.5.1",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "lint": "eslint src --ext .ts",
+    "prepublishOnly": "yarn build"
+  },
+  "dependencies": {
+    "@langchain/core": "^1.1.0",
+    "@langchain/langgraph": "^1.0.2",
+    "@langchain/openai": "^1.1.2",
+    "langchain": "^1.1.1",
+    "zod": "^4.1.12"
+  },
+  "devDependencies": {
+    "@eslint/js": "latest",
+    "@types/node": "^20.0.0",
+    "eslint": "latest",
+    "globals": "^16.2.0",
+    "tsup": "^8.5.0",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "latest"
+  },
+  "author": "zac_ma <yoking@outlook.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yokingma/search_with_ai",
+    "directory": "packages/deepresearch"
+  },
+  "keywords": [
+    "langgraph",
+    "research",
+    "deepresearch",
+    "agent",
+    "deep research",
+    "ai agent",
+    "llm",
+    "web search",
+    "RAG"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "Apache-2.0"
+}

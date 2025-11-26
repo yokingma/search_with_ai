@@ -3,7 +3,8 @@
   "description": "ai search chat with node.js",
   "version": "1.2.0-alpha.5",
   "workspaces": [
-    "apps/*"
+    "apps/*",
+    "packages/*"
   ],
   "scripts": {
     "build": "turbo run build",
