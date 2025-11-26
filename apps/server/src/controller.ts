@@ -1,5 +1,5 @@
 import { Context } from 'koa';
-import { SearchChat } from './core/agent/index.js';
+import { SearchChat, DeepResearchAgent } from './core/agent/index.js';
 import Models from './model.json' with { type: 'json' };
 import { IProviderItemConfig, IChatInputMessage } from './interface.js';
 import { ESearXNGCategory, TSearchEngine } from './core/search/index.js';
@@ -87,30 +87,47 @@ export const searchChatController = async (ctx: Context) => {
   ctx.res.setHeader('Connection', 'keep-alive');
   ctx.res.statusCode = 200;
 
-  const { messages, engine, categories, language, provider, model, temperature, systemPrompt } = value;
+  const { messages, engine, categories, language, provider, model, temperature, systemPrompt, enabledDeepResearch } = value;
 
   // get intent model from config
   const providerConfig = models.find(item => item.provider === provider);
   const intentModel = providerConfig?.models.find(m => m.intentAnalysis === true)?.name;
 
   try {
-    const searchChat = new SearchChat({
-      model,
-      intentModel, // Use the same model for intent analysis
-      engine,
-      provider
-    });
+    if (enabledDeepResearch) {
+      const deepResearch = new DeepResearchAgent({
+        model,
+        intentModel,
+        engine,
+        provider
+      });
+      await deepResearch.chat({
+        messages,
+        searchOptions: { categories, language }
+      }, (response, done) => {
+        if (done) return;
+        const eventData = `data:${JSON.stringify({ data: response })}\n\n`;
+        ctx.res.write(eventData, 'utf-8');
+      });
+    } else {
+      const searchChat = new SearchChat({
+        model,
+        intentModel, // Use the same model for intent analysis
+        engine,
+        provider
+      });
 
-    await searchChat.chat({
-      systemPrompt,
-      temperature,
-      messages,
-      searchOptions: { categories, language }
-    }, (response, done) => {
-      if (done) return;
-      const eventData = `data:${JSON.stringify({ data: response })}\n\n`;
-      ctx.res.write(eventData, 'utf-8');
-    });
+      await searchChat.chat({
+        systemPrompt,
+        temperature,
+        messages,
+        searchOptions: { categories, language }
+      }, (response, done) => {
+        if (done) return;
+        const eventData = `data:${JSON.stringify({ data: response })}\n\n`;
+        ctx.res.write(eventData, 'utf-8');
+      });
+    }
     ctx.res.write('[DONE] \n\n');
     ctx.res.end();
   } catch (error) {
