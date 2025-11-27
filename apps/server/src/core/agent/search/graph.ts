@@ -211,8 +211,18 @@ export class SearchGraph {
       const result = await agent.invoke({
         messages: userMessage,
       });
+      
+      // Validate that structuredResponse exists
+      if (!result.structuredResponse) {
+        console.warn('Intent analysis: Model did not return structured response, defaulting to search');
+        // Default to searching if model doesn't support structured output
+        return {
+          shouldSearch: true,
+        };
+      }
+
       return {
-        shouldSearch: result.structuredResponse.should_search,
+        shouldSearch: result.structuredResponse.should_search ?? true,
       };
     } catch (error) {
       console.log('Intent analysis error:', error);
@@ -267,9 +277,19 @@ export class SearchGraph {
         ]
       });
 
+      // Validate that structuredResponse exists
+      if (!result.structuredResponse) {
+        throw new GraphError('Model did not return a structured response. This model may not support structured outputs.');
+      }
+
+      // Validate that query array exists
+      if (!result.structuredResponse.query) {
+        throw new GraphError('Model did not return queries in the expected format.');
+      }
+
       return {
         query: result.structuredResponse.query,
-        rationale: result.structuredResponse.rationale,
+        rationale: result.structuredResponse.rationale || '',
       };
     } catch (error) {
       throw new GraphError(`Query rewriting failed: ${error}`);
