@@ -82,7 +82,7 @@ export const searchChatController = async (ctx: Context) => {
     return;
   }
 
-  ctx.res.setHeader('Content-Type', 'text/event-stream');
+  ctx.res.setHeader('Content-Type', 'text/event-stream; charset=utf-8');
   ctx.res.setHeader('Cache-Control', 'no-cache');
   ctx.res.setHeader('Connection', 'keep-alive');
   ctx.res.statusCode = 200;
@@ -154,7 +154,7 @@ export const searchChatController = async (ctx: Context) => {
 //   const apiKey = keys[provider];
 //   if (!baseURL || !provider) throw new Error('Provider not found');
 
-//   ctx.res.setHeader('Content-Type', 'text/event-stream');
+//   ctx.res.setHeader('Content-Type', 'text/event-stream; charset=utf-8');
 //   ctx.res.setHeader('Cache-Control', 'no-cache');
 //   ctx.res.setHeader('Connection', 'keep-alive');
 //   ctx.res.statusCode = 200;
