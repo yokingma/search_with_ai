@@ -9,6 +9,7 @@ export const OverallAnnotation = Annotation.Root({
     reducer: addMessages,
     default: () => [],
   }),
+  rationale: Annotation<string>,
   generatedQueries: Annotation<string[]>,
   searchedQueries: Annotation<string[]>({
     reducer: (current, update) => current.concat(update),

@@ -11,8 +11,6 @@ Instructions:
 - Focus on core concepts, product names, versions, or specific features for better search results.
 - **Language Constraint**: Always respond in the same language as the user's input. If the user asks in Chinese, respond in Chinese; if in English, respond in English, etc.
 
-{format_instructions}
-
 Context: {research_topic}`;
 
 export const searcherInstructions = `Conduct targeted searches to gather the most recent, credible information on "{research_topic}" and synthesize it into a verifiable text artifact.
@@ -56,10 +54,9 @@ Query Optimization Requirements:
 - Use specific keywords and technical terms rather than long descriptive sentences.
 - Focus on core concepts, product names, versions, or specific features.
 - Avoid overly complex or verbose phrasing that may reduce search effectiveness.
+- **Language Constraint**: Always respond in the same language as the user's input. If the user asks in Chinese, respond in Chinese; if in English, respond in English, etc.
 
-{format_instructions}
-
-Reflect carefully on the Summaries to identify knowledge gaps and produce a follow-up query. Then, produce your output following this JSON format:
+Reflect carefully on the Summaries to identify knowledge gaps and produce a follow-up query.
 
 Summaries:
 {summaries}

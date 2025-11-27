@@ -36,10 +36,13 @@ const searcher: SearcherFunction = ({ query, id }) => {
 
 const instance = new DeepResearch({
   searcher,
-  // OpenAI-Like API (Optional)
+  // LLM Provider Options
   options: {
-    apiKey: 'YOUR_OPENAI_OR_LLM_API_KEY',
-    baseURL: 'https://api.openai.com/v1',
+    type: 'openai', // 'openai' | 'anthropic' | 'gemini' | 'vertexai'
+    apiKey: 'YOUR_API_KEY',
+    baseURL: 'https://api.openai.com/v1', // Optional, for custom endpoints
+    systemPrompt: 'You are a helpful research assistant.', // Optional, default provided
+    temperature: 0.1, // Optional, default 0.1, controls randomness (0.0-2.0)
   },
 });
 
@@ -64,9 +67,9 @@ const chunks = await agent.stream(
       maxResearchLoops: 3, // default 3.
       numberOfInitialQueries: 3, // default 3.
       // Required model parameters (can use same model)
-      queryGeneratorModel: 'Qwen/Qwen3-32B',
-      reflectionModel: 'Qwen/Qwen3-32B',
-      answerModel: 'Qwen/Qwen3-32B',
+      queryGeneratorModel: 'gpt-4o-mini',
+      reflectionModel: 'gpt-4o-mini',
+      answerModel: 'gpt-4o-mini',
     },
   }
 );
@@ -76,11 +79,89 @@ for await (const chunk of chunks) {
 }
 ```
 
+## Multi-Provider Support
+
+The package supports multiple LLM providers:
+
+### OpenAI
+
+```ts
+const instance = new DeepResearch({
+  searcher,
+  options: {
+    type: 'openai',
+    apiKey: 'YOUR_OPENAI_API_KEY',
+    temperature: 0.1,
+  },
+});
+```
+
+### Anthropic (Claude)
+
+```ts
+const instance = new DeepResearch({
+  searcher,
+  options: {
+    type: 'anthropic',
+    apiKey: 'YOUR_ANTHROPIC_API_KEY',
+    temperature: 0.1,
+  },
+});
+```
+
+### Google Gemini
+
+```ts
+const instance = new DeepResearch({
+  searcher,
+  options: {
+    type: 'gemini',
+    apiKey: 'YOUR_GOOGLE_API_KEY',
+    temperature: 0.1,
+  },
+});
+```
+
+### Google VertexAI
+
+```ts
+const instance = new DeepResearch({
+  searcher,
+  options: {
+    type: 'vertexai',
+    apiKey: 'YOUR_VERTEXAI_API_KEY',
+    temperature: 0.1,
+  },
+});
+```
+
+## Configuration Options
+
+### DeepResearchOptions
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `type` | `'openai' \| 'anthropic' \| 'gemini' \| 'vertexai'` | `'openai'` | LLM provider to use |
+| `apiKey` | `string` | - | API key for the LLM provider |
+| `baseURL` | `string` | - | Custom API endpoint (optional) |
+| `systemPrompt` | `string` | `'You are a helpful research assistant.'` | System prompt for the agent |
+| `temperature` | `number` | `0.1` | Controls randomness (0.0 = deterministic, 2.0 = very random) |
+
+### Runtime Configuration
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `maxResearchLoops` | `number` | `3` | Maximum number of research iterations |
+| `numberOfInitialQueries` | `number` | `3` | Number of initial search queries to generate |
+| `queryGeneratorModel` | `string` | - | Model for generating search queries |
+| `reflectionModel` | `string` | - | Model for analyzing research gaps |
+| `answerModel` | `string` | - | Model for generating final answer |
+
 ## How to stream from the target node
 
 ```ts
-// use the streamEvents() method. 
-const eventStream = agent.streamEvents(
+// use the stream() method with streamMode: 'messages'
+const stream = await agent.stream(
   {
     messages: [{
       role: 'user',
@@ -88,24 +169,22 @@ const eventStream = agent.streamEvents(
     }],
   },
   {
-    version: 'v2',
+    streamMode: 'messages',
     configurable: {
       maxResearchLoops: 2,
       numberOfInitialQueries: 2,
-      queryGeneratorModel: 'Qwen/Qwen3-32B',
-      reflectionModel: 'Qwen/Qwen3-32B',
-      answerModel: 'Qwen/Qwen3-32B',
+      queryGeneratorModel: 'gpt-4o-mini',
+      reflectionModel: 'gpt-4o-mini',
+      answerModel: 'gpt-4o-mini',
     },
   }
 );
 
-for await (const { event, tags, data } of eventStream) {
-  // Stream outputs from the 'FinalizeAnswer' node
-  if (
-    event === EventStreamEnum.ChatModelStream &&
-    tags?.includes(NodeEnum.FinalizeAnswer)
-  ) {
-    console.log(data.chunk.content);
+for await (const chunk of stream) {
+  const [message, metadata] = chunk;
+  // Stream tokens from the 'FinalizeAnswer' node
+  if (metadata.langgraph_node === NodeEnum.FinalizeAnswer) {
+    console.log(message.content);
   }
 }
 ```
@@ -118,12 +197,6 @@ export enum NodeEnum {
   Research = 'research',
   Reflection = 'reflection',
   FinalizeAnswer = 'finalize_answer',
-}
-
-export enum EventStreamEnum {
-  ChatModelStart = 'on_chat_model_start',
-  ChatModelStream = 'on_chat_model_stream',
-  ChatModelEnd = 'on_chat_model_end',
 }
 ```
 

@@ -46,26 +46,28 @@ export function getResearchTopic(messages: BaseMessageLike[]) {
  * - [[1]], [[2]], [[3]] etc. to cite specific search results
  * - Multiple sources can be cited as [[1]][[2]]
  * Formatted Citation Format:
- * - `[Title](id)` to cite specific search results
- * - Multiple sources can be cited as `[Title](id)[Title](id)`
+ * - `[id](url)` to cite specific search results
+ * - Multiple sources can be cited as `[id](url)[id](url)`
  */
 export function getCitations(
-  response: AIMessageChunk,
+  response: AIMessageChunk | { content: string | unknown },
   sources: SearchResultItem[]
 ) {
-  const text = response.content as string;
+  const text = typeof response.content === 'string' 
+    ? response.content 
+    : JSON.stringify(response.content);
 
   const replaceCitationMark = (text: string): string => {
     return (
       text
-        // 直接转换 [[数字]] 为 [citation](数字)
+        // Convert [[number]] directly to [citation](number)
         .replace(/\[\[(\d+)]]/g, '[citation]($1)')
-        // 如果还有其他格式需要处理，可以继续添加
+        // If there are other formats to handle, continue adding
         .replace(/\[(\d+)]/g, '[citation]($1)')
     );
   };
 
-  // 获取应用内容中的数字
+  // Get numbers from the application content
   const getCitationNumber = (text: string): string[] => {
     const regex = /\[citation\]\((\d+)\)/g;
     const numbers: string[] = [];
@@ -88,11 +90,10 @@ export function getCitations(
     if (!source) {
       return str;
     }
-    const title =
-      source.title.length > 32
-        ? source.title.slice(0, 32) + '...'
-        : source.title;
-    return `[${title}](${source.id})`;
+    if (source.url) {
+      return `<sup>[[${source.id}](${source.url})]</sup>`;
+    }
+    return `<sup>[[${source.id}]]</sup>`;
   });
 
   return {
@@ -102,3 +103,22 @@ export function getCitations(
 }
 
 export const getCurrentDate = () => new Date().toISOString();
+
+/**
+ * replace the variable in the string with the value
+ * e.g replaceVariable(`abc{query}, efg.`, { query: '456' })
+ */
+export function replaceVariable(
+  text: string,
+  obj: Record<string, string | number>
+): string {
+  if (!(typeof text === 'string')) return text;
+
+  for (const key in obj) {
+    const val = obj[key];
+    if (!['string', 'number'].includes(typeof val)) continue;
+
+    text = text.replace(new RegExp(`{(${key})}`, 'g'), String(val));
+  }
+  return text || '';
+}

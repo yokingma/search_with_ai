@@ -1,6 +1,10 @@
 import { Send, START, END, StateGraph } from '@langchain/langgraph';
-import { RunnableConfig, RunnableSequence } from '@langchain/core/runnables';
+import { RunnableConfig } from '@langchain/core/runnables';
 import { ChatOpenAI, type ClientOptions } from '@langchain/openai';
+import { AnthropicInput, ChatAnthropic } from '@langchain/anthropic';
+import { ChatGoogleGenerativeAI } from '@langchain/google-genai';
+import { ChatVertexAI } from '@langchain/google-vertexai';
+import { AIMessage, createAgent, HumanMessage, toolStrategy } from 'langchain';
 import { ReflectionSchema, SearchQueryListSchema } from './schema.js';
 import {
   OverallAnnotation,
@@ -19,10 +23,7 @@ import {
   searcherInstructions,
 } from './prompts.js';
 import { SearcherFunction, SearchResultItem } from './types.js';
-import { getCitations, getCurrentDate, getResearchTopic } from './utils.js';
-import { ChatPromptTemplate } from '@langchain/core/prompts';
-import { AIMessage } from 'langchain';
-import { StructuredOutputParser } from '@langchain/core/output_parsers';
+import { getCitations, getCurrentDate, getResearchTopic, replaceVariable } from './utils.js';
 
 export enum NodeEnum {
   GenerateQuery = 'generate_query',
@@ -37,8 +38,14 @@ export enum EventStreamEnum {
   ChatModelEnd = 'on_chat_model_end',
 }
 
+export interface DeepResearchOptions extends ClientOptions {
+  type?: 'openai' | 'anthropic' | 'gemini' | 'vertexai';
+  systemPrompt?: string;
+  temperature?: number;
+}
+
 export class DeepResearch {
-  private readonly options?: ClientOptions;
+  private readonly options?: DeepResearchOptions;
   private readonly searcher: SearcherFunction;
 
   /**
@@ -50,7 +57,7 @@ export class DeepResearch {
     options,
   }: {
     searcher: SearcherFunction;
-    options?: ClientOptions;
+    options?: DeepResearchOptions;
   }) {
     this.searcher = searcher;
     this.options = options;
@@ -108,35 +115,42 @@ export class DeepResearch {
     config: RunnableConfig<Configuration>
   ): Promise<Partial<typeof OverallAnnotation.State>> {
     const configuration = getConfigurationFromRunnableConfig(config);
-    const { numberOfInitialQueries } = configuration;
-
-    const llm = new ChatOpenAI({
-      model: configuration.queryGeneratorModel,
-      temperature: 1.0,
-      configuration: this.options,
-      maxRetries: 2,
-      apiKey: this.options?.apiKey,
-    }).withConfig({
-      tags: [NodeEnum.GenerateQuery],
-    });
+    const { numberOfInitialQueries, queryGeneratorModel } = configuration;
+    const { systemPrompt = 'You are a helpful research assistant.', temperature = 0.1 } = this.options || {};
 
     const topic = getResearchTopic(state.messages);
     const currentDate = getCurrentDate();
 
-    const prompt = ChatPromptTemplate.fromTemplate(queryWriterInstructions);
-    const parser = StructuredOutputParser.fromZodSchema(SearchQueryListSchema);
-    const chain = RunnableSequence.from([prompt, llm, parser]);
+    const client = this.createClient(queryGeneratorModel, temperature);
+    const agent = createAgent({
+      model: client,
+      tools: [],
+      systemPrompt,
+      responseFormat: toolStrategy(SearchQueryListSchema, {
+        toolMessageContent: `I will generate ${numberOfInitialQueries} search queries based on your input.`,
+      }),
+    });
 
-    try {
-      const result = await chain.invoke({
+    const prompt = replaceVariable(
+      queryWriterInstructions,
+      {
         number_queries: numberOfInitialQueries,
         current_date: currentDate,
         research_topic: topic,
-        format_instructions: parser.getFormatInstructions(),
+      }
+    );
+
+    try {
+      const result = await agent.invoke({
+        messages: [
+          new HumanMessage(prompt),
+        ]
+      }, {
+        tags: [NodeEnum.GenerateQuery]
       });
 
       // Ensure a valid query list is returned
-      const queryList = result.query || [];
+      const queryList = result.structuredResponse?.query || [];
       if (queryList.length === 0) {
         console.warn(
           'LLM returned empty query list, using original topic as fallback'
@@ -144,7 +158,7 @@ export class DeepResearch {
         return { generatedQueries: [topic] };
       }
 
-      return { generatedQueries: queryList };
+      return { generatedQueries: queryList, rationale: result.structuredResponse?.rationale };
     } catch (error) {
       console.error('Failed to generate search queries:', error);
       console.warn('Using original topic as fallback due to LLM failure');
@@ -181,6 +195,7 @@ export class DeepResearch {
   ): Promise<Partial<typeof OverallAnnotation.State>> {
     const configuration = getConfigurationFromRunnableConfig(config);
     const { queryGeneratorModel } = configuration;
+    const { temperature = 0.1 } = this.options || {};
 
     const searchResults = await this.searcher(state);
     const formattedSearchResults = searchResults
@@ -192,28 +207,34 @@ export class DeepResearch {
       )
       .join('\n\n');
 
-    // use llm to process search results
-    const llm = new ChatOpenAI({
-      model: queryGeneratorModel,
-      temperature: 0.2,
-      maxRetries: 2,
-      configuration: this.options,
-      apiKey: this.options?.apiKey,
-    }).withConfig({
-      tags: [NodeEnum.Research],
+    const client = this.createClient(queryGeneratorModel, temperature);
+    const agent = createAgent({
+      model: client,
+      tools: [],
     });
 
-    const prompt = ChatPromptTemplate.fromTemplate(searcherInstructions);
-    const chain = RunnableSequence.from([prompt, llm]);
+    const prompt = replaceVariable(
+      searcherInstructions,
+      {
+        current_date: getCurrentDate(),
+        research_topic: state.query,
+        search_results: formattedSearchResults,
+      }
+    );
 
-    const result = await chain.invoke({
-      current_date: getCurrentDate(),
-      research_topic: state.query,
-      search_results: formattedSearchResults,
+    const result = await agent.invoke({
+      messages: [
+        new HumanMessage(prompt),
+      ]
+    }, {
+      tags: [NodeEnum.Research]
     });
 
-    // Return content and referenced indexes, content contains citation marks [title](id)
-    const { content, segmentIndexes } = getCitations(result, searchResults);
+    // Extract the AI message content from the agent result
+    const lastMessage = result.messages[result.messages.length - 1];
+
+    // Return content and referenced indexes, content contains citation marks [id](url)
+    const { content, segmentIndexes } = getCitations(lastMessage, searchResults);
 
     const usedSources = searchResults.filter((_, index) =>
       segmentIndexes.includes(`${index + 1}`)
@@ -238,41 +259,48 @@ export class DeepResearch {
   ): Promise<Partial<typeof OverallAnnotation.State>> {
     const configuration = getConfigurationFromRunnableConfig(config);
     const { reflectionModel, numberOfInitialQueries } = configuration;
+    const { temperature = 0.1 } = this.options || {};
 
     const researchLoopCount = (state.researchLoopCount ?? 0) + 1;
-    const model = reflectionModel;
 
     const researchTopic = getResearchTopic(state.messages);
     const summaries = state.researchResult.join('\n\n');
 
-    const llm = new ChatOpenAI({
-      model,
-      temperature: 0,
-      maxRetries: 2,
-      configuration: this.options,
-      apiKey: this.options?.apiKey,
-    }).withConfig({
-      tags: [NodeEnum.Reflection],
+    const client = this.createClient(reflectionModel, temperature);
+    const agent = createAgent({
+      model: client,
+      tools: [],
+      responseFormat: toolStrategy(ReflectionSchema, {
+        toolMessageContent: 'I will analyze the research summaries and determine if more information is needed.',
+      }),
     });
 
-    const prompt = ChatPromptTemplate.fromTemplate(reflectionInstructions);
-    const parser = StructuredOutputParser.fromZodSchema(ReflectionSchema);
-    const chain = RunnableSequence.from([prompt, llm, parser]);
-
-    try {
-      const result = await chain.invoke({
+    const prompt = replaceVariable(
+      reflectionInstructions,
+      {
         research_topic: researchTopic,
         summaries,
         number_queries: numberOfInitialQueries,
-        format_instructions: parser.getFormatInstructions(),
+      }
+    );
+
+    try {
+      const result = await agent.invoke({
+        messages: [
+          new HumanMessage(prompt),
+        ]
+      }, {
+        tags: [NodeEnum.Reflection]
       });
+
+      const structuredResponse = result.structuredResponse;
 
       return {
         researchLoopCount,
         reflectionState: {
-          isSufficient: result.isSufficient,
-          knowledgeGap: result.knowledgeGap,
-          followUpQueries: result.followUpQueries || [],
+          isSufficient: structuredResponse?.isSufficient ?? true,
+          knowledgeGap: structuredResponse?.knowledgeGap ?? '',
+          followUpQueries: structuredResponse?.followUpQueries || [],
           numberOfRanQueries: state.searchedQueries.length,
         }
       };
@@ -339,6 +367,7 @@ export class DeepResearch {
   ): Promise<typeof OutputAnnotation.State> {
     const configuration = getConfigurationFromRunnableConfig(config);
     const { reflectionModel } = configuration;
+    const { systemPrompt = 'You are a helpful research assistant.', temperature = 0.1 } = this.options || {};
 
     const model = reflectionModel;
     const currentDate = getCurrentDate();
@@ -356,37 +385,92 @@ export class DeepResearch {
       };
     }
 
-    const llm = new ChatOpenAI({
-      model,
-      temperature: 0,
-      maxRetries: 2,
-      configuration: this.options,
-      apiKey: this.options?.apiKey,
-    }).withConfig({
+    const client = this.createClient(model, temperature);
+    const agent = createAgent({
+      model: client,
+      tools: [],
+      systemPrompt,
+    });
+
+    const prompt = replaceVariable(
+      answerInstructions,
+      {
+        research_topic: researchTopic,
+        summaries,
+        current_date: currentDate,
+      }
+    );
+
+    const result = await agent.invoke({
+      messages: [
+        new HumanMessage(prompt),
+      ],
+    }, {
       tags: [NodeEnum.FinalizeAnswer],
     });
 
-    const prompt = ChatPromptTemplate.fromTemplate(answerInstructions);
-    const chain = RunnableSequence.from([prompt, llm]);
-
-    const result = await chain.invoke({
-      current_date: currentDate,
-      research_topic: researchTopic,
-      summaries,
-    });
+    // Extract the AI message content from the agent result
+    const lastMessage = result.messages[result.messages.length - 1];
+    const messageContent = typeof lastMessage.content === 'string' 
+      ? lastMessage.content 
+      : JSON.stringify(lastMessage.content);
 
     const sourcesGathered: SearchResultItem[] = [];
     for (const source of state.sourcesGathered) {
-      const citation = `(${source.id})`;
-      const textMsg = result.content as string;
-      if (textMsg.includes(citation)) {
+      const citation = source.url ? `[${source.id}](${source.url})` : `[[${source.id}]]`;
+      if (messageContent.includes(citation)) {
         sourcesGathered.push(source);
       }
     }
 
     return {
-      messages: [new AIMessage(result.content as string)],
+      messages: [new AIMessage(messageContent)],
       sourcesGathered,
     };
+  }
+
+  private createClient(model: string, temperature = 0.1) {
+    const { apiKey, type = 'openai', baseURL, ...rest } = this.options || {};
+    switch (type) {
+      case 'anthropic': {
+        const options: AnthropicInput = {
+          model: model,
+          anthropicApiKey: apiKey as string,
+          temperature,
+          ...rest,
+        };
+        if (baseURL) {
+          options.anthropicApiUrl = baseURL;
+        }
+        return new ChatAnthropic(options);
+      }
+      case 'gemini':
+        return new ChatGoogleGenerativeAI({
+          model: model,
+          apiKey: apiKey as string,
+          baseUrl: baseURL || undefined,
+          temperature,
+          ...rest,
+        });
+      case 'vertexai':
+        return new ChatVertexAI({
+          model: model,
+          apiKey: apiKey as string,
+          temperature,
+          ...rest,
+        });
+      case 'openai':
+      default:
+        return new ChatOpenAI({
+          model: model,
+          openAIApiKey: apiKey,
+          temperature,
+          configuration: {
+            apiKey,
+            baseURL,
+            ...rest,
+          }
+        });
+    }
   }
 }

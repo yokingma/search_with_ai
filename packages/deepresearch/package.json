@@ -1,6 +1,6 @@
 {
   "name": "deepsearcher",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "DeepResearch Agent with LangGraph, use any llm and web search to build your own deep research agent",
   "packageManager": "yarn@3.5.1",
   "type": "module",
@@ -27,7 +27,10 @@
     "prepublishOnly": "yarn build"
   },
   "dependencies": {
+    "@langchain/anthropic": "^1.1.3",
     "@langchain/core": "^1.1.0",
+    "@langchain/google-genai": "^2.0.0",
+    "@langchain/google-vertexai": "^1.0.4",
     "@langchain/langgraph": "^1.0.2",
     "@langchain/openai": "^1.1.2",
     "langchain": "^1.1.1",
