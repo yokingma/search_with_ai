@@ -34,7 +34,7 @@ AI Search Chat 是一个基于现代 AI 大语言模型的对话式搜索引擎�
 - [x] 🔍 **多搜索引擎** - 支持 Bing、Google、SearXNG 等多种搜索源
 - [x] 💬 **对话式搜索** - 支持多轮聊天式的搜索
 - [x] ⏰ **对话历史记录** - 历史对话记录缓存在浏览器中（基于IndexedDB/LocalStorage）
-- [ ] 🧠 **Deep Research 模式** - (TODO) 重构深度研究功能
+- [x] 🧠 **Deep Research 模式** - (TODO) 重构深度研究功能
 - [ ] 🔌 **MCP支持** - (TODO) 支持接入外部各类MCP服务
 - [ ] 🖼️ **图片搜索** - (TODO) 支持图片或者视频搜索
 - [ ] 📂 **文件解析** - (TODO) 支持上传文档并提取内容

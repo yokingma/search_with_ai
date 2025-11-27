@@ -34,7 +34,7 @@ AI Search Chat is a modern AI-powered conversational search engine built with **
 - [x] 🔍 **Multiple Search Engines** - Support for Bing, Google, SearXNG and more
 - [x] 💬 **Conversational Search** - Multi-turn chat-based search experience
 - [x] ⏰ **Chat History** - Conversation history cached in browser (IndexedDB/LocalStorage)
-- [ ] 🧠 **Deep Research Mode** - (TODO) Refactoring deep research functionality
+- [x] 🧠 **Deep Research Mode** - (TODO) Refactoring deep research functionality
 - [ ] 🔌 **MCP Support** - (TODO) Support for external MCP services
 - [ ] 🖼️ **Image Search** - (TODO) Support for image and video search
 - [ ] 📂 **File Parsing** - (TODO) Support for document upload and content extraction
