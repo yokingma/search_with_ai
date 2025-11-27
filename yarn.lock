@@ -91,6 +91,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@anthropic-ai/sdk@npm:^0.71.0":
+  version: 0.71.0
+  resolution: "@anthropic-ai/sdk@npm:0.71.0"
+  dependencies:
+    json-schema-to-ts: ^3.1.1
+  peerDependencies:
+    zod: ^3.25.0 || ^4.0.0
+  peerDependenciesMeta:
+    zod:
+      optional: true
+  bin:
+    anthropic-ai-sdk: bin/cli
+  checksum: dee7bab6a45defdd32f21003884a5f94391087c5ee79bb54ff24e56820ad8040692f4db24eafc20b2ae4587c4d6929267f885bea65867fd2b7a57e7a84dcbbb3
+  languageName: node
+  linkType: hard
+
 "@babel/code-frame@npm:^7.27.1":
   version: 7.27.1
   resolution: "@babel/code-frame@npm:7.27.1"
@@ -1497,6 +1513,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@langchain/anthropic@npm:^1.1.3":
+  version: 1.1.3
+  resolution: "@langchain/anthropic@npm:1.1.3"
+  dependencies:
+    "@anthropic-ai/sdk": ^0.71.0
+  peerDependencies:
+    "@langchain/core": ^1.0.0
+  checksum: 9f4d79df62529d6f05d8595822fcb5ad022c0df4174573e0a23472b6b52394675773a0f121f7eb4217ca3411ee06f54bd70cd56fcffed9c95c14fe526e5f2b8a
+  languageName: node
+  linkType: hard
+
 "@langchain/classic@npm:^1.0.1":
   version: 1.0.1
   resolution: "@langchain/classic@npm:1.0.1"
@@ -1580,6 +1607,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@langchain/google-common@npm:1.0.4":
+  version: 1.0.4
+  resolution: "@langchain/google-common@npm:1.0.4"
+  dependencies:
+    uuid: ^10.0.0
+  peerDependencies:
+    "@langchain/core": 1.1.0
+  checksum: e324327e483f6db9cdb0f5fa1489d76923bcf91dd60c652f04b7193b7901028d10c9062d69e42f834676f127239e71d385fe85a1930da45d9572ae045cf61800
+  languageName: node
+  linkType: hard
+
 "@langchain/google-gauth@npm:1.0.3":
   version: 1.0.3
   resolution: "@langchain/google-gauth@npm:1.0.3"
@@ -1587,6 +1625,16 @@ __metadata:
     "@langchain/google-common": 1.0.3
     google-auth-library: ^10.1.0
   checksum: c9665d96dab2ffbdbb054bca1c6e09b23d6f72f3124b3867ab5ffd12c8d027757d79e4061da1dbc52c510907ec08a0f0b587266c9d0805af885cdf91ef393882
+  languageName: node
+  linkType: hard
+
+"@langchain/google-gauth@npm:1.0.4":
+  version: 1.0.4
+  resolution: "@langchain/google-gauth@npm:1.0.4"
+  dependencies:
+    "@langchain/google-common": 1.0.4
+    google-auth-library: ^10.1.0
+  checksum: 80500fadbbc85fe58e8303ea2191fcbb0560ff452f9697eeb7b30d79f5f232adfc738318432c528424b7b749b2b162c15b0c9f6afe98e7be138e493b6981c3e8
   languageName: node
   linkType: hard
 
@@ -1602,12 +1650,33 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@langchain/google-genai@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "@langchain/google-genai@npm:2.0.0"
+  dependencies:
+    "@google/generative-ai": ^0.24.0
+    uuid: ^11.1.0
+  peerDependencies:
+    "@langchain/core": 1.1.0
+  checksum: ec9841c19a2839caba950ec7a6bf3ef1dd6dc87c93ef31164273d97eb44837e4f2c5de4127e194a493329e875615fa69f6b18d48950cfaae63284a712cf408de
+  languageName: node
+  linkType: hard
+
 "@langchain/google-vertexai@npm:^1.0.3":
   version: 1.0.3
   resolution: "@langchain/google-vertexai@npm:1.0.3"
   dependencies:
     "@langchain/google-gauth": 1.0.3
   checksum: 84ed502e358a2bc0f71ab251985a016c015b2f8368ef5769954090fd0e0ed09d875071cf3b8cbe9ee61ff5e1e19195bada167ee9d836a2be86d884f39b64afcb
+  languageName: node
+  linkType: hard
+
+"@langchain/google-vertexai@npm:^1.0.4":
+  version: 1.0.4
+  resolution: "@langchain/google-vertexai@npm:1.0.4"
+  dependencies:
+    "@langchain/google-gauth": 1.0.4
+  checksum: 1cc6efbd4478611a675fdfb6c784817a931ff00b74d01cc61f816ed181b90a6683e310a8ec42ecac9aed3319c4b125af0cb77777b5a1c97aaf762389ee581413
   languageName: node
   linkType: hard
 
@@ -4322,7 +4391,10 @@ __metadata:
   resolution: "deepsearcher@workspace:packages/deepresearch"
   dependencies:
     "@eslint/js": latest
+    "@langchain/anthropic": ^1.1.3
     "@langchain/core": ^1.1.0
+    "@langchain/google-genai": ^2.0.0
+    "@langchain/google-vertexai": ^1.0.4
     "@langchain/langgraph": ^1.0.2
     "@langchain/openai": ^1.1.2
     "@types/node": ^20.0.0

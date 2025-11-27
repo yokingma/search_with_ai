@@ -9,6 +9,7 @@ import {
   IChatInputMessage,
   IStreamHandler,
   IProviderItemConfig,
+  ProviderType,
 } from '../../../interface.js';
 import { ESearXNGCategory, SearchFunc, TSearchEngine } from '../../search/index.js';
 import { getSearchEngine } from '../../search/utils.js';
@@ -37,6 +38,8 @@ export class DeepResearchAgent {
   private intentModel?: string;
   private apiKey?: string;
   private baseURL?: string;
+  private providerType?: ProviderType;
+  private totalSearchResults: number = 0;
 
   constructor(params?: IDeepResearchOptions) {
     const { engine = 'SEARXNG', model, intentModel, provider } = params || {};
@@ -50,15 +53,18 @@ export class DeepResearchAgent {
     this.intentModel = intentModel;
     this.apiKey = providerInfo.apiKey;
     this.baseURL = providerInfo.baseURL;
+    this.providerType = providerInfo.type;
     this.search = getSearchEngine(engine);
   }
 
   private createSearcher(options?: any): SearcherFunction {
-    return async ({ query }) => {
+    return async ({ query }: { query: string }) => {
       const results = await this.search(query, options);
       // Map results to what deepsearcher expects
+      const start = this.totalSearchResults;
+      this.totalSearchResults += results.length;
       return results.slice(0, 10).map((item, index) => ({
-        id: String(index + 1),
+        id: String(start + index + 1),
         title: item.name || '',
         content: String(item.snippet || item.content || ''),
         url: item.url,
@@ -81,6 +87,7 @@ export class DeepResearchAgent {
       options: {
         apiKey: this.apiKey,
         baseURL: this.baseURL,
+        type: this.providerType,
       }
     });
 
@@ -95,38 +102,75 @@ export class DeepResearchAgent {
       return new HumanMessage(msg.content); // Fallback for system or other roles
     });
 
-    const eventStream = await agent.stream(
+    const chunks = await agent.stream(
       {
         messages: langchainMessages,
       },
       {
-        streamMode: 'messages',
+        streamMode: ['messages', 'updates'],
         configurable: {
           queryGeneratorModel: this.intentModel || this.model,
           reflectionModel: this.intentModel || this.model,
           answerModel: this.model,
-          numberOfInitialQueries: 2,
-          maxResearchLoops: 1,
+          numberOfInitialQueries: 3,
+          maxResearchLoops: 2,
         },
       }
     );
 
-    for await (const [msg, metadata] of eventStream) {
-      switch (metadata.langgraph_node) {
-        case NodeEnum.GenerateQuery:
-          onMessage?.({ content: msg.content, node: metadata.langgraph_node });
-          break;
-        case NodeEnum.Research:
-          onMessage?.({ content: msg.content, node: metadata.langgraph_node });
-          break;
-        case NodeEnum.Reflection:
-          onMessage?.({ content: msg.content, node: metadata.langgraph_node });
-          break;
-        case NodeEnum.FinalizeAnswer:
-          onMessage?.({ content: msg.content, node: metadata.langgraph_node });
-          break;
-        default:
-          break;
+    for await (const [streamMode, chunk] of chunks) {
+      if (streamMode === 'messages') {
+        const [msg, metadata] = chunk;
+        const tags: string[] = metadata.tags;
+        if (tags.includes(NodeEnum.FinalizeAnswer)) {
+          onMessage?.({ content: msg.content, step: metadata.langgraph_node });
+        }
+      }
+      if (streamMode === 'updates') {
+        const [step, result] = Object.entries(chunk)[0];
+        switch (step) {
+          case NodeEnum.GenerateQuery: {
+            const queries = result.generatedQueries?.join(', ') || '';
+            const rationale = result.rationale || '';
+            onMessage?.({ content: `${rationale}\n\n > ${queries}\n\n`, step });
+            break;
+          }
+          case NodeEnum.Research: {
+            const res = result.researchResult?.join('\n') || '';
+            onMessage?.({ content: `${res}\n\n`, step });
+            break;
+          }
+          case NodeEnum.Reflection: {
+            const res = result.reflectionState?.knowledgeGap || '';
+            onMessage?.({ content: `> ${res} \n\n`, step });
+            break;
+          }
+          case NodeEnum.FinalizeAnswer: {
+            const contexts = result.sourcesGathered?.map(item => {
+              const format = {
+                id: item.id,
+                name: item.title,
+                content: item.content,
+                snippet: item.content,
+                url: item.url || '',
+                score: item.score,
+                raw: item
+              };
+              return format;
+            });
+            contexts?.sort((a, b) => {
+              const aId = Number(a.id);
+              const bId = Number(b.id);
+              return isNaN(bId - aId) ? 0 : aId - bId;
+            });
+            contexts?.forEach(context => {
+              onMessage?.({ context, step });
+            });
+            break;
+          }
+          default:
+            break;
+        }
       }
     }
 
