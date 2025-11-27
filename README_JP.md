@@ -84,7 +84,7 @@ Node.jsプロジェクトにDeep Research機能を統合したい場合：
 npm install deepsearcher
 ```
 
-詳細ドキュメント：[DeepResearch NPMパッケージ](https://github.com/yokingma/deepresearch)
+詳細ドキュメント：[DeepResearch NPMパッケージ](https://www.npmjs.com/package/deepsearcher)
 
 ## 🐳 クイックデプロイ（Docker推奨）
 
