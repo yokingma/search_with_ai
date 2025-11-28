@@ -48,9 +48,13 @@ AI Search Chat is a modern AI-powered conversational search engine built with **
 
 ### 🤖 AI Model Support
 
+> [!IMPORTANT]
+> To achieve the best results, the model **must support Tool Call (Function Calling)**.
+
 - OpenAI API compatible
 - Google Gemini API compatible
 - Anthropic API compatible
+- Google Vertex AI compatible
 
 ### 🔍 Multi-Search Engine Integration
 

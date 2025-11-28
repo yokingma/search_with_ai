@@ -48,9 +48,13 @@ AI Search Chat は、現代的なAI大言語モデルベースの対話型検索
 
 ### 🤖 AIモデル対応
 
+> [!IMPORTANT]
+> 最良の結果を得るには、モデルが **Tool Call (Function Calling)** をサポートしている必要があります。
+
 - OpenAI API互換
 - Google Gemini API互換
 - Anthropic API互換
+- Google Vertex AI 互換
 
 ### 🔍 マルチ検索エンジン統合
 

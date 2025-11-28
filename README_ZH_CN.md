@@ -48,9 +48,13 @@ AI Search Chat 是一个基于现代 AI 大语言模型的对话式搜索引擎�
 
 ### 🤖 AI 模型支持
 
+> [!IMPORTANT]
+> 为了达到最佳效果，模型**必须支持 Tool Call (Function Calling)**。
+
 - OpenAI API兼容
 - Google Gemini API兼容
 - Anthropic API兼容
+- Google Vertex AI 兼容
 
 ### 🔍 多搜索引擎集成
 
