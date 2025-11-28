@@ -12,7 +12,7 @@ import { ChatGoogleGenerativeAI } from '@langchain/google-genai';
 import { ChatVertexAI } from '@langchain/google-vertexai';
 import { BaseChatModelParams } from '@langchain/core/language_models/chat_models';
 import { createAgent, toolStrategy } from 'langchain';
-import { getCurrentDate, getResearchTopic } from '../utils.js';
+import { getCurrentDate, getResearchTopic, getUserInput } from '../utils.js';
 import { QueryWriterPrompt, ShouldSearchPrompt } from './prompt.js';
 import { RunnableConfig } from '@langchain/core/runnables';
 import { SearcherFunction, SearchResultItem } from '../types.js';
@@ -49,7 +49,6 @@ const StateAnnotation = Annotation.Root({
   rationale: Annotation<string>(),
 });
 
-// LangGraph运行时的配置
 const ConfigurationSchema = z.object({
   numberOfQueries: z
     .number()
@@ -85,10 +84,6 @@ export class SearchGraph {
   private intentModel?: string;
   private model: string;
 
-  /**
-   * @param model 意图识别和问题重写的model
-   * @param options 兼容OpenAI SDK的配置（KEY & BaseURL）
-   */
   constructor(
     { model, intentModel, searcher }: { model: string; intentModel?: string; searcher: SearcherFunction },
     options: GraphClientOptions
@@ -211,7 +206,7 @@ export class SearchGraph {
       const result = await agent.invoke({
         messages: userMessage,
       });
-      
+
       // Validate that structuredResponse exists
       if (!result.structuredResponse) {
         console.warn('Intent analysis: Model did not return structured response, defaulting to search');
@@ -278,13 +273,13 @@ export class SearchGraph {
       });
 
       // Validate that structuredResponse exists
-      if (!result.structuredResponse) {
-        throw new GraphError('Model did not return a structured response. This model may not support structured outputs.');
-      }
-
-      // Validate that query array exists
-      if (!result.structuredResponse.query) {
-        throw new GraphError('Model did not return queries in the expected format.');
+      if (!result.structuredResponse?.query) {
+        console.warn('This model may not support structured outputs.');
+        const userInput = getUserInput(messages);
+        return {
+          query: [userInput],
+          rationale: 'This model may not support structured outputs, defaulting to search with the user input.',
+        };
       }
 
       return {

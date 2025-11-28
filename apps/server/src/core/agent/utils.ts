@@ -41,3 +41,22 @@ export function getResearchTopic(messages: BaseMessageLike[]) {
     return researchTopic;
   }
 }
+
+export function getUserInput(messages: BaseMessageLike[]) {
+  const msg = messages[messages.length - 1];
+  if (typeof msg === 'string') {
+    return msg;
+  }
+  if ('content' in msg) {
+    if (typeof msg.content === 'string') {
+      return msg.content;
+    }
+    if (Array.isArray(msg.content)) {
+      return msg.content
+        .map((item: any) => (item.type === 'text' ? item.text : ''))
+        .join('\n');
+    }
+  }
+  return JSON.stringify(msg);
+}
+
