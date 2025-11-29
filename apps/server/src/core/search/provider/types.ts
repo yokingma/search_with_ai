@@ -1,4 +1,4 @@
-export type TSearchEngine = 'GOOGLE' | 'BING' | 'SOGOU' | 'SEARXNG' | 'ZHIPU' | 'TAVILY';
+export type TSearchEngine = 'GOOGLE' | 'BING' | 'SOGOU' | 'SEARXNG' | 'ZHIPU' | 'TAVILY' | 'BOCHA' | 'EXA';
 
 export interface ISearchResponseResult {
   id?: number;

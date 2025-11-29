@@ -55,6 +55,8 @@ export const enginesController = async (ctx: Context) => {
   const tavilyKey = getConfig('TAVILY_KEY');
   const zhipuKey = getConfig('ZHIPU_KEY');
   const bingKey = getConfig('BING_SEARCH_KEY');
+  const exaKey = getConfig('EXA_KEY');
+  const bochaKey = getConfig('BOCHA_KEY');
   const availableEngines: { code: TSearchEngine; name: string }[] = [];
   const SEARXNG_URL = getConfig('SEARXNG_HOSTNAME');
   if (SEARXNG_URL) availableEngines.push({ code: 'SEARXNG', name: 'SearXNG' });
@@ -62,6 +64,8 @@ export const enginesController = async (ctx: Context) => {
   if (bingKey) availableEngines.push({ code: 'BING', name: 'Bing' });
   if (tavilyKey) availableEngines.push({ code: 'TAVILY', name: 'Tavily' });
   if (zhipuKey) availableEngines.push({ code: 'ZHIPU', name: 'Zhipu' });
+  if (exaKey) availableEngines.push({ code: 'EXA', name: 'Exa' });
+  if (bochaKey) availableEngines.push({ code: 'BOCHA', name: 'Bocha' });
   // Sogou are always available
   availableEngines.push({ code: 'SOGOU', name: 'Sogou' });
   ctx.body = {
@@ -136,127 +140,3 @@ export const searchChatController = async (ctx: Context) => {
     ctx.status = 500;
   }
 };
-
-// export const deepResearchController = async (ctx: Context) => {
-//   const query: string = ctx.request.body.query;
-//   // llm provider
-//   const provider: Provider = ctx.request.body.provider;
-//   const model: string = ctx.request.body.model;
-//   const reportModel: string = ctx.request.body.reportModel;
-//   // search engine
-//   const searchEngine: TSearchEngine = ctx.request.body.searchEngine;
-//   const llmProvider = getInfoByProvider(provider);
-//   // options
-//   const { depth = 2, breadth = 2 } = ctx.request.body;
-
-//   const { baseURL } = llmProvider;
-//   const keys = getProviderKeys();
-//   const apiKey = keys[provider];
-//   if (!baseURL || !provider) throw new Error('Provider not found');
-
-//   ctx.res.setHeader('Content-Type', 'text/event-stream; charset=utf-8');
-//   ctx.res.setHeader('Cache-Control', 'no-cache');
-//   ctx.res.setHeader('Connection', 'keep-alive');
-//   ctx.res.statusCode = 200;
-
-//   const deepResearch = new DeepResearch({
-//     llmOptions: {
-//       model,
-//       baseURL,
-//       apiKey,
-//       name: provider
-//     },
-//     reportLlmOptions: {
-//       model: reportModel,
-//       baseURL,
-//       apiKey,
-//       name: provider
-//     },
-//     searchEngine
-//   });
-
-//   const startTime = Date.now();
-
-
-//   // 创建心跳定时器
-//   const heartbeat = setInterval(() => {
-//     const eventData = `data: ${JSON.stringify({
-//       progress: EResearchProgress.Heartbeat,
-//       time: Date.now() - startTime
-//     })}\n\n`;
-//     ctx.res.write(eventData);
-//   }, 3000); // 3秒一次
-
-//   try {
-//     ctx.res.write(`data: ${JSON.stringify({
-//       progress: EResearchProgress.Analyzing,
-//       time: Date.now() - startTime
-//     })}\n\n`);
-
-//     const combinedQuery = await deepResearch.generateCombinedQuery({
-//       initialQuery: query,
-//       numFollowUpQuestions: 3
-//     });
-
-//     ctx.res.write(`data: ${JSON.stringify({
-//       progress: EResearchProgress.Start,
-//       time: Date.now() - startTime
-//     })}\n\n`);
-
-//     const { learnings, urls } = await deepResearch.research({
-//       query: combinedQuery,
-//       depth,
-//       breadth,
-//       onProgress: (progress) => {
-//         const eventData = `data: ${JSON.stringify({
-//           progress: EResearchProgress.Researching,
-//           time: Date.now() - startTime,
-//           researchProgress: progress
-//         })}\n\n`;
-//         ctx.res.write(eventData);
-//       }
-//     });
-
-//     const eventData = `data: ${JSON.stringify({
-//       progress: EResearchProgress.Done,
-//       time: Date.now() - startTime,
-//       researchProgress: {
-//         currentDepth: 0,
-//         currentQuery: null,
-//         visitedUrls: urls
-//       }
-//     })}\n\n`;
-//     ctx.res.write(eventData);
-
-//     ctx.res.write(`data: ${JSON.stringify({
-//       progress: EResearchProgress.Reporting,
-//       time: Date.now() - startTime
-//     })}\n\n`);
-
-//     await deepResearch.generateReport({
-//       combinedQuery,
-//       learnings,
-//       onProgress: (text: string) => {
-//         const eventData = `data: ${JSON.stringify({
-//           progress: EResearchProgress.Reporting,
-//           time: Date.now() - startTime,
-//           report: text
-//         })}\n\n`;
-//         ctx.res.write(eventData);
-//       }
-//     });
-
-//     ctx.res.write(`data: ${JSON.stringify({
-//       progress: EResearchProgress.Done,
-//       time: Date.now() - startTime,
-//       sources: urls
-//     })}\n\n`);
-
-//     ctx.res.write('[DONE] \n\n');
-//     ctx.res.end();
-
-//   } finally {
-//     clearInterval(heartbeat);
-//     ctx.res.end();
-//   }
-// };
