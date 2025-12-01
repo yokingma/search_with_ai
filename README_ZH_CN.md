@@ -62,6 +62,8 @@ AI Search Chat 是一个基于现代 AI 大语言模型的对话式搜索引擎�
 - **Bing Search** - 微软官方搜索 API
 - **Google Search** - 支持多种 API 接入方式
 - **Tavily** - 专为 LLM 优化的搜索引擎
+- **Exa** - Exa.ai 网络搜索 API
+- **Bocha** - BochaAI 网络搜索 API
 - **ChatGLM Web Search** - 智谱 AI 免费搜索插件
 
 ### 🎨 现代化界面体验
@@ -123,6 +125,8 @@ services:
       - GOOGLE_SEARCH_ID=your_google_cse_id
       - TAVILY_KEY=your_tavily_key
       - ZHIPU_KEY=your_zhipu_key
+      - EXA_KEY=your_exa_key
+      - BOCHA_KEY=your_bocha_key
 
       # 网页内容提取 (可选)
       - JINA_KEY=your_jina_key
@@ -214,7 +218,7 @@ docker compose up -d
 docker compose down
 
 # 拉取最新镜像
-docker pull docker.cnb.cool/aigc/aisearch
+docker pull docker.cnb.cool/aigc/searchchat:latest
 
 # 重新启动
 docker compose up -d

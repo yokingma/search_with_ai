@@ -59,9 +59,11 @@ AI Search Chat is a modern AI-powered conversational search engine built with **
 ### 🔍 Multi-Search Engine Integration
 
 - **SearXNG** - Open source aggregated search, no API key required
-- **Bing Search** - Microsoft official search API
-- **Google Search** - Multiple API access methods supported
-- **Tavily** - Search engine optimized for LLM
+- **Bing Search** - Microsoft Bing web search API
+- **Google Search** - Google web search API
+- **Tavily** - Tavily web search API
+- **Exa** - Exa.ai web search API
+- **Bocha** - BochaAI web search API
 - **ChatGLM Web Search** - Zhipu AI free search plugin
 
 ### 🎨 Modern Interface Experience
@@ -123,6 +125,8 @@ services:
       - GOOGLE_SEARCH_ID=your_google_cse_id
       - TAVILY_KEY=your_tavily_key
       - ZHIPU_KEY=your_zhipu_key
+      - EXA_KEY=your_exa_key
+      - BOCHA_KEY=your_bocha_key
 
       # Web Content Extraction (optional)
       - JINA_KEY=your_jina_key
@@ -213,7 +217,7 @@ Open your browser and visit: [http://localhost:3000](http://localhost:3000)
 docker compose down
 
 # Pull latest image
-docker pull docker.cnb.cool/aigc/aisearch
+docker pull docker.cnb.cool/aigc/searchchat:latest
 
 # Restart
 docker compose up -d
