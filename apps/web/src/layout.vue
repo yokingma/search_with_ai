@@ -21,7 +21,7 @@ const { width } = useWindowSize();
 const { t } = useI18n();
 const appStore = useAppStore();
 const theme = computed(() => appStore.theme);
-const collapsed = ref(false);
+const collapsed = computed(() => appStore.collapsed);
 const curMenu = ref('');
 
 const router = useRouter();
@@ -62,10 +62,7 @@ watch(() => cur.value, async () => {
 
 watch(() => width.value, () => {
   if (width.value < 640) {
-    collapsed.value = true;
-  }
-  if (width.value >= 1024) {
-    collapsed.value = false;
+    appStore.updateCollapsed(true);
   }
 }, { immediate: true });
 
@@ -126,7 +123,7 @@ async function loadHistory () {
           </div>
         </div>
         <template #operations>
-          <div class="flex cursor-pointer items-center gap-2 rounded-lg p-2 hover:bg-zinc-100 dark:hover:bg-zinc-800" @click="() => { collapsed = !collapsed; }">
+          <div class="flex cursor-pointer items-center gap-2 rounded-lg p-2 hover:bg-zinc-100 dark:hover:bg-zinc-800" @click="() => { appStore.updateCollapsed(!collapsed); }">
             <t-tooltip :content="collapsed ? t('expand') : t('collapse')" placement="right">
               <RiSidebarFoldLine v-if="!collapsed" size="18px" />
               <RiSidebarUnfoldLine v-else size="18px" />
