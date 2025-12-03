@@ -49,6 +49,8 @@ const onReload = () => {
             :content="message.content"
             :reasoning="message.reasoning_content"
             :contexts="message.source?.contexts"
+            :tool-calls="message.toolCalls"
+            :duration="message.duration"
             :loading="typing"
             @reload="onReload"
           />

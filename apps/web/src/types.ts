@@ -64,16 +64,10 @@ export interface IModelItem {
   alias?: string;
 }
 
-export type Role = 'user' | 'assistant' | 'system' | 'function';
+export type Role = 'user' | 'assistant' | 'system' | 'tool';
 export interface IContextImage {
   url: string
   uuid: string
-}
-
-interface IAgentProcessedEvent<Event extends string = string, Data extends string | Record<string, any> = string> {
-    title: string;
-    event: Event;
-    data: Data;
 }
 
 interface IChatSource {
@@ -87,9 +81,10 @@ interface IChatSource {
 export interface IChatMessage {
   role: Role
   content: string
+  duration?: number
   reasoning_content?: string
   source?: IChatSource
-  events?: Array<IAgentProcessedEvent<string, string | Record<string, any>>>
+  toolCalls?: IToolCall[]
 }
 
 // SearchGraph types
@@ -102,3 +97,11 @@ export enum EGraphEvent {
 export const scrollWrapperKey = Symbol('scrollWrapper') as InjectionKey<{
   scrollWrapper: Ref<HTMLElement | null>
 }>;
+
+export interface IToolCall {
+  id: string;
+  name: string;
+  args: Record<string, any>;
+  status: 'pending' | 'completed' | 'error' | 'interrupted';
+  result: string;
+}

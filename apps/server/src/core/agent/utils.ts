@@ -2,11 +2,12 @@ import {
   AIMessage,
   AIMessageChunk,
   HumanMessage,
+  BaseMessage,
   ToolMessage,
   ToolMessageChunk,
 } from 'langchain';
 import type { BaseMessageLike } from '@langchain/core/messages';
-import { IToolCall } from './types.js';
+import { IToolCall } from '../../interface.js';
 
 export const getCurrentDate = () => {
   return new Date().toISOString().split('T')[0];
@@ -64,7 +65,7 @@ export function getUserInput(messages: BaseMessageLike[]) {
   return JSON.stringify(msg);
 }
 
-export function extractStringFromMessageContent(message: BaseMessageLike): string {
+export function extractStringFromMessageContent(message: BaseMessageLike | BaseMessage): string {
   if (typeof message === 'string') return message;
   if ('content' in message) {
     return typeof message.content === 'string'

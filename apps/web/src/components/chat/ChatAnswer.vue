@@ -7,11 +7,14 @@ import ChatReason from './ChatReason.vue';
 import ChatSources from './ChatSource.vue';
 import marked, { initCodeBlocks } from '@/libs/marked';
 import { useI18n } from 'vue-i18n';
+import ToolCallBox from './ToolCallBox.vue';
+import { IToolCall } from '@/types';
 
 interface IProps {
   reasoning?: string
   content?: string
   duration?: number
+  toolCalls?: IToolCall[]
   reasoningDuration?: number
   contexts?: Record<string, any>[]
   loading?: boolean
@@ -36,6 +39,7 @@ const props = withDefaults(defineProps<IProps>(), {
   contexts: () =>[],
   duration: 0,
   reasoningDuration: 10,
+  toolCalls: () => [],
   loading: false
 });
 const emits = defineEmits<IEmits>();
@@ -168,8 +172,11 @@ function getCitationContent (num?: string | null) {
 <template>
   <t-chat-item role="assistant">
     <template #content>
-      <div v-if="!content && !reasoning" class="mt-4 rounded-md border border-solid border-gray-100 dark:border-gray-700">
+      <div v-if="!content && !reasoning && !toolCalls?.length" class="mt-4 rounded-md border border-solid border-gray-100 dark:border-gray-700">
         <t-skeleton theme="paragraph" animation="flashed"></t-skeleton>
+      </div>
+      <div class="flex flex-col gap-1">
+        <ToolCallBox v-for="toolCall in toolCalls" :key="toolCall.id" :tool-call="toolCall" />
       </div>
       <div class="mb-4">
         <ChatReason
@@ -220,9 +227,12 @@ function getCitationContent (num?: string | null) {
         </div>
         <div class="">
           <t-tag v-if="duration" variant="outline" theme="default">
-            {{ duration }}s
+            {{ (duration / 1000).toFixed(2) }}s
           </t-tag>
         </div>
+      </div>
+      <div v-else>
+        <t-loading size="small" />
       </div>
     </template>
   </t-chat-item>

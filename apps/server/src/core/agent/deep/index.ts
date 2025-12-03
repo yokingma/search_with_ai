@@ -14,6 +14,8 @@ import {
 import { ESearXNGCategory, SearchFunc, TSearchEngine } from '../../search/index.js';
 import { getSearchEngine } from '../../search/utils.js';
 import Models from '../../../model.json' with { type: 'json' };
+import { extractStringFromMessageContent } from '../utils.js';
+import { BaseMessage } from 'langchain';
 
 interface IDeepResearchOptions {
   engine?: TSearchEngine
@@ -123,7 +125,8 @@ export class DeepResearchAgent {
         const [msg, metadata] = chunk;
         const tags: string[] = metadata.tags;
         if (tags.includes(NodeEnum.FinalizeAnswer)) {
-          onMessage?.({ content: msg.content, step: metadata.langgraph_node });
+          const content = extractStringFromMessageContent(msg as unknown as BaseMessage);
+          onMessage?.({ content, role: 'assistant' });
         }
       }
       if (streamMode === 'updates') {
@@ -133,17 +136,17 @@ export class DeepResearchAgent {
           case NodeEnum.GenerateQuery: {
             const queries = result.generatedQueries?.join(', ') || '';
             const rationale = result.rationale || '';
-            onMessage?.({ content: `${rationale}\n\n > ${queries}\n\n`, step });
+            onMessage?.({ content: `${rationale}\n\n > ${queries}\n\n`, role: 'assistant' });
             break;
           }
           case NodeEnum.Research: {
             const res = result.researchResult?.join('\n') || '';
-            onMessage?.({ content: `${res}\n\n`, step });
+            onMessage?.({ content: `${res}\n\n`, role: 'assistant' });
             break;
           }
           case NodeEnum.Reflection: {
             const res = result.reflectionState?.knowledgeGap || '';
-            onMessage?.({ content: `> ${res} \n\n`, step });
+            onMessage?.({ content: `> ${res} \n\n`, role: 'assistant' });
             break;
           }
           case NodeEnum.FinalizeAnswer: {
@@ -164,9 +167,7 @@ export class DeepResearchAgent {
               const bId = Number(b.id);
               return isNaN(bId - aId) ? 0 : aId - bId;
             });
-            contexts?.forEach(context => {
-              onMessage?.({ context, step });
-            });
+            onMessage?.({ contexts, role: 'assistant', content: '' });
             break;
           }
           default:

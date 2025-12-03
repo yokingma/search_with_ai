@@ -7,7 +7,7 @@ import { inject, nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
 import { MessagePlugin } from 'tdesign-vue-next';
 import { ChatMessage, ChatSenderBox  } from '@/components';
 import { getChat, updateChat, IChatRecord } from '@/storage/chat';
-import { IChatInputParams, IChatMessage } from '@/types';
+import { IChatInputParams, IChatMessage, IToolCall } from '@/types';
 import { ROUTE_NAME } from '@/constants';
 import { useScrollToBottom } from '@/utils/useScroll';
 import { scrollWrapperKey } from '@/types';
@@ -122,6 +122,8 @@ async function sendMessage(message: IChatMessage) {
     role: 'assistant',
     content: '',
     reasoning_content: '',
+    duration: 0,
+    toolCalls: [],
     source: {
       images: [],
       contexts: []
@@ -137,6 +139,7 @@ async function sendMessage(message: IChatMessage) {
     loading.value = true;
     const provider = model?.provider;
     const modelName = model?.name;
+    const startTime = Date.now();
     await chat(queryMessages, {
       model: modelName,
       provider,
@@ -148,8 +151,8 @@ async function sendMessage(message: IChatMessage) {
       enabledDeepResearch,
       ctrl: abortCtrl,
       onMessage: (data: any) => {
-        if (data?.context) {
-          curMessage.source?.contexts?.push(data.context);
+        if (data?.contexts) {
+          curMessage.source?.contexts?.push(...data.contexts);
         }
         if (data?.image) {
           curMessage.source?.images?.push(data.image);
@@ -159,6 +162,18 @@ async function sendMessage(message: IChatMessage) {
         }
         if (data?.reasoningContent) {
           curMessage.reasoning_content += data.reasoningContent;
+        }
+        if (data?.toolCalls) {
+          const toolCalls = Array.isArray(data.toolCalls) ? data.toolCalls : [];
+          for (const toolCall of toolCalls as IToolCall[]) {
+            const existingIndex = curMessage.toolCalls?.findIndex(tc => tc.id === toolCall.id) ?? -1;
+            if (existingIndex === -1) {
+              curMessage.toolCalls?.push(toolCall);
+            } else if (curMessage.toolCalls?.[existingIndex]) {
+              curMessage.toolCalls[existingIndex].status = toolCall.status;
+              curMessage.toolCalls[existingIndex].result = toolCall.result;
+            }
+          }
         }
         nextTick(() => {
           autoScroll.value && useScrollToBottom({ target: scrollWrapper?.value, ms: 2000 });
@@ -170,6 +185,8 @@ async function sendMessage(message: IChatMessage) {
       }
     });
     loading.value = false;
+    const endTime = Date.now();
+    curMessage.duration = endTime - startTime;
     await updateChat(props.uuid, {
       messages: messages.value,
     } as IChatRecord);
