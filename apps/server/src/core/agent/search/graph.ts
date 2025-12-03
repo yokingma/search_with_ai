@@ -11,7 +11,7 @@ import { AnthropicInput, ChatAnthropic } from '@langchain/anthropic';
 import { ChatGoogleGenerativeAI } from '@langchain/google-genai';
 import { ChatVertexAI } from '@langchain/google-vertexai';
 import { BaseChatModelParams } from '@langchain/core/language_models/chat_models';
-import { createAgent, toolStrategy } from 'langchain';
+import { createAgent, HumanMessage, toolStrategy } from 'langchain';
 import { getCurrentDate, getResearchTopic, getUserInput } from '../utils.js';
 import { QueryWriterPrompt, ShouldSearchPrompt } from './prompt.js';
 import { RunnableConfig } from '@langchain/core/runnables';
@@ -198,13 +198,12 @@ export class SearchGraph {
       }),
     });
 
-    const userMessage = [
-      { role: 'user', content: `${ShouldSearchPrompt}\nUser input: ${topic}\n` }
-    ];
-
     try {
       const result = await agent.invoke({
-        messages: userMessage,
+        messages: [new HumanMessage(`${ShouldSearchPrompt}\nUser input: ${topic}\n`)],
+      }, {
+        tags: [EGraphEvent.IntentAnalysis],
+        runName: EGraphEvent.IntentAnalysis
       });
 
       // Validate that structuredResponse exists
@@ -267,10 +266,8 @@ export class SearchGraph {
 
 
       const result = await agent.invoke({
-        messages: [
-          { role: 'user', content: prompt }
-        ]
-      });
+        messages: [new HumanMessage(prompt)]
+      }, { tags: [EGraphEvent.RewriteQuery], runName: EGraphEvent.RewriteQuery });
 
       // Validate that structuredResponse exists
       if (!result.structuredResponse?.query) {

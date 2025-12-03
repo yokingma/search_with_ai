@@ -11,9 +11,9 @@ import { IChatOptions } from '../../llm/openai.js';
 import { getSearchEngine } from '../../search/utils.js';
 import { logger, replaceVariable } from '../../../utils/index.js';
 import { StandardResponsePrompt } from './prompt.js';
-import { getCurrentDate } from '../utils.js';
+import { extractToolCalls, getCurrentDate } from '../utils.js';
 import Models from '../../../model.json' with { type: 'json' };
-import { SearchGraph, EGraphEvent } from './graph.js';
+import { SearchGraph } from './graph.js';
 import { SearcherFunction, SearchResultItem } from '../types.js';
 import { AIMessage, HumanMessage } from 'langchain';
 
@@ -122,39 +122,46 @@ export class SearchChat {
             numberOfQueries: 2,
             count: 10
           },
-          streamMode: 'updates'
+          streamMode: ['updates', 'messages']
         }
       );
       let shouldSearch = false;
 
-      for await (const chunk of chunks) {
-        const res = chunk as any;
-        if (res.intentAnalysis) {
-          shouldSearch = res.intentAnalysis?.shouldSearch;
-        }
-        if (res.rewriteQuery) {
-          onMessage?.({ content: res.rewriteQuery.rationale + '\n\n' });
-          if (!res.rewriteQuery.query || res.rewriteQuery.query.length === 0) continue;
-          const md = '```Web Search\n' + res.rewriteQuery.query.join(', ') + '\n```\n\n';
-          onMessage?.({ content: md });
-        }
-        if (res.search) {
-          const result: SearchResultItem[] = res.search.searchResults || [];
-          contexts = result.map((item, index) => ({
-            id: index + 1,
-            name: item.title,
-            content: item.content,
-            snippet: item.content,
-            url: item.url || '',
-            score: item.score,
-            raw: item.raw
-          }));
-          let md = 'No search results found.\n\n';
-          if (contexts.length > 0) md = '```Search Results (' + contexts.length + ')\n' +
-            contexts.map(c => c.id + '. ' + c.name.slice(0, 80)).join('\n') +
-            '\n```\n\n';
-          onMessage?.({ content: md });
-          onMessage?.({ event: EGraphEvent.Search, searchResults: contexts });
+      for await (const [step, chunk] of chunks) {
+        if (step === 'updates') {
+          const res = chunk as any;
+          if (res.intentAnalysis) {
+            shouldSearch = res.intentAnalysis?.shouldSearch;
+          }
+          if (res.search) {
+            const result: SearchResultItem[] = res.search.searchResults || [];
+            contexts = result.map((item, index) => ({
+              id: index + 1,
+              name: item.title,
+              content: item.content,
+              snippet: item.content,
+              url: item.url || '',
+              score: item.score,
+              raw: item.raw
+            }));
+          }
+        } else {
+          const [message, metadata] = chunk;
+          const name: string[] = metadata.tags?.filter((item: string) => !item.startsWith('graph:step'));
+          const toolCalls = extractToolCalls(message);
+          const renamedToolCalls = toolCalls.map(toolCall => {
+            return {
+              ...toolCall,
+              name: name?.[0] ?? toolCall.name,
+              status: toolCall.status ?? 'pending',
+              result: toolCall.result ?? '',
+              id: toolCall.id ?? `tool-${Math.random()}`,
+              args: toolCall.args ?? {},
+            };
+          });
+          if (renamedToolCalls.length > 0) {
+            onMessage?.({ role: 'tool', toolCalls: renamedToolCalls, content: '' });
+          }
         }
       }
 
@@ -166,7 +173,8 @@ export class SearchChat {
           temperature,
           system: systemPrompt
         }, (msg) => {
-          onMessage?.(msg);
+          const content = typeof msg === 'string' ? msg : (msg?.content ?? '');
+          onMessage?.({ content, role: 'assistant' });
         });
         onMessage?.(null, true);
         return;
@@ -197,11 +205,11 @@ export class SearchChat {
     //   onMessage?.({ image });
     // }
 
-    for (const context of contexts) {
-      onMessage?.({ context });
-    }
+    onMessage?.({ role: 'assistant', contexts, content: '' });
 
-    const { messages: extendedMessages } = this.extendUserMessage(userRawQuery, contexts);
+    const message = this.extendUserMessage(userRawQuery, contexts);
+
+    const extendedMessages = [...messages.slice(0, -1), message];
 
     await this.createChat({
       messages: extendedMessages,
@@ -209,7 +217,8 @@ export class SearchChat {
       temperature,
       system: systemPrompt
     }, (msg) => {
-      onMessage?.(msg);
+      const content = typeof msg === 'string' ? msg : (msg?.content ?? '');
+      onMessage?.({ content, role: 'assistant' });
     });
 
     onMessage?.(null, true);
@@ -227,20 +236,16 @@ export class SearchChat {
       (item, index) => `[[citation:${index + 1}]] ${item.content || item.snippet}`
     ).join('\n\n');
 
-    const system = replaceVariable(StandardResponsePrompt, {
+    const prompt = replaceVariable(StandardResponsePrompt, {
       quote: context,
       date: getCurrentDate(),
       question: query
     });
-    const messages: IChatInputMessage[] = [
-      {
-        role: 'user',
-        content: `${system} ${query}`
-      }
-    ];
-
-    return {
-      messages
+    const message: IChatInputMessage = {
+      role: 'user',
+      content: prompt
     };
+
+    return message;
   }
 }

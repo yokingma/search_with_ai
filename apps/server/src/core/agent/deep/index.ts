@@ -127,6 +127,7 @@ export class DeepResearchAgent {
         }
       }
       if (streamMode === 'updates') {
+        console.log(chunk);
         const [step, result] = Object.entries(chunk)[0];
         switch (step) {
           case NodeEnum.GenerateQuery: {

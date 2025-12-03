@@ -53,6 +53,7 @@ export class BaseOpenAIChat implements BaseChat {
       for await (const chunk of stream) {
         if (chunk.choices[0]) {
           const response: IChatResponse = {
+            role: 'assistant',
             content: chunk.choices[0].delta?.content ?? '',
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
@@ -65,7 +66,8 @@ export class BaseOpenAIChat implements BaseChat {
       }
       return {
         content,
-        reasoningContent
+        reasoningContent,
+        role: 'assistant' as const
       };
     }
 
@@ -79,6 +81,7 @@ export class BaseOpenAIChat implements BaseChat {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       reasoningContent: res.choices[0].message.reasoning_content || '',
+      role: 'assistant' as const
     };
   }
 

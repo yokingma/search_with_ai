@@ -50,6 +50,7 @@ export class BaseAnthropicChat implements BaseChat {
         if (chunk.type === 'content_block_delta' && chunk.delta.type === 'text_delta') {
           const response: IChatResponse = {
             content: chunk.delta.text,
+            role: 'assistant'
           };
           content += response.content;
           onMessage?.(response);
@@ -73,6 +74,7 @@ export class BaseAnthropicChat implements BaseChat {
 
     return {
       content,
+      role: 'assistant',
       usage: res.usage ? {
         inputTokens: res.usage.input_tokens,
         outputTokens: res.usage.output_tokens,

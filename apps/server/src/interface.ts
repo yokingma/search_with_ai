@@ -1,3 +1,5 @@
+import { ToolCall } from 'langchain';
+
 export interface RequestConfig {
   endpoint: string;
   timeout?: number;
@@ -7,7 +9,7 @@ export interface RequestConfig {
   method?: RequestInit['method']
 }
 
-export type ChatRoleType = 'user' | 'assistant' | 'system';
+export type ChatRoleType = 'user' | 'assistant' | 'tool' | 'system';
 
 export interface IModelItemConfig {
   name: string;
@@ -33,16 +35,21 @@ export interface IChatInputMessage {
   role: ChatRoleType;
 }
 
-export interface IChatResponse {
-  content: string;
+export interface IChatResponse extends IChatInputMessage {
   reasoningContent?: string;
+  toolCalls?: IToolCall[];
+  contexts?: unknown;
   usage?: {
     outputTokens: number;
     inputTokens: number;
   };
 }
 
+export interface IToolCall extends ToolCall {
+  status: 'pending' | 'completed' | 'error' | 'interrupted';
+  result: string;
+}
 
 export interface IStreamHandler {
-  (response: IChatResponse | Record<string, any> | string | null, done?: boolean): void
+  (response: IChatResponse | string | null, done?: boolean): void
 }

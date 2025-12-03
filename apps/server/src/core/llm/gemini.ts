@@ -45,12 +45,12 @@ export class GeminiChat implements BaseChat {
     for await (const chunk of response) {
       const text = chunk.text;
       if (typeof onMessage === 'function') {
-        onMessage({ content: text }, false);
+        onMessage({ content: text, role: 'assistant' }, false);
       }
       content += text;
     }
 
-    return { content };
+    return { content, role: 'assistant' as const };
   }
 
   public async listModels() {
