@@ -145,7 +145,7 @@ services:
       # ドメインホワイトリスト（オプション）
       - WHITELIST_DOMAINS=
     volumes:
-      - ./model.json:/app/dist/model.json
+      - ./model.json:/app/apps/server/dist/model.json
     ports:
       - "3000:3000"
     restart: always
