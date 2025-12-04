@@ -1,7 +1,7 @@
 services:
   search_chat:
     container_name: search_chat
-    image: docker.cnb.cool/aigc/aisearch
+    image: docker.cnb.cool/aigc/searchchat
     environment:
       # Server Configuration
       - PORT=3000
@@ -11,6 +11,9 @@ services:
       - GOOGLE_SEARCH_KEY=
       - GOOGLE_SEARCH_ID=
       - TAVILY_KEY=
+      - ZHIPU_KEY=
+      - EXA_KEY=
+      - BOCHA_KEY=
 
       # Web Content Extraction (optional)
       - JINA_KEY=
@@ -29,7 +32,7 @@ services:
       # Domain Whitelist (optional)
       - WHITELIST_DOMAINS=
     volumes:
-      - ./model.json:/app/dist/model.json
+      - ./model.json:/app/apps/server/dist/model.json
     ports:
       - "3000:3000"
     restart: always
