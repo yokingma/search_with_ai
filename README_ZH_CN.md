@@ -2,17 +2,17 @@
 
 <div align="center">
 
-# 🔍 AI Search Chat
+# 🔍 SearChat
 
 **基于AI大语言模型的对话式搜索引擎**
 
 *多模型、搜索引擎集成  | 实时对话式搜索 | 支持 Deep Research 深度研究*
 
 <p align="center">
-  <a href="https://github.com/yokingma/search_with_ai/stargazers"><img src="https://img.shields.io/github/stars/yokingma/search_with_ai" alt="Github Stars"></a>
-  <a href="https://github.com/yokingma/search_with_ai/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-purple" alt="License"></a>
-  <a href="https://github.com/yokingma/search_with_ai/issues/new"><img src="https://img.shields.io/badge/Report a bug-Github-%231F80C0" alt="Report a bug"></a>
-  <a href="https://github.com/yokingma/search_with_ai/discussions/new?category=q-a"><img src="https://img.shields.io/badge/Ask a question-Github-%231F80C0" alt="Ask a question"></a>
+  <a href="https://github.com/sear-chat/SearChat/stargazers"><img src="https://img.shields.io/github/stars/sear-chat/SearChat" alt="Github Stars"></a>
+  <a href="https://github.com/sear-chat/SearChat/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-purple" alt="License"></a>
+  <a href="https://github.com/sear-chat/SearChat/issues/new"><img src="https://img.shields.io/badge/Report a bug-Github-%231F80C0" alt="Report a bug"></a>
+  <a href="https://github.com/sear-chat/SearChat/discussions/new?category=q-a"><img src="https://img.shields.io/badge/Ask a question-Github-%231F80C0" alt="Ask a question"></a>
 </p>
 
 [English](./README.md) | **中文** | [日本語](./README_JP.md)
@@ -27,7 +27,7 @@
 
 ## 🌟 项目简介
 
-AI Search Chat 是一个基于现代 AI 大语言模型的对话式搜索引擎。
+SearChat 是一个基于现代 AI 大语言模型的对话式搜索引擎。
 
 🎯 **核心特色**：
 - [x] 🤖 **多模型支持** - 支持OpenAI、Anthropic、Gemini兼容的API
@@ -288,8 +288,8 @@ search_with_ai/
 
 ```bash
 # 克隆项目
-git clone https://github.com/yokingma/search_with_ai.git
-cd search_with_ai
+git clone https://github.com/sear-chat/SearChat.git
+cd SearChat
 
 # 安装依赖 (根目录执行，会自动安装所有子项目依赖)
 yarn install
@@ -360,8 +360,8 @@ turbo build
 
 ### 🐛 问题反馈
 
-- [GitHub Issues](https://github.com/yokingma/search_with_ai/issues) - 报告 Bug 或功能请求
-- [GitHub Discussions](https://github.com/yokingma/search_with_ai/discussions) - 技术讨论和问答
+- [GitHub Issues](https://github.com/sear-chat/SearChat/issues) - 报告 Bug 或功能请求
+- [GitHub Discussions](https://github.com/sear-chat/SearChat/discussions) - 技术讨论和问答
 
 ## 📄 开源协议
 

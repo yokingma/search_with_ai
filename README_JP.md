@@ -2,17 +2,17 @@
 
 <div align="center">
 
-# 🔍 AI Search Chat
+# 🔍 SearChat
 
 **AI大言語モデルベースの対話型検索エンジン**
 
 *マルチモデル・検索エンジン統合 | リアルタイム対話検索 | Deep Research 深度研究対応*
 
 <p align="center">
-  <a href="https://github.com/yokingma/search_with_ai/stargazers"><img src="https://img.shields.io/github/stars/yokingma/search_with_ai" alt="Github Stars"></a>
-  <a href="https://github.com/yokingma/search_with_ai/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-purple" alt="License"></a>
-  <a href="https://github.com/yokingma/search_with_ai/issues/new"><img src="https://img.shields.io/badge/Report a bug-Github-%231F80C0" alt="Report a bug"></a>
-  <a href="https://github.com/yokingma/search_with_ai/discussions/new?category=q-a"><img src="https://img.shields.io/badge/Ask a question-Github-%231F80C0" alt="Ask a question"></a>
+  <a href="https://github.com/sear-chat/SearChat/stargazers"><img src="https://img.shields.io/github/stars/sear-chat/SearChat" alt="Github Stars"></a>
+  <a href="https://github.com/sear-chat/SearChat/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-purple" alt="License"></a>
+  <a href="https://github.com/sear-chat/SearChat/issues/new"><img src="https://img.shields.io/badge/Report a bug-Github-%231F80C0" alt="Report a bug"></a>
+  <a href="https://github.com/sear-chat/SearChat/discussions/new?category=q-a"><img src="https://img.shields.io/badge/Ask a question-Github-%231F80C0" alt="Ask a question"></a>
 </p>
 
 [English](./README.md) | [中文](./README_ZH_CN.md) | **日本語**
@@ -27,7 +27,7 @@
 
 ## 🌟 プロジェクト概要
 
-AI Search Chat は、現代的なAI大言語モデルベースの対話型検索エンジンです。
+SearChat は、現代的なAI大言語モデルベースの対話型検索エンジンです。
 
 🎯 **主要機能**：
 - [x] 🤖 **マルチモデル対応** - OpenAI、Anthropic、Gemini互換API対応
@@ -266,8 +266,8 @@ search_with_ai/
 
 ```bash
 # プロジェクトのクローン
-git clone https://github.com/yokingma/search_with_ai.git
-cd search_with_ai
+git clone https://github.com/sear-chat/SearChat.git
+cd SearChat
 
 # 依存関係のインストール (ルートで実行、全サブプロジェクトの依存関係を自動インストール)
 yarn install
@@ -338,8 +338,8 @@ turbo build
 
 ### 🐛 問題報告
 
-- [GitHub Issues](https://github.com/yokingma/search_with_ai/issues) - バグ報告や機能リクエスト
-- [GitHub Discussions](https://github.com/yokingma/search_with_ai/discussions) - 技術討論とQ&A
+- [GitHub Issues](https://github.com/sear-chat/SearChat/issues) - バグ報告や機能リクエスト
+- [GitHub Discussions](https://github.com/sear-chat/SearChat/discussions) - 技術討論とQ&A
 
 ## 📄 ライセンス
 
