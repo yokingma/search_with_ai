@@ -138,6 +138,10 @@ services:
       - SEARXNG_ENGINES=bing,google
       - SEARXNG_IMAGES_ENGINES=bing,google
 
+      # DeepResearch Configuration
+      - DEEP_MAX_RESEARCH_LOOPS=3
+      - DEEP_NUMBER_OF_INITIAL_QUERIES=3
+
       # Domain Whitelist (optional)
       - WHITELIST_DOMAINS=
     volumes:

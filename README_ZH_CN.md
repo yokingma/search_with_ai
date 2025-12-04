@@ -138,6 +138,10 @@ services:
       - SEARXNG_ENGINES=bing,google
       - SEARXNG_IMAGES_ENGINES=bing,google
 
+      # DeepResearch 配置
+      - DEEP_MAX_RESEARCH_LOOPS=3
+      - DEEP_NUMBER_OF_INITIAL_QUERIES=3
+
       # 域名白名单 (可选)
       - WHITELIST_DOMAINS=
     volumes:

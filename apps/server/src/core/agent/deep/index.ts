@@ -17,6 +17,7 @@ import { getSearchEngine } from '../../search/utils.js';
 import Models from '../../../model.json' with { type: 'json' };
 import { extractStringFromMessageContent, extractToolCalls } from '../utils.js';
 import { BaseMessage } from 'langchain';
+import { getConfig } from '../../../utils/config.js';
 
 interface IDeepResearchOptions {
   engine?: TSearchEngine
@@ -79,6 +80,8 @@ export class DeepResearchAgent {
   public async chat(options: IChatParams, onMessage?: IStreamHandler) {
     const { messages, searchOptions } = options;
     const { language = 'auto', categories = [ESearXNGCategory.GENERAL] } = searchOptions || {};
+    const maxResearchLoops = Number(getConfig('DEEP_MAX_RESEARCH_LOOPS', '3'));
+    const numberOfInitialQueries = Number(getConfig('DEEP_NUMBER_OF_INITIAL_QUERIES', '3'));
 
     const searcher = this.createSearcher({
       categories,
@@ -115,8 +118,8 @@ export class DeepResearchAgent {
           queryGeneratorModel: this.intentModel || this.model,
           reflectionModel: this.intentModel || this.model,
           answerModel: this.model,
-          numberOfInitialQueries: 2,
-          maxResearchLoops: 2,
+          numberOfInitialQueries,
+          maxResearchLoops,
         },
       }
     );
