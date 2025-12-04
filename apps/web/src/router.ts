@@ -24,7 +24,7 @@ const routes = [
         component: ChatSearchPage,
         props: true,
         meta: {
-          title: 'Chat Search'
+          title: 'Chat'
         }
       },
     ],

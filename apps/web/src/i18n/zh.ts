@@ -1,5 +1,5 @@
 export default {
-  title: '基于AI的对话式搜索引擎',
+  title: 'SearChat - 基于AI的对话式搜索引擎',
   theme: '主题',
   reasoning: '思考中...',
   reasoning_completed: '思考已完成。',

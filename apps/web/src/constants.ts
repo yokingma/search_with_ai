@@ -1,6 +1,6 @@
 export const ROUTE_NAME = {
   HOME: 'Home',
-  CHAT_PAGE: 'ChatSearchPage',
+  CHAT_PAGE: 'Chat',
   DEEP_RESEARCH: 'DeepResearch'
 };
 
