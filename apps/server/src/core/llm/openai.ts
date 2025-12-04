@@ -1,13 +1,7 @@
 import OpenAI from 'openai';
-import { IChatInputMessage, IChatResponse, IStreamHandler } from '../../interface.js';
+import { IChatInputToolMessage, IChatResponse, IStreamHandler } from '../../interface.js';
 import { BaseChat } from './base.js';
-
-export interface IChatOptions {
-  messages: IChatInputMessage[];
-  model: string;
-  system?: string;
-  temperature?: number;
-}
+import { IChatOptions } from './type.js';
 
 export class BaseOpenAIChat implements BaseChat {
   private openai: OpenAI | null;
@@ -23,23 +17,34 @@ export class BaseOpenAIChat implements BaseChat {
     }
   }
 
-  async chat(options: IChatOptions): Promise<IChatResponse>
-  async chat(options: IChatOptions, onMessage: IStreamHandler): Promise<IChatResponse>
-
   async chat(options: IChatOptions, onMessage?: IStreamHandler) {
     if (!this.openai) {
       throw new Error(`${this.provider} key is not set`);
     }
     const { model, system, temperature } = options;
-    let messages = options.messages;
+
+    // Transform messages to OpenAI's expected format
+    const messages = options.messages.map(msg => {
+      if (msg.role === 'tool') {
+        // Type guard ensures msg is IChatInputToolMessage
+        const toolMsg = msg as IChatInputToolMessage;
+        return {
+          role: 'tool' as const,
+          content: toolMsg.content,
+          tool_call_id: toolMsg.tool_call_id,
+        };
+      }
+      return {
+        role: msg.role,
+        content: msg.content,
+      };
+    });
+
     if (system) {
-      messages = [
-        {
-          role: 'system',
-          content: system,
-        },
-        ...messages,
-      ];
+      messages.unshift({
+        role: 'system' as const,
+        content: system,
+      });
     }
     if (typeof onMessage === 'function') {
       const stream = await this.openai.chat.completions.create({

@@ -9,7 +9,7 @@ export interface RequestConfig {
   method?: RequestInit['method']
 }
 
-export type ChatRoleType = 'user' | 'assistant' | 'tool' | 'system';
+export type ChatRoleType = 'user' | 'assistant' | 'system' | 'tool';
 
 export interface IModelItemConfig {
   name: string;
@@ -30,12 +30,34 @@ export interface IProviderItemConfig {
   apiKey?: string;
 }
 
+/**
+ * Standard chat message from user, assistant, or system.
+ * Does not include tool messages.
+ */
 export interface IChatInputMessage {
   content: string;
-  role: ChatRoleType;
+  role: Exclude<ChatRoleType, 'tool'>;
 }
 
-export interface IChatResponse extends IChatInputMessage {
+/**
+ * Tool message containing the result of a tool execution.
+ * Must include tool_call_id to link back to the original tool call.
+ */
+export interface IChatInputToolMessage {
+  role: 'tool';
+  content: string;
+  tool_call_id: string;
+}
+
+/**
+ * Union type for all possible input message types.
+ * Use this when accepting any kind of chat message.
+ */
+export type IChatMessage = IChatInputMessage | IChatInputToolMessage;
+
+export interface IChatResponse {
+  content: string;
+  role: ChatRoleType;
   reasoningContent?: string;
   toolCalls?: IToolCall[];
   contexts?: unknown;

@@ -1,13 +1,8 @@
 import Anthropic from '@anthropic-ai/sdk';
-import { IChatInputMessage, IChatResponse, IStreamHandler } from '../../interface.js';
+import { IChatResponse, IStreamHandler } from '../../interface.js';
 import { BaseChat } from './base.js';
+import { IChatOptions } from './type.js';
 
-export interface IChatOptions {
-  messages: IChatInputMessage[];
-  model: string;
-  system?: string;
-  temperature?: number;
-}
 
 export class BaseAnthropicChat implements BaseChat {
   private anthropic: Anthropic | null;
@@ -22,9 +17,6 @@ export class BaseAnthropicChat implements BaseChat {
       });
     }
   }
-
-  async chat(options: IChatOptions): Promise<IChatResponse>
-  async chat(options: IChatOptions, onMessage: IStreamHandler): Promise<IChatResponse>
 
   async chat(options: IChatOptions, onMessage?: IStreamHandler) {
     if (!this.anthropic) {
@@ -56,7 +48,7 @@ export class BaseAnthropicChat implements BaseChat {
           onMessage?.(response);
         }
       }
-      return { content };
+      return { content, role: 'assistant' as const };
     }
 
     const res = await this.anthropic.messages.create({
@@ -74,7 +66,7 @@ export class BaseAnthropicChat implements BaseChat {
 
     return {
       content,
-      role: 'assistant',
+      role: 'assistant' as const,
       usage: res.usage ? {
         inputTokens: res.usage.input_tokens,
         outputTokens: res.usage.output_tokens,

@@ -7,7 +7,7 @@ import {
 } from '../../../interface.js';
 import { ESearXNGCategory, ISearchResponseResult, ISearXNGOptions, SearchFunc, TSearchEngine } from '../../search/index.js';
 import { getProviderClient } from '../../llm/index.js';
-import { IChatOptions } from '../../llm/openai.js';
+import { IChatOptions } from '../../llm/type.js';
 import { getSearchEngine } from '../../search/utils.js';
 import { logger, replaceVariable } from '../../../utils/index.js';
 import { StandardResponsePrompt } from './prompt.js';

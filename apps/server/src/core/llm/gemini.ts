@@ -1,6 +1,6 @@
 import { BaseChat } from './base.js';
-import { IChatInputMessage, IStreamHandler } from '../../interface.js';
-import { IChatOptions } from './openai.js';
+import { IChatMessage, IStreamHandler } from '../../interface.js';
+import { IChatOptions } from './type.js';
 import { GoogleGenAI } from '@google/genai';
 
 export class GeminiChat implements BaseChat {
@@ -45,7 +45,7 @@ export class GeminiChat implements BaseChat {
     for await (const chunk of response) {
       const text = chunk.text;
       if (typeof onMessage === 'function') {
-        onMessage({ content: text, role: 'assistant' }, false);
+        onMessage({ content: text || '', role: 'assistant' }, false);
       }
       content += text;
     }
@@ -57,10 +57,30 @@ export class GeminiChat implements BaseChat {
     return [];
   }
 
-  private transformMessage(messages: IChatInputMessage[]) {
-    return messages.map(msg => ({
-      role: msg.role === 'assistant' ? 'model' : 'user',
-      parts: [{ text: msg.content }]
-    }));
+  private transformMessage(messages: IChatMessage[]) {
+    return messages
+      .filter(msg => {
+        // Filter out empty content messages to avoid Gemini API errors
+        return msg.content && msg.content.trim().length > 0;
+      })
+      .map(msg => {
+        // Gemini only supports 'user' and 'model' roles
+        // Map: assistant -> model, everything else -> user
+        // Note: tool messages are treated as user messages with the tool result
+        let role: 'user' | 'model' = 'user';
+
+        if (msg.role === 'assistant') {
+          role = 'model';
+        } else if (msg.role === 'tool') {
+          // Tool messages should be sent as user messages
+          role = 'user';
+        }
+        // 'user' and 'system' both map to 'user' in Gemini
+
+        return {
+          role,
+          parts: [{ text: msg.content }]
+        };
+      });
   }
 }
