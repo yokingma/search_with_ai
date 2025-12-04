@@ -2,6 +2,7 @@
 import { IToolCall } from '@/types';
 import { RiCheckboxCircleLine, RiErrorWarningLine, RiLoaderLine, RiStopCircleLine, RiTerminalLine, RiArrowDownLine, RiArrowUpLine } from '@remixicon/vue';
 import { computed, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 interface Props {
   toolCall: IToolCall;
@@ -10,6 +11,8 @@ interface Props {
 const props = defineProps<Props>();
 const isExpanded = ref(false);
 const expandedArgs = ref<Record<string, boolean>>({});
+
+const { t } = useI18n();
 
 const statusIcon = computed(() => {
   switch (props.toolCall.status) {
@@ -67,7 +70,7 @@ const formatValue = (value: any): string => {
         <div class="flex items-center gap-2">
           <component :is="statusIcon" />
           <span class="text-[15px] font-extrabold tracking-[-0.6px]">
-            {{ toolCall.name || 'Unknown Tool' }}
+            {{ t(toolCall.name ?? 'unknown_tool') }}
           </span>
         </div>
         <component 

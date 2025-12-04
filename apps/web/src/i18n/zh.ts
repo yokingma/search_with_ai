@@ -40,6 +40,13 @@ export default {
   expand: '展开',
   collapse: '收起',
   warning: '搜索生成的内容由AI大模型和搜索引擎生成，内容不代表我们的态度或观点，仅供研究学习用途。',
+  // tool call name
+  unknown_tool: '未知工具',
+  intentAnalysis: '意图分析',
+  rewriteQuery: '查询重写',
+  generate_query: '生成查询',
+  research: '研究',
+  reflection: '反思',
   progress: {
     start: '开始分析',
     analyzing: '分析中...',
