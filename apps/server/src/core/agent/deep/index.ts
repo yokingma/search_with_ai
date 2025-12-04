@@ -10,6 +10,7 @@ import {
   IStreamHandler,
   IProviderItemConfig,
   ProviderType,
+  IToolCall,
 } from '../../../interface.js';
 import { ESearXNGCategory, SearchFunc, TSearchEngine } from '../../search/index.js';
 import { getSearchEngine } from '../../search/utils.js';
@@ -114,8 +115,8 @@ export class DeepResearchAgent {
           queryGeneratorModel: this.intentModel || this.model,
           reflectionModel: this.intentModel || this.model,
           answerModel: this.model,
-          numberOfInitialQueries: 3,
-          maxResearchLoops: 3,
+          numberOfInitialQueries: 2,
+          maxResearchLoops: 2,
         },
       }
     );
@@ -144,7 +145,27 @@ export class DeepResearchAgent {
         }
       } else {
         const [step, result] = Object.entries(chunk)[0];
+        let researchIndex = 0;
         switch (step) {
+          case NodeEnum.Research: {
+            const content = result.researchResult?.[researchIndex];
+            const loop = result.researchLoopCount;
+            const searchResult = result.sourcesGathered?.map(item => {
+              return `- ${item.title} (${item.url})`;
+            }).join('\n');
+            if (content) {
+              const toolCall: IToolCall = {
+                name: NodeEnum.Research,
+                id: `tool-${Math.random()}`,
+                args: { loop, queries: result.searchedQueries },
+                status: 'completed',
+                result: `${content}\n\n${searchResult}`,
+              };
+              onMessage?.({ toolCalls: [toolCall], content: '', role: 'tool' });
+              researchIndex++;
+            }
+            break;
+          }
           case NodeEnum.FinalizeAnswer: {
             const contexts = result.sourcesGathered?.map(item => {
               const format = {
