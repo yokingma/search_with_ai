@@ -1,5 +1,7 @@
 FROM node:20-alpine AS base
 
+RUN corepack enable && corepack prepare yarn@3.5.1 --activate
+
 FROM base AS build
 
 RUN apk add --no-cache python3 make g++
@@ -15,7 +17,6 @@ COPY apps/server/package.json ./apps/server/
 COPY packages/deepresearch/package.json ./packages/deepresearch/
 
 # Install dependencies
-RUN corepack enable
 RUN yarn install
 
 # Copy source code
