@@ -14,7 +14,7 @@ import {
 import { ESearXNGCategory, SearchFunc, TSearchEngine } from '../../search/index.js';
 import { getSearchEngine } from '../../search/utils.js';
 import Models from '../../../model.json' with { type: 'json' };
-import { extractStringFromMessageContent } from '../utils.js';
+import { extractStringFromMessageContent, extractToolCalls } from '../utils.js';
 import { BaseMessage } from 'langchain';
 
 interface IDeepResearchOptions {
@@ -115,40 +115,36 @@ export class DeepResearchAgent {
           reflectionModel: this.intentModel || this.model,
           answerModel: this.model,
           numberOfInitialQueries: 3,
-          maxResearchLoops: 2,
+          maxResearchLoops: 3,
         },
       }
     );
 
     for await (const [streamMode, chunk] of chunks) {
       if (streamMode === 'messages') {
-        const [msg, metadata] = chunk;
-        const tags: string[] = metadata.tags;
-        if (tags.includes(NodeEnum.FinalizeAnswer)) {
-          const content = extractStringFromMessageContent(msg as unknown as BaseMessage);
+        const [message, metadata] = chunk;
+        const name: string[] = metadata.tags?.filter((item: string) => !item.startsWith('graph:step'));
+        const toolCalls = extractToolCalls(message as unknown as BaseMessage);
+        const renamedToolCalls = toolCalls.map(toolCall => {
+          return {
+            ...toolCall,
+            name: name?.[0] ?? toolCall.name,
+            status: toolCall.status ?? 'pending',
+            result: toolCall.result ?? '',
+            id: toolCall.id ?? `tool-${Math.random()}`,
+            args: toolCall.args ?? {},
+          };
+        });
+        if (renamedToolCalls.length > 0) {
+          onMessage?.({ role: 'tool', toolCalls: renamedToolCalls, content: '' });
+        }
+        if (name.includes(NodeEnum.FinalizeAnswer)) {
+          const content = extractStringFromMessageContent(message as unknown as BaseMessage);
           onMessage?.({ content, role: 'assistant' });
         }
-      }
-      if (streamMode === 'updates') {
-        console.log(chunk);
+      } else {
         const [step, result] = Object.entries(chunk)[0];
         switch (step) {
-          case NodeEnum.GenerateQuery: {
-            const queries = result.generatedQueries?.join(', ') || '';
-            const rationale = result.rationale || '';
-            onMessage?.({ content: `${rationale}\n\n > ${queries}\n\n`, role: 'assistant' });
-            break;
-          }
-          case NodeEnum.Research: {
-            const res = result.researchResult?.join('\n') || '';
-            onMessage?.({ content: `${res}\n\n`, role: 'assistant' });
-            break;
-          }
-          case NodeEnum.Reflection: {
-            const res = result.reflectionState?.knowledgeGap || '';
-            onMessage?.({ content: `> ${res} \n\n`, role: 'assistant' });
-            break;
-          }
           case NodeEnum.FinalizeAnswer: {
             const contexts = result.sourcesGathered?.map(item => {
               const format = {
