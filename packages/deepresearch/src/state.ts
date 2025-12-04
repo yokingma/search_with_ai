@@ -23,7 +23,10 @@ export const OverallAnnotation = Annotation.Root({
     reducer: (current, update) => current.concat(update),
     default: () => [],
   }),
-  researchLoopCount: Annotation<number>,
+  researchLoopCount: Annotation<number>({
+    reducer: (current, update) => Math.max(current, update ?? 0),
+    default: () => 0,
+  }),
   // reflection state
   reflectionState: Annotation<typeof ReflectionState.State>,
 });
@@ -46,4 +49,5 @@ export const ReflectionState = Annotation.Root({
 export const ResearchState = Annotation.Root({
   query: Annotation<string>,
   id: Annotation<string>,
+  loopIndex: Annotation<number>,
 });

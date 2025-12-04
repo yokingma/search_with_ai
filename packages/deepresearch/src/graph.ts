@@ -180,7 +180,7 @@ export class DeepResearch {
     }
 
     return queryList.map(
-      (query, idx) => new Send(NodeEnum.Research, { query, id: idx.toString() })
+      (query, idx) => new Send(NodeEnum.Research, { query, id: idx.toString(), loopIndex: 1 })
     );
   }
 
@@ -244,6 +244,7 @@ export class DeepResearch {
       sourcesGathered: usedSources,
       searchedQueries: [state.query],
       researchResult: [content],
+      researchLoopCount: state.loopIndex,
     };
   }
 
@@ -261,7 +262,7 @@ export class DeepResearch {
     const { reflectionModel, numberOfInitialQueries } = configuration;
     const { temperature = 0.1 } = this.options || {};
 
-    const researchLoopCount = (state.researchLoopCount ?? 0) + 1;
+    // const researchLoopCount = (state.researchLoopCount ?? 0) + 1;
 
     const researchTopic = getResearchTopic(state.messages);
     const summaries = state.researchResult.join('\n\n');
@@ -296,7 +297,7 @@ export class DeepResearch {
       const structuredResponse = result.structuredResponse;
 
       return {
-        researchLoopCount,
+        // researchLoopCount,
         reflectionState: {
           isSufficient: structuredResponse?.isSufficient ?? true,
           knowledgeGap: structuredResponse?.knowledgeGap ?? '',
@@ -308,7 +309,7 @@ export class DeepResearch {
       console.error('Failed to generate reflection:', error);
       // if reflection fails, return default value
       return {
-        researchLoopCount,
+        // researchLoopCount,
         reflectionState: {
           isSufficient: true, // assume the research is sufficient
           knowledgeGap: 'Unable to analyze knowledge gaps',
@@ -352,6 +353,7 @@ export class DeepResearch {
         new Send(NodeEnum.Research, {
           query,
           id: (numberOfRanQueries + index).toString(),
+          loopIndex: researchLoopCount + 1,
         })
     );
   }
