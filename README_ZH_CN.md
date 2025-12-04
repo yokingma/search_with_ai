@@ -22,7 +22,7 @@
 ---
 
 <div align="center">
- <img src="./assets/screenshot_cn.png" alt="AI Search Chat 界面截图" style="border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);"></img>
+ <img src="./assets/screenshot.png" alt="AI Search Chat 界面截图" style="border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);"></img>
 </div>
 
 ## 🌟 项目简介
@@ -80,7 +80,7 @@ Deep Research 模式通过 AI 驱动的迭代式搜索和分析，为任何主�
 
 ### 📹 功能演示
 
-Todo
+[功能演示](https://youtu.be/W_455aI14hI)
 
 ### 📦 独立使用
 
@@ -376,6 +376,11 @@ turbo build
 - [SearXNG](https://github.com/searxng/searxng) - 开源搜索引擎
 - [LangChain](https://github.com/langchain-ai/langchain) - AI 应用开发框架
 - [Tencent EdgeOne](https://edgeone.ai/?from=github) - CDN 加速支持
+
+### 💬 微信群
+
+请先添加微信进群
+![微信](wechat.jpg)
 
 ---
 

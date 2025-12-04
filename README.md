@@ -22,7 +22,7 @@
 ---
 
 <div align="center">
- <img src="./assets/screenshot_cn.png" alt="AI Search Chat Interface" style="border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);"></img>
+ <img src="./assets/screenshot.png" alt="AI Search Chat Interface" style="border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);"></img>
 </div>
 
 ## 🌟 Project Overview
@@ -80,7 +80,7 @@ Deep Research mode uses AI-driven iterative search and analysis to generate comp
 
 ### 📹 Feature Demo
 
-Todo
+[Demo](https://youtu.be/W_455aI14hI)
 
 ### 📦 Standalone Usage
 

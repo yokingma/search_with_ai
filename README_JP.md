@@ -22,7 +22,7 @@
 ---
 
 <div align="center">
- <img src="./assets/screenshot_cn.png" alt="AI Search Chat インターフェース" style="border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);"></img>
+ <img src="./assets/screenshot.png" alt="AI Search Chat インターフェース" style="border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);"></img>
 </div>
 
 ## 🌟 プロジェクト概要
@@ -80,7 +80,7 @@ Deep Research モードは、AI駆動の反復的検索・分析により、あ�
 
 ### 📹 機能デモ
 
-Todo
+[機能デモ](https://youtu.be/W_455aI14hI)
 
 ### 📦 独立使用
 
