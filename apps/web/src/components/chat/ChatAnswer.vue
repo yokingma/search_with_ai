@@ -148,7 +148,7 @@ function processAnswer (answer?: string, renderPopover = false) {
 
 function getCitationContent (num?: string | null) {
   if (!num) return () => <></>;
-  const context = props.contexts?.find((item) => item.id === +num);
+  const context = props.contexts?.find((item) => String(item.id) === String(num));
   if (!context) return () => <></>;
   return () => (
     <div class="flex h-auto w-80 flex-col p-2">

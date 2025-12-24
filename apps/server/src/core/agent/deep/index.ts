@@ -94,6 +94,7 @@ export class DeepResearchAgent {
         apiKey: this.apiKey,
         baseURL: this.baseURL,
         type: this.providerType,
+        enableCitationUrl: false
       }
     });
 
