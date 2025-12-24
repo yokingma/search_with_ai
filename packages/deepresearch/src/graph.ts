@@ -42,6 +42,12 @@ export interface DeepResearchOptions extends ClientOptions {
   type?: 'openai' | 'anthropic' | 'gemini' | 'vertexai';
   systemPrompt?: string;
   temperature?: number;
+  /**
+   * Enable URL format in citations (default: true)
+   * - true: output format is <sup>[[id](url)]</sup>
+   * - false: output format is [[citation:id]]
+   */
+  enableCitationUrl?: boolean;
 }
 
 export class DeepResearch {
@@ -195,7 +201,7 @@ export class DeepResearch {
   ): Promise<Partial<typeof OverallAnnotation.State>> {
     const configuration = getConfigurationFromRunnableConfig(config);
     const { queryGeneratorModel } = configuration;
-    const { temperature = 0.1 } = this.options || {};
+    const { temperature = 0.1, enableCitationUrl = true } = this.options || {};
 
     const searchResults = await this.searcher(state);
     const formattedSearchResults = searchResults
@@ -233,8 +239,8 @@ export class DeepResearch {
     // Extract the AI message content from the agent result
     const lastMessage = result.messages[result.messages.length - 1];
 
-    // Return content and referenced indexes, content contains citation marks [id](url)
-    const { content, segmentIndexes } = getCitations(lastMessage, searchResults);
+    // Return content and referenced indexes, content contains citation marks with URL
+    const { content, segmentIndexes } = getCitations(lastMessage, searchResults, enableCitationUrl);
 
     const usedSources = searchResults.filter((_, index) =>
       segmentIndexes.includes(`${index + 1}`)
@@ -369,7 +375,7 @@ export class DeepResearch {
   ): Promise<typeof OutputAnnotation.State> {
     const configuration = getConfigurationFromRunnableConfig(config);
     const { reflectionModel } = configuration;
-    const { systemPrompt = 'You are a helpful research assistant.', temperature = 0.1 } = this.options || {};
+    const { systemPrompt = 'You are a helpful research assistant.', temperature = 0.1, enableCitationUrl = true } = this.options || {};
 
     const model = reflectionModel;
     const currentDate = getCurrentDate();
@@ -419,8 +425,20 @@ export class DeepResearch {
 
     const sourcesGathered: SearchResultItem[] = [];
     for (const source of state.sourcesGathered) {
-      const citation = source.url ? `[${source.id}](${source.url})` : `[[${source.id}]]`;
-      if (messageContent.includes(citation)) {
+      let isIncluded = false;
+
+      if (enableCitationUrl) {
+        // Check for URL citation formats when enableCitationUrl is true
+        const citationWithUrl = `<sup>[[${source.id}](${source.url})]</sup>`;
+        const citationWithoutUrl = `<sup>[[${source.id}]]</sup>`;
+        isIncluded = messageContent.includes(citationWithUrl) || messageContent.includes(citationWithoutUrl);
+      } else {
+        // Check for simple citation format when enableCitationUrl is false
+        const simpleCitation = `[[citation:${source.id}]]`;
+        isIncluded = messageContent.includes(simpleCitation);
+      }
+
+      if (isIncluded) {
         sourcesGathered.push(source);
       }
     }

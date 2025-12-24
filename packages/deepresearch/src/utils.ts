@@ -43,27 +43,30 @@ export function getResearchTopic(messages: BaseMessageLike[]) {
 /**
  * Extracts and formats citation information from a model's response.
  * Original Citation Format:
- * - [[1]], [[2]], [[3]] etc. to cite specific search results
- * - Multiple sources can be cited as [[1]][[2]]
+ * - [[1]], [[2]], [[3]] or [[citation:1]], [[citation:2]] etc. to cite specific search results
+ * - Multiple sources can be cited as [[1]][[2]] or [[citation:1]][[citation:2]]
  * Formatted Citation Format:
- * - `[id](url)` to cite specific search results
- * - Multiple sources can be cited as `[id](url)[id](url)`
+ * - If enableUrl is true: `<sup>[[id](url)]</sup>` if URL exists, `<sup>[[id]]</sup>` if no URL
+ * - If enableUrl is false: `[[citation:id]]`
  */
 export function getCitations(
   response: AIMessageChunk | { content: string | unknown },
-  sources: SearchResultItem[]
+  sources: SearchResultItem[],
+  enableUrl = true
 ) {
-  const text = typeof response.content === 'string' 
-    ? response.content 
+  const text = typeof response.content === 'string'
+    ? response.content
     : JSON.stringify(response.content);
 
   const replaceCitationMark = (text: string): string => {
     return (
       text
-        // Convert [[number]] directly to [citation](number)
+        // Convert [[citation:number]] to [citation](number)
+        .replace(/\[\[citation:(\d+)]]/g, '[citation]($1)')
+        // Convert [[number]] to [citation](number)
         .replace(/\[\[(\d+)]]/g, '[citation]($1)')
-        // If there are other formats to handle, continue adding
-        .replace(/\[(\d+)]/g, '[citation]($1)')
+        // Convert [number] to [citation](number)
+        .replace(/(?<!\[)\[(\d+)](?!])/g, '[citation]($1)')
     );
   };
 
@@ -80,7 +83,7 @@ export function getCitations(
 
   const formattedText = replaceCitationMark(text);
 
-  // insert citations
+  // insert citations with URL or keep simple format
   const citationRegex = /\[citation\]\((\d+)\)/g;
   const citationNumbers = getCitationNumber(formattedText);
 
@@ -90,6 +93,13 @@ export function getCitations(
     if (!source) {
       return str;
     }
+
+    // If enableUrl is false, return simple citation format
+    if (!enableUrl) {
+      return `[[citation:${source.id}]]`;
+    }
+
+    // If enableUrl is true, return URL format
     if (source.url) {
       return `<sup>[[${source.id}](${source.url})]</sup>`;
     }

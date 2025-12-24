@@ -3,7 +3,7 @@
 DeepResearch Agent with LangGraph, using any LLM models, search engine, RAG retrieval.
 
 > [!NOTE]
-> This package is part of the [search_with_ai](https://github.com/yokingma/search_with_ai) monorepo.
+> This package is part of the [SearChat](https://github.com/sear-chat/SearChat) monorepo.
 > The original standalone repository is archived at [deepresearch](https://github.com/yokingma/deepresearch).
 >
 > The code logic referenced [Google's Gemini LangGraph Project](https://github.com/google-gemini/gemini-fullstack-langgraph-quickstart).
@@ -43,6 +43,7 @@ const instance = new DeepResearch({
     baseURL: 'https://api.openai.com/v1', // Optional, for custom endpoints
     systemPrompt: 'You are a helpful research assistant.', // Optional, default provided
     temperature: 0.1, // Optional, default 0.1, controls randomness (0.0-2.0)
+    enableCitationUrl: true, // Optional, default true, controls citation format
   },
 });
 
@@ -146,6 +147,7 @@ const instance = new DeepResearch({
 | `baseURL` | `string` | - | Custom API endpoint (optional) |
 | `systemPrompt` | `string` | `'You are a helpful research assistant.'` | System prompt for the agent |
 | `temperature` | `number` | `0.1` | Controls randomness (0.0 = deterministic, 2.0 = very random) |
+| `enableCitationUrl` | `boolean` | `true` | Enable URL format in citations (see [Citation Formats](#citation-formats)) |
 
 ### Runtime Configuration
 
@@ -156,6 +158,68 @@ const instance = new DeepResearch({
 | `queryGeneratorModel` | `string` | - | Model for generating search queries |
 | `reflectionModel` | `string` | - | Model for analyzing research gaps |
 | `answerModel` | `string` | - | Model for generating final answer |
+
+## Citation Formats
+
+The agent supports two citation formats controlled by the `enableCitationUrl` option:
+
+### URL Format (Default)
+
+When `enableCitationUrl: true` (default), citations are formatted with clickable URLs:
+
+```markdown
+According to recent studies<sup>[[1](https://example.com/source1)]</sup>, the technology has improved.
+```
+
+**Output format:**
+
+- With URL: `<sup>[[id](url)]</sup>`
+- Without URL: `<sup>[[id]]</sup>`
+
+**Example:**
+
+```ts
+const instance = new DeepResearch({
+  searcher,
+  options: {
+    type: 'openai',
+    apiKey: 'YOUR_API_KEY',
+    enableCitationUrl: true, // Default behavior
+  },
+});
+```
+
+### Simple Format
+
+When `enableCitationUrl: false`, citations use a simple bracket format:
+
+```markdown
+According to recent studies[[citation:1]], the technology has improved.
+```
+
+**Output format:** `[[citation:id]]`
+
+**Example:**
+
+```ts
+const instance = new DeepResearch({
+  searcher,
+  options: {
+    type: 'openai',
+    apiKey: 'YOUR_API_KEY',
+    enableCitationUrl: false, // Use simple citation format
+  },
+});
+```
+
+### Citation Format Comparison
+
+| `enableCitationUrl` | Output Format                | Example                                   |
+|---------------------|------------------------------|-------------------------------------------|
+| `true` (default)    | `<sup>[[id](url)]</sup>`     | `<sup>[[1](https://example.com)]</sup>`   |
+| `false`             | `[[citation:id]]`            | `[[citation:1]]`                          |
+
+**Note:** The AI model generates citations in the format `[[citation:1]]`, `[[citation:2]]`, etc. The `getCitations` function then transforms these into the final output format based on the `enableCitationUrl` setting.
 
 ## How to stream from the target node
 

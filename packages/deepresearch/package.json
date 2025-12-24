@@ -1,6 +1,6 @@
 {
   "name": "deepsearcher",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "DeepResearch Agent with LangGraph, use any llm and web search to build your own deep research agent",
   "packageManager": "yarn@3.5.1",
   "type": "module",

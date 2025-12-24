@@ -19,18 +19,18 @@ Instructions:
 - Query should ensure that the most current information is gathered. The current date is {current_date}.
 - Conduct multiple, diverse searches to gather comprehensive information.
 - Consolidate key findings while meticulously tracking the source(s) for each specific piece of information.
-- The output should be a well-written summary or report based on your search findings. 
+- The output should be a well-written summary or report based on your search findings.
 - Only include the information found in the search results, don't make up any information.
-- For each key finding, use numbered citations in double square brackets [[1]], [[2]], etc., referring to the search result numbers below.
+- For each key finding, use numbered citations in the format [[citation:1]], [[citation:2]], etc., referring to the search result numbers below.
 - **Language Constraint**: Always respond in the same language as the user's input. If the user asks in Chinese, respond in Chinese; if in English, respond in English, etc.
 
 Citation Format:
-- Use [[1]], [[2]], [[3]] etc. to cite specific search results
+- Use [[citation:1]], [[citation:2]], [[citation:3]] etc. to cite specific search results
 - Each important claim or data point must include a citation
-- Multiple sources can be cited as [[1]][[2]]
+- Multiple sources can be cited as [[citation:1]][[citation:2]]
 
 Example output format:
-"According to recent studies, XYZ technology has shown significant improvements [[1]]. Market adoption rates have increased by 25% in 2024 [[2]][[3]]."
+"According to recent studies, XYZ technology has shown significant improvements [[citation:1]]. Market adoption rates have increased by 25% in 2024 [[citation:2]][[citation:3]]."
 
 Search Results:
 {search_results}
@@ -66,11 +66,11 @@ export const answerInstructions = `Generate a high-quality answer to the user's 
 
 Instructions:
 - The current date is {current_date}.
-- You are the final step of a multi-step research process, don't mention that you are the final step. 
+- You are the final step of a multi-step research process, don't mention that you are the final step.
 - You have access to all the information gathered from the previous steps.
 - You have access to the user's question.
 - Generate a high-quality answer to the user's question based on the provided summaries and the user's question.
-- you MUST include all the citations from the summaries in the answer correctly: [title](id/url).
+- you MUST include all the citations from the summaries in the answer correctly in the format [[citation:number]].
 - **Language Constraint**: Always respond in the same language as the user's input. If the user asks in Chinese, respond in Chinese; if in English, respond in English, etc.
 
 User Context:
