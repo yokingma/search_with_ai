@@ -1,6 +1,6 @@
 {
   "name": "deepsearcher",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "DeepResearch Agent with LangGraph, use any llm and web search to build your own deep research agent",
   "packageManager": "yarn@3.5.1",
   "type": "module",
@@ -48,7 +48,7 @@
   "author": "zac_ma <yoking@outlook.com>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/yokingma/search_with_ai",
+    "url": "https://github.com/sear-chat/SearChat",
     "directory": "packages/deepresearch"
   },
   "keywords": [
