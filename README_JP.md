@@ -78,6 +78,13 @@ SearChat は、現代的なAI大言語モデルベースの対話型検索エン
 
 Deep Research モードは、AI駆動の反復的検索・分析により、あらゆるトピックに対して包括的で深度のある研究レポートを生成します。
 
+**主要機能**:
+
+- 🔄 **反復的研究** - 知識ギャップを自動識別し、フォローアップ検索を実行
+- 📊 **構造化レポート** - 引用付きの構造化された研究レポートを生成
+- 🔗 **引用サポート** - 設定可能な形式のソース引用（`[[citation:1]]` またはクリック可能なURL）
+- 🎯 **マルチエンジン検索** - 複数の検索エンジンを活用して包括的な結果を取得
+
 ### 📹 機能デモ
 
 [機能デモ](https://youtu.be/W_455aI14hI)
@@ -89,6 +96,37 @@ Node.jsプロジェクトにDeep Research機能を統合したい場合：
 ```bash
 npm install deepsearcher
 ```
+
+[![npm version](https://img.shields.io/npm/v/deepsearcher.svg)](https://www.npmjs.com/package/deepsearcher)
+[![npm downloads](https://img.shields.io/npm/dm/deepsearcher.svg)](https://www.npmjs.com/package/deepsearcher)
+
+**クイック例**:
+
+```typescript
+import { DeepResearch } from 'deepsearcher';
+
+const deepResearch = new DeepResearch({
+  searcher: async ({ query }) => {
+    // あなたの検索実装
+    return searchResults;
+  },
+  options: {
+    type: 'openai',
+    apiKey: 'your-api-key',
+    enableCitationUrl: false, // [[citation:1]] 形式を使用
+  },
+});
+
+const agent = await deepResearch.compile();
+const result = await agent.invoke({
+  messages: [{ role: 'user', content: 'あなたの研究質問' }],
+});
+```
+
+**引用形式オプション**:
+
+- `enableCitationUrl: true` (デフォルト) - `<sup>[[1](url)]</sup>` 形式で出力、クリック可能なリンク付き
+- `enableCitationUrl: false` - `[[citation:1]]` シンプル形式で出力
 
 詳細ドキュメント：[DeepResearch NPMパッケージ](https://www.npmjs.com/package/deepsearcher)
 

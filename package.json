@@ -1,7 +1,7 @@
 {
   "name": "search_with_ai",
   "description": "ai search chat with node.js",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "workspaces": [
     "apps/*",
     "packages/*"

@@ -78,6 +78,13 @@ SearChat is a modern AI-powered conversational search engine built with **Turbor
 
 Deep Research mode uses AI-driven iterative search and analysis to generate comprehensive and in-depth research reports on any topic.
 
+**Key Features**:
+
+- 🔄 **Iterative Research** - Automatically identifies knowledge gaps and performs follow-up searches
+- 📊 **Structured Reports** - Generates well-organized research reports with citations
+- 🔗 **Citation Support** - Includes source references with configurable formats (`[[citation:1]]` or clickable URLs)
+- 🎯 **Multi-Engine Search** - Leverages multiple search engines for comprehensive results
+
 ### 📹 Feature Demo
 
 [Demo](https://youtu.be/W_455aI14hI)
@@ -89,6 +96,37 @@ If you want to integrate Deep Research capabilities into your own Node.js projec
 ```bash
 npm install deepsearcher
 ```
+
+[![npm version](https://img.shields.io/npm/v/deepsearcher.svg)](https://www.npmjs.com/package/deepsearcher)
+[![npm downloads](https://img.shields.io/npm/dm/deepsearcher.svg)](https://www.npmjs.com/package/deepsearcher)
+
+**Quick Example**:
+
+```typescript
+import { DeepResearch } from 'deepsearcher';
+
+const deepResearch = new DeepResearch({
+  searcher: async ({ query }) => {
+    // Your search implementation
+    return searchResults;
+  },
+  options: {
+    type: 'openai',
+    apiKey: 'your-api-key',
+    enableCitationUrl: false, // Use [[citation:1]] format
+  },
+});
+
+const agent = await deepResearch.compile();
+const result = await agent.invoke({
+  messages: [{ role: 'user', content: 'Your research question' }],
+});
+```
+
+**Citation Format Options**:
+
+- `enableCitationUrl: true` (default) - Outputs `<sup>[[1](url)]</sup>` format with clickable links
+- `enableCitationUrl: false` - Outputs `[[citation:1]]` simple format
 
 Documentation: [DeepResearch NPM Package](https://www.npmjs.com/package/deepsearcher)
 

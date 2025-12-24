@@ -78,6 +78,13 @@ SearChat 是一个基于现代 AI 大语言模型的对话式搜索引擎。
 
 Deep Research 模式通过 AI 驱动的迭代式搜索和分析，为任何主题生成全面深入的研究报告。
 
+**核心特性**:
+
+- 🔄 **迭代式研究** - 自动识别知识缺口并执行后续搜索
+- 📊 **结构化报告** - 生成带引用的结构化研究报告
+- 🔗 **引用支持** - 包含可配置格式的来源引用（`[[citation:1]]` 或可点击的 URL）
+- 🎯 **多引擎搜索** - 利用多个搜索引擎获取全面结果
+
 ### 📹 功能演示
 
 [功能演示](https://youtu.be/W_455aI14hI)
@@ -89,6 +96,37 @@ Deep Research 模式通过 AI 驱动的迭代式搜索和分析，为任何主�
 ```bash
 npm install deepsearcher
 ```
+
+[![npm version](https://img.shields.io/npm/v/deepsearcher.svg)](https://www.npmjs.com/package/deepsearcher)
+[![npm downloads](https://img.shields.io/npm/dm/deepsearcher.svg)](https://www.npmjs.com/package/deepsearcher)
+
+**快速示例**:
+
+```typescript
+import { DeepResearch } from 'deepsearcher';
+
+const deepResearch = new DeepResearch({
+  searcher: async ({ query }) => {
+    // 你的搜索实现
+    return searchResults;
+  },
+  options: {
+    type: 'openai',
+    apiKey: 'your-api-key',
+    enableCitationUrl: false, // 使用 [[citation:1]] 格式
+  },
+});
+
+const agent = await deepResearch.compile();
+const result = await agent.invoke({
+  messages: [{ role: 'user', content: '你的研究问题' }],
+});
+```
+
+**引用格式选项**:
+
+- `enableCitationUrl: true` (默认) - 输出 `<sup>[[1](url)]</sup>` 格式，带可点击链接
+- `enableCitationUrl: false` - 输出 `[[citation:1]]` 简单格式
 
 详细文档：[DeepResearch NPM 包](https://www.npmjs.com/package/deepsearcher)
 
