@@ -64,6 +64,7 @@ SearChat は、現代的なAI大言語モデルベースの対話型検索エン
 - **Tavily** - LLM最適化検索エンジン
 - **Exa** - Exa.ai ウェブ検索API
 - **Bocha** - BochaAI ウェブ検索API
+- **Sofya** - Sofya ウェブ検索API (https://sofya.co)
 - **ChatGLM Web Search** - 智谱AI無料検索プラグイン
 
 ### 🎨 モダンなインターフェース体験
@@ -165,6 +166,7 @@ services:
       - ZHIPU_KEY=your_zhipu_key
       - EXA_KEY=your_exa_key
       - BOCHA_KEY=your_bocha_key
+      - SOFYA_KEY=your_sofya_key
 
       # Webコンテンツ抽出（オプション）
       - JINA_KEY=your_jina_key
