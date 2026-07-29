@@ -382,6 +382,22 @@ Access URLs:
 - Frontend: [http://localhost:5173](http://localhost:5173)
 - Backend: [http://localhost:3000](http://localhost:3000)
 
+#### Optional local AI tracing
+
+SearChat can write OpenAI-compatible request traces to an
+[AgentPond](https://github.com/marcusschiesser/agentpond) environment:
+
+```bash
+npx agentpond init
+npx agentpond env init local --provider fs --root .agentpond/envs/local/objects
+AGENTPOND_ENABLED=true FILES_SDK_PROVIDER=fs \
+  FILES_SDK_ROOT=.agentpond/envs/local/objects yarn dev
+```
+
+Tracing is disabled unless `AGENTPOND_ENABLED=true`. When enabled, prompt and
+response content is hidden; only operational metadata such as model, timing,
+status, and token counts is exported to the store you configure.
+
 #### 4. Build Production Version
 
 ```bash

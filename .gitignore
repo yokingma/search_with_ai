@@ -12,3 +12,6 @@ package-lock.json
 .turbo
 
 /deploy/searxng
+
+# Local AgentPond trace data
+/.agentpond/
