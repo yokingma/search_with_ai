@@ -20,21 +20,6 @@
 </div>
 
 ---
-## 推荐开源AI项目 / Recommended Open Source AI Project
-
-### [WeClaws](https://github.com/baseclaw/weclaws)
-
-WeClaws 是一个可一键部署的多用户微信 AI 助理机器人管理面板。你可以在 Web 端统一管理多个 AI 机器人，支持工具调用、Skills、MCP、子智能体、记忆、做梦、定时任务和沙盒执行等能力。
-
-WeClaws is a one-click deployable management dashboard for multi-user WeChat AI assistant bots. It lets you manage multiple AI bots from the web and supports tool calling, Skills, MCP, sub-agents, memory, dreaming, scheduled tasks, and sandbox execution.
-
-<div align="center">
-  <a href="https://github.com/baseclaw/weclaws">
-    <img src="./assets/weclaws.jpg" alt="WeClaws AI assistant management dashboard" style="border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);"></img>
-  </a>
-</div>
-
----
 
 <div align="center">
  <img src="./assets/screenshot.png" alt="AI Search Chat 界面截图" style="border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);"></img>
