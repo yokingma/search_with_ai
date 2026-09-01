@@ -48,7 +48,7 @@
   "author": "zac_ma <yoking@outlook.com>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/sear-chat/SearChat",
+    "url": "https://github.com/yokingma/SearChat",
     "directory": "packages/deepresearch"
   },
   "keywords": [

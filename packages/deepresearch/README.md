@@ -3,7 +3,7 @@
 DeepResearch Agent with LangGraph, using any LLM models, search engine, RAG retrieval.
 
 > [!NOTE]
-> This package is part of the [SearChat](https://github.com/sear-chat/SearChat) monorepo.
+> This package is part of the [SearChat](https://github.com/yokingma/SearChat) monorepo.
 > The original standalone repository is archived at [deepresearch](https://github.com/yokingma/deepresearch).
 >
 > The code logic referenced [Google's Gemini LangGraph Project](https://github.com/google-gemini/gemini-fullstack-langgraph-quickstart).

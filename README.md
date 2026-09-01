@@ -9,10 +9,10 @@
 *Multi-model integration | Real-time conversational search | Deep Research support*
 
 <p align="center">
-  <a href="https://github.com/sear-chat/SearChat/stargazers"><img src="https://img.shields.io/github/stars/sear-chat/SearChat" alt="Github Stars"></a>
-  <a href="https://github.com/sear-chat/SearChat/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-purple" alt="License"></a>
-  <a href="https://github.com/sear-chat/SearChat/issues/new"><img src="https://img.shields.io/badge/Report a bug-Github-%231F80C0" alt="Report a bug"></a>
-  <a href="https://github.com/sear-chat/SearChat/discussions/new?category=q-a"><img src="https://img.shields.io/badge/Ask a question-Github-%231F80C0" alt="Ask a question"></a>
+  <a href="https://github.com/yokingma/SearChat/stargazers"><img src="https://img.shields.io/github/stars/yokingma/SearChat" alt="Github Stars"></a>
+  <a href="https://github.com/yokingma/SearChat/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-purple" alt="License"></a>
+  <a href="https://github.com/yokingma/SearChat/issues/new"><img src="https://img.shields.io/badge/Report a bug-Github-%231F80C0" alt="Report a bug"></a>
+  <a href="https://github.com/yokingma/SearChat/discussions/new?category=q-a"><img src="https://img.shields.io/badge/Ask a question-Github-%231F80C0" alt="Ask a question"></a>
 </p>
 
 **English** | [中文](./README_ZH_CN.md) | [日本語](./README_JP.md)
@@ -333,7 +333,7 @@ search_with_ai/
 
 ```bash
 # Clone project
-git clone https://github.com/sear-chat/SearChat.git
+git clone https://github.com/yokingma/SearChat.git
 cd SearChat
 
 # Install dependencies (run in root, will install all sub-project dependencies)
@@ -405,8 +405,8 @@ Welcome to contribute to the project! Please follow these steps:
 
 ### 🐛 Issue Reporting
 
-- [GitHub Issues](https://github.com/sear-chat/SearChat/issues) - Report bugs or feature requests
-- [GitHub Discussions](https://github.com/sear-chat/SearChat/discussions) - Technical discussions and Q&A
+- [GitHub Issues](https://github.com/yokingma/SearChat/issues) - Report bugs or feature requests
+- [GitHub Discussions](https://github.com/yokingma/SearChat/discussions) - Technical discussions and Q&A
 
 ## 📄 License
 
