@@ -1,4 +1,4 @@
-import { googleSearch, bingSearch, tavilySearch, zhipuSearch, sogouSearch, searxngSearch, bochaSearch, exaSearch } from './index.js';
+import { googleSearch, bingSearch, tavilySearch, zhipuSearch, sogouSearch, searxngSearch, bochaSearch, exaSearch, youcomSearch } from './index.js';
 import { TSearchEngine } from './provider/types.js';
 
 export function getSearchEngine(engine: TSearchEngine) {
@@ -19,6 +19,8 @@ export function getSearchEngine(engine: TSearchEngine) {
       return bochaSearch;
     case 'EXA':
       return exaSearch;
+    case 'YOUCOM':
+      return youcomSearch;
     default:
       return searxngSearch;
   }

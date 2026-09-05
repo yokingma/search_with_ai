@@ -64,6 +64,7 @@ SearChat 是一个基于现代 AI 大语言模型的对话式搜索引擎。
 - **Tavily** - 专为 LLM 优化的搜索引擎
 - **Exa** - Exa.ai 网络搜索 API
 - **Bocha** - BochaAI 网络搜索 API
+- **You.com** - You.com 网络搜索 API
 - **ChatGLM Web Search** - 智谱 AI 免费搜索插件
 
 ### 🎨 现代化界面体验
@@ -165,6 +166,7 @@ services:
       - ZHIPU_KEY=your_zhipu_key
       - EXA_KEY=your_exa_key
       - BOCHA_KEY=your_bocha_key
+      - YDC_API_KEY=your_youcom_api_key
 
       # 网页内容提取 (可选)
       - JINA_KEY=your_jina_key
