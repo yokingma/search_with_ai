@@ -14,6 +14,7 @@ services:
       - ZHIPU_KEY=
       - EXA_KEY=
       - BOCHA_KEY=
+      - YDC_API_KEY=
 
       # Web Content Extraction (optional)
       - JINA_KEY=

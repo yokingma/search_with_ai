@@ -6,4 +6,5 @@ export { default as bingSearch } from './provider/bing.js';
 export { zhipuSearch } from './provider/zhipu.js';
 export { default as bochaSearch } from './provider/bocha.js';
 export { default as exaSearch } from './provider/exa.js';
+export { default as youcomSearch } from './provider/youcom.js';
 export * from './provider/types.js';

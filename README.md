@@ -64,6 +64,7 @@ SearChat is a modern AI-powered conversational search engine built with **Turbor
 - **Tavily** - Tavily web search API
 - **Exa** - Exa.ai web search API
 - **Bocha** - BochaAI web search API
+- **You.com** - You.com web search API
 - **ChatGLM Web Search** - Zhipu AI free search plugin
 
 ### 🎨 Modern Interface Experience
@@ -165,6 +166,7 @@ services:
       - ZHIPU_KEY=your_zhipu_key
       - EXA_KEY=your_exa_key
       - BOCHA_KEY=your_bocha_key
+      - YDC_API_KEY=your_youcom_api_key
 
       # Web Content Extraction (optional)
       - JINA_KEY=your_jina_key
